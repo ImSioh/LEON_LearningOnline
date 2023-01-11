@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--==================== UNICONS ====================-->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <!--==================== SWIPER CSS ====================-->
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+
+    <!--==================== CSS ====================-->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Icon -->
+    <link rel="icon" href="assets/img/icon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>LE.ON</title>
+</head>
+
+<body>
+    <!--==================== HEADER ====================-->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="home.html" class="nav__logo" style="text-decoration : none">LE.ON</a>
+            
+    </header>
+
+<body>
+
+    <div class="content">
+      <div class="content--left">
+        <div class="content--left--title">Sign In</div>
+        <form action="" class="signin">
+          <label>Email</label><br/>
+          <input class="input--email" type="text"/><br/>
+        
+          <label>Password</label><br/>
+          <input class="input--password" type="password"/><br/>
+          <div ><a class="form--forgot" href="">Forgot password?</a></div>  
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary btn--signin" type="button">Sign in</button>      
+          </div>
+          
+          
+          <div class="signin--account">Not have account ?<a class="btn--signup" href="signup.html"> Signup</a></div>
+        </form>
+      </div>
+      <div class="content--right">
+        <img src="./assets/img/signin.svg" alt="">
+      </div>
+    </div>
+  </div>
+
+
+</body>
+
+</html>
