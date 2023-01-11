@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class ClassObject {
+
     private UUID classId;
     private UUID accountId;
     private String name;
@@ -90,7 +91,7 @@ public class ClassObject {
 
     @Override
     public String toString() {
-        return String.join(", ", new String[] {
+        return "Class(" + String.join(", ", new String[]{
             classId.toString(),
             accountId.toString(),
             name,
@@ -99,7 +100,7 @@ public class ClassObject {
             classPicture,
             String.valueOf(hidden),
             createTime.toString()
-        });
+        }) + ")";
     }
 
     @Override
@@ -107,6 +108,5 @@ public class ClassObject {
         ClassObject classObject = (ClassObject) obj;
         return classObject.classId.equals(this.classId);
     }
-    
-    
+
 }
