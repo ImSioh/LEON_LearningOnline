@@ -2,29 +2,34 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DBContext {
 
-    public static Connection connection;
+    private static volatile Connection connection;
 
     private DBContext() {
     }
 
-    public static Connection getConnecttion() {
+    protected static Connection getConnecttion() {
+        Connection connection = DBContext.connection;
         if (connection == null) {
-            try {
-                String user = "root";
-                String password = "123456789";
-                String url = "jdbc:mysql://localhost:3306/musicshop";
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = DriverManager.getConnection(url, user, password);
-            } catch (Exception e) {
+            synchronized (Connection.class) {
+                connection = DBContext.connection;
+                if (connection == null) {
+                    try {
+                        String user = "root";
+                        String password = "123456789";
+                        String url = "jdbc:mysql://localhost:3306/online_learning";
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        DBContext.connection = connection = DriverManager.getConnection(url, user, password);
+                    } catch (ClassNotFoundException | SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
-        return connection;
-    }
 
-    public static void main(String[] args) {
-        System.out.println(DBContext.getConnecttion());
+        return connection;
     }
 }
