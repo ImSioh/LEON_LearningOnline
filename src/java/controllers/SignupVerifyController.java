@@ -22,25 +22,30 @@ public class SignupVerifyController extends HttpServlet {
         try {
             String accountId = req.getParameter("id");
             String code = req.getParameter("verify-code");
+            String email = req.getParameter("email");
+            System.out.println(accountId);
+            System.out.println(code);
             AccountDAO accountDAO = new AccountDAO();
             Account account = accountDAO.getAccountById(accountId);
             System.out.println(account);
+            System.out.println(code);
             if (account != null && account.getVerificationCode() != null && account.getVerificationCode().equalsIgnoreCase(code)) {
                 System.out.println(account.getRole());
                 accountDAO.setVerifyCodeNull(accountId);
-                if (account.getRole() == 1) {
+                if (account.getRole() == 2) {
                     resp.sendRedirect(req.getContextPath() + "/overview");
-                } else if (account.getRole() == 2) {
+                } else if (account.getRole() == 1) {
                     resp.sendRedirect(req.getContextPath() + "/class");
                 }
                 
             } else {
-                req.setAttribute("accountId", account.getAccountId().toString());
-                req.setAttribute("email", account.getEmail());
+                req.setAttribute("accountId", accountId);
+                req.setAttribute("email", email);
                 req.setAttribute("message", "Wrong code please enter again!");
                 req.getRequestDispatcher("/signup-verify.jsp").forward(req, resp);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

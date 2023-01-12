@@ -172,6 +172,7 @@
                 <div class="content--left--title">Email verification</div>
                 <form method="POST" action="<c:url value="/signup-verify"/>" class="verify-form">
                     <input type="hidden" name="id" value="${accountId}">
+                    <input type="hidden" name="email" value="${email}">
                     <label>Verification code has been sent to ${email}, please enter here.</label><br/>
                     <label style="color: red">${message}</label><br/>
                     <c:remove var="accountId"/>

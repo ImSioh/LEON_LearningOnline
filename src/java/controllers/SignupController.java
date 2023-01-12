@@ -70,10 +70,10 @@ public class SignupController extends HttpServlet {
                 Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
                 Account account = new Account(UUID.randomUUID(), name, dob, address, email, password, role, "", verificationCode, createTime, false);
+                Util.sendEmail(account.getEmail(), "LE.ON Email verification", "Your verification code at LE.ON - Learning Online is: " + account.getVerificationCode());
                 int result = accountDAO.insertAccount(account);
                 req.setAttribute("accountId", account.getAccountId().toString());
                 req.setAttribute("email", account.getEmail());
-                Util.sendEmail(account.getEmail(), "LE.ON Email verification", "Your verification code at LE.ON - Learning Online is: " + account.getVerificationCode());
                 req.getRequestDispatcher("/signup-verify.jsp").forward(req, resp);
             } catch (Exception e) {
                 e.printStackTrace();

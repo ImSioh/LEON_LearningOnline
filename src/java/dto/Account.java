@@ -125,7 +125,7 @@ public class Account {
         return "Account(" + String.join(", ", new String[]{
             accountId.toString(),
             name,
-            birthDate.toString(),
+            birthDate == null ? "null" : birthDate.toString(),
             address,
             email,
             password,
