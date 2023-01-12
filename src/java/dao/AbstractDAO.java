@@ -37,11 +37,15 @@ public abstract class AbstractDAO<T> {
     private void setParameter(PreparedStatement ps, Object... params) throws Exception {
         int index = 1;
         for (Object param : params) {
+            if (param == null) {
+                ps.setNull(index++, Types.NULL);
+                continue;
+            }
             Class<?> clazz = param.getClass();
             if (!sqlTypes.containsKey(clazz)) {
                 throw new Exception(param.getClass() + " haven't been supported yet.");
             }
-            ps.setObject(index++, param, sqlTypes.get(param.getClass()));
+            ps.setObject(index++, param, sqlTypes.get(clazz));
         }
     }
 
