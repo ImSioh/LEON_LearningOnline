@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -6,9 +7,10 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+<link href="../assets/css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
         <!-- CSS -->
-        <link rel="stylesheet" href="assets/css/bootstrap4.css">
+        
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet" />
@@ -17,13 +19,33 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
               rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
               crossorigin="anonymous" />
-        <link href="../assets/css/style.css" rel="stylesheet" type="text/css"/>
+        
         <title>LE.ON</title>
+        
+        <style>
+            body {
+                min-height: 100vh;
+            }
+            .sidebarnav a {
+                text-transform: unset !important;
+                font-size: 1rem !important; 
+                
+            }
+            
+            .sidebarnav a.active{
+                color: #1e88e5 !important;
+                background-color: #e3f2fd !important;
+                border-radius: 8px !important;
+            }
+            
+        </style>
+        
+       
     </head>
 
     <body>
         <div class="main">
-            <div id="header">
+            <div id="header" class="fixed-top" style="top: 0">
                 <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <!-- Container wrapper -->
@@ -37,15 +59,13 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
 
-                            <a href="../index.jsp" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher</a>
+                            <a href="HomeT.jsp" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher</a>
 
                             <!-- Left links -->
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                                
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#" style="color: #6e6e6e; font-size: 15px;">Overview</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#" style="color: #6e6e6e; font-size: 15px;">Class</a>
+                                    <a class="nav-link" href="HomeT.jsp" style="color: #1e88e5; font-size: 15px;">Class</a>
                                 </li>
                             </ul>
                             <!-- Left links -->
@@ -75,7 +95,7 @@
                                             <img src="assets/img/profile.jpg" style="width: 100%; width: 30px" alt="" />
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="profile.jsp" style="color: #6e6e6e; font-size: 16px;">Profile</a>
+                                            <a href="profile.jsp" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
                                         </li>
                                     </div>
 
@@ -84,7 +104,7 @@
                                             <img src="assets/img/2165310.png" style="width: 100%; width: 30px" alt="" />
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="#" style="color: #6e6e6e; font-size: 16px;">Send feedback</a>
+                                            <a href="#" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Send feedback</a>
                                         </li>
                                     </div>
 
@@ -93,7 +113,7 @@
                                             <img src="assets/img/7612790.png" style="width: 100%; width: 30px" alt="" />
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="#" style="color: #6e6e6e; font-size: 16px;">Log Out</a>
+                                            <a href="#" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Log Out</a>
                                         </li>
                                     </div>
 
@@ -106,3 +126,4 @@
                 </nav>
                 <!-- Navbar -->
             </div>
+       
