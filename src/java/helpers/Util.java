@@ -34,12 +34,14 @@ public class Util {
     }
 
     public static String randomString(int length) {
-        int leftLimit = 97;
-        int rightLimit = 122;
+        return randomString(length, 97, 122);
+    }
+    
+    public static String randomString(int length, int lowerLimit, int upperLimit) {
         Random random = new Random();
         StringBuilder buffer = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
-            int randomLimitedInt = leftLimit + (int) (random.nextFloat() * (rightLimit - leftLimit + 1));
+            int randomLimitedInt = lowerLimit + (int) (random.nextFloat() * (upperLimit - lowerLimit + 1));
             buffer.append((char) randomLimitedInt);
         }
         return buffer.toString();
