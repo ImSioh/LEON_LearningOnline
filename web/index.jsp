@@ -182,13 +182,13 @@
 
                         <li class="nav__item">
 
-                            <a href="signin.jsp" class="nav__link button--signin">Sign In
+                            <a href="<c:url value="/signin"/>" class="nav__link button--signin">Sign In
                                 <i class="uil uil-briefcase-alt nav__icon"></i>
                             </a>
 
                         </li>
                         <li class="nav__item">
-                            <a href="signup.jsp" class="nav__link button--signup">
+                            <a href="<c:url value="/signup"/>" class="nav__link button--signup">
                                 <i class="uil uil-scenery nav__icon"></i>Sign Up
                             </a>
                         </li>

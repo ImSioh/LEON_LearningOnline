@@ -1517,6 +1517,7 @@ img {
 
 .content {
   display: flex;
+  justify-content: center;
 }
 
 .content--left {
@@ -1544,7 +1545,7 @@ img {
   border: 1px solid rgb(216, 220, 240);
 }
 
-form.signin > label:not(.error) {
+form.signin > label:not(.error):not(.success) {
     margin-top: 16px
 }
 
@@ -1555,6 +1556,10 @@ form.signin > label:not(.error) {
 
 label.error {
     color: red;
+}
+
+label.success {
+    color: green;
 }
 
 .form--forgot {
