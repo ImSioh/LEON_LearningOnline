@@ -56,5 +56,9 @@ public class AccountDAO extends AbstractDAO<Account> {
                 rs.getBoolean("locked")
         );
     }
+    
+    public static void main(String[] args) throws Exception {
+        System.out.println(new AccountDAO().getAccountByEmail("leducphi1952002@gmail.com").getName());
+    }
 
 }

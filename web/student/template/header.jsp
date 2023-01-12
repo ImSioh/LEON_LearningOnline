@@ -87,14 +87,14 @@
 
                             </div>
                             <!-- Avatar -->
-                            <div class="dropdown">
+                              <div class="dropdown">
                                 <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                                    <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+                                    <i class="far fa-user-circle" style="font-size: 24px; text-decoration: none; color: black; margin-left: 10px;"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                                     <div class="d-flex bd-highlight dropdown-item">
                                         <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <img src="../assets/img/Default_pfp.svg.png" alt=""/>
+                                            <i class="far fa-user"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
                                             <a href="profile.jsp" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
@@ -103,7 +103,7 @@
 
                                     <div class="d-flex bd-highlight dropdown-item">
                                         <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <img src="assets/img/2165310.png" style="width: 100%; width: 30px" alt="" />
+                                            <i class="far fa-paper-plane"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
                                             <a href="#" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Send feedback</a>
@@ -112,7 +112,7 @@
 
                                     <div class="d-flex bd-highlight dropdown-item">
                                         <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <img src="assets/img/7612790.png" style="width: 100%; width: 30px" alt="" />
+                                            <i class="fas fa-sign-out-alt"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
                                             <a href="#" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Log Out</a>

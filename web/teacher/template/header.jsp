@@ -1,5 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="dao.*" %>
+<%@page import="controllers.*" %>
+<%@page import="dto.*" %>
+<%@page import="java.util.ArrayList" %>
+<% String path =request.getContextPath();%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,8 +14,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="../assets/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-        <!-- CSS -->
-        
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet" />
@@ -79,29 +82,29 @@
                             <!-- Notifications -->
                             <div class="dropdown">
                                 <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-bell"></i>
-                                    <span class="badge rounded-pill badge-notification bg-danger">1</span>
+                                    <i class="far fa-bell" style="font-size: 24px; "></i>
+                                    <span class="badge rounded-pill badge-notification bg-danger">5</span>
                                 </a>
 
                             </div>
                             <!-- Avatar -->
                             <div class="dropdown">
                                 <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                                    <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+                                    <i class="far fa-user-circle" style="font-size: 24px; text-decoration: none; color: black; margin-left: 10px;"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                                     <div class="d-flex bd-highlight dropdown-item">
                                         <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <img src="assets/img/profile.jpg" style="width: 100%; width: 30px" alt="" />
+                                            <i class="far fa-user"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="profile.jsp" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+                                            <a href="<c:url value="/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
                                         </li>
                                     </div>
 
                                     <div class="d-flex bd-highlight dropdown-item">
                                         <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <img src="assets/img/2165310.png" style="width: 100%; width: 30px" alt="" />
+                                            <i class="far fa-paper-plane"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
                                             <a href="#" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Send feedback</a>
@@ -110,7 +113,7 @@
 
                                     <div class="d-flex bd-highlight dropdown-item">
                                         <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <img src="assets/img/7612790.png" style="width: 100%; width: 30px" alt="" />
+                                            <i class="fas fa-sign-out-alt"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
                                             <a href="#" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Log Out</a>

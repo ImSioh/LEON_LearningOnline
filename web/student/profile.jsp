@@ -1,5 +1,5 @@
 <%@include file= "./template/header.jsp" %>
-        <div class="content">
+<div class="content" style="margin-top: 50px;">
             <section style="background-color: rgb(209, 209, 209);">
                 <div class="container py-5">
                     <div class="row">

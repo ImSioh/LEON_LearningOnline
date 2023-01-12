@@ -19,7 +19,7 @@ public class DBContext {
                 if (connection == null) {
                     try {
                         String user = "root";
-                        String password = "123456789";
+                        String password = "Leducphi2002";
                         String url = "jdbc:mysql://localhost:3306/online_learning";
                         Class.forName("com.mysql.cj.jdbc.Driver");
                         DBContext.connection = connection = DriverManager.getConnection(url, user, password);
@@ -31,5 +31,9 @@ public class DBContext {
         }
 
         return connection;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(new DBContext().getConnecttion());
     }
 }
