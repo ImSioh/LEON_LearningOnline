@@ -218,9 +218,6 @@
     <script>
         $(document).ready(function () {
             $('#signup-form').validate({
-                onfocusout: false,
-                onkeyup: false,
-                onclick: false,
                 rules: {
                     name: {
                         required: true,
