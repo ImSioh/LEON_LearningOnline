@@ -1596,3 +1596,14 @@ label.success {
 #signup-form > label {
     display: block;
 }
+
+#leon-logo {
+    position: relative;
+    background-position-y: center;
+    width: 154px;
+    height: 200%;
+    background-image: url(/swp391/assets/img/logo.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    top: -50%;
+}
