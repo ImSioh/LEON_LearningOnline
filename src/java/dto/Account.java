@@ -18,6 +18,20 @@ public class Account {
     private Timestamp createTime;
     private boolean locked;
 
+    public Account(UUID accountId, String name, Date birthDate, String address, String email, String password, int role, String profilePicture, String verificationCode, Timestamp createTime, boolean locked) {
+        this.accountId = accountId;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.profilePicture = profilePicture;
+        this.verificationCode = verificationCode;
+        this.createTime = createTime;
+        this.locked = locked;
+    }
+
     public UUID getAccountId() {
         return accountId;
     }
@@ -111,7 +125,7 @@ public class Account {
         return "Account(" + String.join(", ", new String[]{
             accountId.toString(),
             name,
-            birthDate.toString(),
+            birthDate == null ? "null" : birthDate.toString(),
             address,
             email,
             password,

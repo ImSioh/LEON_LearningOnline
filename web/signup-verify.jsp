@@ -18,7 +18,7 @@
         <!-- Icon -->
         <link rel="icon" href="assets/img/icon.png">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <title>LE.ON</title>
+        <title>Shub VietNam</title>
     </head>
 
     <body>
@@ -168,26 +168,20 @@
     <body>
 
         <div class="content">
-            <div class="content--left">
-                <div class="content--left--title">Sign In</div>
-                <form action="<c:url value="/signin"/>" class="signin">
-                    <label>Email</label><br/>
-                    <input class="input--email" type="text"/><br/>
-
-                    <label>Password</label><br/>
-                    <input class="input--password" type="password"/><br/>
-                    <div class="d-grid gap-2" style="margin-top: 16px; width: 450px;">
-                        <button class="btn btn-primary btn--signin" type="button">Sign in</button>      
+            <div class="content--left--signup" style="margin-top: 120px;">
+                <div class="content--left--title">Email verification</div>
+                <form method="POST" action="<c:url value="/signup-verify"/>" class="verify-form">
+                    <input type="hidden" name="id" value="${accountId}">
+                    <input type="hidden" name="email" value="${email}">
+                    <label>Verification code has been sent to ${email}, please enter here.</label><br/>
+                    <label style="color: red">${message}</label><br/>
+                    <c:remove var="accountId"/>
+                    <c:remove var="email"/>
+                    <c:remove var="message"/>
+                    <input name="verify-code" class="input--email" type="text"/><br/>
+                    <div class="d-grid gap-2" style="margin-top: 16px;width: 450px;">
+                        <input class="btn btn-primary btn--signin" type="submit" value="Submit" style="margin-top: 4px">     
                     </div>
-
-
-                    <div class="signin--account">
-                        <div>
-                            Not have account ?<a class="btn--signup" href="signup.html"> Signup</a>
-                        </div>
-                        <div><a class="form--forgot" href="">Forgot password?</a></div>
-                    </div>
-
                 </form>
             </div>
             <div class="content--right">

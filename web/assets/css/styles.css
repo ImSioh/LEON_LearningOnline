@@ -246,8 +246,19 @@ img {
 
 .nav__logo,
 .nav__toggle {
-  color: var(--title-color);
-  font-weight: var(--font-medium);
+  display: block;
+  height: 100%;
+  overflow: hidden;
+}
+
+.nav__logo > div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav__logo svg {
+    height: 200%;
 }
 
 .nav__logo:hover {
@@ -1530,8 +1541,11 @@ img {
   height: 20px;
   padding: 22px;
   border-radius: 10px;
-  margin: 10px 0px;
   border: 1px solid rgb(216, 220, 240);
+}
+
+form.signin > label:not(.error) {
+    margin-top: 16px
 }
 
 .content--left--title {
@@ -1539,19 +1553,20 @@ img {
   font-weight: 700;
 }
 
+label.error {
+    color: red;
+}
+
 .form--forgot {
-  padding-left: 310px;
+    display: block;
+    width: 100%;
+  text-align: right;
   text-decoration: none;
-  font-size: var(--small-font-size);
-
-
-
 }
 
 .btn--signin {
   width: 50%;
-  margin-left: 70px;
-  border-radius: 10px !important;
+  margin: 0 auto;
 }
 
 .btn--signup {
@@ -1559,5 +1574,20 @@ img {
 }
 
 .signin--account {
-  padding: 10px 0px 0px 100px;
+    margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  width: 450px;
+}
+
+.verify-form {
+    margin-top: 40px;
+}
+
+#signup-form > div {
+    width: 450px;
+}
+
+#signup-form > label {
+    display: block;
 }

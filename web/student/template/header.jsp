@@ -10,7 +10,7 @@
 <link href="../assets/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
         <!-- CSS -->
-
+        
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet" />
@@ -37,6 +37,7 @@
                 background-color: #e3f2fd !important;
                 border-radius: 8px !important;
             }
+            
         </style>
         
         <c:set value="active" var="overviewS"/>
@@ -44,7 +45,7 @@
 
     <body>
         <div class="main">
-            <div id="header">
+            <div id="header" class="fixed-top" style="top: 0">
                 <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <!-- Container wrapper -->
@@ -58,12 +59,12 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
 
-                            <a href="../index.jsp" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
+                            <a href="HomeS.jsp" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
 
                             <!-- Left links -->
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link ${overviewS}" href="HomeS.jsp" style="color: #1e88e5; font-size: 15px;">Overview</a>
+                                    <a class="nav-link ${overviewS}" href="HomeS.jsp" style="color:#6e6e6e; font-size: 15px;">Overview</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link ${classS}" href="ClassS.jsp" style="color: #6e6e6e; font-size: 15px;">Class</a>
@@ -86,35 +87,35 @@
 
                             </div>
                             <!-- Avatar -->
-                            <div class="dropdown">
+                              <div class="dropdown">
                                 <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                                    <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+                                    <i class="far fa-user-circle" style="font-size: 24px; text-decoration: none; color: black; margin-left: 10px;"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                                     <div class="d-flex bd-highlight dropdown-item">
                                         <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <img src="assets/img/profile.jpg" style="width: 100%; width: 30px" alt="" />
+                                            <i class="far fa-user"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="profile.jsp" style="color: #6e6e6e; font-size: 16px;">Profile</a>
+                                            <a href="profile.jsp" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
                                         </li>
                                     </div>
 
                                     <div class="d-flex bd-highlight dropdown-item">
                                         <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <img src="assets/img/2165310.png" style="width: 100%; width: 30px" alt="" />
+                                            <i class="far fa-paper-plane"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="#" style="color: #6e6e6e; font-size: 16px;">Send feedback</a>
+                                            <a href="#" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Send feedback</a>
                                         </li>
                                     </div>
 
                                     <div class="d-flex bd-highlight dropdown-item">
                                         <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <img src="assets/img/7612790.png" style="width: 100%; width: 30px" alt="" />
+                                            <i class="fas fa-sign-out-alt"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="#" style="color: #6e6e6e; font-size: 16px;">Log Out</a>
+                                            <a href="#" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Log Out</a>
                                         </li>
                                     </div>
 
@@ -127,4 +128,4 @@
                 </nav>
                 <!-- Navbar -->
             </div>
-        </div>
+       
