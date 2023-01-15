@@ -13,6 +13,7 @@ import java.security.MessageDigest;
 import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class Util {
 
@@ -36,7 +37,7 @@ public class Util {
     public static String randomString(int length) {
         return randomString(length, 97, 122);
     }
-    
+
     public static String randomString(int length, int lowerLimit, int upperLimit) {
         Random random = new Random();
         StringBuilder buffer = new StringBuilder(length);
@@ -46,7 +47,7 @@ public class Util {
         }
         return buffer.toString();
     }
-    
+
     public static void sendEmail(String to, String title, String content) {
         final String sender = "zedovblack@gmail.com";
         final String password = "bxuitycggukqrwhg";
@@ -65,19 +66,21 @@ public class Util {
             }
         });
 
-        try {
-            MimeMessage msg = new MimeMessage(session);
-            msg.setSubject(title);
-            msg.setText(content, "utf-8", "html");
-            msg.setFrom(new InternetAddress(sender));
-            msg.setRecipients(
-                    Message.RecipientType.TO,
-                    InternetAddress.parse(to)
-            );
-            Transport.send(msg);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+        CompletableFuture.runAsync(() -> {
+            try {
+                MimeMessage msg = new MimeMessage(session);
+                msg.setSubject(title);
+                msg.setText(content, "utf-8", "html");
+                msg.setFrom(new InternetAddress(sender));
+                msg.setRecipients(
+                        Message.RecipientType.TO,
+                        InternetAddress.parse(to)
+                );
+                Transport.send(msg);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private static String bytesToHex(byte[] bytes) {
