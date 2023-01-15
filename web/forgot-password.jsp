@@ -12,13 +12,14 @@
         <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
-        <link rel="icon" href="assets/img/leon-icon.png">
-        <link rel="stylesheet" href="<c:url value="assets/css/styles.css"/>">
+        <link rel="icon" href="<c:url value="/assets/img/leon-icon.png"/>">
+        <link rel="stylesheet" href="<c:url value="/assets/css/styles.css"/>">
         <style>
             * {
                 font-family: 'Quicksand', sans-serif;
             }
 
+            <c:if test="${msg == null}">
             svg#freepik_stories-forgot-password:not(.animated) .animable {
                 opacity: 0;
             }
@@ -136,6 +137,7 @@
                     transform: scale(1);
                 }
             }
+            </c:if>
             
             body {
                 margin: 0;
@@ -231,7 +233,7 @@
             </nav>
         </header>
         <div class="content">
-            <form id="forgot-form" action="/forgot-password" method="POST">
+            <form id="forgot-form" action="" method="POST">
                 <svg class="animated" id="freepik_stories-forgot-password" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs">
                     <g id="freepik--background-complete--inject-44" class="animable" style="transform-origin: 142.728px 143.002px;">
                         <path d="M189.65,228.65a23.66,23.66,0,1,0-.28-37.13h0l-5.18-4-7.71,2.41.88-7.71-6.5-5.05-7.7,2.4.88-7.71-5.59-4.34-4.7,1.46.54-4.7L151,161.72l-7.38.72-1,11.34,38.66,30.05A23.68,23.68,0,0,0,189.65,228.65Zm28.17-8.07a6.78,6.78,0,1,1-1.2-9.52A6.8,6.8,0,0,1,217.82,220.58Z" style="fill: rgb(235, 235, 235); transform-origin: 185.228px 197.677px;" id="el39pc6kq3hfh" class="animable"></path>
@@ -383,10 +385,11 @@
                                             <b>Enter email</b> then we will help you access to your account
                                         </c:if>
                                         <c:if test="${msg != null}">
-                                            ${msg}
+                                            <text style="color: green; font-weight: bold;">${msg}</text>
                                         </c:if>
                                     </p>
                                     <input placeholder="abc@xyz.com" id="email-input" type="email" name="email" value="${email}">
+                                    <label id="email-input-error" class="error" for="email-input">${requestScope['email-error']}</label>
                                     <input id="email-submit" type="submit" value="Submit">
                                 </div>
                             </body>
