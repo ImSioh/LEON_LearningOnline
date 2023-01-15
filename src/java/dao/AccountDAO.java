@@ -24,7 +24,7 @@ public class AccountDAO extends AbstractDAO<Account> {
     
     public int setPassword(String password, String email) throws Exception {
         String query = "UPDATE account set password = ? WHERE email = ?";
-        return update(query, password);
+        return update(query, password, email);
     }
     
     public int insertAccount(Account account) throws Exception {
