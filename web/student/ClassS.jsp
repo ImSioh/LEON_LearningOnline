@@ -7,7 +7,7 @@
         </div>
 
         <div class="col-md-auto">
-            <button type="button" style="border-radius: 34px; padding: 15px; margin: 15px;" class="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark">+ Enter code</button>
+            <button type="button" style="border-radius: 34px; padding: 15px; margin: 15px;" class="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"><a href="../student/ClassCode.jsp" style="text-decoration: none; color: grey ">+ Enter code</a></button>
         </div>
     </div>
 </div>

@@ -15,6 +15,7 @@
         <button type="button" style="border-radius: 34px; padding: 15px; margin: 15px;" class="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark">+ Create Class</button>
     </div>
 </div>
+<img style="margin-left: 600px" src="assets/img/5f358928b6dc60437b81ee6164b99344.jpg" alt=""/>
 
 </div>
 <script
