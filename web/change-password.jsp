@@ -153,12 +153,14 @@
                 font-weight: bold;
                 position: absolute;
                 left: 214.3px;
-                top: 146px;
+                top: 133.42px;
+                height: 234.31px;
                 width: 130.84px;
                 display: flex;
                 flex-direction: column;
+                justify-content: center;
                 align-items: center;
-                gap: 8px;
+                gap: 6px;
                 color: #637483;
             }
 
@@ -249,15 +251,15 @@
 
             #profile-picture > div {
                 width: 100%;
-                background-image: url(<c:url value="assets/img/blank_profile_picture.jpg"/>);
+                background-image: url(<c:url value="/assets/img/blank_profile_picture.jpg"/>);
                 padding-top: 100%;
                 background-position: center;
                 background-size: contain;
                 background-repeat: no-repeat;
             }
         </style>
-        <link rel="icon" href="assets/img/leon-icon.png">
-        <link rel="stylesheet" href="<c:url value="assets/css/styles.css"/>">
+        <link rel="icon" href="<c:url value="/assets/img/leon-icon.png"/>">
+        <link rel="stylesheet" href="<c:url value="/assets/css/styles.css"/>">
         <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
     </head>
@@ -269,7 +271,7 @@
                 </a>
         </header>
         <div class="content">
-            <form action="<c:url value="/change-password"/>" method="POST" id="password-form">
+            <form action="" method="POST" id="password-form">
                 <input type="hidden" name="token" value="${token}">
                 <input type="hidden" name="email" value="${email}">
                 <svg class="animated" id="freepik_stories-reset-password" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs">
@@ -312,10 +314,12 @@
                                 <div>
                                     <label class="input-label" for="new-password">Enter new password</label>
                                     <input id="new-password" type="password" name="new-password" class="password-input">
+                                    <label id="new-password-error" class="error" for="new-password">${requestScope['new-password-error']}</label>
                                 </div>
                                 <div>
                                     <label class="input-label" for="confirm-password">Confirm new password</label>
                                     <input id="confirm-password" type="password" name="confirm-password" class="password-input">
+                                    <label id="confirm-password-error" class="error" for="confirm-password">${requestScope['confirm-password-error']}</label>
                                 </div>
                                 <div style="position: relative; width: 100%;">
                                     <input id="submit-btn" type="submit" value="Change password" class="password-input">
@@ -529,7 +533,7 @@
         </div>
         <script>
             $(document).ready(() => {
-                $('#password-form').validate({
+                $('password-form').validate({
                     rules: {
                         'new-password': {
                             required: true,
@@ -545,7 +549,7 @@
                         },
                         'confirm-password': {
                             required: 'Please confirm new password',
-                            equalTo: 'New assword and Confirm password does not match',
+                            equalTo: 'New assword and confirm password does not match',
                         }
                     }
                 })
