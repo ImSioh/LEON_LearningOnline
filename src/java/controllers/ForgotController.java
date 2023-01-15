@@ -29,7 +29,7 @@ public class ForgotController extends HttpServlet {
         String token = path.replaceAll("\\/", "");
         String email = checkValidToken(token);
         if (email == null) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Link has expired or not available");
             return;
         }
         req.setAttribute("email", email);
@@ -58,7 +58,7 @@ public class ForgotController extends HttpServlet {
                         }
                         return false;
                     },
-                    "Account with this email is existed"
+                    "Account with this email is not existed"
             );
             
             if (req.getParameter("token") == null) {
@@ -96,22 +96,22 @@ public class ForgotController extends HttpServlet {
         );
         boolean validForm = formValidator.isValid();
         
+        String token = (String) formValidator.getRaw("token");
+        String password = (String) formValidator.getRaw("new-password");
+        String email = checkValidToken(token);
         if (validForm) {
-            String email = (String) formValidator.get("email");
-            String token = (String) formValidator.get("token");
-            String password = (String) formValidator.get("new-password");
-            String emailInSchedule = checkValidToken(token);
-            if (!email.equalsIgnoreCase(emailInSchedule)) {
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            if (email == null) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Link has expired or not available");
                 return;
             }
-            new AccountDAO().setPassword(Util.hashingSHA256(password), emailInSchedule);
+            new AccountDAO().setPassword(Util.hashingSHA256(password), email);
             TriggerKey triggerKey = new TriggerKey(token);
             ForgetSchedule.validTriggers.remove(triggerKey);
             WebScheduler.getScheduler().unscheduleJob(triggerKey);
+            resp.sendRedirect(req.getContextPath() + "/signin");
         } else {
-            req.setAttribute("token", formValidator.get("token"));
-            req.setAttribute("email", formValidator.get("email"));
+            req.setAttribute("token", token);
+            req.setAttribute("email", email);
             req.getRequestDispatcher("/change-password.jsp").forward(req, resp);
         }
     }

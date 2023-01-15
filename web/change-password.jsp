@@ -533,7 +533,7 @@
         </div>
         <script>
             $(document).ready(() => {
-                $('password-form').validate({
+                $('#password-form').validate({
                     rules: {
                         'new-password': {
                             required: true,
