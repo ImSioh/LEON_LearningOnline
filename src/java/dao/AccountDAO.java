@@ -22,8 +22,13 @@ public class AccountDAO extends AbstractDAO<Account> {
         return update(query, id);
     }
     
+    public int setPassword(String password, String email) throws Exception {
+        String query = "UPDATE account set password = ? WHERE email = ?";
+        return update(query, password, email);
+    }
+    
     public int insertAccount(Account account) throws Exception {
-        String query = "INSERT INTO account VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO account VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)";
         return update(
                 query,
                 Util.UUIDToByteArray(account.getAccountId()),
@@ -33,7 +38,6 @@ public class AccountDAO extends AbstractDAO<Account> {
                 account.getEmail(),
                 account.getPassword(),
                 account.getRole(),
-                account.getPassword(),
                 account.getVerificationCode(),
                 account.getCreateTime(),
                 account.isLocked()
