@@ -6,14 +6,14 @@
             <div style="background-color: #f8f9fa; height: 100vh" class="d-flex flex-shrink-0 p-3" >
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto sidebarnav" style="padding-left: 15px">
-                    <li class="nav-item ">
-                        <a href="HomeS.jsp" class="nav-link link-dark active"  aria-current="page">
+                    <li>
+                        <a href="HomeS.jsp" class="nav-link link-dark"  aria-current="page">
 
                             Incomplete
                         </a>
                     </li>
-                    <li >
-                        <a href="AchievementS.jsp" class="nav-link link-dark">
+                    <li class="nav-item ">
+                        <a href="AchievementS.jsp" class="nav-link link-dark active">
 
                             Achievement
                         </a>
@@ -31,19 +31,17 @@
                     <table class="table" >
                         <thead>
                             <tr>                            
-                                <th scope="col">Exercise Name</th>
-                                <th scope="col">Time</th>
+                                <th scope="col">Class</th>
+                                <th scope="col">Score</th>
                             </tr>
                         </thead>
                         <tbody style=" color: #6e6e6e !important">
-                            
-                        
+                            <tr>                            
+                                <td>Mark</td>
+                                <td>Otto</td>
+                            </tr>
                         </tbody>
-                        
                     </table>
-                    <div>
-                        <img style="width: 100%" src="assets/img/Untitled.png" alt=""/>
-                    </div>
                 </div>  
             </div>
            

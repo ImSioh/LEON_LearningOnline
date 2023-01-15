@@ -62,7 +62,7 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
 
-                            <a href="HomeT.jsp" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher</a>
+                            <a href="../teacher/HomeT.jsp" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher</a>
 
                             <!-- Left links -->
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
