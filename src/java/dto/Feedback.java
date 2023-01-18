@@ -6,12 +6,16 @@ public class Feedback {
 
     private UUID feedbackId;
     private UUID accountId;
+    private String title;
     private String content;
+    private String response;
 
-    public Feedback(UUID feedbackId, UUID accountId, String content) {
+    public Feedback(UUID feedbackId, UUID accountId, String title, String content, String response) {
         this.feedbackId = feedbackId;
         this.accountId = accountId;
+        this.title = title;
         this.content = content;
+        this.response = response;
     }
 
     public UUID getFeedbackId() {
@@ -30,6 +34,14 @@ public class Feedback {
         this.accountId = accountId;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getContent() {
         return content;
     }
@@ -38,12 +50,22 @@ public class Feedback {
         this.content = content;
     }
 
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
     @Override
     public String toString() {
         return "Feedback(" + String.join(", ", new String[]{
             feedbackId.toString(),
             accountId.toString(),
-            content
+            title,
+            content,
+            response
         }) + ")";
     }
 

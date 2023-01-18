@@ -11,7 +11,9 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
         return new Feedback(
                 UUID.nameUUIDFromBytes(rs.getBytes("feedback_id")),
                 UUID.nameUUIDFromBytes(rs.getBytes("account_id")),
-                rs.getNString("content")
+                rs.getNString("title"),
+                rs.getNString("content"),
+                rs.getNString("response")
         );
     }
     

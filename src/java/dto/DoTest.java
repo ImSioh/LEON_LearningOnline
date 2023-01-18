@@ -9,12 +9,14 @@ public class DoTest {
     private UUID accountId;
     private Timestamp startTime;
     private Timestamp finishTime;
+    private Double score;
 
-    public DoTest(UUID assignTestId, UUID accountId, Timestamp startTime, Timestamp finishTime) {
+    public DoTest(UUID assignTestId, UUID accountId, Timestamp startTime, Timestamp finishTime, Double score) {
         this.assignTestId = assignTestId;
         this.accountId = accountId;
         this.startTime = startTime;
         this.finishTime = finishTime;
+        this.score = score;
     }
 
     public UUID getAssignTestId() {
@@ -47,6 +49,14 @@ public class DoTest {
 
     public void setFinishTime(Timestamp finishTime) {
         this.finishTime = finishTime;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
     }
 
     @Override

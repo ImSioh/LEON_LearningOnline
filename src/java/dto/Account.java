@@ -10,6 +10,7 @@ public class Account {
     private String name;
     private Date birthDate;
     private String address;
+    private String phoneNumber;
     private String email;
     private String password;
     private int role;
@@ -18,11 +19,12 @@ public class Account {
     private Timestamp createTime;
     private boolean locked;
 
-    public Account(UUID accountId, String name, Date birthDate, String address, String email, String password, int role, String profilePicture, String verificationCode, Timestamp createTime, boolean locked) {
+    public Account(UUID accountId, String name, Date birthDate, String address, String phoneNumber, String email, String password, int role, String profilePicture, String verificationCode, Timestamp createTime, boolean locked) {
         this.accountId = accountId;
         this.name = name;
         this.birthDate = birthDate;
         this.address = address;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
         this.role = role;
@@ -62,6 +64,14 @@ public class Account {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
@@ -127,6 +137,7 @@ public class Account {
             name,
             birthDate == null ? "null" : birthDate.toString(),
             address,
+            phoneNumber,
             email,
             password,
             String.valueOf(role),

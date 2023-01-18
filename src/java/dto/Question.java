@@ -5,10 +5,12 @@ import java.util.UUID;
 public class Question {
 
     private UUID questionId;
+    private String title;
     private String content;
 
-    public Question(UUID questionId, String content) {
+    public Question(UUID questionId, String title, String content) {
         this.questionId = questionId;
+        this.title = title;
         this.content = content;
     }
 
@@ -18,6 +20,14 @@ public class Question {
 
     public void setQuestionId(UUID questionId) {
         this.questionId = questionId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {

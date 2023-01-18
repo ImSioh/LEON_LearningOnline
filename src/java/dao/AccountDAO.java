@@ -51,6 +51,7 @@ public class AccountDAO extends AbstractDAO<Account> {
                 rs.getString("name"),
                 rs.getDate("birth_date"),
                 rs.getString("address"),
+                rs.getString("phone_number"),
                 rs.getString("email"),
                 rs.getString("password"),
                 rs.getInt("role"),
@@ -59,10 +60,6 @@ public class AccountDAO extends AbstractDAO<Account> {
                 rs.getTimestamp("create_time"),
                 rs.getBoolean("locked")
         );
-    }
-    
-    public static void main(String[] args) throws Exception {
-        System.out.println(new AccountDAO().getAccountByEmail("leducphi1952002@gmail.com").getName());
     }
 
 }
