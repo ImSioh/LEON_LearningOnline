@@ -1,4 +1,4 @@
-package dao;
+package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,16 +11,17 @@ public class DBContext {
     private DBContext() {
     }
 
-    protected static Connection getConnecttion() {
+    public static Connection getConnecttion() {
         Connection connection = DBContext.connection;
         if (connection == null) {
             synchronized (Connection.class) {
                 connection = DBContext.connection;
                 if (connection == null) {
                     try {
-                        String user = "root";
-                        String password = "Leducphi2002";
-                        String url = "jdbc:mysql://localhost:3306/online_learning";
+                        String user = System.getProperty("leon.mysql.username", System.getenv("MYSQL_USERNAME"));
+                        String password = System.getProperty("leon.mysql.password", System.getenv("MYSQL_PASSWORD"));
+                        String database = "online_learning";
+                        String url = "jdbc:mysql://localhost:3306/" + database;
                         Class.forName("com.mysql.cj.jdbc.Driver");
                         DBContext.connection = connection = DriverManager.getConnection(url, user, password);
                     } catch (ClassNotFoundException | SQLException e) {
