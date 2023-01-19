@@ -13,8 +13,8 @@
         <link rel="icon" href="assets/img/icon.png">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <title>LE.ON</title>
-        <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
 
     <body>
@@ -24,6 +24,7 @@
                 <a href="<c:url value="/"/>" class="nav__logo">
                     <div id="leon-logo"></div>
                 </a>
+            </nav>
         </header>
 
     <body>
@@ -34,27 +35,30 @@
                 <form method="POST" action="<c:url value="/signup"/>" class="signin" id="signup-form">
                     <label>Name</label>
                     <input name="name" class="input--email" type="text" value="${requestScope["name"]}"/>
-                    <label class="error">${requestScope["name-error"]}</label>
+                    <label id="name-error" class="error" for="name">${requestScope["name-error"]}</label>
 
                     <label>Date of birth</label>
-                    <input name="dob" class="input--email" type="date" value="${requestScope["dob"]}"/>
-                    <label class="error">${requestScope["dob-error"]}</label>
+                    <input id="dob" name="dob" class="input--email" type="date" value="${requestScope["dob"]}"/>
+                    <label id="dob-error" class="error" for="dob">${requestScope["dob-error"]}</label>
 
                     <label>Address</label>
                     <input name="address" class="input--email" type="text" value="${requestScope["address"]}"/>
-                    <label class="error">${requestScope["address-error"]}</label>
+
+                    <label>Phone number</label>
+                    <input name="phone" class="input--email" type="text" value="${requestScope["phone"]}"/>
+                    <label id="phone-error" class="error" for="phone">${requestScope["phone-error"]}</label>
 
                     <label>Email</label>
                     <input name="email" class="input--email" type="text" value="${requestScope["email"]}"/>
-                    <label class="error">${requestScope["email-error"]}</label>
+                    <label id="email-error" class="error" for="email">${requestScope["email-error"]}</label>
 
-                    <label>Password</label>
+                    <label>Password <span style="font-size: 0.9rem;color: graytext">(Password length must in range 8-30)</span></label>
                     <input name="password" class="input--password" type="password" id="password"/> 
-                    <label class="error">${requestScope["password-error"]}</label>
+                    <label id="password-error" class="error" for="password">${requestScope["password-error"]}</label>
 
                     <label>Confirm Password</label>
                     <input name="confirm-password" class="input--password" type="password"/> 
-                    <label class="error">${requestScope["confirm-password-error"]}</label>
+                    <label id="confirm-password-error" class="error" for="confirm-password">${requestScope["confirm-password-error"]}</label>
 
                     <div class="d-grid gap-2" style="margin-top: 16px">
                         <div class="form-check">
@@ -82,13 +86,29 @@
     </div>
     <script>
         $(document).ready(function () {
+            $.validator.addMethod('validatePhoneNumber', function (value, element) {
+                return this.optional(element) || /^(84|0[3|5|7|8|9])+([0-9]{8})$/.test(value)
+            }, 'Invalid phone number')
+            $.validator.addMethod('validateDob', function (value, element) {
+                const present = new Date()
+                const birthOfDate = new Date(value)
+                return this.optional(element)
+                        || birthOfDate.getFullYear() < present.getFullYear()
+                        || birthOfDate.getMonth() < present.getMonth()
+                        || birthOfDate.getDate() < present.getDate()
+            }, 'Birth of date must before present')
             $('#signup-form').validate({
                 rules: {
                     name: {
                         required: true,
+                        maxlength: 100,
                     },
                     dob: {
                         date: true,
+                        validateDob: true,
+                    },
+                    phone: {
+                        validatePhoneNumber: true
                     },
                     email: {
                         required: true,
@@ -96,6 +116,8 @@
                     },
                     password: {
                         required: true,
+                        minlength: 8,
+                        maxlength: 30,
                     },
                     'confirm-password': {
                         required: true,

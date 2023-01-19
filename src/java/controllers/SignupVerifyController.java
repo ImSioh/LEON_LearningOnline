@@ -8,14 +8,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.UUID;
 
 @WebServlet(name = "SignupVerifyController", urlPatterns = {"/signup-verify"})
 public class SignupVerifyController extends HttpServlet {
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/signup-verify.jsp").forward(req, resp);
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,15 +19,20 @@ public class SignupVerifyController extends HttpServlet {
             String accountId = req.getParameter("id");
             String code = req.getParameter("verify-code");
             String email = req.getParameter("email");
-            System.out.println(accountId);
-            System.out.println(code);
             AccountDAO accountDAO = new AccountDAO();
-            Account account = accountDAO.getAccountById(accountId);
-            System.out.println(account);
-            System.out.println(code);
-            if (account != null && account.getVerificationCode() != null && account.getVerificationCode().equalsIgnoreCase(code)) {
-                System.out.println(account.getRole());
-                accountDAO.setVerifyCodeNull(accountId);
+            Account account = accountDAO.getAccountById(UUID.fromString(accountId));
+            if (account == null) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Account is not exist");
+                return;
+            }
+            req.setAttribute("verified", false);
+            if (account.getVerificationCode() == null) {
+                req.setAttribute("verified", true);
+                req.getRequestDispatcher("/signup-verify.jsp").forward(req, resp);
+                return;
+            }
+            if (account.getVerificationCode().equalsIgnoreCase(code)) {
+                accountDAO.setVerifyCodeNull(UUID.fromString(accountId));
                 if (account.getRole() == 2) {
                     resp.sendRedirect(req.getContextPath() + "/overview");
                 } else if (account.getRole() == 1) {

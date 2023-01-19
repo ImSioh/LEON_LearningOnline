@@ -1,6 +1,7 @@
 package controllers;
 
 import dao.AccountDAO;
+import dto.Account;
 import helpers.FormValidator;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -19,22 +20,32 @@ public class ForgotController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String path = req.getPathInfo();
-        if (path == null || path.equals("/")) {
-            req.getRequestDispatcher("/forgot-password.jsp").forward(req, resp);
-            return;
+        try {
+            String path = req.getPathInfo();
+            if (path == null || path.equals("/")) {
+                req.getRequestDispatcher("/forgot-password.jsp").forward(req, resp);
+                return;
+            }
+            if (!path.matches("^\\/[\\w-]+\\/?$")) return;
+            
+            String token = path.replaceAll("\\/", "");
+            String email = checkValidToken(token);
+            if (email == null) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Link has expired or not available");
+                return;
+            }
+            Account account = new AccountDAO().getAccountByEmail(email);
+            if (account == null) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Account is not exist");
+                return;
+            }
+            req.setAttribute("email", email);
+            req.setAttribute("token", token);
+            req.setAttribute("profilePicture", account.getProfilePicture());
+            req.getRequestDispatcher("/change-password.jsp").forward(req, resp);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        if (!path.matches("^\\/[\\w-]+\\/?$")) return;
-        
-        String token = path.replaceAll("\\/", "");
-        String email = checkValidToken(token);
-        if (email == null) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Link has expired or not available");
-            return;
-        }
-        req.setAttribute("email", email);
-        req.setAttribute("token", token);
-        req.getRequestDispatcher("/change-password.jsp").forward(req, resp);
     }
 
     @Override

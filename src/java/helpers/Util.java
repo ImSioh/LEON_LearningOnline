@@ -50,7 +50,11 @@ public class Util {
 
     public static void sendEmail(String to, String title, String content) {
         final String sender = "zedovblack@gmail.com";
-        final String password = "bxuitycggukqrwhg";
+        final String password = System.getenv("EMAIL_PASS");
+        if (password == null) {
+            System.out.println("Cannot send email to " + to);
+            return;
+        }
 
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");

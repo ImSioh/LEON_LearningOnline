@@ -251,10 +251,10 @@
 
             #profile-picture > div {
                 width: 100%;
-                background-image: url(<c:url value="/assets/img/blank_profile_picture.jpg"/>);
+                background-image: url(<c:url value="${profilePicture == null ? '/assets/img/blank_profile_picture.jpg' : profilePicture}"/>);
                 padding-top: 100%;
                 background-position: center;
-                background-size: contain;
+                background-size: cover;
                 background-repeat: no-repeat;
             }
         </style>
@@ -269,6 +269,7 @@
                 <a href="<c:url value="/"/>" class="nav__logo">
                     <div id="leon-logo"></div>
                 </a>
+            </nav>
         </header>
         <div class="content">
             <form action="" method="POST" id="password-form">

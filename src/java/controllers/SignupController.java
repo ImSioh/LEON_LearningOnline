@@ -26,29 +26,54 @@ public class SignupController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AccountDAO accountDAO = new AccountDAO();
         FormValidator formValidator = new FormValidator(req);
-        formValidator.setCheckParam("name", true, String.class);
-        formValidator.setCheckParam("dob", false, Date.class);
+        formValidator.setCheckParam(
+                "name",
+                true,
+                String.class,
+                a -> a.length() <= (100),
+                "Please enter no more than 100 characters"
+        );
+        formValidator.setCheckParam(
+                "dob",
+                false,
+                Date.class,
+                (a, b) -> ((Date) b).before(new Date(System.currentTimeMillis())),
+                "Birth of date must before present"
+        );
         formValidator.setCheckParam("address", false, String.class);
+        formValidator.setCheckParam(
+                "phone",
+                false,
+                String.class,
+                a -> a.matches("^(84|0[3|5|7|8|9])+([0-9]{8})$"),
+                "Invalid phone number"
+        );
         formValidator.setCheckParam("role", true, Integer.class);
         formValidator.setCheckParam(
                 "email",
                 true,
                 String.class,
-                a -> ((String) a).matches("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+"),
+                a -> a.matches("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+"),
                 "Email does not meet email structure"
         );
         formValidator.addCheckFunction(
                 "email",
                 a -> {
                     try {
-                        return accountDAO.getAccountByEmail((String) a) == null;
+                        return accountDAO.getAccountByEmail(a) == null;
                     } catch (Exception e) {
                     }
                     return false;
                 },
                 "Account with email %email% is existed"
         );
-        formValidator.setCheckParam("password", true, String.class);
+        formValidator.setCheckParam(
+                "password",
+                true,
+                String.class,
+                a -> a.length() <= 30 && a.length() >= 8,
+                "Password length must in range 8-30"
+        );
         formValidator.setCheckParam(
                 "confirm-password",
                 true,
@@ -63,13 +88,14 @@ public class SignupController extends HttpServlet {
                 String name = (String) formValidator.get("name");
                 Date dob = (Date) formValidator.get("dob");
                 String address = (String) formValidator.get("address");
+                String phoneNumber = (String) formValidator.get("phone");
                 String email = (String) formValidator.get("email");
                 String password = Util.hashingSHA256((String) formValidator.get("password"));
                 int role = (int) formValidator.get("role");
                 String verificationCode = Util.randomString(6).toUpperCase();
                 Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
-                Account account = new Account(UUID.randomUUID(), name, dob, address, email, password, role, "", verificationCode, createTime, false);
+                Account account = new Account(UUID.randomUUID(), name, dob, address, phoneNumber, email, password, role, "", verificationCode, createTime, false);
                 Util.sendEmail(account.getEmail(), "LE.ON Email verification", "Your verification code at LE.ON - Learning Online is: " + account.getVerificationCode());
                 int result = accountDAO.insertAccount(account);
                 req.setAttribute("accountId", account.getAccountId().toString());

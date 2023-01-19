@@ -38,7 +38,7 @@ public class ForgetSchedule implements Job {
                     .build();
             validTriggers.put(trigger.getKey(), email);
             scheduler.scheduleJob(trigger);
-            System.out.println("Current wait jobs: " + validTriggers.size());
+            System.out.println("Forgot password token in total: " + validTriggers.size());
             return trigger.getKey();
         } catch (SchedulerException ex) {
             ex.printStackTrace();
@@ -48,8 +48,10 @@ public class ForgetSchedule implements Job {
 
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
-        validTriggers.remove(jec.getTrigger().getKey());
-        System.out.println("Current wait jobs: " + validTriggers.size());
+        TriggerKey triggerKey = jec.getTrigger().getKey();
+        String email = validTriggers.get(triggerKey);
+        validTriggers.remove(triggerKey);
+        System.out.println("Forgot password token for " + email + " expire now, " + validTriggers.size() + " jobs left");
     }
 
 }
