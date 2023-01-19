@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -18,7 +19,7 @@ public class FormValidator {
         public String name;
         public boolean require;
         public String rawData = "";
-        public Map<Predicate<Object>, String> checkFunc = new HashMap<>();
+        public Map<BiPredicate<String, Object>, String> checkFunc = new HashMap<>();
         public boolean isValid = false;
         public Class<?> type;
         public Object result = null;
@@ -130,10 +131,10 @@ public class FormValidator {
                     continue;
                 }
 
-                for (Map.Entry<Predicate<Object>, String> funcEntry : paramObject.checkFunc.entrySet()) {
-                    Predicate<Object> func = funcEntry.getKey();
+                for (Map.Entry<BiPredicate<String, Object>, String> funcEntry : paramObject.checkFunc.entrySet()) {
+                    BiPredicate<String, Object> func = funcEntry.getKey();
                     String errMsg = replaceString(funcEntry.getValue());
-                    if (!func.test(paramObject.result)) {
+                    if (!func.test(paramObject.rawData, paramObject.result)) {
                         System.out.println(errMsg);
                         request.setAttribute(paramName + "-error", errMsg);
                         valid = false;
@@ -150,9 +151,14 @@ public class FormValidator {
         return valid;
     }
 
-    public void addCheckFunction(String paramName, Predicate<Object> predicate, String errMsg) {
+    public void addCheckFunction(String paramName, Predicate<String> predicate, String errMsg) {
         RequestParameter rp = parameters.get(paramName);
-        rp.checkFunc.put(predicate, errMsg);
+        rp.checkFunc.put((rawData, result) -> predicate.test(rawData), errMsg);
+    }
+
+    public void addCheckFunction(String paramName, BiPredicate<String, Object> biPredicate, String errMsg) {
+        RequestParameter rp = parameters.get(paramName);
+        rp.checkFunc.put(biPredicate, errMsg);
     }
 
     public void setCheckParam(String paramName, boolean require, Class<?> clazz) {
@@ -160,9 +166,15 @@ public class FormValidator {
         parameters.put(paramName, rp);
     }
 
-    public void setCheckParam(String paramName, boolean require, Class<?> clazz, Predicate<Object> predicate, String errMsg) {
+    public void setCheckParam(String paramName, boolean require, Class<?> clazz, Predicate<String> predicate, String errMsg) {
         RequestParameter rp = new RequestParameter(paramName, require, clazz);
-        rp.checkFunc.put(predicate, errMsg);
+        rp.checkFunc.put((rawData, result) -> predicate.test(rawData), errMsg);
+        parameters.put(paramName, rp);
+    }
+
+    public void setCheckParam(String paramName, boolean require, Class<?> clazz, BiPredicate<String, Object> biPredicate, String errMsg) {
+        RequestParameter rp = new RequestParameter(paramName, require, clazz);
+        rp.checkFunc.put(biPredicate, errMsg);
         parameters.put(paramName, rp);
     }
     

@@ -17,11 +17,10 @@ public class WebSetvletContextListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         try {
-            ClassLoader cl = sce.getServletContext().getClassLoader();
             Enumeration<Driver> drivers = DriverManager.getDrivers();
             while (drivers.hasMoreElements()) {                
                 Driver driver = drivers.nextElement();
-                if (driver.getClass().getClassLoader() == cl) {
+                if (driver instanceof com.mysql.cj.jdbc.Driver) {
                     DriverManager.deregisterDriver(driver);
                 }
             }

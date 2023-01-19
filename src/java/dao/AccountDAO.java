@@ -12,14 +12,14 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectOne(query, email);
     }
 
-    public Account getAccountById(String id) throws Exception {
-        String query = "SELECT * FROM account a WHERE BIN_TO_UUID(a.account_id) = ?";
-        return selectOne(query, id);
+    public Account getAccountById(UUID id) throws Exception {
+        String query = "SELECT * FROM account a WHERE a.account_id = ?";
+        return selectOne(query, Util.UUIDToByteArray(id));
     }
     
-    public int setVerifyCodeNull(String id) throws Exception {
+    public int setVerifyCodeNull(UUID id) throws Exception {
         String query = "UPDATE account set verification_code = NULL WHERE BIN_TO_UUID(account_id) = ?";
-        return update(query, id);
+        return update(query, Util.UUIDToByteArray(id));
     }
     
     public int setPassword(String password, String email) throws Exception {
@@ -28,13 +28,14 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
     
     public int insertAccount(Account account) throws Exception {
-        String query = "INSERT INTO account VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)";
+        String query = "INSERT INTO account VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)";
         return update(
                 query,
                 Util.UUIDToByteArray(account.getAccountId()),
                 account.getName(),
                 account.getBirthDate(),
                 account.getAddress(),
+                account.getPhoneNumber(),
                 account.getEmail(),
                 account.getPassword(),
                 account.getRole(),
