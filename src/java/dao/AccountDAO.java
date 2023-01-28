@@ -16,6 +16,11 @@ public class AccountDAO extends AbstractDAO<Account> {
         String query = "SELECT * FROM account a WHERE a.email = ?";
         return selectOne(query, email);
     }
+    
+    public Account getAccountByPhone(String phone) throws Exception {
+        String query = "SELECT * FROM account a WHERE a.phone_number = ?";
+        return selectOne(query, phone);
+    }
 
     public Account getAccountById(UUID id) throws Exception {
         String query = "SELECT * FROM account a WHERE a.account_id = ?";
@@ -53,7 +58,7 @@ public class AccountDAO extends AbstractDAO<Account> {
     @Override
     protected Account propMapping(ResultSet rs) throws Exception {
         return new Account(
-                UUID.nameUUIDFromBytes(rs.getBytes("account_id")),
+                Util.ByteArrayToUUID(rs.getBytes("account_id")),
                 rs.getString("name"),
                 rs.getDate("birth_date"),
                 rs.getString("address"),
