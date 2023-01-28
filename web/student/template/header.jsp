@@ -1,4 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.ArrayList" %>
+<%@page import="dto.*" %>
+<%@page import="dao.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,10 +10,10 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="../assets/css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="../assets/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
         <!-- CSS -->
-        
+        <% String path = request.getContextPath();%>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet" />
@@ -21,25 +24,25 @@
               crossorigin="anonymous" />
         
         <title>LE.ON</title>
-        
+        <link href="../assets/css/a.css" rel="stylesheet" type="text/css"/>
         <style>
             body {
                 min-height: 100vh;
             }
             .sidebarnav a {
                 text-transform: unset !important;
-                font-size: 1rem !important; 
-                
+                font-size: 1rem !important;
+
             }
-            
+
             .sidebarnav a.active{
                 color: #1e88e5 !important;
                 background-color: #e3f2fd !important;
                 border-radius: 8px !important;
             }
-            
+
         </style>
-        
+
         <c:set value="active" var="overviewS"/>
     </head>
 
@@ -59,15 +62,15 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
 
-                            <a href="../student/HomeS.jsp" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
+                            <a href="<%=path%>/overview-incomplete" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
 
                             <!-- Left links -->
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link ${overviewS}" href="HomeS.jsp" style="color:#6e6e6e; font-size: 15px;">Overview</a>
+                                    <a class="nav-link ${overviewS}" href="<%=path%>/overview-incomplete" style="color:#6e6e6e; font-size: 15px;">Overview</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link ${classS}" href="ClassS.jsp" style="color: #6e6e6e; font-size: 15px;">Class</a>
+                                    <a class="nav-link ${classS}" href="<%=path%>/student/ClassS.jsp" style="color: #6e6e6e; font-size: 15px;">Class</a>
                                 </li>
                             </ul>
                             <!-- Left links -->
@@ -87,7 +90,7 @@
 
                             </div>
                             <!-- Avatar -->
-                              <div class="dropdown">
+                            <div class="dropdown">
                                 <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                                     <i class="far fa-user-circle" style="font-size: 24px; text-decoration: none; color: black; margin-left: 10px;"></i>
                                 </a>
@@ -128,4 +131,3 @@
                 </nav>
                 <!-- Navbar -->
             </div>
-       

@@ -7,18 +7,15 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto sidebarnav" style="padding-left: 15px">
                     <li>
-                        <a href="HomeS.jsp" class="nav-link link-dark"  aria-current="page">
-
+                        <a href="<%=path%>/overview-incomplete" class="nav-link link-dark"  aria-current="page">
                             Incomplete
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a href="AchievementS.jsp" class="nav-link link-dark active">
-
+                        <a href="<%=path%>/overview-achievement" class="nav-link link-dark active">
                             Achievement
                         </a>
                     </li>
-
                 </ul>
                 <hr>
             </div>
@@ -31,20 +28,24 @@
                     <table class="table" >
                         <thead>
                             <tr>                            
-                                <th scope="col">Class</th>
+                                <th scope="col">Name of Class</th>
                                 <th scope="col">Score</th>
                             </tr>
                         </thead>
                         <tbody style=" color: #6e6e6e !important">
                             <tr>                            
-                                <td>Mark</td>
+                                <td>
+                                    <c:forEach items="${classObjList}" var="COL">
+                                    <th>${COL.getName()};</th>                                   
+                                    </c:forEach>
+                                </td>
                                 <td>Otto</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>  
             </div>
-           
+
         </div>
     </div>
 </div>

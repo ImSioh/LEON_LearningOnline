@@ -1,5 +1,9 @@
 <%@include file= "./template/header.jsp" %>
-
+<%
+    request.setAttribute("AccDAO", new AccountDAO());
+    request.setAttribute("AssDAO", new AssignTestDAO());
+   
+%>
 <div class="content" >
     <div class="row" style="margin-top: 50px;padding-left: calc(100% / 6);">
         <div class="col-md-2" style="position: fixed;transform: translateX(-100%);">
@@ -7,14 +11,12 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto sidebarnav" style="padding-left: 15px">
                     <li class="nav-item ">
-                        <a href="HomeS.jsp" class="nav-link link-dark active"  aria-current="page">
-
+                        <a href="<%=path%>/overview-incomplete" class="nav-link link-dark active"  aria-current="page">
                             Incomplete
                         </a>
                     </li>
                     <li >
-                        <a href="AchievementS.jsp" class="nav-link link-dark">
-
+                        <a href="<%=path%>/overview-achievement" class="nav-link link-dark">
                             Achievement
                         </a>
                     </li>
@@ -36,17 +38,20 @@
                             </tr>
                         </thead>
                         <tbody style=" color: #6e6e6e !important">
-                            
-                        
+                            <tr>    
+                                <c:forEach items="${accList}" var="accL">
+                                    <th>${accL.getAssignTestId()};</th>
+                                    <th>${accL.getCreateTime()};</th>
+                                </c:forEach>
+                            </tr>
                         </tbody>
-                        
                     </table>
-                    <div>
-                        <img style="width: 100%" src="assets/img/Untitled.png" alt=""/>
-                    </div>
+                    <!--                    <div>
+                                            <img style="width: 100%" src="assets/img/Untitled.png" alt=""/>
+                                        </div>-->
                 </div>  
             </div>
-           
+
         </div>
     </div>
 </div>
