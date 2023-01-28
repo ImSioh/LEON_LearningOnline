@@ -7,6 +7,11 @@ import java.util.UUID;
 
 public class AccountDAO extends AbstractDAO<Account> {
 
+    public Account getAccount(String email, String password) throws Exception {
+        String query = "SELECT * FROM account a WHERE a.email = ? and a.password = ?";
+        return selectOne(query, email, password);
+    }
+    
     public Account getAccountByEmail(String email) throws Exception {
         String query = "SELECT * FROM account a WHERE a.email = ?";
         return selectOne(query, email);
@@ -18,7 +23,7 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
     
     public int setVerifyCodeNull(UUID id) throws Exception {
-        String query = "UPDATE account set verification_code = NULL WHERE BIN_TO_UUID(account_id) = ?";
+        String query = "UPDATE account set verification_code = NULL WHERE account_id = ?";
         return update(query, Util.UUIDToByteArray(id));
     }
     
