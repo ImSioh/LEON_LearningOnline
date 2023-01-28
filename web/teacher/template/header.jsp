@@ -61,14 +61,14 @@
                         <!-- Collapsible wrapper -->
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
-
-                            <a href="../teacher/HomeT.jsp" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher</a>
+                            
+                            <a href="../teacher/ClassT.jsp" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher</a>
 
                             <!-- Left links -->
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                                 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="HomeT.jsp" style="color: #1e88e5; font-size: 15px;">Class</a>
+                                    <a class="nav-link" href="ClassT.jsp" style="color: #1e88e5; font-size: 15px;">Class</a>
                                 </li>
                             </ul>
                             <!-- Left links -->

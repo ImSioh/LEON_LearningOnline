@@ -7,9 +7,23 @@
         </div>
 
         <div class="col-md-auto">
-            <button type="button" style="border-radius: 34px; padding: 15px; margin: 15px;" class="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"><a href="../student/ClassCode.jsp" style="text-decoration: none; color: grey ">+ Enter code</a></button>
+            <button type="button" style="border-radius: 34px; padding: 15px; margin: 15px;" class="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"><a href="../student/Enter_ClassCode.jsp" style="text-decoration: none; color: grey ">+ Enter code</a></button>
         </div>
     </div>
+</div>
+
+<div class="content-main">
+    <div class="class-content">
+        <a href="HomeS.jsp">
+            
+            <c:forEach items="${classObjList}" var="COL">
+                <!--picture-->
+                <div>${COL.getName()};</div>  
+                <div>${COL.getCode()};</div> 
+            </c:forEach>
+            
+        </a>               
+    </div>            
 </div>
 </div>
 <script

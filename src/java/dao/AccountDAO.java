@@ -3,6 +3,7 @@ package dao;
 import dto.Account;
 import helpers.Util;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class AccountDAO extends AbstractDAO<Account> {
@@ -17,8 +18,13 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectOne(query, Util.UUIDToByteArray(id));
     }
     
+    public ArrayList<Account> getListAccountById(String id) throws Exception{      
+        String query = "SELECT * FROM account a a.account_id = ?";
+        return selectMany(query, id);      
+    }
+    
     public int setVerifyCodeNull(UUID id) throws Exception {
-        String query = "UPDATE account set verification_code = NULL WHERE BIN_TO_UUID(account_id) = ?";
+        String query = "UPDATE account set verification_code = NULL account_id = ?";
         return update(query, Util.UUIDToByteArray(id));
     }
     
