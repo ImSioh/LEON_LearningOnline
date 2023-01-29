@@ -1,8 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="java.util.ArrayList" %>
-<%@page import="dto.*" %>
-<%@page import="dao.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="dao.*" %>
+<%@page import="controllers.*" %>
+<%@page import="dto.*" %>
+<%@page import="java.util.ArrayList" %>
+<% String path =request.getContextPath();%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,8 +14,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link href="../assets/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-        <!-- CSS -->
-        <% String path = request.getContextPath();%>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet" />
@@ -22,9 +22,9 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
               rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
               crossorigin="anonymous" />
-        
+
         <title>LE.ON</title>
-        <link href="../assets/css/a.css" rel="stylesheet" type="text/css"/>
+
         <style>
             body {
                 min-height: 100vh;
@@ -43,12 +43,12 @@
 
         </style>
 
-        <c:set value="active" var="overviewS"/>
+
     </head>
 
     <body>
         <div class="main">
-            <div id="header" class="fixed-top" style="top: 0">
+            <div id="header" class="fixed-top" style="top: 0;">
                 <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <!-- Container wrapper -->
@@ -64,16 +64,7 @@
 
                             <a href="<%=path%>/overview-incomplete" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
 
-                            <!-- Left links -->
-                            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link ${overviewS}" href="<%=path%>/overview-incomplete" style="color:#6e6e6e; font-size: 15px;">Overview</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link ${classS}" href="<%=path%>/student/ClassS.jsp" style="color: #6e6e6e; font-size: 15px;">Class</a>
-                                </li>
-                            </ul>
-                            <!-- Left links -->
+                            
                         </div>
                         <!-- Collapsible wrapper -->
 
@@ -100,7 +91,7 @@
                                             <i class="far fa-user"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="<c:url value="/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+                                            <a href="profile.jsp" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
                                         </li>
                                     </div>
 
@@ -131,3 +122,62 @@
                 </nav>
                 <!-- Navbar -->
             </div>
+
+
+            <div class="content"style="margin-top: 50px;">
+                <section style="background-color: rgb(209, 209, 209);">
+                    <div class="container py-5 ">
+                        <div class="row">
+                            <div class="col">
+                                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                                    <ol class="breadcrumb mb-0">
+                                        <li class="breadcrumb-item"><a href="HomeS.jsp" style="text-decoration: none;">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="profile.jsp" style="text-decoration: none;">User</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-evenly">
+                            <div class="col-md-3 border-right card">
+                                <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://www.shareicon.net/data/128x128/2016/09/15/829459_man_512x512.png">
+                                    <span class="font-weight-bold">Le Duc Phi</span><span class="text-black-50">leducphi195002@gmail.com</span><span> </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 border-right card">
+                                <div class="p-3 py-5 col-md-9">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h4 class="text-right">Edit Profile</h4>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12"><label class="labels">Name</label><input type="text" class="form-control" placeholder="Name" value=""></div>
+                                        <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
+                                        <div class="col-md-12"><label class="labels">Date of birth</label><input type="date" class="form-control" placeholder="Date of birth" value=""></div>
+                                        <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" placeholder="Address" value=""></div>
+                                        <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="" value="leducphi195002@gmail.com" disabled>
+                                        </div>
+
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-6"><label class="labels">Class</label><input type="text" class="form-control" placeholder="SE641" value=""></div>
+                                        <div class="col-md-6"><label class="labels">School</label><input type="text" class="form-control" value="" placeholder="FPT University"></div>
+                                    </div>
+                                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MDB -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"></script>
+
+</body>
+
+</html>
