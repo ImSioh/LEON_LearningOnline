@@ -49,7 +49,7 @@
     <body>
         <div class="main">
             <div id="header" class="fixed-top" style="top: 0;">
-               <!-- Navbar -->
+                <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <!-- Container wrapper -->
                     <div class="container-fluid">
@@ -64,15 +64,15 @@
 
                             <a href="<%=path%>/overview-incomplete" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
 
-                            
+
                         </div>
                         <!-- Collapsible wrapper -->
 
-                        <!-- Right elements -->
+
                         <div class="d-flex align-items-center">
 
 
-                            <!-- Notifications -->
+                            <!--Notifications--> 
                             <div class="dropdown">
                                 <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-bell"></i>
@@ -80,7 +80,7 @@
                                 </a>
 
                             </div>
-                            <!-- Avatar -->
+                            <!--Avatar--> 
                             <div class="dropdown">
                                 <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                                     <i class="far fa-user-circle" style="font-size: 24px; text-decoration: none; color: black; margin-left: 10px;"></i>
@@ -116,7 +116,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <!-- Right elements -->
+
                     </div>
                     <!-- Container wrapper -->
                 </nav>
@@ -131,7 +131,7 @@
                                 <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                                     <ol class="breadcrumb mb-0">
                                         <li class="breadcrumb-item"><a href="teacher/HomeT.jsp" style="text-decoration: none;">Home</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Profile</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -147,9 +147,8 @@
                                         <p class="text-muted mb-1">Teacher / Student</p>
                                         <p class="text-muted mb-4">Ha Noi, Viet Nam</p>
                                         <div class="d-flex justify-content-center mb-2">
-                                            <a type="button" class="btn btn-primary" href="change-password.jsp">Change
-                                                Password</a>
-                                            <a type="button" class="btn btn-outline-primary ms-1" href="<%=path%>/edit-profile.jsp">Edit Profile</a>
+                                            <a type="button" class="btn btn-primary" href="<c:url value="/profile/change-password"/>">Change Password</a>
+                                            <a type="button" class="btn btn-outline-primary ms-1" href="<c:url value="/profile/edit"/>">Edit Profile</a>
                                         </div>
                                     </div>
                                 </div>

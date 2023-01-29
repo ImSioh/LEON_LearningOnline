@@ -42,7 +42,7 @@ public class ForgotController extends HttpServlet {
             req.setAttribute("email", email);
             req.setAttribute("token", token);
             req.setAttribute("profilePicture", account.getProfilePicture());
-            req.getRequestDispatcher("/change-password.jsp").forward(req, resp);
+            req.getRequestDispatcher("/reset-password.jsp").forward(req, resp);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -123,7 +123,7 @@ public class ForgotController extends HttpServlet {
         } else {
             req.setAttribute("token", token);
             req.setAttribute("email", email);
-            req.getRequestDispatcher("/change-password.jsp").forward(req, resp);
+            req.getRequestDispatcher("/reset-password.jsp").forward(req, resp);
         }
     }
     
