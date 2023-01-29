@@ -3,6 +3,7 @@
 
 
 <div class="content" >
+      
     <div class="row" style="margin-top: 50px;padding-left: calc(100% / 6);">
         <div class="col-md-2" style="position: fixed;transform: translateX(-100%);">
             <div style="background-color: #f8f9fa; height: 100vh" class="d-flex flex-shrink-0 p-3" >
@@ -49,7 +50,7 @@
 
         </div>
     </div>
-</div>
+</div>                         
 </div>
 
 <script
