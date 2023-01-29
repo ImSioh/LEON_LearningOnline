@@ -13,6 +13,7 @@ import helpers.Util;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,28 +27,49 @@ import java.util.logging.Logger;
  */
 @WebServlet(name = "JoinClassController", urlPatterns = {"/join"})
 public class JoinClassController extends HttpServlet {
- 
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-//        req.getRequestDispatcher("/student/Enter_ClassCode.jsp").forward(req, resp);
-        
+        req.setAttribute("verified", true);
+        req.getRequestDispatcher("/student/Enter_ClassCode.jsp").forward(req, resp);
+
     }
-       
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-//        String code = req.getParameter("classCode");
-//        ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassByAccId(id);
-//        for (ClassObject CO : classObj) {
-//            if(CO.getCode() == code) {
-                req.getRequestDispatcher("/student/InsideClass_S.jsp").forward(req, resp);
-//            }
-//        }
-        
+        try {
+            String code = req.getParameter("classCode");
+            String email = "", pass = "";
+            Cookie[] cookies = req.getCookies();
+            for (Cookie c : cookies) {
+                if (c.getName().equals("cookEmail")) {
+                    email = c.getValue();
+                }
+                if (c.getName().equals("cookPass")) {
+                    pass = c.getValue();
+                }
+                if (email.equals("") || pass.equals("")) {
+                    resp.sendRedirect("signin.jsp");
+                }
+            }
+            AccountDAO accountDAO = new AccountDAO();
+            Account acc = accountDAO.getAccountByEmail(email);
+            ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassByAccId((acc.getAccountId()));
+            for (ClassObject CO : classObj) {
+                if (CO.getCode().equals(code)) {
+                    req.setAttribute("verified", true);
+                    req.getRequestDispatcher("/student/InsideClass_S.jsp").forward(req, resp);
+                } else {
+                    req.setAttribute("verified", false);
+                    req.getRequestDispatcher("/student/Enter_ClassCode.jsp").forward(req, resp);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(JoinClassController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-
-
 
 }

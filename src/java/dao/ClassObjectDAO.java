@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public class ClassObjectDAO extends AbstractDAO<ClassObject> {
 
-    public ArrayList<ClassObject> getListClassByAccId(String id) throws Exception {
-        String query = "SELECT * FROM class c WHERE BIN_TO_UUID(c.account_id) = ?";
-        return selectMany(query, id);
+    public ArrayList<ClassObject> getListClassByAccId(UUID id) throws Exception {
+        String query = "SELECT * FROM class c WHERE c.account_id = ?";
+        return selectMany(query, Util.UUIDToByteArray(id));
     }
 
     @Override

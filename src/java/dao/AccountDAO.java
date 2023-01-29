@@ -33,6 +33,11 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, id);      
     }
     
+    public ArrayList<Account> getListAccountByEmail(String email) throws Exception{      
+        String query = "SELECT * FROM account a WHERE a.email = ?";
+        return selectMany(query, email);      
+    }
+    
     public int setVerifyCodeNull(UUID id) throws Exception {
         String query = "UPDATE account set verification_code = NULL WHERE account_id = ?";
         return update(query, Util.UUIDToByteArray(id));

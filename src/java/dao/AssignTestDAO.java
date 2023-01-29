@@ -3,12 +3,13 @@ package dao;
 import dto.AssignTest;
 import helpers.Util;
 import java.sql.ResultSet;
+import java.util.UUID;
 
 public class AssignTestDAO extends AbstractDAO<AssignTest> {
 
-     public AssignTest getAssignTestById(String id) throws Exception {
-        String query = "SELECT * FROM assign_test at WHERE BIN_TO_UUID(at.account_id) = ?";
-        return selectOne(query, id);
+     public AssignTest getAssignTestById(UUID id) throws Exception {
+        String query = "SELECT * FROM assign_test at WHERE at.account_id = ?";
+        return selectOne(query, Util.UUIDToByteArray(id));
     }
      
     @Override
