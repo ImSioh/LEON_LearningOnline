@@ -4,13 +4,18 @@
  */
 package controllers;
 
+import dao.AccountDAO;
+import dto.Account;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -36,7 +41,7 @@ public class EditProfileController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditProfileController</title>");            
+            out.println("<title>Servlet EditProfileController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet EditProfileController at " + request.getContextPath() + "</h1>");
@@ -57,6 +62,22 @@ public class EditProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String email = "";
+        // Get an array of Cookies associated with this domain
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("cookEmail")) {
+                    email = cookie.getValue();
+                }
+            }
+        }
+        try {
+            Account account = new AccountDAO().getAccountByEmail(email);
+            request.getSession().setAttribute("account", account);
+        } catch (Exception ex) {
+            Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         request.getRequestDispatcher("../edit-profile.jsp").forward(request, response);
     }
 
@@ -71,7 +92,17 @@ public class EditProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String txtName = request.getParameter("txtName");
+        String txtPhone = request.getParameter("txtPhone");
+        String txtBD = request.getParameter("txtBD");
+        String txtAddress = request.getParameter("txtAddress");
+        String email = request.getParameter("txtMail");
+        try {
+            Account account = new AccountDAO().getAccountByEmail(email);
+        } catch (Exception ex) {
+            Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.getRequestDispatcher("/profile.jsp").forward(request, response);
     }
 
     /**
