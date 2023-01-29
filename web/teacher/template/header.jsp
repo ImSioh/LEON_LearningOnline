@@ -50,7 +50,7 @@
         <div class="main">
             <div id="header" class="fixed-top" style="top: 0;">
                 <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg navbar-light bg-secondary"> <!-- change color 'bg-secondary -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light"> <!-- change color 'bg-secondary -->
                     <!-- Container wrapper -->
                     <div class="container-fluid">
                         <!-- Toggle button -->

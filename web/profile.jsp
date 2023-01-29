@@ -23,7 +23,7 @@
               rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
               crossorigin="anonymous" />
 
-        <title>LE.ON</title>
+        <title>Profile</title>
 
         <style>
             body {
@@ -62,7 +62,7 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
 
-                            <a href="<%=path%>/overview-incomplete" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
+                            <a href="<%=path%>/overview-incomplete" class="navbar-brand mt-2 mt-lg-0">LE.ON - ${account.getRole() == 1 ? "Teacher" : "Student"} </a>
 
 
                         </div>
@@ -144,8 +144,8 @@
                                         <img src="https://www.shareicon.net/data/128x128/2016/09/15/829459_man_512x512.png"
                                              alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
                                         <h5 class="my-3">${account.getName()}</h5>
-                                        <p class="text-muted mb-1">Teacher / Student</p>
-                                        <p class="text-muted mb-4">Ha Noi, Viet Nam</p>
+                                        <p class="text-muted mb-1">${account.getRole() == 1 ? "Teacher" : "Student"}</p>
+                                        <p class="text-muted mb-4">${account.getAddress()}</p>
                                         <div class="d-flex justify-content-center mb-2">
                                             <a type="button" class="btn btn-primary" href="<c:url value="/profile/change-password"/>">Change Password</a>
                                             <a type="button" class="btn btn-outline-primary ms-1" href="<c:url value="/profile/edit"/>">Edit Profile</a>
@@ -189,7 +189,7 @@
                                                 <p class="mb-0">Mobile</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <p class="text-muted mb-0">0862779990</p>
+                                                <p class="text-muted mb-0">${account.getPhoneNumber()}</p>
                                             </div>
                                         </div>
                                         <hr>

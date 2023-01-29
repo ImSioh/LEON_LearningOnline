@@ -110,7 +110,7 @@
                                             <i class="far fa-user"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="profile.jsp" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+                                            <a href="<c:url value="/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
                                         </li>
                                     </div>
 
