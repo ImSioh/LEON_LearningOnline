@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 
-@WebServlet(name = "Overview_Acvm_Student", urlPatterns = {"/overview-achievement"})
+@WebServlet(name = "Overview_Acvm_Student", urlPatterns = {"/achievement"})
 public class Overview_Acvm_Student extends HttpServlet {
 
     @Override

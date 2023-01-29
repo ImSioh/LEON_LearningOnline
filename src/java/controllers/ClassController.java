@@ -9,6 +9,7 @@ import helpers.Util;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,16 +23,27 @@ public class ClassController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        Account a;
-//        ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassByAccId(id);
-        
         try {
-            a = new AccountDAO().getAccountByEmail("ryansliver0256@gmail.com");
+            String email = "", pass = "";
+            Cookie[] cookies = req.getCookies();
+            for (Cookie c : cookies) {
+                if (c.getName().equals("cookEmail")) {
+                    email = c.getValue();
+                }
+                if (c.getName().equals("cookPass")) {
+                    pass = c.getValue();
+                }
+                if (email.equals("") || pass.equals("")) {
+                    resp.sendRedirect("signin.jsp");
+                }
+            }
+            Account a = new AccountDAO().getAccountByEmail(email);
+            ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassByAccId(a.getAccountId());
             if (a.getRole() == 1) {
-//                req.setAttribute("classObjList", classObj);
+                req.setAttribute("classObjList", classObj);
                 req.getRequestDispatcher("teacher/ClassT.jsp").forward(req, resp);
             } else if (a.getRole() == 2) {
-//                req.setAttribute("classObjList", classObj);
+                req.setAttribute("classObjList", classObj);
                 req.getRequestDispatcher("student/ClassS.jsp").forward(req, resp);
             }
         } catch (Exception ex) {
