@@ -8,9 +8,19 @@ import java.util.UUID;
 
 public class AccountDAO extends AbstractDAO<Account> {
 
+    public Account getAccount(String email, String password) throws Exception {
+        String query = "SELECT * FROM account a WHERE a.email = ? and a.password = ?";
+        return selectOne(query, email, password);
+    }
+    
     public Account getAccountByEmail(String email) throws Exception {
         String query = "SELECT * FROM account a WHERE a.email = ?";
         return selectOne(query, email);
+    }
+    
+    public Account getAccountByPhone(String phone) throws Exception {
+        String query = "SELECT * FROM account a WHERE a.phone_number = ?";
+        return selectOne(query, phone);
     }
 
     public Account getAccountById(UUID id) throws Exception {
@@ -24,7 +34,7 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
     
     public int setVerifyCodeNull(UUID id) throws Exception {
-        String query = "UPDATE account set verification_code = NULL account_id = ?";
+        String query = "UPDATE account set verification_code = NULL WHERE account_id = ?";
         return update(query, Util.UUIDToByteArray(id));
     }
     
@@ -54,7 +64,7 @@ public class AccountDAO extends AbstractDAO<Account> {
     @Override
     protected Account propMapping(ResultSet rs) throws Exception {
         return new Account(
-                UUID.nameUUIDFromBytes(rs.getBytes("account_id")),
+                Util.ByteArrayToUUID(rs.getBytes("account_id")),
                 rs.getString("name"),
                 rs.getDate("birth_date"),
                 rs.getString("address"),

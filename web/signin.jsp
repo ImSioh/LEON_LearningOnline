@@ -170,22 +170,22 @@
         <div class="content">
             <div class="content--left">
                 <div class="content--left--title">Sign In</div>
-                <form action="<c:url value="/signin"/>" class="signin">
+                <form action="<c:url value="/signin"/>" class="signin" method="post">
                     <label>Email</label><br/>
-                    <input class="input--email" type="text"/><br/>
+                    <input name="email" class="input--email" type="text" value="${email}"/><br/>
 
                     <label>Password</label><br/>
-                    <input class="input--password" type="password"/><br/>
+                    <input name="password" class="input--password" type="password" value="${password}" /><br/>
                     <div class="d-grid gap-2" style="margin-top: 16px; width: 450px;">
-                        <button class="btn btn-primary btn--signin" type="button">Sign in</button>      
+                        <button class="btn btn-primary btn--signin" type="submit">Sign in</button>      
                     </div>
-
+                    <div style="color : red ; margin-left: 100px">${msg}</div>
 
                     <div class="signin--account">
                         <div>
-                            Not have account ?<a class="btn--signup" href="signup.html"> Signup</a>
+                            Not have account ?<a class="btn--signup" href="<c:url value="/signup"/>"> Signup</a>
                         </div>
-                        <div><a class="form--forgot" href="">Forgot password?</a></div>
+                        <div><a class="form--forgot" href="<c:url value="/forgot"/>">Forgot password?</a></div>
                     </div>
 
                 </form>
