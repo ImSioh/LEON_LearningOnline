@@ -64,15 +64,15 @@
 
                             <a href="<%=path%>/overview-incomplete" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
 
-                            
+
                         </div>
                         <!-- Collapsible wrapper -->
 
-                        <!-- Right elements -->
+                        <!--Right elements--> 
                         <div class="d-flex align-items-center">
 
 
-                            <!-- Notifications -->
+                            <!--Notifications--> 
                             <div class="dropdown">
                                 <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-bell"></i>
@@ -80,7 +80,7 @@
                                 </a>
 
                             </div>
-                            <!-- Avatar -->
+                            <!--Avatar--> 
                             <div class="dropdown">
                                 <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                                     <i class="far fa-user-circle" style="font-size: 24px; text-decoration: none; color: black; margin-left: 10px;"></i>
@@ -91,7 +91,7 @@
                                             <i class="far fa-user"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="profile.jsp" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+                                            <a href="<c:url value="/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
                                         </li>
                                     </div>
 
@@ -116,7 +116,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <!-- Right elements -->
+                        <!--Right elements--> 
                     </div>
                     <!-- Container wrapper -->
                 </nav>
@@ -132,7 +132,7 @@
                                 <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                                     <ol class="breadcrumb mb-0">
                                         <li class="breadcrumb-item"><a href="HomeS.jsp" style="text-decoration: none;">Home</a></li>
-                                        <li class="breadcrumb-item"><a href="profile.jsp" style="text-decoration: none;">User</a></li>
+                                        <li class="breadcrumb-item"><a href="<c:url value="/profile"/>" style="text-decoration: none;">Profile</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
                                     </ol>
                                 </nav>

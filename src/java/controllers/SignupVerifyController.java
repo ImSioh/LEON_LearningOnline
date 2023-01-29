@@ -36,7 +36,7 @@ public class SignupVerifyController extends HttpServlet {
                 if (account.getRole() == 2) {
                     req.setAttribute("accountId", accountId);
                     req.setAttribute("email", email);
-                    resp.sendRedirect(req.getContextPath() + "/overview-incomplete");
+                    resp.sendRedirect(req.getContextPath() + "/overview");
                 } else if (account.getRole() == 1) {
                     resp.sendRedirect(req.getContextPath() + "/class");
                 }
