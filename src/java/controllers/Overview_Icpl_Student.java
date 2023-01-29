@@ -6,18 +6,13 @@ package controllers;
 
 import dao.AccountDAO;
 import dto.Account;
-import helpers.FormValidator;
-import helpers.Util;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author Anh
  */
-@WebServlet(name = "Overview_Student", urlPatterns = {"/overview-incomplete"})
+@WebServlet(name = "Overview_Student", urlPatterns = {"/overview"})
 public class Overview_Icpl_Student extends HttpServlet {
 
     @Override

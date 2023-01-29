@@ -26,7 +26,7 @@ public class ClassController extends HttpServlet {
 //        ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassByAccId(id);
         
         try {
-            a = new AccountDAO().getAccountByEmail("ryansliver0256@gmail.com");
+            a = new AccountDAO().getAccountByEmail("leducphi1952002@gmail.com");
             if (a.getRole() == 1) {
 //                req.setAttribute("classObjList", classObj);
                 req.getRequestDispatcher("teacher/ClassT.jsp").forward(req, resp);

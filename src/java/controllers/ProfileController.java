@@ -62,7 +62,7 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            Account account = new AccountDAO().getAccountByEmail("leducphi1952002@gmail.com");
+            Account account = new AccountDAO().getAccountByEmail("");
             request.getSession().setAttribute("account", account);
         } catch (Exception ex) {
             Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
