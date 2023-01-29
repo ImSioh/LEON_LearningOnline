@@ -11,7 +11,7 @@
         <title>Login 05</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+        <% String path = request.getContextPath();%>
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -22,7 +22,7 @@
     <body>
         <section class="ftco-section">
             <div class="container">
-                
+
                 <div class="row justify-content-center">
                     <div class="col-md-7 col-lg-5">
                         <div class="wrap">
@@ -32,11 +32,11 @@
                                     <div class="w-100">
                                         <h3 class="mb-4" >JOIN CLASS</h3>
                                     </div>
-                                    
+
                                 </div>
-                                <form action="#" class="signin-form">
+                                <form action="<%=path%>/join" class="signin-form" method="POST">
                                     <div class="form-group mt-3">
-                                        <input type="text" class="form-control" required>
+                                        <input type="text" class="form-control" name="classCode" required>
                                         <label class="form-control-placeholder" for="username">Code</label>
                                     </div>
                                     

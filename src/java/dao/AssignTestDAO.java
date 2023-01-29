@@ -6,6 +6,11 @@ import java.sql.ResultSet;
 
 public class AssignTestDAO extends AbstractDAO<AssignTest> {
 
+     public AssignTest getAssignTestById(String id) throws Exception {
+        String query = "SELECT * FROM assign_test at WHERE BIN_TO_UUID(at.account_id) = ?";
+        return selectOne(query, id);
+    }
+     
     @Override
     protected AssignTest propMapping(ResultSet rs) throws Exception {
         return new AssignTest(

@@ -20,8 +20,8 @@ import java.util.logging.Logger;
  *
  * @author leducphi
  */
-@WebServlet(name = "ProfileTeacherController", urlPatterns = {"/profile"})
-public class ProfileTeacherController extends HttpServlet {
+@WebServlet(name = "ProfileController", urlPatterns = {"/profile"})
+public class ProfileController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class ProfileTeacherController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ProfileTeacherController</title>");            
+            out.println("<title>Servlet ProfileController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ProfileTeacherController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ProfileController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,9 +65,9 @@ public class ProfileTeacherController extends HttpServlet {
             Account account = new AccountDAO().getAccountByEmail("leducphi1952002@gmail.com");
             request.getSession().setAttribute("account", account);
         } catch (Exception ex) {
-            Logger.getLogger(ProfileTeacherController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.getRequestDispatcher("teacher/profile.jsp").forward(request, response);
+        request.getRequestDispatcher("/profile.jsp").forward(request, response);
     }
 
     /**

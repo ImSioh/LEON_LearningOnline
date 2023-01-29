@@ -3,9 +3,15 @@ package dao;
 import dto.ClassObject;
 import helpers.Util;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class ClassObjectDAO extends AbstractDAO<ClassObject> {
+
+    public ArrayList<ClassObject> getListClassByAccId(String id) throws Exception {
+        String query = "SELECT * FROM class c WHERE BIN_TO_UUID(c.account_id) = ?";
+        return selectMany(query, id);
+    }
 
     @Override
     protected ClassObject propMapping(ResultSet rs) throws Exception {
@@ -20,5 +26,5 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
                 rs.getTimestamp("create_time")
         );
     }
-    
+
 }

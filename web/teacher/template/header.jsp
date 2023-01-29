@@ -48,9 +48,9 @@
 
     <body>
         <div class="main">
-            <div id="header" class="fixed-top" style="top: 0">
+            <div id="header" class="fixed-top" style="top: 0;">
                 <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <nav class="navbar navbar-expand-lg navbar-light bg-secondary"> <!-- change color 'bg-secondary -->
                     <!-- Container wrapper -->
                     <div class="container-fluid">
                         <!-- Toggle button -->
@@ -61,14 +61,14 @@
                         <!-- Collapsible wrapper -->
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
-
-                            <a href="../teacher/HomeT.jsp" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher</a>
+                            
+                            <a href="../teacher/ClassT.jsp" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher</a>
 
                             <!-- Left links -->
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                                 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="HomeT.jsp" style="color: #1e88e5; font-size: 15px;">Class</a>
+                                    <a class="nav-link btn-secondary" href="ClassT.jsp" style="color: #E0F7FA; font-size: 15px;">Class</a>
                                 </li>
                             </ul>
                             <!-- Left links -->

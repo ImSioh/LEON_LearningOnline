@@ -15,7 +15,19 @@
         <button type="button" style="border-radius: 34px; padding: 15px; margin: 15px;" class="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark">+ Create Class</button>
     </div>
 </div>
-<img style="margin-left: 600px" src="assets/img/5f358928b6dc60437b81ee6164b99344.jpg" alt=""/>
+<div class="content-main">
+    <div class="class-content">
+        <a href="HomeS.jsp">
+            
+            <c:forEach items="${classObjList}" var="COL">
+                <!--picture-->
+                <div>${COL.getName()};</div>  
+                <div>${COL.getCode()};</div> 
+            </c:forEach>
+            
+        </a>               
+    </div>            
+</div>
 
 </div>
 <script
