@@ -22,9 +22,9 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
               rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
               crossorigin="anonymous" />
-        
+        <link href="student/assets/css/a.css" rel="stylesheet" type="text/css"/>
         <title>LE.ON</title>
-        <link href="../assets/css/a.css" rel="stylesheet" type="text/css"/>
+
         <style>
             body {
                 min-height: 100vh;
@@ -40,7 +40,17 @@
                 background-color: #e3f2fd !important;
                 border-radius: 8px !important;
             }
-
+            .content-main{
+                width: 100%;
+                display: flex;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+            }
+            .class-content{
+                width: calc((100% - 220px)/6);
+                border: 1px solid saddlebrown;
+                margin: 12px 18px;
+            }
         </style>
 
         <c:set value="active" var="overviewS"/>
@@ -62,12 +72,12 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
 
-                            <a href="<%=path%>/overview-incomplete" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
+                            <a href="<%=path%>/overview" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
 
                             <!-- Left links -->
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link ${overviewS}" href="<%=path%>/overview-incomplete" style="color:#6e6e6e; font-size: 15px;">Overview</a>
+                                    <a class="nav-link ${overviewS}" href="<%=path%>/overview" style="color:#6e6e6e; font-size: 15px;">Overview</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link ${classS}" href="<%=path%>/student/ClassS.jsp" style="color: #6e6e6e; font-size: 15px;">Class</a>
@@ -100,7 +110,7 @@
                                             <i class="far fa-user"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="<c:url value="/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+                                            <a href="profile.jsp" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
                                         </li>
                                     </div>
 

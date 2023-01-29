@@ -23,6 +23,13 @@ public class Util {
         byteBuffer.putLong(uuid.getLeastSignificantBits());
         return byteBuffer.array();
     }
+    
+    public static UUID ByteArrayToUUID(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        long high = byteBuffer.getLong();
+        long low = byteBuffer.getLong();
+        return new UUID(high, low);
+    }
 
     public static String hashingSHA256(String text) {
         try {

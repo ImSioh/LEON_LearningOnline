@@ -25,6 +25,7 @@ public class SignupController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AccountDAO accountDAO = new AccountDAO();
+        
         FormValidator formValidator = new FormValidator(req);
         formValidator.setCheckParam(
                 "name",
@@ -33,6 +34,7 @@ public class SignupController extends HttpServlet {
                 a -> a.length() <= (100),
                 "Please enter no more than 100 characters"
         );
+        
         formValidator.setCheckParam(
                 "dob",
                 false,
@@ -40,7 +42,9 @@ public class SignupController extends HttpServlet {
                 (a, b) -> ((Date) b).before(new Date(System.currentTimeMillis())),
                 "Birth of date must before present"
         );
+        
         formValidator.setCheckParam("address", false, String.class);
+        
         formValidator.setCheckParam(
                 "phone",
                 false,
@@ -48,7 +52,20 @@ public class SignupController extends HttpServlet {
                 a -> a.matches("^(84|0[3|5|7|8|9])+([0-9]{8})$"),
                 "Invalid phone number"
         );
+        formValidator.addCheckFunction(
+                "phone",
+                a -> {
+                    try {
+                        return accountDAO.getAccountByPhone(a) == null;
+                    } catch (Exception e) {
+                    }
+                    return false;
+                },
+                "Account with phone number %phone% is existed"
+        );
+        
         formValidator.setCheckParam("role", true, Integer.class);
+        
         formValidator.setCheckParam(
                 "email",
                 true,
@@ -67,6 +84,7 @@ public class SignupController extends HttpServlet {
                 },
                 "Account with email %email% is existed"
         );
+        
         formValidator.setCheckParam(
                 "password",
                 true,
@@ -74,6 +92,7 @@ public class SignupController extends HttpServlet {
                 a -> a.length() <= 30 && a.length() >= 8,
                 "Password length must in range 8-30"
         );
+        
         formValidator.setCheckParam(
                 "confirm-password",
                 true,

@@ -6,6 +6,7 @@
 }
 
 .class-content{   
+    width: calc(100%/6);
     border: 1px solid saddlebrown;
     margin: 12px 18px;
 }
