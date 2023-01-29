@@ -8,6 +8,7 @@ import dao.AccountDAO;
 import dto.Account;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,7 +41,7 @@ public class ProfileController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ProfileController</title>");            
+            out.println("<title>Servlet ProfileController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ProfileController at " + request.getContextPath() + "</h1>");
@@ -62,7 +63,22 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            Account account = new AccountDAO().getAccountByEmail("");
+
+            String email = "";
+            String password = "";
+            // Get an array of Cookies associated with this domain
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("cookEmail")) {
+                        email = cookie.getValue();
+                    }
+                    if (cookie.getName().equals("cookPass")) {
+                        password = cookie.getValue();
+                    }
+                }
+            }
+            Account account = new AccountDAO().getAccountByEmail(email);
             request.getSession().setAttribute("account", account);
         } catch (Exception ex) {
             Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
