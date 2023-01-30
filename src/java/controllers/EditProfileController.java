@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -96,13 +98,22 @@ public class EditProfileController extends HttpServlet {
         String txtPhone = request.getParameter("txtPhone");
         String txtBD = request.getParameter("txtBD");
         String txtAddress = request.getParameter("txtAddress");
-        String email = request.getParameter("txtMail");
+        String txtUUID = request.getParameter("txtUUID");
         try {
-            Account account = new AccountDAO().getAccountByEmail(email);
+            Account account = new AccountDAO().getAccountById(UUID.fromString(txtUUID));
+            account.setName(txtName);
+            account.setPhoneNumber(txtPhone);
+            account.setBirthDate(Date.valueOf(txtBD));
+            account.setAddress(txtAddress);
+            int status = new AccountDAO().editAccount(account);
+
+            request.setAttribute("status", status);
+            response.sendRedirect(request.getContextPath() + "/profile");
+
         } catch (Exception ex) {
             Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.getRequestDispatcher("/profile.jsp").forward(request, response);
+//        request.getRequestDispatcher( request.getContextPath() + "profile").forward(request, response);
     }
 
     /**
