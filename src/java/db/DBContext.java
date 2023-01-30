@@ -11,7 +11,7 @@ public class DBContext {
     private DBContext() {
     }
 
-    public static Connection getConnecttion() {
+    public static Connection getConnection() {
         Connection connection = DBContext.connection;
         if (connection == null) {
             synchronized (Connection.class) {
@@ -35,6 +35,6 @@ public class DBContext {
     }
     
     public static void main(String[] args) {
-        System.out.println(new DBContext().getConnecttion());
+        System.out.println(new DBContext().getConnection());
     }
 }

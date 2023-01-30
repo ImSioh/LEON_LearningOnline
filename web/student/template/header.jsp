@@ -23,7 +23,9 @@
               rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
               crossorigin="anonymous" />
         <link href="student/assets/css/a.css" rel="stylesheet" type="text/css"/>
-        <title>LE.ON</title>
+        
+        <link rel="icon" href="assets/img/leon-icon.png">
+        <title>LE.ON VietNam</title>
 
         <style>
             body {
