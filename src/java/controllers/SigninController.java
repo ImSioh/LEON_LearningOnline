@@ -51,8 +51,8 @@ public class SigninController extends HttpServlet {
                     request.getRequestDispatcher("/signup-verify.jsp").forward(request, response);
                     return;
                 }
-                Cookie cookEmail = new Cookie("cookEmail", email);
-                Cookie cookPass = new Cookie("cookPass", password);
+                Cookie cookEmail = new Cookie("cookEmail", account.getEmail());
+                Cookie cookPass = new Cookie("cookPass", account.getPassword());
                 cookEmail.setMaxAge(86400);
                 cookPass.setMaxAge(86400);
                 response.addCookie(cookEmail);
