@@ -35,9 +35,7 @@
                         <tbody style=" color: #6e6e6e !important">
                             <tr>                            
                                 <td>
-                                    <c:forEach items="${classObjList}" var="COL">
-                                    <th>${COL.getName()};</th>                                   
-                                    </c:forEach>
+                                    
                                 </td>
                                 <td>Otto</td>
                             </tr>

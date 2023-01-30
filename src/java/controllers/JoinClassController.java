@@ -50,9 +50,9 @@ public class JoinClassController extends HttpServlet {
                 if (c.getName().equals("cookPass")) {
                     pass = c.getValue();
                 }
-                if (email.equals("") || pass.equals("")) {
-                    resp.sendRedirect("signin.jsp");
-                }
+            }
+            if (email.equals("") || pass.equals("")) {
+                resp.sendRedirect("signin.jsp");
             }
             AccountDAO accountDAO = new AccountDAO();
             Account acc = accountDAO.getAccountByEmail(email);

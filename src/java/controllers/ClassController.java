@@ -50,7 +50,6 @@ public class ClassController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(ClassController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     @Override
