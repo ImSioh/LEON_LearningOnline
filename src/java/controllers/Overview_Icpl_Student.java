@@ -23,11 +23,11 @@ import java.util.logging.Logger;
  */
 @WebServlet(name = "Overview_Student", urlPatterns = {"/overview"})
 public class Overview_Icpl_Student extends HttpServlet {
-    
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        
+
         try {
             String email = "", pass = "";
             Cookie[] cookies = req.getCookies();
@@ -38,10 +38,11 @@ public class Overview_Icpl_Student extends HttpServlet {
                 if (c.getName().equals("cookPass")) {
                     pass = c.getValue();
                 }
-                if (email.equals("") || pass.equals("")) {
+
+            }
+            if (email.equals("") || pass.equals("")) {
 //                    resp.sendRedirect("signin.jsp");
-                    resp.sendRedirect("student/HomeS.jsp");
-                }
+                resp.sendRedirect("student/AchievementS.jsp");
             }
             AccountDAO accountDAO = new AccountDAO();
             Account accL = accountDAO.getAccountByEmail(email);
@@ -50,13 +51,13 @@ public class Overview_Icpl_Student extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(Overview_Icpl_Student.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        
+
     }
-    
+
 }
