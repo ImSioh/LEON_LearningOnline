@@ -50,7 +50,7 @@
         <div class="main">
             <div id="header" class="fixed-top" style="top: 0;">
                 <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <nav class="navbar navbar-expand-lg navbar-light  ${account.getRole() == 1 ? "bg-primary" : "bg-light"}">
                     <!-- Container wrapper -->
                     <div class="container-fluid">
                         <!-- Toggle button -->
@@ -130,7 +130,15 @@
                             <div class="col">
                                 <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                                     <ol class="breadcrumb mb-0">
-                                        <li class="breadcrumb-item"><a href="teacher/HomeT.jsp" style="text-decoration: none;">Home</a></li>
+                                        <c:choose>
+                                            <c:when test="${account.getRole() == 1 }">
+                                                <li class="breadcrumb-item"><a href="<c:url value="/class"/>" style="text-decoration: none;">Home</a></li>
+                                                </c:when>    
+                                                <c:otherwise>
+                                                <li class="breadcrumb-item"><a href="<c:url value="/overvew"/>" style="text-decoration: none;">Home</a></li>
+                                            </c:otherwise>
+                                        </c:choose>
+
                                         <li class="breadcrumb-item active" aria-current="page">Profile</li>
                                     </ol>
                                 </nav>

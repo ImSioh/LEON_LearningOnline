@@ -131,7 +131,15 @@
                             <div class="col">
                                 <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                                     <ol class="breadcrumb mb-0">
-                                        <li class="breadcrumb-item"><a href="HomeS.jsp" style="text-decoration: none;">Home</a></li>
+                                        <c:choose>
+                                            <c:when test="${account.getRole() == 1 }">
+                                                <li class="breadcrumb-item"><a href="<c:url value="/class"/>" style="text-decoration: none;">Home</a></li>
+                                                </c:when>    
+                                                <c:otherwise>
+                                                <li class="breadcrumb-item"><a href="<c:url value="/overvew"/>" style="text-decoration: none;">Home</a></li>
+                                            </c:otherwise>
+                                        </c:choose>
+
                                         <li class="breadcrumb-item"><a href="<c:url value="/profile"/>" style="text-decoration: none;">Profile</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
                                     </ol>
