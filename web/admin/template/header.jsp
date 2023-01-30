@@ -18,8 +18,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
     <link rel="stylesheet" href="assets/css/style.css">
+    
+    <link rel="icon" href="<c:url value="assets/img/leon-icon.png"/>"/>
 
-    <title>LE.ON</title>
+    <title>LE.ON VietNam</title>
 
 </head>
 
@@ -41,7 +43,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <!-- Navbar brand -->
 
-                        <a href="index.html" class="navbar-brand mt-2 mt-lg-0">LE.ON - Admin</a>
+                        <a href="/swp391" class="navbar-brand mt-2 mt-lg-0">LE.ON - Admin</a>
 
                         <!-- Left links -->
                         <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
