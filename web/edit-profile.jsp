@@ -146,7 +146,7 @@
                             </div>
 
                             <div class="col-md-8 border-right card">
-                                <form action="profile/edit" method="post">
+                                <form action="<c:url value="/profile/edit"/>" method="post">
                                     <div class="p-3 py-5 col-md-9">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h4 class="text-right">Edit Profile</h4>
@@ -172,7 +172,9 @@
                                                 <label class="labels">Email</label>
                                                 <input type="text" class="form-control" placeholder="${account.getEmail()}" value="${account.getEmail()}" disabled name="txtMail">
                                             </div>
-
+                                            <div class="col-md-12">
+                                                <input type="hidden" class="form-control" placeholder="${account.getAccountId()}" value="${account.getAccountId()}" name="txtUUID">
+                                            </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6"><label class="labels">Class</label><input type="text" class="form-control" placeholder="SE641" value=""></div>
