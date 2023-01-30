@@ -16,7 +16,7 @@
         <!--==================== CSS ====================-->
         <link rel="stylesheet" href="assets/css/styles.css">
         <!-- Icon -->
-        <link rel="icon" href="assets/img/icon.png">
+        <link rel="icon" href="assets/img/leon-icon.png">
 
         <title>LE.ON VietNam</title>
     </head>

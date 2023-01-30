@@ -55,7 +55,7 @@ public abstract class AbstractDAO<T> {
     protected ArrayList<T> selectMany(String sql, Object... params) throws Exception {
         ArrayList<T> list = new ArrayList<>();
         try {
-            PreparedStatement ps = DBContext.getConnecttion().prepareStatement(sql);
+            PreparedStatement ps = DBContext.getConnection().prepareStatement(sql);
             setParameter(ps, params);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -70,7 +70,7 @@ public abstract class AbstractDAO<T> {
     protected T selectOne(String sql, Object... params) throws Exception {
         T obj = null;
         try {
-            PreparedStatement ps = DBContext.getConnecttion().prepareStatement(sql);
+            PreparedStatement ps = DBContext.getConnection().prepareStatement(sql);
             setParameter(ps, params);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -84,7 +84,7 @@ public abstract class AbstractDAO<T> {
 
     protected <R> R selectScalar(String sql, Class<R> clazz, Object... params) throws Exception {
         try {
-            PreparedStatement ps = DBContext.getConnecttion().prepareStatement(sql);
+            PreparedStatement ps = DBContext.getConnection().prepareStatement(sql);
             setParameter(ps, params);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -99,7 +99,7 @@ public abstract class AbstractDAO<T> {
     protected int insert(String sql, Object... params) throws Exception {
         int id = 0;
         try {
-            PreparedStatement ps = DBContext.getConnecttion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = DBContext.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             setParameter(ps, params);
             int result = ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -115,7 +115,7 @@ public abstract class AbstractDAO<T> {
     protected int update(String sql, Object... params) throws Exception {
         int state = 0;
         try {
-            PreparedStatement ps = DBContext.getConnecttion().prepareStatement(sql);
+            PreparedStatement ps = DBContext.getConnection().prepareStatement(sql);
             setParameter(ps, params);
             state = ps.executeUpdate();
         } catch (Exception e) {
