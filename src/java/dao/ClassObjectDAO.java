@@ -8,9 +8,19 @@ import java.util.UUID;
 
 public class ClassObjectDAO extends AbstractDAO<ClassObject> {
 
-    public ArrayList<ClassObject> getListClassByAccId(UUID id) throws Exception {
+    public ArrayList<ClassObject> getClassByAccId(UUID id) throws Exception {
         String query = "SELECT * FROM class c WHERE c.account_id = ?";
         return selectMany(query, Util.UUIDToByteArray(id));
+    }
+    
+    public ArrayList<ClassObject> getAllClass() throws Exception {
+        String query = "SELECT * FROM class c";
+        return selectMany(query);
+    }
+    
+    public ClassObject getClassByAccIdN(UUID id) throws Exception {
+        String query = "SELECT * FROM class c where c.account_id = ?;";
+        return selectOne(query, Util.UUIDToByteArray(id));
     }
 
     @Override
@@ -25,6 +35,15 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
                 rs.getBoolean("hidden"),
                 rs.getTimestamp("create_time")
         );
+    }
+    
+    public static void main(String[] args) throws Exception {
+        ArrayList<ClassObject> classObj = new ClassObjectDAO().getAllClass();
+//        ArrayList<ClassObject> classObj = new ClassObjectDAO().getClassByAccId(UUID.fromString("e6ef22cf-060b-4e16-91a0-359408178fb0"));
+//        ClassObject co = new ClassObjectDAO().getClassByAccIdN(UUID.fromString("e6ef22cf-060b-4e16-91a0-359408178fb0"));
+        for (ClassObject c : classObj) {
+            System.out.println(c.getCode());
+        }
     }
 
 }

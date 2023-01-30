@@ -36,10 +36,10 @@ public class ClassController extends HttpServlet {
 
             }
             if (email.equals("") || pass.equals("")) {
-                resp.sendRedirect("signin.jsp");
+                resp.sendRedirect(req.getContextPath() + "/");
             }
             Account a = new AccountDAO().getAccountByEmail(email);
-            ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassByAccId(a.getAccountId());
+            ArrayList<ClassObject> classObj = new ClassObjectDAO().getClassByAccId(a.getAccountId());
             if (a.getRole() == 1) {
                 req.setAttribute("classObjList", classObj);
                 req.getRequestDispatcher("teacher/ClassT.jsp").forward(req, resp);

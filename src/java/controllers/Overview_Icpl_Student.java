@@ -27,7 +27,6 @@ public class Overview_Icpl_Student extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
         try {
             String email = "", pass = "";
             Cookie[] cookies = req.getCookies();
@@ -42,12 +41,17 @@ public class Overview_Icpl_Student extends HttpServlet {
             }
             if (email.equals("") || pass.equals("")) {
 //                    resp.sendRedirect("signin.jsp");
-                resp.sendRedirect("student/AchievementS.jsp");
+                resp.sendRedirect(req.getContextPath() + "/");
             }
             AccountDAO accountDAO = new AccountDAO();
             Account accL = accountDAO.getAccountByEmail(email);
-            req.setAttribute("accL", accL);
-            req.getRequestDispatcher("student/HomeS.jsp").forward(req, resp);
+            if (accL.getRole() == 2) {
+                req.setAttribute("accL", accL);
+                req.getRequestDispatcher("student/HomeS.jsp").forward(req, resp);
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/");
+            }
+
         } catch (Exception ex) {
             Logger.getLogger(Overview_Icpl_Student.class.getName()).log(Level.SEVERE, null, ex);
         }

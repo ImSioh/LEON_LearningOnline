@@ -46,7 +46,7 @@
                                         </div>
 
                                     </form>
-                                    <p class="text-center"><a href="student/HomeS.jsp">Go back homepage</a></p>
+                                    <p class="text-center"><a href="<%=path%>/overview">Go back homepage</a></p>
                                 </div>
                             </div>
                         </div>

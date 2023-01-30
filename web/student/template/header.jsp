@@ -82,7 +82,7 @@
                                     <a class="nav-link ${overviewS}" href="<%=path%>/overview" style="color:#6e6e6e; font-size: 15px;">Overview</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link ${classS}" href="<%=path%>/student/ClassS.jsp" style="color: #6e6e6e; font-size: 15px;">Class</a>
+                                    <a class="nav-link ${classS}" href="<%=path%>/class" style="color: #6e6e6e; font-size: 15px;">Class</a>
                                 </li>
                             </ul>
                             <!-- Left links -->

@@ -14,15 +14,17 @@
 
 <div class="content-main">
     <div class="class-content">
-        <a href="HomeS.jsp">            
-            <div style="overflow: hidden; width: 100%; height: 100%; background-size: cover;
-                 background-position: center;background-image: url(assets/img/2165310.png)">               
+        
+        <a href="<c:url value="/overview"/>">            
+            <div style="overflow: hidden; width: 100%; height: 100%;height: 100px; background-size: cover;
+                 background-position: center;background-image: url(student/assets/img/2165310.png)">               
             </div>            
-            <div>aaaaaa</div>
-            <div>aaaaaa</div>
-            <form action="action">
-                <input type="submit" value="submit">
-            </form>
+            <div>
+                <c:forEach items="${classObjList}" var="co">
+                    ${co.getName()}<br>
+                    ${co.getCode()}
+                </c:forEach>
+            </div>
         </a>               
     </div>  
 

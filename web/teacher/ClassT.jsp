@@ -7,7 +7,7 @@
         </div>
 
         <div class="col-md-auto">
-            <button type="button" style="border-radius: 34px; padding: 15px; margin: 15px;" class="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"><a href="<%=path%>/join" style="text-decoration: none; color: grey ">+ Enter code</a></button>
+            <button type="button" style="border-radius: 34px; padding: 15px; margin: 15px;" class="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"><a href="<%=path%>/join" style="text-decoration: none; color: grey ">+ Create class</a></button>
         </div>
     </div>
 </div>
@@ -15,14 +15,15 @@
 <div class="content-main">
     <div class="class-content">
         <a href="HomeS.jsp">            
-            <div style="overflow: hidden; width: 100%; height: 100%; background-size: cover;
-                 background-position: center;background-image: url(assets/img/2165310.png)">               
+            <div style="overflow: hidden; width: 100%; height: 100%; height: 100px; background-size: cover;
+                 background-position: center;background-image: url(teacher/assets/img/2165310.png)">               
             </div>            
-            <div>aaaaaa</div>
-            <div>aaaaaa</div>
-            <form action="action">
-                <input type="submit" value="submit">
-            </form>
+            <div>
+                <c:forEach items="${classObjList}" var="co">
+                    ${co.getName()}<br>
+                    ${co.getCode()}
+                </c:forEach>
+            </div>
         </a>               
     </div>  
 
