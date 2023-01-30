@@ -40,7 +40,17 @@
                 background-color: #e3f2fd !important;
                 border-radius: 8px !important;
             }
-            
+            .content-main{
+                width: 100%;
+                display: flex;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+            }
+            .class-content{
+                width: calc((100% - 220px)/6);
+                border: 1px solid saddlebrown;
+                margin: 10px 18px 120px 18px;
+            }
         </style>
         
        
@@ -50,7 +60,7 @@
         <div class="main">
             <div id="header" class="fixed-top" style="top: 0;">
                 <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light"> <!-- change color 'bg-secondary -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-secondary"> <!-- change color 'bg-secondary -->
                     <!-- Container wrapper -->
                     <div class="container-fluid">
                         <!-- Toggle button -->
