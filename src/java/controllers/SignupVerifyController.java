@@ -33,9 +33,7 @@ public class SignupVerifyController extends HttpServlet {
             }
             if (account.getVerificationCode().equalsIgnoreCase(code)) {
                 accountDAO.setVerifyCodeNull(UUID.fromString(accountId));
-                if (account.getRole() == 2) {
-                    req.setAttribute("accountId", accountId);
-                    req.setAttribute("email", email);
+                if (account.getRole() == 2) {                    
                     resp.sendRedirect(req.getContextPath() + "/overview");
                 } else if (account.getRole() == 1) {
                     resp.sendRedirect(req.getContextPath() + "/class");

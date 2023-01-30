@@ -52,19 +52,33 @@ public class JoinClassController extends HttpServlet {
                 }
             }
             if (email.equals("") || pass.equals("")) {
-                resp.sendRedirect("signin.jsp");
+                resp.sendRedirect(req.getContextPath() + "/");
             }
             AccountDAO accountDAO = new AccountDAO();
             Account acc = accountDAO.getAccountByEmail(email);
-            ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassByAccId((acc.getAccountId()));
-            for (ClassObject CO : classObj) {
-                if (CO.getCode().equals(code)) {
-                    req.setAttribute("verified", true);
-                    req.getRequestDispatcher("/student/InsideClass_S.jsp").forward(req, resp);
-                } else {
+            int count = 0;
+            if (acc.getRole() == 2) {
+                ArrayList<ClassObject> classObj = new ClassObjectDAO().getClassByAccId(acc.getAccountId());
+                ArrayList<ClassObject> classObjAll = new ClassObjectDAO().getAllClass();
+                for (ClassObject c : classObj) {
+                    if (c.getCode().equalsIgnoreCase(code)) {
+                        req.setAttribute("verified", false);
+                        req.getRequestDispatcher("/student/Enter_ClassCode.jsp").forward(req, resp);
+                    }
+                }
+                for (ClassObject CO : classObjAll) {
+                    if (CO.getCode().equalsIgnoreCase(code)) {
+                        req.setAttribute("verified", true);
+                        count++;
+                        req.getRequestDispatcher("/student/InsideClass_S.jsp").forward(req, resp);
+                    }
+                }
+                if (count == 0) {
                     req.setAttribute("verified", false);
                     req.getRequestDispatcher("/student/Enter_ClassCode.jsp").forward(req, resp);
                 }
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/");
             }
         } catch (Exception ex) {
             Logger.getLogger(JoinClassController.class.getName()).log(Level.SEVERE, null, ex);
