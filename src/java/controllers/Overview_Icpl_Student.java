@@ -41,8 +41,8 @@ public class Overview_Icpl_Student extends HttpServlet {
 
             }
             if (email.equals("") || pass.equals("")) {
-                resp.sendRedirect("signin.jsp");
-//                    resp.sendRedirect("student/HomeS.jsp");
+//                    resp.sendRedirect("signin.jsp");
+                resp.sendRedirect("student/AchievementS.jsp");
             }
             AccountDAO accountDAO = new AccountDAO();
             Account accL = accountDAO.getAccountByEmail(email);

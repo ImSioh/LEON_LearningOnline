@@ -33,6 +33,7 @@ public class ClassController extends HttpServlet {
                 if (c.getName().equals("cookPass")) {
                     pass = c.getValue();
                 }
+
             }
             if (email.equals("") || pass.equals("")) {
                 resp.sendRedirect("signin.jsp");
