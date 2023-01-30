@@ -60,7 +60,7 @@
         <div class="main">
             <div id="header" class="fixed-top" style="top: 0;">
                 <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg navbar-light bg-secondary"> <!-- change color 'bg-secondary -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-primary"> <!-- change color 'bg-secondary -->
                     <!-- Container wrapper -->
                     <div class="container-fluid">
                         <!-- Toggle button -->
@@ -117,7 +117,7 @@
                                             <i class="far fa-paper-plane"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="#" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Send feedback</a>
+                                            <a href="<c:url value="/logout"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Send feedback</a>
                                         </li>
                                     </div>
 
@@ -126,7 +126,7 @@
                                             <i class="fas fa-sign-out-alt"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="#" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Log Out</a>
+                                            <a href="<c:url value="/logout"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Log Out</a>
                                         </li>
                                     </div>
 
