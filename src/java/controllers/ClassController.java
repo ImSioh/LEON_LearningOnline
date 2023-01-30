@@ -33,9 +33,10 @@ public class ClassController extends HttpServlet {
                 if (c.getName().equals("cookPass")) {
                     pass = c.getValue();
                 }
-                if (email.equals("") || pass.equals("")) {
-                    resp.sendRedirect("signin.jsp");
-                }
+
+            }
+            if (email.equals("") || pass.equals("")) {
+                resp.sendRedirect("signin.jsp");
             }
             Account a = new AccountDAO().getAccountByEmail(email);
             ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassByAccId(a.getAccountId());

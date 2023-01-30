@@ -15,11 +15,14 @@ public class LogoutController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("index.jsp").forward(request, response);
         Cookie cookEmail = new Cookie("cookEmail", "");
+        Cookie cookPass = new Cookie("cookPass", "");
         cookEmail.setMaxAge(0);
+        cookPass.setMaxAge(0);
         response.addCookie(cookEmail);
+        response.addCookie(cookPass);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+
     }
 
-   
 }
