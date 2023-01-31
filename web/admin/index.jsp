@@ -1,25 +1,20 @@
-<%-- 
-    Document   : index
-    Created on : Jan 30, 2023, 4:42:31 PM
-    Author     : Asus
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="template/header.jsp" %>
 
 <div id="content">
     <h1>Feedbacks Management</h1>
     <!-- <img src="assets/img/welcome_admin.jpg" alt="Welcome to Admin Homepage" width="100%" height="100%" style="margin: 0;"/> -->
-    <form action="" style="padding-top: 3%;">
+    <form action="" method="" style="padding-top: 3%;">
         <span class="button-action" style="display: flex;">
-            <select class="form-select" aria-label="Default select example" style="width: 25%; margin: 32px 0; text-align: center">
-                    <option selected><-- Select search option --></option>
-                    <option value="1">ID</option>
-                    <option value="2">Name</option>
-                    <option value="3">Email</option>
-                </select>
-            <input type="text" name="" id="" class="form-control" placeholder="Search..." style="width: 65%; margin: 32px"> 
-            <input type="submit" value="Search" class="btn btn-info" style="margin: 10px; margin: 32px 0px; width: 10%">
+            <select class="form-select" style="width: 15%; margin: 32px 0; text-align: center">
+                <option selected><-- Select --></option>
+                <option value="1">ID</option>
+                <option value="2">Name</option>
+                <option value="3">Email</option>
+            </select>
+            <input type="text" name="" id="" class="form-control" placeholder="Search..." style="width: 45%; margin: 32px"> 
+            <input type="submit" value="SEARCH" id="search" class="btn-info" 
+                   style="margin: 32px 0 32px 25%; width: 10%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
     </form>
     <div class="table">
@@ -42,7 +37,7 @@
                     <td>Student</td>
                     <td>Login error</td>
                     <td>Can't login by google</td>
-                    <td>Not resolved</td>
+                    <td>Try logging in another way</td>
                     <td>01/01/1990 00:00</td>
                 </tr>
                 <tr>
@@ -51,7 +46,7 @@
                     <td>Teacher</td>
                     <td>Class error</td>
                     <td>Can't create a class</td>
-                    <td>Solving</td>
+                    <td>The class may have been duplicated</td>
                     <td>01/01/1990 00:00</td>
                 </tr>
                 <tr>
@@ -60,7 +55,7 @@
                     <td>Student</td>
                     <td>Login error</td>
                     <td>Can't login by google</td>
-                    <td>Solved</td>
+                    <td>Try logging in another way</td>
                     <td>01/01/1990 00:00</td>
                 </tr>
                 <tr>
@@ -69,7 +64,7 @@
                     <td>Teacher</td>
                     <td>Class error</td>
                     <td>Can't create a class</td>
-                    <td>Solving</td>
+                    <td>The class may have been duplicated</td>
                     <td>01/01/1990 00:00</td>
                 </tr>
                 <tr>
@@ -78,7 +73,7 @@
                     <td>Student</td>
                     <td>Login error</td>
                     <td>Can't login by google</td>
-                    <td>Solved</td>
+                    <td>The class may have been duplicated</td>
                     <td>01/01/1990 00:00</td>
                 </tr>
                 <tr>
@@ -87,99 +82,9 @@
                     <td>Teacher</td>
                     <td>Class error</td>
                     <td>Can't create a class</td>
-                    <td>Solved</td>
+                    <td>The class may have been duplicated</td>
                     <td>01/01/1990 00:00</td>
                 </tr>
-                <!--                <tr>
-                                    <td>ABCDE</td>
-                                    <td>12345</td>
-                                    <td>Student</td>
-                                    <td>Login error</td>
-                                    <td>Can't login by google</td>
-                                    <td>01/01/1990 00:00</td>
-                                    <td>Solved</td>
-                                </tr>-->
-                <!--                <tr>
-                                    <td>ABCDE</td>
-                                    <td>12345</td>
-                                    <td>Teacher</td>
-                                    <td>Class error</td>
-                                    <td>Can't create a class</td>
-                                    <td>01/01/1990 00:00</td>
-                                    <td>Solved</td>
-                                </tr>-->
-                <!--                <tr>
-                                    <td>ABCDE</td>
-                                    <td>12345</td>
-                                    <td>Student</td>
-                                    <td>Login error</td>
-                                    <td>Can't login by google</td>
-                                    <td>01/01/1990 00:00</td>
-                                    <td>Not resolved</td>
-                                </tr>-->
-                <!--                <tr>
-                                    <td>ABCDE</td>
-                                    <td>12345</td>
-                                    <td>Teacher</td>
-                                    <td>Class error</td>
-                                    <td>Can't create a class</td>
-                                    <td>01/01/1990 00:00</td>
-                                    <td>Solving</td>
-                                </tr>
-                                <tr>
-                                    <td>ABCDE</td>
-                                    <td>12345</td>
-                                    <td>Student</td>
-                                    <td>Login error</td>
-                                    <td>Can't login by google</td>
-                                    <td>01/01/1990 00:00</td>
-                                    <td>Solved</td>
-                                </tr>
-                                <tr>
-                                    <td>ABCDE</td>
-                                    <td>12345</td>
-                                    <td>Teacher</td>
-                                    <td>Class error</td>
-                                    <td>Can't create a class</td>
-                                    <td>01/01/1990 00:00</td>
-                                    <td>Solving</td>
-                                </tr>-->
-                <!--                <tr>
-                                    <td>ABCDE</td>
-                                    <td>12345</td>
-                                    <td>Student</td>
-                                    <td>Login error</td>
-                                    <td>Can't login by google</td>
-                                    <td>01/01/1990 00:00</td>
-                                    <td>Solved</td>
-                                </tr>
-                                <tr>
-                                    <td>ABCDE</td>
-                                    <td>12345</td>
-                                    <td>Teacher</td>
-                                    <td>Class error</td>
-                                    <td>Can't create a class</td>
-                                    <td>01/01/1990 00:00</td>
-                                    <td>Solved</td>
-                                </tr>
-                                <tr>
-                                    <td>ABCDE</td>
-                                    <td>12345</td>
-                                    <td>Student</td>
-                                    <td>Login error</td>
-                                    <td>Can't login by google</td>
-                                    <td>01/01/1990 00:00</td>
-                                    <td>Solved</td>
-                                </tr>
-                                <tr>
-                                    <td>ABCDE</td>
-                                    <td>12345</td>
-                                    <td>Teacher</td>
-                                    <td>Class error</td>
-                                    <td>Can't create a class</td>
-                                    <td>01/01/1990 00:00</td>
-                                    <td>Solved</td>
-                                </tr>-->
             </tbody>
         </table>
     </div>
