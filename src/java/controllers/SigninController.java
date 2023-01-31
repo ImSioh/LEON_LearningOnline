@@ -64,10 +64,10 @@ public class SigninController extends HttpServlet {
                 //3- Admin
                 switch (account.getRole()) {
                     case 1:
-                        response.sendRedirect(request.getContextPath() + "/class");
+                        response.sendRedirect(request.getContextPath() + "/teacher/class");
                         break;
                     case 2:
-                        response.sendRedirect(request.getContextPath() + "/overview");
+                        response.sendRedirect(request.getContextPath() + "/student/overview");
                         break;
                     case 3:
                         response.sendRedirect(request.getContextPath() + "/admin");

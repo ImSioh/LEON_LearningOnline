@@ -4,6 +4,7 @@ import dto.ClassObject;
 import helpers.Util;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class ClassObjectDAO extends AbstractDAO<ClassObject> {
 
@@ -20,6 +21,11 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
     public ClassObject getClassByAccIdN(UUID id) throws Exception {
         String query = "SELECT * FROM class c where c.account_id = ?;";
         return selectOne(query, Util.UUIDToByteArray(id));
+    }
+    
+    public ClassObject getClassByCode(String code) throws Exception {
+        String query = "SELECT * FROM class c where c.code = ?;";
+        return selectOne(query, code);
     }
     
     public boolean isCodeExist(String code) throws Exception {
@@ -55,13 +61,13 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
         );
     }
     
-    public static void main(String[] args) throws Exception {
-        ArrayList<ClassObject> classObj = new ClassObjectDAO().getAllClass();
+//    public static void main(String[] args) throws Exception {
+//        ArrayList<ClassObject> classObj = new ClassObjectDAO().getAllClass();
 //        ArrayList<ClassObject> classObj = new ClassObjectDAO().getClassByAccId(UUID.fromString("e6ef22cf-060b-4e16-91a0-359408178fb0"));
 //        ClassObject co = new ClassObjectDAO().getClassByAccIdN(UUID.fromString("e6ef22cf-060b-4e16-91a0-359408178fb0"));
-        for (ClassObject c : classObj) {
-            System.out.println(c.getCode());
-        }
-    }
+//        for (ClassObject c : classObj) {
+//            System.out.println(c.getCode());
+//        }
+//    }
 
 }

@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author Anh
  */
-@WebServlet(name = "Overview_Student", urlPatterns = {"/overview"})
+@WebServlet(name = "Overview_Student", urlPatterns = {"/student/overview"})
 public class Overview_Icpl_Student extends HttpServlet {
 
     @Override
@@ -47,7 +47,7 @@ public class Overview_Icpl_Student extends HttpServlet {
             Account accL = accountDAO.getAccountByEmail(email);
             if (accL.getRole() == 2) {
                 req.setAttribute("accL", accL);
-                req.getRequestDispatcher("student/HomeS.jsp").forward(req, resp);
+                req.getRequestDispatcher("HomeS.jsp").forward(req, resp);
             } else {
                 resp.sendRedirect(req.getContextPath() + "/");
             }

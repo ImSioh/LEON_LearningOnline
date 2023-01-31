@@ -7,7 +7,7 @@
         </div>
 
         <div class="col-md-auto">
-            <button type="button" style="border-radius: 34px; padding: 15px; margin: 15px;" class="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"><a href="<%=path%>/join" style="text-decoration: none; color: grey ">+ Enter code</a></button>
+            <button type="button" style="border-radius: 34px; padding: 15px; margin: 15px;" class="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"><a href="<%=path%>/student/join" style="text-decoration: none; color: grey ">+ Enter code</a></button>
         </div>
     </div>
 </div>
@@ -29,10 +29,4 @@
     </div>  
 
 </div>
-</div>
-<script
-    type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"
-></script>
-</body>
-</html>
+<%@include file= "./template/footer.jsp" %>
