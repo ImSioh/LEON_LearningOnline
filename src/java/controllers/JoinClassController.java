@@ -6,8 +6,10 @@ package controllers;
 
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
+import dao.EnrollmentDAO;
 import dto.Account;
 import dto.ClassObject;
+import dto.Enrollment;
 import helpers.FormValidator;
 import helpers.Util;
 import java.io.IOException;
@@ -17,6 +19,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,14 +30,14 @@ import java.util.logging.Logger;
  *
  * @author Anh
  */
-@WebServlet(name = "JoinClassController", urlPatterns = {"/join"})
+@WebServlet(name = "JoinClassController", urlPatterns = {"/student/join"})
 public class JoinClassController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setAttribute("verified", true);
-        req.getRequestDispatcher("/student/Enter_ClassCode.jsp").forward(req, resp);
+        req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
 
     }
 
@@ -52,19 +57,58 @@ public class JoinClassController extends HttpServlet {
                 }
             }
             if (email.equals("") || pass.equals("")) {
-                resp.sendRedirect("signin.jsp");
+                resp.sendRedirect(req.getContextPath() + "/");
             }
             AccountDAO accountDAO = new AccountDAO();
             Account acc = accountDAO.getAccountByEmail(email);
-            ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassByAccId((acc.getAccountId()));
-            for (ClassObject CO : classObj) {
-                if (CO.getCode().equals(code)) {
-                    req.setAttribute("verified", true);
-                    req.getRequestDispatcher("/student/InsideClass_S.jsp").forward(req, resp);
-                } else {
-                    req.setAttribute("verified", false);
-                    req.getRequestDispatcher("/student/Enter_ClassCode.jsp").forward(req, resp);
+            int count = 0;
+            int count2 = 0;
+            if (acc.getRole() == 2) {
+                ArrayList<Enrollment> enrollment = new EnrollmentDAO().getListEnrollmentById(acc.getAccountId());
+                ArrayList<ClassObject> classObjAll = new ClassObjectDAO().getAllClass();
+
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDateTime now = LocalDateTime.now();
+
+                for (ClassObject CO : classObjAll) {
+                    if (CO.getCode().equalsIgnoreCase(code)) {
+                        if (enrollment.isEmpty()) {
+                            req.setAttribute("verified", true);
+                            Enrollment ermt = new Enrollment();
+                            ermt.setAccountId(acc.getAccountId());
+                            ermt.setClassId(CO.getClassId());
+                            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                            ermt.setEnrollTime(timestamp);
+
+                            int erm = new EnrollmentDAO().insertEnrollment(ermt);
+                            req.getRequestDispatcher("InsideClass_S.jsp").forward(req, resp);
+                        } else {
+                            for (Enrollment e : enrollment) {
+                                if (e.getClassId() == CO.getClassId()) {
+                                    req.setAttribute("verified", false);
+                                    req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
+                                }
+                            }
+                            if (count2 == 0) {
+                                req.setAttribute("verified", true);
+                                Enrollment ermt = new Enrollment();
+                                ermt.setAccountId(acc.getAccountId());
+                                ermt.setClassId(CO.getClassId());
+                                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                                ermt.setEnrollTime(timestamp);
+                                int erm = new EnrollmentDAO().insertEnrollment(ermt);
+                                req.getRequestDispatcher("InsideClass_S.jsp").forward(req, resp);
+                            }
+                        }
+
+                    }
                 }
+                if (count == 0) {
+                    req.setAttribute("verified", false);
+                    req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
+                }
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/");
             }
         } catch (Exception ex) {
             Logger.getLogger(JoinClassController.class.getName()).log(Level.SEVERE, null, ex);

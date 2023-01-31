@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "ClassController", urlPatterns = {"/class"})
+@WebServlet(name = "ClassController", urlPatterns = {"/student/class", "/teacher/class"})
 public class ClassController extends HttpServlet {
 
     @Override
@@ -36,16 +36,16 @@ public class ClassController extends HttpServlet {
 
             }
             if (email.equals("") || pass.equals("")) {
-                resp.sendRedirect("signin.jsp");
+                resp.sendRedirect(req.getContextPath() + "/");
             }
             Account a = new AccountDAO().getAccountByEmail(email);
-            ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassByAccId(a.getAccountId());
+            ArrayList<ClassObject> classObj = new ClassObjectDAO().getClassByAccId(a.getAccountId());
             if (a.getRole() == 1) {
                 req.setAttribute("classObjList", classObj);
-                req.getRequestDispatcher("teacher/ClassT.jsp").forward(req, resp);
+                req.getRequestDispatcher("ClassT.jsp").forward(req, resp);
             } else if (a.getRole() == 2) {
                 req.setAttribute("classObjList", classObj);
-                req.getRequestDispatcher("student/ClassS.jsp").forward(req, resp);
+                req.getRequestDispatcher("ClassS.jsp").forward(req, resp);
             }
         } catch (Exception ex) {
             Logger.getLogger(ClassController.class.getName()).log(Level.SEVERE, null, ex);

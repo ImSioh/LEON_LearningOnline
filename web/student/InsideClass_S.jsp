@@ -10,8 +10,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <% String path = request.getContextPath();%>
     </head>
     <body>
         <h1>Welcome to Inside Class ! Correct code class</h1>
+        <a href="<%=path%>/student/overview">back</a>
     </body>
 </html>

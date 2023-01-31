@@ -17,7 +17,7 @@
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <link rel="stylesheet" href="student/assets/css/styleClassCode.css">
+        <link rel="stylesheet" href="<c:url value="/student/assets/css/styleClassCode.css"/>">
 
     </head>
     <body>
@@ -35,7 +35,7 @@
                                         </div>
 
                                     </div>
-                                    <form action="<%=path%>/join" class="signin-form" method="POST">
+                                    <form action="<%=path%>/student/join" class="signin-form" method="POST">
                                         <div class="form-group mt-3">
                                             <input type="text" class="form-control" name="classCode" required>
                                             <label class="form-control-placeholder" for="username">Code</label>
@@ -46,7 +46,7 @@
                                         </div>
 
                                     </form>
-                                    <p class="text-center"><a href="student/HomeS.jsp">Go back homepage</a></p>
+                                    <p class="text-center"><a href="<%=path%>/student/overview">Go back homepage</a></p>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
                                         </div>
 
                                     </div>
-                                    <form action="<%=path%>/join" class="signin-form" method="POST">
+                                    <form action="<%=path%>/student/join" class="signin-form" method="POST">
                                         <div class="form-group mt-3">
                                             <input type="text" class="form-control" name="classCode" required>
                                             <label class="form-control-placeholder" for="username">Code</label>
@@ -79,7 +79,7 @@
                                         </div>
 
                                     </form>
-                                    <p class="text-center"><a href="../student/HomeS.jsp">Go back homepage</a></p>
+                                    <p class="text-center"><a href="<%=path%>/student/overview">Go back homepage</a></p>
                                 </div>
                             </div>
                         </div>

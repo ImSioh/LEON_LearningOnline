@@ -3,8 +3,6 @@ package dao;
 import dto.Account;
 import helpers.Util;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -30,9 +28,9 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectOne(query, Util.UUIDToByteArray(id));
     }
 
-    public ArrayList<Account> getListAccountById(String id) throws Exception {
-        String query = "SELECT * FROM account a a.account_id = ?";
-        return selectMany(query, id);
+    public ArrayList<Account> getListAccountById(UUID id) throws Exception {
+        String query = "SELECT * FROM account a where a.account_id = ?";
+        return selectMany(query, Util.UUIDToByteArray(id));
     }
 
     public ArrayList<Account> getListAccountByEmail(String email) throws Exception {
@@ -67,25 +65,27 @@ public class AccountDAO extends AbstractDAO<Account> {
                 account.isLocked()
         );
     }
-
-    public int editProfile(String name, String phone, String db, String add, String mail) throws Exception {
-        String query = "UPDATE `online_learning`.`account` \n"
-                + "SET `name` = ?, \n"
-                + "`birth_date` = ?, \n"
-                + "`address` = ?, \n"
-                + "`phone_number` = ? \n"
-                + "WHERE (`email` = " + mail + ");";
+    
+        public int editAccount(Account account) throws Exception {
+        String query = "UPDATE `online_learning`.`account` SET `name` = ?, `birth_date` = ?, `address` = ?, `phone_number` = ?,`password` = ?, `profile_picture` = ?,`locked` = ? WHERE (`account_id` = ?);";
         return update(
                 query,
-                name,
-                db,
-                add,
-                phone
+                account.getName(),
+                account.getBirthDate(),
+                account.getAddress(),
+                account.getPhoneNumber(),
+                account.getPassword(),
+                account.getProfilePicture(),
+                account.isLocked(),
+                Util.UUIDToByteArray(account.getAccountId())
         );
     }
 
+
     public static void main(String[] args) throws Exception {
-        System.out.println(new AccountDAO().editProfile("Phi Lê", "0866779990", "19/03/2003", "USE", "dung123@gmail.com"));
+        Account a = new AccountDAO().getAccountById(UUID.fromString("1d71af77-a945-4277-863b-ad40c6f1a5e5"));
+        a.setAddress("May thang ngu ");
+        System.out.println(new AccountDAO().editAccount(a));
     }
 
     @Override

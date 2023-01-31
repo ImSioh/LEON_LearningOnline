@@ -33,12 +33,10 @@ public class SignupVerifyController extends HttpServlet {
             }
             if (account.getVerificationCode().equalsIgnoreCase(code)) {
                 accountDAO.setVerifyCodeNull(UUID.fromString(accountId));
-                if (account.getRole() == 2) {
-                    req.setAttribute("accountId", accountId);
-                    req.setAttribute("email", email);
-                    resp.sendRedirect(req.getContextPath() + "/overview");
+                if (account.getRole() == 2) {                    
+                    resp.sendRedirect(req.getContextPath() + "/student/overview");
                 } else if (account.getRole() == 1) {
-                    resp.sendRedirect(req.getContextPath() + "/class");
+                    resp.sendRedirect(req.getContextPath() + "/teacher/class");
                 }
 
             } else {

@@ -131,7 +131,15 @@
                             <div class="col">
                                 <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                                     <ol class="breadcrumb mb-0">
-                                        <li class="breadcrumb-item"><a href="HomeS.jsp" style="text-decoration: none;">Home</a></li>
+                                        <c:choose>
+                                            <c:when test="${account.getRole() == 1 }">
+                                                <li class="breadcrumb-item"><a href="<c:url value="/class"/>" style="text-decoration: none;">Home</a></li>
+                                                </c:when>    
+                                                <c:otherwise>
+                                                <li class="breadcrumb-item"><a href="<c:url value="/overvew"/>" style="text-decoration: none;">Home</a></li>
+                                            </c:otherwise>
+                                        </c:choose>
+
                                         <li class="breadcrumb-item"><a href="<c:url value="/profile"/>" style="text-decoration: none;">Profile</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
                                     </ol>
@@ -146,7 +154,7 @@
                             </div>
 
                             <div class="col-md-8 border-right card">
-                                <form action="profile/edit" method="post">
+                                <form action="<c:url value="/profile/edit"/>" method="post">
                                     <div class="p-3 py-5 col-md-9">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h4 class="text-right">Edit Profile</h4>
@@ -172,7 +180,9 @@
                                                 <label class="labels">Email</label>
                                                 <input type="text" class="form-control" placeholder="${account.getEmail()}" value="${account.getEmail()}" disabled name="txtMail">
                                             </div>
-
+                                            <div class="col-md-12">
+                                                <input type="hidden" class="form-control" placeholder="${account.getAccountId()}" value="${account.getAccountId()}" name="txtUUID">
+                                            </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6"><label class="labels">Class</label><input type="text" class="form-control" placeholder="SE641" value=""></div>

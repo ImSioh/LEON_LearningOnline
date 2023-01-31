@@ -74,15 +74,15 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
 
-                            <a href="<%=path%>/overview" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
+                            <a href="<%=path%>/student/overview" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
 
                             <!-- Left links -->
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link ${overviewS}" href="<%=path%>/overview" style="color:#6e6e6e; font-size: 15px;">Overview</a>
+                                    <a class="nav-link ${overviewS}" href="<%=path%>/student/overview" style="color:#6e6e6e; font-size: 15px;">Overview</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link ${classS}" href="<%=path%>/student/ClassS.jsp" style="color: #6e6e6e; font-size: 15px;">Class</a>
+                                    <a class="nav-link ${classS}" href="<%=path%>/student/class" style="color: #6e6e6e; font-size: 15px;">Class</a>
                                 </li>
                             </ul>
                             <!-- Left links -->
