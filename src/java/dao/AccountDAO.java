@@ -28,9 +28,9 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectOne(query, Util.UUIDToByteArray(id));
     }
 
-    public ArrayList<Account> getListAccountById(String id) throws Exception {
-        String query = "SELECT * FROM account a a.account_id = ?";
-        return selectMany(query, id);
+    public ArrayList<Account> getListAccountById(UUID id) throws Exception {
+        String query = "SELECT * FROM account a where a.account_id = ?";
+        return selectMany(query, Util.UUIDToByteArray(id));
     }
 
     public ArrayList<Account> getListAccountByEmail(String email) throws Exception {

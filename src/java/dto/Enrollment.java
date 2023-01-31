@@ -9,6 +9,9 @@ public class Enrollment {
     private UUID classId;
     private Timestamp enrollTime;
 
+    public Enrollment() {
+    }
+
     public Enrollment(UUID accountId, UUID classId, Timestamp enrollTime) {
         this.accountId = accountId;
         this.classId = classId;
