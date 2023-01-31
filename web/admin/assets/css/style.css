@@ -42,14 +42,6 @@ body {
     display: inline-block;
 }
 
-#content .sort {
-    border: none;
-}
-
-#content .search {
-    border: 1px solid #e3f2fd;
-}
-
 #footer {
     /* padding: 10% 10% 5% 10%; */
     /* position: relative; */
