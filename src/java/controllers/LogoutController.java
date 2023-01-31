@@ -21,7 +21,8 @@ public class LogoutController extends HttpServlet {
         cookPass.setMaxAge(0);
         response.addCookie(cookEmail);
         response.addCookie(cookPass);
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        response.setHeader("Refresh", "1; " + request.getContextPath());
+        response.sendRedirect(request.getContextPath());
 
     }
 
