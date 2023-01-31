@@ -91,7 +91,7 @@
                                         <i class="fas fa-sign-out-alt"></i>
                                     </li>
                                     <li class="p-2 w-100 bd-highlight">
-                                        <a href="#" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Log Out</a>
+                                        <a href="<c:url value="/logout"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Log Out</a>
                                     </li>
                                 </div>
                             </ul>
