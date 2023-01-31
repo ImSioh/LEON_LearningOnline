@@ -4,6 +4,7 @@ import dto.ClassObject;
 import helpers.Util;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class ClassObjectDAO extends AbstractDAO<ClassObject> {
 
