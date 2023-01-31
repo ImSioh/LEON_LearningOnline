@@ -1,8 +1,10 @@
 package controllers;
 
+import dao.ClassObjectDAO;
 import dto.Account;
 import dto.ClassObject;
 import helpers.FormValidator;
+import helpers.Util;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -36,24 +38,14 @@ public class CreateClassController extends HttpServlet {
             formValidator.setCheckParam("enroll_approve", true, Boolean.class);
             boolean validForm = formValidator.isValid();
 
-            Part classPicture = null;
-            String classPictureFileName = null;
+            Part classPicture = req.getPart("class_picture");
             String classPictureExtension = null;
-            if (validForm) {
-                classPicture = req.getPart("class_picture");
-                if (classPicture != null) {
-                    classPictureFileName = classPicture.getSubmittedFileName();
-                    try {
-                        classPictureExtension = classPictureFileName.substring(classPictureFileName.lastIndexOf("."));
-                    } catch (Exception e) {
-                        classPictureExtension = null;
-                    }
-                    
-                    if (classPicture.getSize() > (1024 * 1024 * 5)) {
-                        validForm = false;
-                        req.setAttribute("class_picture-error", "File size must be less than 5 Mb");
-                    }
-                    
+            long classPictureSize = classPicture.getSize();
+            
+            if (validForm && classPictureSize > 0) {
+                try {
+                    String classPictureFileName = classPicture.getSubmittedFileName();
+                    classPictureExtension = classPictureFileName.substring(classPictureFileName.lastIndexOf("."));
                     if (classPictureExtension == null
                             || !(classPictureExtension.equalsIgnoreCase(".jpg")
                             || classPictureExtension.equalsIgnoreCase(".jpeg")
@@ -61,32 +53,58 @@ public class CreateClassController extends HttpServlet {
                         validForm = false;
                         req.setAttribute("class_picture-error", "Class picture must be .jpg .jpeg .png");
                     }
+                } catch (Exception e) {
+                    classPictureExtension = null;
                 }
+            }
+            
+            if (validForm && classPictureSize > (1024 * 1024 * 5)) {
+                validForm = false;
+                req.setAttribute("class_picture-error", "File size must be less than 5 Mb");
             }
 
             if (validForm) {
-                String classPicturePath = null;
                 UUID classId = UUID.randomUUID();
-                if (classPicture != null) {
-                    classPicturePath = "/class/" + classId.toString() + classPictureExtension;
-                    String fullPart = System.getProperty("leon.updir") + classPicturePath;
+                String classPictureUrl = null;
+
+                if (classPictureSize > 0) {
+                    String classPictureNewPath = "/class/" + classId.toString() + classPictureExtension;
+                    classPictureUrl = "/files" + classPictureNewPath;
+                    String fullPart = System.getProperty("leon.updir") + classPictureNewPath;
                     classPicture.write(fullPart);
                 }
+                
+                ClassObjectDAO classObjectDAO = new ClassObjectDAO();
+                String classCode = null;
+                do {                    
+                    classCode = Util.randomString(5).toUpperCase();
+                } while (classObjectDAO.isCodeExist(classCode));
+
                 ClassObject classObject = new ClassObject(
                         classId,
                         account.getAccountId(),
                         (String) formValidator.get("name"),
-                        "",
+                        classCode,
                         (boolean) formValidator.get("enroll_approve"),
-                        classPicturePath,
+                        classPictureUrl,
                         false,
                         new Timestamp(System.currentTimeMillis())
                 );
-                System.out.println(classObject);
+                
+                int result = classObjectDAO.insertClass(classObject);
+                if (result > 0) {
+                    resp.sendRedirect(req.getContextPath() + "/teacher/class/" + classCode + "/newfeed");
+                } else {
+                    resp.sendError(500);
+                }
+            } else {
+                req.getRequestDispatcher("/teacher/create-class.jsp").forward(req, resp);
             }
         } catch (IOException e) {
+            e.printStackTrace();
             throw new IOException(e);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ServletException(e);
         }
     }
