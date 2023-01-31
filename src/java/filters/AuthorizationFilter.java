@@ -38,7 +38,12 @@ public class AuthorizationFilter implements Filter {
         }
         
         Account account = null;
-        if (email != null && !email.isEmpty() && password != null && !password.isEmpty() && !path.contains("assets") && !path.startsWith("/files")) {
+        if (path.contains("assets") || path.startsWith("/files")) {
+            chain.doFilter(request, response);
+            return;
+        }
+        
+        if (email != null && !email.isEmpty() && password != null && !password.isEmpty()) {
             try {
                 account = new AccountDAO().getAccount(email, password);
                 req.setAttribute("account", account);
