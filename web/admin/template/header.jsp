@@ -47,7 +47,6 @@
 
                         <!-- Left links -->
                         <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-
                             <li class="nav-item">
                                 <a class="nav-link" href="index.jsp"
                                     style="color: #1e88e5; font-size: 15px;">Feedback</a>
