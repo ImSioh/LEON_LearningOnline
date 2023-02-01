@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author leducphi
  */
-@WebServlet(name = "ChangePasswordController", urlPatterns = {"/profile/change-password"})
+@WebServlet(name = "ChangePasswordController", urlPatterns = {"/student/profile/change-password", "/teacher/profile/change-password"})
 public class ChangePasswordController extends HttpServlet {
 
     /**
@@ -63,7 +63,7 @@ public class ChangePasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("../change-password.jsp").forward(request, response);
+        request.getRequestDispatcher("/change-password.jsp").forward(request, response);
     }
 
     /**
