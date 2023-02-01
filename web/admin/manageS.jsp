@@ -41,10 +41,10 @@
                         <td>${st.getPhoneNumber()}</td>
                         <td>${st.getCreateTime()}</td>
                         <c:if test="${st.isLocked()}">
-                            <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
+                            <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
                         </c:if>
                         <c:if test="${st.isLocked()!=true}">
-                            <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
+                            <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
                         </c:if>
                     </tr>
                 </c:forEach>

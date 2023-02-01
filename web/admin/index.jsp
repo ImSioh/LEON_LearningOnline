@@ -45,7 +45,46 @@
                                   <td>Student</td>
                             </c:if>
                         </c:forEach>
-
+                        <td>${fb.getTitle()}</td>
+                        <td>${fb.getContent()}</td>
+                        <td>${fb.getResponse()}</td>
+                        <td>fb.getSubmitTime()</td>
+                    </tr>
+                </c:forEach>
+                    <c:forEach items="${feedbacks}" var="fb">
+                    <tr>
+                        <td>${fb.getFeedbackId()}</td>
+                        <td>${fb.getAccountId()}</td>
+                        <c:forEach items="${accounts}" var="acc">
+                            <c:if test="${fb.getAccountId() == acc.getAccountId() 
+                                          && acc.getRole() == 1}">
+                                  <td>Teacher</td>
+                            </c:if>
+                            <c:if test="${fb.getAccountId() == acc.getAccountId() 
+                                          && acc.getRole() == 2}">
+                                  <td>Student</td>
+                            </c:if>
+                        </c:forEach>
+                        <td>${fb.getTitle()}</td>
+                        <td>${fb.getContent()}</td>
+                        <td>${fb.getResponse()}</td>
+                        <td>fb.getSubmitTime()</td>
+                    </tr>
+                </c:forEach>
+                    <c:forEach items="${feedbacks}" var="fb">
+                    <tr>
+                        <td>${fb.getFeedbackId()}</td>
+                        <td>${fb.getAccountId()}</td>
+                        <c:forEach items="${accounts}" var="acc">
+                            <c:if test="${fb.getAccountId() == acc.getAccountId() 
+                                          && acc.getRole() == 1}">
+                                  <td>Teacher</td>
+                            </c:if>
+                            <c:if test="${fb.getAccountId() == acc.getAccountId() 
+                                          && acc.getRole() == 2}">
+                                  <td>Student</td>
+                            </c:if>
+                        </c:forEach>
                         <td>${fb.getTitle()}</td>
                         <td>${fb.getContent()}</td>
                         <td>${fb.getResponse()}</td>
