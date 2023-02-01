@@ -107,33 +107,38 @@
                                     <i class="far fa-user-circle" style="font-size: 24px; text-decoration: none; color: black; margin-left: 10px;"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                                    <div class="d-flex bd-highlight dropdown-item">
-                                        <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <i class="far fa-user"></i>
-                                        </li>
-                                        <li class="p-2 w-100 bd-highlight">
-                                            <a href="<c:url value="/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
-                                        </li>
-                                    </div>
+                                    <a href="<c:url value="/teacher/profile"/>" style="font-size: 16px;text-decoration: none">
+                                        <div class="d-flex bd-highlight dropdown-item">
+                                            <span class="p-2 flex-shrink-1 bd-highlight">
+                                                <i class="far fa-user"></i>
+                                            </span>
+                                            <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
+                                                Profile
+                                            </span>
+                                        </div>
+                                    </a>
+                                        
+                                    <a href="#" style="font-size: 16px;text-decoration: none">
+                                        <div class="d-flex bd-highlight dropdown-item">
+                                            <span class="p-2 flex-shrink-1 bd-highlight">
+                                                <i class="far fa-paper-plane"></i>
+                                            </span>
+                                            <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
+                                                Send feedback
+                                            </span>
+                                        </div>
+                                    </a>
 
-                                    <div class="d-flex bd-highlight dropdown-item">
-                                        <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <i class="far fa-paper-plane"></i>
-                                        </li>
-                                        <li class="p-2 w-100 bd-highlight">
-                                            <a href="<c:url value="/logout"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Send feedback</a>
-                                        </li>
-                                    </div>
-
-                                    <div class="d-flex bd-highlight dropdown-item">
-                                        <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <i class="fas fa-sign-out-alt"></i>
-                                        </li>
-                                        <li class="p-2 w-100 bd-highlight">
-                                            <a href="<c:url value="/logout"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Log Out</a>
-                                        </li>
-                                    </div>
-
+                                    <a href="<c:url value="/logout"/>" style="font-size: 16px;text-decoration: none">
+                                        <div class="d-flex bd-highlight dropdown-item">
+                                            <span class="p-2 flex-shrink-1 bd-highlight">
+                                                <i class="fas fa-sign-out-alt"></i>
+                                            </span>
+                                            <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
+                                                Log Out
+                                            </span>
+                                        </div>
+                                    </a>
                                 </ul>
                             </div>
                         </div>
