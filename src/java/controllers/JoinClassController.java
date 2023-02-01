@@ -70,38 +70,22 @@ public class JoinClassController extends HttpServlet {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDateTime now = LocalDateTime.now();
 
-                for (ClassObject CO : classObjAll) {
-                    if (CO.getCode().equalsIgnoreCase(code)) {
-                        if (enrollment.isEmpty()) {
+                try {
+                    for (ClassObject CO : classObjAll) {
+                        if (CO.getCode().equalsIgnoreCase(code)) {
                             req.setAttribute("verified", true);
                             Enrollment ermt = new Enrollment();
                             ermt.setAccountId(acc.getAccountId());
                             ermt.setClassId(CO.getClassId());
                             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                             ermt.setEnrollTime(timestamp);
-
                             int erm = new EnrollmentDAO().insertEnrollment(ermt);
-                            req.getRequestDispatcher("InsideClass_S.jsp").forward(req, resp);
-                        } else {
-                            for (Enrollment e : enrollment) {
-                                if (e.getClassId() == CO.getClassId()) {
-                                    req.setAttribute("verified", false);
-                                    req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
-                                }
-                            }
-                            if (count2 == 0) {
-                                req.setAttribute("verified", true);
-                                Enrollment ermt = new Enrollment();
-                                ermt.setAccountId(acc.getAccountId());
-                                ermt.setClassId(CO.getClassId());
-                                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                                ermt.setEnrollTime(timestamp);
-                                int erm = new EnrollmentDAO().insertEnrollment(ermt);
-                                req.getRequestDispatcher("InsideClass_S.jsp").forward(req, resp);
-                            }
+                            resp.sendRedirect(req.getContextPath() + "/teacher/class/" + code + "/newfeed");
                         }
-
                     }
+                } catch (Exception e) {
+                    req.setAttribute("verified", false);
+                    req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
                 }
                 if (count == 0) {
                     req.setAttribute("verified", false);

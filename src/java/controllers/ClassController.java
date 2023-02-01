@@ -2,8 +2,10 @@ package controllers;
 
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
+import dao.EnrollmentDAO;
 import dto.Account;
 import dto.ClassObject;
+import dto.Enrollment;
 import helpers.FormValidator;
 import helpers.Util;
 import java.io.IOException;
@@ -39,12 +41,17 @@ public class ClassController extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/");
             }
             Account a = new AccountDAO().getAccountByEmail(email);
+            
+            ArrayList<ClassObject> CO = new ClassObjectDAO().getClassNameCodeByAccId(a.getAccountId());
+            
             ArrayList<ClassObject> classObj = new ClassObjectDAO().getClassByAccId(a.getAccountId());
             if (a.getRole() == 1) {
                 req.setAttribute("classObjList", classObj);
                 req.getRequestDispatcher("ClassT.jsp").forward(req, resp);
             } else if (a.getRole() == 2) {
-                req.setAttribute("classObjList", classObj);
+                req.setAttribute("hglO", false);
+                req.setAttribute("hglV", true);
+                req.setAttribute("co", CO);
                 req.getRequestDispatcher("ClassS.jsp").forward(req, resp);
             }
         } catch (Exception ex) {

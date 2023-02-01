@@ -23,7 +23,7 @@
               rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
               crossorigin="anonymous" />
         <link href="student/assets/css/a.css" rel="stylesheet" type="text/css"/>
-        
+
         <link rel="icon" href="assets/img/leon-icon.png">
         <title>LE.ON VietNam</title>
 
@@ -42,6 +42,9 @@
                 background-color: #e3f2fd !important;
                 border-radius: 8px !important;
             }
+            /*            .navbariteam a.active {
+                            color: #1e88e5 !important;
+                        }*/
             .content-main{
                 width: 100%;
                 display: flex;
@@ -78,11 +81,21 @@
 
                             <!-- Left links -->
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link ${overviewS}" href="<%=path%>/student/overview" style="color:#6e6e6e; font-size: 15px;">Overview</a>
+                                <li class="nav-item navbariteam">
+                                    <c:if test="${hglO}">
+                                        <a class="nav-link " href="<%=path%>/student/overview" style="color:#1e88e5 !important; font-size: 15px;">Overview</a>
+                                    </c:if>
+                                    <c:if test="${!hglO}">
+                                        <a class="nav-link " href="<%=path%>/student/overview" style=" font-size: 15px;">Overview</a>
+                                    </c:if>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link ${classS}" href="<%=path%>/student/class" style="color: #6e6e6e; font-size: 15px;">Class</a>
+                                <li class="nav-item navbariteam">
+                                    <c:if test="${hglV}">
+                                        <a class="nav-link" href="<%=path%>/student/class" style="color:#1e88e5 !important; font-size: 15px;">Class</a>
+                                    </c:if>
+                                    <c:if test="${!hglV}">
+                                        <a class="nav-link" href="<%=path%>/student/class" style=" font-size: 15px;">Class</a>
+                                    </c:if>
                                 </li>
                             </ul>
                             <!-- Left links -->

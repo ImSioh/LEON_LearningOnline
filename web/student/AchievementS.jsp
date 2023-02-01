@@ -7,12 +7,12 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto sidebarnav" style="padding-left: 15px">
                     <li>
-                        <a href="<%=path%>/overview" class="nav-link link-dark"  aria-current="page">
+                        <a href="<%=path%>/student/overview" class="nav-link link-dark"  aria-current="page">
                             Incomplete
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a href="<%=path%>/achievement" class="nav-link link-dark active">
+                        <a href="<%=path%>/student/achievement" class="nav-link link-dark active">
                             Achievement
                         </a>
                     </li>
