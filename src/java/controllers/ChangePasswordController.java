@@ -4,6 +4,9 @@
  */
 package controllers;
 
+import dao.AccountDAO;
+import dto.Account;
+import helpers.Util;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +14,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -36,7 +42,7 @@ public class ChangePasswordController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ChangePasswordController</title>");            
+            out.println("<title>Servlet ChangePasswordController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ChangePasswordController at " + request.getContextPath() + "</h1>");
@@ -71,7 +77,39 @@ public class ChangePasswordController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            String txtUUID = request.getParameter("txtUUID");
+            String txtOldPass = request.getParameter("txtOldPass");
+            String txtNewPass = request.getParameter("txtNewPass");
+            String txtReNewPass = request.getParameter("txtReNewPass");
+            String msg = "";
+            String hashOld = Util.hashingSHA256(txtOldPass);
+            String hashNew = Util.hashingSHA256(txtReNewPass);
+            System.out.println(Util.hashingSHA256(txtOldPass));
+            Account acc = new AccountDAO().getAccountById(UUID.fromString(txtUUID));
+            if (!hashOld.equals(acc.getPassword())) {
+                msg = "Your old password is not correct";
+                request.setAttribute("msg", msg);
+                request.getRequestDispatcher("../change-password.jsp").forward(request, response);
+            } else {
+                acc.setPassword(hashNew);
+                int status = new AccountDAO().editAccount(acc);
+                if (status == 1) {
+                    msg = "changed";
+                    request.setAttribute("msg", msg);
+                    request.getRequestDispatcher("../change-password.jsp").forward(request, response);
+                }
+                request.setAttribute("msg", msg);
+                request.getRequestDispatcher("../change-password.jsp").forward(request, response);
+            }
+
+            response.sendRedirect(request.getContextPath() + "/profile");
+//        if (!response.isCommitted()) {
+//            response.sendRedirect(request.getContextPath() + "/profile");
+//        }
+        } catch (Exception ex) {
+            Logger.getLogger(ChangePasswordController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

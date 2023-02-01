@@ -108,6 +108,9 @@ public class SignupController extends HttpServlet {
                 Date dob = (Date) formValidator.get("dob");
                 String address = (String) formValidator.get("address");
                 String phoneNumber = (String) formValidator.get("phone");
+                if (phoneNumber == null || phoneNumber.isEmpty()) {
+                    phoneNumber = null;
+                }
                 String email = (String) formValidator.get("email");
                 String password = Util.hashingSHA256((String) formValidator.get("password"));
                 int role = (int) formValidator.get("role");
@@ -117,9 +120,14 @@ public class SignupController extends HttpServlet {
                 Account account = new Account(UUID.randomUUID(), name, dob, address, phoneNumber, email, password, role, "", verificationCode, createTime, false);
                 Util.sendEmail(account.getEmail(), "LE.ON Email verification", "Your verification code at LE.ON - Learning Online is: " + account.getVerificationCode());
                 int result = accountDAO.insertAccount(account);
-                req.setAttribute("accountId", account.getAccountId().toString());
-                req.setAttribute("email", account.getEmail());
-                req.getRequestDispatcher("/signup-verify.jsp").forward(req, resp);
+                
+                if (result > 0) {
+                    req.setAttribute("accountId", account.getAccountId().toString());
+                    req.setAttribute("email", account.getEmail());
+                    req.getRequestDispatcher("/signup-verify.jsp").forward(req, resp);
+                } else {
+                    validForm = false;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 validForm = false;
