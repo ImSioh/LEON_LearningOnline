@@ -158,16 +158,16 @@
                                                     <h4 class="text-left">Change Password</h4>
                                                 </div>
                                                 <div class="row mt-3 col-6">
-
+                                                    <input type="text" id="txtUUID" name="txtUUID" value="${account.getAccountId()}">
                                                     <div class="input-group mb-3 " x-data="{ showPassword: false }">
-                                                        <input x-bind:type="showPassword ? 'text' : 'password'" class="form-control" placeholder="Old password" aria-label="Old password" aria-describedby="basic-addon2">
+                                                        <input x-bind:type="showPassword ? 'text' : 'password'" class="form-control" placeholder="Old password" aria-label="Old password" aria-describedby="basic-addon2" name="txtOldPass">
                                                         <span class="input-group-text" x-on:click="showPassword = ! showPassword" id="basic-addon2"><i
                                                                 class="fa"
                                                                 x-bind:class="[showPassword ? 'fa-eye' : 'fa-eye-slash']"
                                                                 aria-hidden="true"></i></span>
                                                     </div>
                                                     <div class="input-group mb-3" x-data="{ showPassword: false }">
-                                                        <input x-bind:type="showPassword ? 'text' : 'password'" class="form-control" placeholder="New password" aria-label="New password" aria-describedby="basic-addon2">
+                                                        <input x-bind:type="showPassword ? 'text' : 'password'" class="form-control" placeholder="New password" aria-label="New password" aria-describedby="basic-addon2" name="txtNewPass">
                                                         <span class="input-group-text" x-on:click="showPassword = ! showPassword" id="basic-addon2"><i
                                                                 class="fa"
                                                                 x-bind:class="[showPassword ? 'fa-eye' : 'fa-eye-slash']"
@@ -175,14 +175,14 @@
                                                     </div>
 
                                                     <div class="input-group mb-3" x-data="{ showPassword: false }">
-                                                        <input x-bind:type="showPassword ? 'text' : 'password'" class="form-control" placeholder="Re-enter New password" aria-label="Re-enter New password" aria-describedby="basic-addon2">
+                                                        <input x-bind:type="showPassword ? 'text' : 'password'" class="form-control" placeholder="Re-enter New password" aria-label="Re-enter New password" aria-describedby="basic-addon2" name="txtReNewPass">
                                                         <span class="input-group-text" x-on:click="showPassword = ! showPassword" id="basic-addon2"><i
                                                                 class="fa"
                                                                 x-bind:class="[showPassword ? 'fa-eye' : 'fa-eye-slash']"
                                                                 aria-hidden="true"></i></span>
                                                     </div>
                                                 </div>
-
+                                                    <c:out value="${msg}"/>
                                                 <div class="mt-4 text-center col-6">
                                                     <input class="btn btn-primary profile-button" type="submit" value="Change password">
                                                     </input>
