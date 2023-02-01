@@ -31,78 +31,22 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>12345</td>
-                    <td>Tiger Nixon</td>
-                    <td>2011/04/25</td>
-                    <td>Edinburgh</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
-                </tr>
-                <tr>
-                    <td>12345</td>
-                    <td>Cara Stevens</td>
-                    <td>2011/12/06</td>
-                    <td>New York</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
-                </tr>
-                <tr>
-                    <td>12345</td>
-                    <td>Hermione Butler</td>
-                    <td>2011/03/21</td>
-                    <td>London</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
-                </tr>
-                <tr>
-                    <td>12345</td>
-                    <td>Lael Greer</td>
-                    <td>2009/02/27</td>
-                    <td>London</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
-                </tr>
-                <tr>
-                    <td>12345</td>
-                    <td>Jonas Alexander</td>
-                    <td>2010/07/14</td>
-                    <td>San Francisco</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
-                </tr>
-                <tr>
-                    <td>12345</td>
-                    <td>Shad Decker</td>
-                    <td>2008/11/13</td>
-                    <td>Edinburgh</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
-                </tr>
-<!--                <tr>
-                    <td>12345</td>
-                    <td>Michael Bruce</td>
-                    <td>2011/06/27</td>
-                    <td>Singapore</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
-                </tr>
-                <tr>
-                    <td>12345</td>
-                    <td>Donna Snider</td>
-                    <td>2011/01/25</td>
-                    <td>New York</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
-                </tr>-->
+                <c:forEach items="${teachers}" var="tc">
+                    <tr>
+                        <td>${tc.getAccountId()}</td>
+                        <td>${tc.getName()}</td>
+                        <td>${tc.getEmail()}</td>
+                        <td>${tc.getAddress()}</td>
+                        <td>${tc.getPhoneNumber()}</td>
+                        <td>${tc.getCreateTime()}</td>
+                        <c:if test="${tc.isLocked()}">
+                            <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
+                        </c:if>
+                        <c:if test="${tc.isLocked()!=true}">
+                            <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
+                        </c:if>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
     </div>

@@ -38,6 +38,16 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, email);
     }
 
+    public ArrayList<Account> getListAccountByRole(int role) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?;";
+        return selectMany(query, role);
+    }
+    
+    public ArrayList<Account> getListAllAccount() throws Exception {
+        String query = "SELECT * FROM account";
+        return selectMany(query);
+    }
+
     public int setVerifyCodeNull(UUID id) throws Exception {
         String query = "UPDATE account set verification_code = NULL WHERE account_id = ?";
         return update(query, Util.UUIDToByteArray(id));
@@ -65,8 +75,8 @@ public class AccountDAO extends AbstractDAO<Account> {
                 account.isLocked()
         );
     }
-    
-        public int editAccount(Account account) throws Exception {
+
+    public int editAccount(Account account) throws Exception {
         String query = "UPDATE `online_learning`.`account` SET `name` = ?, `birth_date` = ?, `address` = ?, `phone_number` = ?,`password` = ?, `profile_picture` = ?,`locked` = ? WHERE (`account_id` = ?);";
         return update(
                 query,
@@ -81,11 +91,14 @@ public class AccountDAO extends AbstractDAO<Account> {
         );
     }
 
-
     public static void main(String[] args) throws Exception {
         Account a = new AccountDAO().getAccountById(UUID.fromString("1d71af77-a945-4277-863b-ad40c6f1a5e5"));
-        a.setAddress("May thang ngu ");
-        System.out.println(new AccountDAO().editAccount(a));
+//        a.setAddress("May thang ngu ");
+//        System.out.println(new AccountDAO().editAccount(a));
+        ArrayList<Account> accounts = new AccountDAO().getListAccountByRole(2);
+        for (Account account : accounts) {
+            System.out.println(account);
+        }
     }
 
     @Override

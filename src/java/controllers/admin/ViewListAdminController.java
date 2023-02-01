@@ -4,7 +4,10 @@
  */
 package controllers.admin;
 
+import dao.AccountDAO;
+import dao.FeedbackDAO;
 import dto.Account;
+import dto.Feedback;
 import helpers.FormValidator;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +16,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -60,12 +66,31 @@ public class ViewListAdminController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Account account = (Account) request.getAttribute("account");
-
         if (request.getServletPath().contains("feedback-list")) {
+            try {
+                ArrayList<Feedback> feedbacks = new FeedbackDAO().getAllFeedbacks();
+                ArrayList<Account> accounts = new AccountDAO().getListAllAccount();
+                request.setAttribute("feedbacks", feedbacks);
+                request.setAttribute("accounts", accounts);
+            } catch (Exception ex) {
+                Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
         } else if (request.getServletPath().contains("student-account-list")) {
+            try {
+                ArrayList<Account> students = new AccountDAO().getListAccountByRole(2);
+                request.setAttribute("students", students);
+            } catch (Exception ex) {
+                Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
         } else if (request.getServletPath().contains("teacher-account-list")) {
+            try {
+                ArrayList<Account> teachers = new AccountDAO().getListAccountByRole(1);
+                request.setAttribute("teachers", teachers);
+            } catch (Exception ex) {
+                Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
         }
     }

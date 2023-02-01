@@ -31,60 +31,27 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>ABCDE</td>
-                    <td>12345</td>
-                    <td>Student</td>
-                    <td>Login error</td>
-                    <td>Can't login by google</td>
-                    <td>Try logging in another way</td>
-                    <td>01/01/1990 00:00</td>
-                </tr>
-                <tr>
-                    <td>ABCDE</td>
-                    <td>12345</td>
-                    <td>Teacher</td>
-                    <td>Class error</td>
-                    <td>Can't create a class</td>
-                    <td>The class may have been duplicated</td>
-                    <td>01/01/1990 00:00</td>
-                </tr>
-                <tr>
-                    <td>ABCDE</td>
-                    <td>12345</td>
-                    <td>Student</td>
-                    <td>Login error</td>
-                    <td>Can't login by google</td>
-                    <td>Try logging in another way</td>
-                    <td>01/01/1990 00:00</td>
-                </tr>
-                <tr>
-                    <td>ABCDE</td>
-                    <td>12345</td>
-                    <td>Teacher</td>
-                    <td>Class error</td>
-                    <td>Can't create a class</td>
-                    <td>The class may have been duplicated</td>
-                    <td>01/01/1990 00:00</td>
-                </tr>
-                <tr>
-                    <td>ABCDE</td>
-                    <td>12345</td>
-                    <td>Student</td>
-                    <td>Login error</td>
-                    <td>Can't login by google</td>
-                    <td>The class may have been duplicated</td>
-                    <td>01/01/1990 00:00</td>
-                </tr>
-                <tr>
-                    <td>ABCDE</td>
-                    <td>12345</td>
-                    <td>Teacher</td>
-                    <td>Class error</td>
-                    <td>Can't create a class</td>
-                    <td>The class may have been duplicated</td>
-                    <td>01/01/1990 00:00</td>
-                </tr>
+                <c:forEach items="${feedbacks}" var="fb">
+                    <tr>
+                        <td>${fb.getFeedbackId()}</td>
+                        <td>${fb.getAccountId()}</td>
+                        <c:forEach items="${accounts}" var="acc">
+                            <c:if test="${fb.getAccountId() == acc.getAccountId() 
+                                          && acc.getRole() == 1}">
+                                  <td>Teacher</td>
+                            </c:if>
+                            <c:if test="${fb.getAccountId() == acc.getAccountId() 
+                                          && acc.getRole() == 2}">
+                                  <td>Student</td>
+                            </c:if>
+                        </c:forEach>
+
+                        <td>${fb.getTitle()}</td>
+                        <td>${fb.getContent()}</td>
+                        <td>${fb.getResponse()}</td>
+                        <td>fb.getSubmitTime()</td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
     </div>
