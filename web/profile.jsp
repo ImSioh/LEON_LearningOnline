@@ -62,7 +62,14 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
 
-                            <a href="<%=path%>/overview" class="navbar-brand mt-2 mt-lg-0">LE.ON - ${account.getRole() == 1 ? "Teacher" : "Student"} </a>
+                            <c:choose>
+                                <c:when test="${account.getRole() == 1 }">
+                                    <a href="<c:url value="/teacher/class"/>" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher </a>
+                                </c:when>    
+                                <c:otherwise>
+                                    <a href="<c:url value="/student/overview"/>" class="navbar-brand mt-2 mt-lg-0">LE.ON -Student </a>
+                                </c:otherwise>
+                            </c:choose>
 
 
                         </div>
@@ -91,7 +98,16 @@
                                             <i class="far fa-user"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="<c:url value="/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+                                            <c:choose>
+                                                <c:when test="${account.getRole() == 1 }">
+                                                    <a href="<c:url value="/teacher/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+
+                                                </c:when>    
+                                                <c:otherwise>
+                                                    <a href="<c:url value="/student/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+
+                                                </c:otherwise>
+                                            </c:choose>
                                         </li>
                                     </div>
 
@@ -132,12 +148,12 @@
                                     <ol class="breadcrumb mb-0">
                                         <c:choose>
                                             <c:when test="${account.getRole() == 1 }">
-                                                <li class="breadcrumb-item"><a href="<c:url value="/class"/>" style="text-decoration: none;">Home</a></li>
+                                                <li class="breadcrumb-item"><a href="<c:url value="/teacher/class"/>" style="text-decoration: none;">Home</a></li>
                                                 </c:when>    
                                                 <c:otherwise>
-                                                <li class="breadcrumb-item"><a href="<c:url value="/overview"/>" style="text-decoration: none;">Home</a></li>
-                                            </c:otherwise>
-                                        </c:choose>
+                                                <li class="breadcrumb-item"><a href="<c:url value="/student/overview"/>" style="text-decoration: none;">Home</a></li>
+                                                </c:otherwise>
+                                            </c:choose>
 
                                         <li class="breadcrumb-item active" aria-current="page">Profile</li>
                                     </ol>
@@ -154,10 +170,24 @@
                                         <h5 class="my-3">${account.getName()}</h5>
                                         <p class="text-muted mb-1">${account.getRole() == 1 ? "Teacher" : "Student"}</p>
                                         <p class="text-muted mb-4">${account.getAddress()}</p>
-                                        <div class="d-flex justify-content-center mb-2">
-                                            <a type="button" class="btn btn-primary" href="<c:url value="/profile/change-password"/>">Change Password</a>
-                                            <a type="button" class="btn btn-outline-primary ms-1" href="<c:url value="/profile/edit"/>">Edit Profile</a>
-                                        </div>
+                                        <c:choose>
+                                            <c:when test="${account.getRole() == 1 }">
+                                                <div class="d-flex justify-content-center mb-2">
+                                                    <a type="button" class="btn btn-primary" href="<c:url value="/teacher/profile/change-password"/>">Change Password</a>
+                                                    <a type="button" class="btn btn-outline-primary ms-1" href="<c:url value="/teacher/profile/edit"/>">Edit Profile</a>
+                                                </div>
+                                            </c:when>    
+                                            <c:otherwise>
+                                                <div class="d-flex justify-content-center mb-2">
+                                                    <a type="button" class="btn btn-primary" href="<c:url value="/student/profile/change-password"/>">Change Password</a>
+                                                    <a type="button" class="btn btn-outline-primary ms-1" href="<c:url value="/student/profile/edit"/>">Edit Profile</a>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <!--                                        <div class="d-flex justify-content-center mb-2">
+                                                                                    <a type="button" class="btn btn-primary" href="<c:url value="/profile/change-password"/>">Change Password</a>
+                                                                                    <a type="button" class="btn btn-outline-primary ms-1" href="<c:url value="/profile/edit"/>">Edit Profile</a>
+                                                                                </div>-->
                                     </div>
                                 </div>
 
