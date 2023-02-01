@@ -1,20 +1,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="template/header.jsp" %>
+<%@include file= "template/header.jsp" %>
 
 <div id="content">
     <h1>Teachers Management</h1>
-    <!-- <img src="assets/img/welcome_admin.jpg" alt="Welcome to Admin Homepage" width="100%" height="100%" style="margin: 0;"/> -->
-    <form action="" method="" style="padding-top: 3%;">
+    <form action="<c:url value="/SearchAccount"/>" method="get" style="padding-top: 3%;">
         <span class="button-action" style="display: flex;">
-            <select class="form-select" style="width: 15%; margin: 32px 0; text-align: center">
-                <option selected><-- Select --></option>
-                <option value="1">ID</option>
-                <option value="2">Name</option>
-                <option value="3">Email</option>
+            <select name="optionSearch" class="form-select" style="width: 18%; margin: 32px 0  32px 55%; text-align: center">
+                <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
+                <option value="email" ${optionSearch eq "email"?"selected":""}>Email</option>
+                <option value="phoneNumber" ${optionSearch eq "phoneNumber"?"selected":""}>PhoneNumber</option>
             </select>
-            <input type="text" name="" id="" class="form-control" placeholder="Search..." style="width: 45%; margin: 32px"> 
+            <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; margin: 32px"> 
             <input type="submit" value="SEARCH" id="search" class="btn-info" 
-                   style="margin: 32px 0 32px 25%; width: 10%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
+                   style="margin: 32px 0 32px 0; width: 10%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
     </form>
     <div class="table">
@@ -31,78 +29,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>12345</td>
-                    <td>Tiger Nixon</td>
-                    <td>2011/04/25</td>
-                    <td>Edinburgh</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
-                </tr>
-                <tr>
-                    <td>12345</td>
-                    <td>Cara Stevens</td>
-                    <td>2011/12/06</td>
-                    <td>New York</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
-                </tr>
-                <tr>
-                    <td>12345</td>
-                    <td>Hermione Butler</td>
-                    <td>2011/03/21</td>
-                    <td>London</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
-                </tr>
-                <tr>
-                    <td>12345</td>
-                    <td>Lael Greer</td>
-                    <td>2009/02/27</td>
-                    <td>London</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
-                </tr>
-                <tr>
-                    <td>12345</td>
-                    <td>Jonas Alexander</td>
-                    <td>2010/07/14</td>
-                    <td>San Francisco</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
-                </tr>
-                <tr>
-                    <td>12345</td>
-                    <td>Shad Decker</td>
-                    <td>2008/11/13</td>
-                    <td>Edinburgh</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
-                </tr>
-<!--                <tr>
-                    <td>12345</td>
-                    <td>Michael Bruce</td>
-                    <td>2011/06/27</td>
-                    <td>Singapore</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
-                </tr>
-                <tr>
-                    <td>12345</td>
-                    <td>Donna Snider</td>
-                    <td>2011/01/25</td>
-                    <td>New York</td>
-                    <td>0987654321</td>
-                    <td>01/01/1990</td>
-                    <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
-                </tr>-->
+                <c:forEach var="account" items="${accountList}" >
+                    <tr>
+                        <td>${account.getAccountId()}</td>
+                        <td>${account.getName()}</td>
+                        <td>${account.getEmail()}</td>
+                        <td>${account.getAddress()}</td>
+                        <td>${account.getPhoneNumber()}</td>
+                        <td>${account.getCreateTime()}</td>
+                        <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
+                    </tr>
+                </c:forEach>
+
+
             </tbody>
         </table>
     </div>
@@ -119,6 +58,7 @@
             </li>
         </ul>
     </nav>
+    
 </div>
 
 <%@include file="template/footer.jsp" %>
