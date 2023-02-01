@@ -7,26 +7,25 @@
         </div>
 
         <div class="col-md-auto">
-            <button type="button" style="border-radius: 34px; padding: 15px; margin: 15px;" class="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"><a href="<%=path%>/join" style="text-decoration: none; color: grey ">+ Create class</a></button>
+            <button type="button" style="border-radius: 34px; padding: 15px; margin: 15px;" class="btn btn-outline-secondary btn-rounded" data-mdb-ripple-color="dark"><a href="<%=path%>/teacher/class/create" style="text-decoration: none; color: grey ">+ Create class</a></button>
         </div>
     </div>
 </div>
 
 <div class="content-main">
-    <div class="class-content">
-        <a href="HomeS.jsp">            
-            <div style="overflow: hidden; width: 100%; height: 100%; height: 100px; background-size: cover;
-                 background-position: center;background-image: url(teacher/assets/img/2165310.png)">               
-            </div>            
-            <div>
-                <c:forEach items="${classObjList}" var="co">
+    <c:forEach items="${classObjList}" var="co">
+        <div class="class-content">
+            <a href="HomeS.jsp">            
+                <div style="overflow: hidden; width: 100%; height: 100%; height: 100px; background-size: cover;
+                     background-position: center;background-image: url(teacher/assets/img/2165310.png)">               
+                </div>            
+                <div>
                     ${co.getName()}<br>
                     ${co.getCode()}
-                </c:forEach>
-            </div>
-        </a>               
-    </div>  
-
+                </div>
+            </a>               
+        </div>  
+    </c:forEach>
 </div>
 </div>
 <script

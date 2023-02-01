@@ -47,6 +47,8 @@ public class Overview_Icpl_Student extends HttpServlet {
             Account accL = accountDAO.getAccountByEmail(email);
             if (accL.getRole() == 2) {
                 req.setAttribute("accL", accL);
+                req.setAttribute("hglO", true);
+                req.setAttribute("hglV", false);
                 req.getRequestDispatcher("HomeS.jsp").forward(req, resp);
             } else {
                 resp.sendRedirect(req.getContextPath() + "/");

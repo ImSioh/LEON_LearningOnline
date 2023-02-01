@@ -1,6 +1,7 @@
 package dao;
 
 import dto.ClassObject;
+import dto.Enrollment;
 import helpers.Util;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -12,27 +13,34 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
         String query = "SELECT * FROM class c WHERE c.account_id = ?";
         return selectMany(query, Util.UUIDToByteArray(id));
     }
-    
+
+    public ArrayList<ClassObject> getClassNameCodeByAccId(UUID id) throws Exception {
+        String query = "select * from class c \n"
+                + " join enrollment e on c.class_id = e.class_id\n"
+                + " join account a on e.account_id = a.account_id and a.account_id = ?";
+        return selectMany(query, Util.UUIDToByteArray(id));
+    }
+
     public ArrayList<ClassObject> getAllClass() throws Exception {
         String query = "SELECT * FROM class c";
         return selectMany(query);
     }
-    
+
     public ClassObject getClassByAccIdN(UUID id) throws Exception {
         String query = "SELECT * FROM class c where c.account_id = ?;";
         return selectOne(query, Util.UUIDToByteArray(id));
     }
-    
+
     public ClassObject getClassByCode(String code) throws Exception {
         String query = "SELECT * FROM class c where c.code = ?;";
         return selectOne(query, code);
     }
-    
+
     public boolean isCodeExist(String code) throws Exception {
         String query = "SELECT COUNT(*) FROM class c WHERE c.code = ?";
         return selectScalar(query, Long.class, code) > 0;
     }
-    
+
     public int insertClass(ClassObject classObject) throws Exception {
         String query = "INSERT INTO class VALUES (?, ?, ?, ?, ?, ?, FALSE, ?);";
         return update(
@@ -60,14 +68,13 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
                 rs.getTimestamp("create_time")
         );
     }
-    
-//    public static void main(String[] args) throws Exception {
-//        ArrayList<ClassObject> classObj = new ClassObjectDAO().getAllClass();
-//        ArrayList<ClassObject> classObj = new ClassObjectDAO().getClassByAccId(UUID.fromString("e6ef22cf-060b-4e16-91a0-359408178fb0"));
-//        ClassObject co = new ClassObjectDAO().getClassByAccIdN(UUID.fromString("e6ef22cf-060b-4e16-91a0-359408178fb0"));
-//        for (ClassObject c : classObj) {
-//            System.out.println(c.getCode());
-//        }
-//    }
 
+    public static void main(String[] args) throws Exception {
+
+        ArrayList<ClassObject> classObj = new ClassObjectDAO().getClassNameCodeByAccId(UUID.fromString("632ec23b-de81-471e-9d0f-8819bf7e629e"));
+//        ClassObject co = new ClassObjectDAO().getClassByAccIdN(UUID.fromString("e6ef22cf-060b-4e16-91a0-359408178fb0"));
+        for (ClassObject c : classObj) {
+            System.out.println(c.getCode());
+        }
+    }
 }
