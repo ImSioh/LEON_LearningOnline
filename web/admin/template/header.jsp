@@ -48,15 +48,15 @@
                         <!-- Left links -->
                         <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="index.jsp"
+                                <a class="nav-link" href="feedback-list"
                                     style="color: #1e88e5; font-size: 15px;">Feedback</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="manageT.jsp"
+                                <a class="nav-link" href="teacher-account-list"
                                     style="color: #1e88e5; font-size: 15px;">Teacher</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="manageS.jsp"
+                                <a class="nav-link" href="student-account-list"
                                     style="color: #1e88e5; font-size: 15px;">Student</a>
                             </li>
                         </ul>

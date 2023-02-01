@@ -7,7 +7,7 @@
     <form action="" method="" style="padding-top: 3%;">
         <span class="button-action" style="display: flex;">
             <select class="form-select" style="width: 15%; margin: 32px 0; text-align: center">
-                <option selected><-- Select --></option>
+                <option selected><-- Select option --></option>
                 <option value="1">ID</option>
                 <option value="2">Name</option>
                 <option value="3">Email</option>
