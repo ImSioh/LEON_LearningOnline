@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "Overview_Acvm_Student", urlPatterns = {"/achievement"})
+@WebServlet(name = "Overview_Acvm_Student", urlPatterns = {"/student/achievement"})
 public class Overview_Acvm_Student extends HttpServlet {
 
     @Override
@@ -41,7 +41,9 @@ public class Overview_Acvm_Student extends HttpServlet {
             Account accL = accountDAO.getAccountByEmail(email);
             if (accL.getRole() == 2) {
                 req.setAttribute("accL", accL);
-                req.getRequestDispatcher("student/AchievementS.jsp").forward(req, resp);
+                req.setAttribute("hglO", true);
+                req.setAttribute("hglV", false);
+                req.getRequestDispatcher("AchievementS.jsp").forward(req, resp);
             } else {
                 resp.sendRedirect(req.getContextPath() + "/");
             }
@@ -49,7 +51,7 @@ public class Overview_Acvm_Student extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(Overview_Icpl_Student.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     @Override

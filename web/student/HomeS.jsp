@@ -6,12 +6,12 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto sidebarnav" style="padding-left: 15px">
                     <li class="nav-item ">
-                        <a href="<%=path%>/overview" class="nav-link link-dark active"  aria-current="page">
+                        <a href="<%=path%>/student/overview" class="nav-link link-dark active"  aria-current="page">
                             Incomplete
                         </a>
                     </li>
                     <li >
-                        <a href="<%=path%>/achievement" class="nav-link link-dark">
+                        <a href="<%=path%>/student/achievement" class="nav-link link-dark">
                             Achievement
                         </a>
                     </li>

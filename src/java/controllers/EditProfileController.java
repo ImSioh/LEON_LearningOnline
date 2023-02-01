@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author leducphi
  */
-@WebServlet(name = "EditProfileController", urlPatterns = {"/profile/edit"})
+@WebServlet(name = "EditProfileController", urlPatterns = {"/student/profile/edit", "/teacher/profile/edit"})
 public class EditProfileController extends HttpServlet {
 
     /**
@@ -80,7 +80,7 @@ public class EditProfileController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.getRequestDispatcher("../edit-profile.jsp").forward(request, response);
+        request.getRequestDispatcher("/edit-profile.jsp").forward(request, response);
     }
 
     /**

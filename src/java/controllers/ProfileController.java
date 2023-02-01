@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author leducphi
  */
-@WebServlet(name = "ProfileController", urlPatterns = {"/profile"})
+@WebServlet(name = "ProfileController", urlPatterns = {"/student/profile", "/teacher/profile"})
 public class ProfileController extends HttpServlet {
 
     /**

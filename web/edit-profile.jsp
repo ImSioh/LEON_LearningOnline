@@ -50,7 +50,7 @@
         <div class="main">
             <div id="header" class="fixed-top" style="top: 0;">
                 <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <nav class="navbar navbar-expand-lg navbar-light ${account.getRole() == 1 ? "bg-primary" : "bg-light"}"">
                     <!-- Container wrapper -->
                     <div class="container-fluid">
                         <!-- Toggle button -->
@@ -62,7 +62,14 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
 
-                            <a href="<%=path%>/overview-incomplete" class="navbar-brand mt-2 mt-lg-0">LE.ON - Student</a>
+                            <c:choose>
+                                <c:when test="${account.getRole() == 1 }">
+                                    <a href="<c:url value="/teacher/class"/>" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher </a>
+                                </c:when>    
+                                <c:otherwise>
+                                    <a href="<c:url value="/student/overview"/>" class="navbar-brand mt-2 mt-lg-0">LE.ON -Student </a>
+                                </c:otherwise>
+                            </c:choose>
 
 
                         </div>
@@ -91,7 +98,16 @@
                                             <i class="far fa-user"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="<c:url value="/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+                                            <c:choose>
+                                                <c:when test="${account.getRole() == 1 }">
+                                                    <a href="<c:url value="/teacher/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+
+                                                </c:when>    
+                                                <c:otherwise>
+                                                    <a href="<c:url value="/student/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+
+                                                </c:otherwise>
+                                            </c:choose>
                                         </li>
                                     </div>
 
@@ -133,14 +149,16 @@
                                     <ol class="breadcrumb mb-0">
                                         <c:choose>
                                             <c:when test="${account.getRole() == 1 }">
-                                                <li class="breadcrumb-item"><a href="<c:url value="/class"/>" style="text-decoration: none;">Home</a></li>
+                                                <li class="breadcrumb-item"><a href="<c:url value="/teacher/class"/>" style="text-decoration: none;">Home</a></li>
+                                                <li class="breadcrumb-item"><a href="<c:url value="/teacher/profile"/>" style="text-decoration: none;">Profile</a></li>
                                                 </c:when>    
                                                 <c:otherwise>
-                                                <li class="breadcrumb-item"><a href="<c:url value="/overvew"/>" style="text-decoration: none;">Home</a></li>
-                                            </c:otherwise>
-                                        </c:choose>
+                                                <li class="breadcrumb-item"><a href="<c:url value="/student/overvew"/>" style="text-decoration: none;">Home</a></li>
+                                                <li class="breadcrumb-item"><a href="<c:url value="/student/profile"/>" style="text-decoration: none;">Profile</a></li>
+                                                </c:otherwise>
+                                            </c:choose>
 
-                                        <li class="breadcrumb-item"><a href="<c:url value="/profile"/>" style="text-decoration: none;">Profile</a></li>
+
                                         <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
                                     </ol>
                                 </nav>

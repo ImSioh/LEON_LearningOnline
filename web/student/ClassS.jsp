@@ -12,21 +12,20 @@
     </div>
 </div>
 
-<div class="content-main">
-    <div class="class-content">
-        
-        <a href="<c:url value="/overview"/>">            
-            <div style="overflow: hidden; width: 100%; height: 100%;height: 100px; background-size: cover;
-                 background-position: center;background-image: url(student/assets/img/2165310.png)">               
-            </div>            
-            <div>
-                <c:forEach items="${classObjList}" var="co">
+    <div class="content-main">
+        <c:forEach items="${co}" var="co">
+        <div class="class-content">
+            <a href="<c:url value="/student/overview"/>">            
+                <div style="overflow: hidden; width: 100%; height: 100%;height: 100px; background-size: cover;
+                     background-position: center;background-image: url(student/assets/img/2165310.png)">               
+                </div>                    
+                <div>
                     ${co.getName()}<br>
-                    ${co.getCode()}
-                </c:forEach>
-            </div>
-        </a>               
-    </div>  
+                    ${co.getCode()}<br>
+                </div>
+            </a> 
+        </div>  
+</c:forEach>
+    </div>
 
-</div>
 <%@include file= "./template/footer.jsp" %>
