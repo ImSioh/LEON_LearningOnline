@@ -60,19 +60,14 @@ public class ViewListAdminController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Account account = (Account) request.getAttribute("account");
-        FormValidator formValidator = new FormValidator(request);
-        if (account.getRole() == 3) {
 
+        if (request.getServletPath().contains("feedback-list")) {
             request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
+        } else if (request.getServletPath().contains("student-account-list")) {
+            request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
+        } else if (request.getServletPath().contains("teacher-account-list")) {
+            request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
         }
-//        if (request.getContextPath().contains("feedback-list")) {
-//            request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
-//        } 
-//        else if (request.getContextPath().contains("student-account-list")) {
-//            request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
-//        } else if (request.getContextPath().contains("teacher-account-list")) {
-//            request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
-//        }
     }
 
     /**
