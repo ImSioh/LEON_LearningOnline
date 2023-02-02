@@ -52,11 +52,11 @@
                                     style="color: #1e88e5; font-size: 15px;">Feedback</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="manageT.jsp"
+                                <a class="nav-link" href="<c:url value="/admin/manageT.jsp"/>"
                                     style="color: #1e88e5; font-size: 15px;">Teacher</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="manageS.jsp"
+                                <a class="nav-link" href="<c:url value="/admin/manageS.jsp"/>"
                                     style="color: #1e88e5; font-size: 15px;">Student</a>
                             </li>
                         </ul>
