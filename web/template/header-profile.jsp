@@ -116,7 +116,7 @@
                                             <i class="far fa-paper-plane"></i>
                                         </li>
                                         <li class="p-2 w-100 bd-highlight">
-                                            <a href="#" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Send feedback</a>
+                                            <a href="<c:url value="/SendFeedback"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Send feedback</a>
                                         </li>
                                     </div>
 
