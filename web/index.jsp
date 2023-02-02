@@ -112,7 +112,7 @@
                             <p class="home__description button--data"><i class="uil uil-desktop data--icon" style="color : orange ; padding-right: 10px;"></i>Exploiting learning materials</p>
                             <p class="home__description button--data" style="width : 250px"><i class="uil uil-channel data--icon" style="color : green ; padding-right: 10px;"></i>Give homework
                             </p>
-                            <a href="signin.jsp" class="button button--flex">Sign In
+                            <a href="<c:url value="/signin"/>" class="button button--flex">Sign In
                                 <i class="uil uil-message button__icon"></i>
                             </a>
                         </div>
