@@ -73,7 +73,7 @@
                                             <input type="text" class="form-control" name="classCode" required>
                                             <label class="form-control-placeholder" for="username">Code</label>
                                         </div>
-                                        <div style="color: red">>< Please input others code ><</div>
+                                        <div style="color: red">(◕‿◕) Please input others code (◕‿◕)</div>
                                         <div class="form-group">
                                             <button type="submit" class="form-control btn btn-primary rounded submit px-3">Join</button>
                                         </div>

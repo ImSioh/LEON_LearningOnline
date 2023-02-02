@@ -62,7 +62,7 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
 
-                            <a href="<%=path%>/overview" class="navbar-brand mt-2 mt-lg-0">LE.ON - ${account.getRole() == 1 ? "Teacher" : "Student"} </a>
+                            <a href="<%=path%>/student/class" class="navbar-brand mt-2 mt-lg-0">LE.ON - ${account.getRole() == 1 ? "Teacher" : "Student"} </a>
 
 
                         </div>
@@ -132,10 +132,10 @@
                                     <ol class="breadcrumb mb-0">
                                         <c:choose>
                                             <c:when test="${account.getRole() == 1 }">
-                                                <li class="breadcrumb-item"><a href="<c:url value="/class"/>" style="text-decoration: none;">Home</a></li>
+                                                <li class="breadcrumb-item"><a href="<c:url value="/teacher/class"/>" style="text-decoration: none;">Home</a></li>
                                                 </c:when>    
                                                 <c:otherwise>
-                                                <li class="breadcrumb-item"><a href="<c:url value="/overview"/>" style="text-decoration: none;">Home</a></li>
+                                                <li class="breadcrumb-item"><a href="<c:url value="/student/overview"/>" style="text-decoration: none;">Home</a></li>
                                             </c:otherwise>
                                         </c:choose>
 

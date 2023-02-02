@@ -76,13 +76,13 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
                             
-                            <a href="../teacher/ClassT.jsp" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher</a>
+                            <a href="<%=path%>/teacher/class" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher</a>
 
                             <!-- Left links -->
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                                 
                                 <li class="nav-item">
-                                    <a class="nav-link btn-secondary" href="ClassT.jsp" style="color: #E0F7FA; font-size: 15px;">Class</a>
+                                    <a class="nav-link btn-secondary" href="<%=path%>/teacher/class" style="color: #E0F7FA; font-size: 15px;">Class</a>
                                 </li>
                             </ul>
                             <!-- Left links -->
