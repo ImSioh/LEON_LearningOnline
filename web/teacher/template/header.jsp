@@ -82,7 +82,7 @@
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="ClassT.jsp" style="color: #E0F7FA; font-size: 15px;">Class</a>
+                                    <a class="nav-link btn-secondary" href="<%=path%>/teacher/class" style="color: #E0F7FA; font-size: 15px;">Class</a>
                                 </li>
                             </ul>
                             <!-- Left links -->
