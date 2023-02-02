@@ -42,19 +42,17 @@
                 background-color: #e3f2fd !important;
                 border-radius: 8px !important;
             }
-            /*            .navbariteam a.active {
-                            color: #1e88e5 !important;
-                        }*/
             .content-main{
                 width: 100%;
                 display: flex;
                 margin-bottom: 20px;
                 flex-wrap: wrap;
+
             }
             .class-content{
                 width: calc((100% - 220px)/6);
                 border: 1px solid saddlebrown;
-                margin: 12px 18px;
+                margin: 10px 18px 20px 18px;
             }
         </style>
 

@@ -45,7 +45,10 @@ public class JoinClassController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            // get data from jsp file
             String code = req.getParameter("classCode");
+            
+            // take data from Cookie
             String email = "", pass = "";
             Cookie[] cookies = req.getCookies();
             for (Cookie c : cookies) {
@@ -56,30 +59,33 @@ public class JoinClassController extends HttpServlet {
                     pass = c.getValue();
                 }
             }
+            //check valid when user don't signin -> can not access any url
             if (email.equals("") || pass.equals("")) {
                 resp.sendRedirect(req.getContextPath() + "/");
             }
+            // take data from account by query statement
             AccountDAO accountDAO = new AccountDAO();
             Account acc = accountDAO.getAccountByEmail(email);
-            int count = 0;
-            int count2 = 0;
+            
+            int count = 0;           
             if (acc.getRole() == 2) {
                 ArrayList<Enrollment> enrollment = new EnrollmentDAO().getListEnrollmentById(acc.getAccountId());
                 ArrayList<ClassObject> classObjAll = new ClassObjectDAO().getAllClass();
 
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDateTime now = LocalDateTime.now();
-
                 try {
                     for (ClassObject CO : classObjAll) {
+                        // check code exist in class 
                         if (CO.getCode().equalsIgnoreCase(code)) {
                             req.setAttribute("verified", true);
+                            
+                            // insert data to enrollment table
                             Enrollment ermt = new Enrollment();
                             ermt.setAccountId(acc.getAccountId());
                             ermt.setClassId(CO.getClassId());
                             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                            ermt.setEnrollTime(timestamp);
+                            ermt.setEnrollTime(timestamp);                           
                             int erm = new EnrollmentDAO().insertEnrollment(ermt);
+                            
                             resp.sendRedirect(req.getContextPath() + "/teacher/class/" + code + "/newfeed");
                         }
                     }
@@ -87,6 +93,7 @@ public class JoinClassController extends HttpServlet {
                     req.setAttribute("verified", false);
                     req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
                 }
+                // codeClass doesn't exist in class
                 if (count == 0) {
                     req.setAttribute("verified", false);
                     req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
