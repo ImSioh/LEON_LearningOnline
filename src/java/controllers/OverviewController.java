@@ -22,12 +22,13 @@ import java.util.logging.Logger;
  * @author Anh
  */
 @WebServlet(name = "Overview_Student", urlPatterns = {"/student/overview"})
-public class Overview_Icpl_Student extends HttpServlet {
+public class OverviewController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            // get data form cookie
             String email = "", pass = "";
             Cookie[] cookies = req.getCookies();
             for (Cookie c : cookies) {
@@ -37,12 +38,12 @@ public class Overview_Icpl_Student extends HttpServlet {
                 if (c.getName().equals("cookPass")) {
                     pass = c.getValue();
                 }
-
             }
+            // check valid url
             if (email.equals("") || pass.equals("")) {
-//                    resp.sendRedirect("signin.jsp");
                 resp.sendRedirect(req.getContextPath() + "/");
             }
+            // take data from database
             AccountDAO accountDAO = new AccountDAO();
             Account accL = accountDAO.getAccountByEmail(email);
             if (accL.getRole() == 2) {
@@ -55,7 +56,7 @@ public class Overview_Icpl_Student extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(Overview_Icpl_Student.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OverviewController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
