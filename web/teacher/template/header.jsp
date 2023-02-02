@@ -26,19 +26,19 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <!--Jquery validate-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        
+
         <title>LE.ON</title>
-        
+
         <style>
             body {
                 min-height: 100vh;
             }
             .sidebarnav a {
                 text-transform: unset !important;
-                font-size: 1rem !important; 
-                
+                font-size: 1rem !important;
+
             }
-            
+
             .sidebarnav a.active{
                 color: #1e88e5 !important;
                 background-color: #e3f2fd !important;
@@ -56,15 +56,15 @@
                 margin: 10px 18px 120px 18px;
             }
         </style>
-        
-       
+
+
     </head>
 
     <body>
         <div class="main">
             <div id="header" class="fixed-top" style="top: 0;">
                 <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg navbar-light bg-primary"> <!-- change color 'bg-secondary -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-info"> <!-- change color 'bg-secondary -->
                     <!-- Container wrapper -->
                     <div class="container-fluid">
                         <!-- Toggle button -->
@@ -75,14 +75,14 @@
                         <!-- Collapsible wrapper -->
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
-                            
-                            <a href="<c:url value="/teacher/class"/>" class="navbar-brand mt-2 mt-lg-0">LE.ON - Teacher </a>
+
+                            <a href="<c:url value="/teacher/class"/>" class="navbar-brand mt-2 mt-lg-0" style="color: white;">LE.ON - Teacher </a>
 
                             <!-- Left links -->
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                                
+
                                 <li class="nav-item">
-                                    <a class="nav-link btn-secondary" href="ClassT.jsp" style="color: #E0F7FA; font-size: 15px;">Class</a>
+                                    <a class="nav-link" href="ClassT.jsp" style="color: #E0F7FA; font-size: 15px;">Class</a>
                                 </li>
                             </ul>
                             <!-- Left links -->
@@ -96,7 +96,7 @@
                             <!-- Notifications -->
                             <div class="dropdown">
                                 <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                                    <i class="far fa-bell" style="font-size: 24px; "></i>
+                                    <i class="far fa-bell" style="font-size: 22px; text-decoration: none; color: white; margin-left: 14px;"></i>
                                     <span class="badge rounded-pill badge-notification bg-danger">5</span>
                                 </a>
 
@@ -104,7 +104,7 @@
                             <!-- Avatar -->
                             <div class="dropdown">
                                 <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                                    <i class="far fa-user-circle" style="font-size: 24px; text-decoration: none; color: black; margin-left: 10px;"></i>
+                                    <i class="far fa-user-circle" style="font-size: 24px; text-decoration: none; color: white; margin-left: 10px;"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                                     <a href="<c:url value="/teacher/profile"/>" style="font-size: 16px;text-decoration: none">
@@ -117,7 +117,7 @@
                                             </span>
                                         </div>
                                     </a>
-                                        
+
                                     <a href="#" style="font-size: 16px;text-decoration: none">
                                         <div class="d-flex bd-highlight dropdown-item">
                                             <span class="p-2 flex-shrink-1 bd-highlight">
@@ -148,4 +148,3 @@
                 </nav>
                 <!-- Navbar -->
             </div>
-       
