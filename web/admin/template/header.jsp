@@ -43,7 +43,7 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Navbar brand -->
 
-                            <a href="/swp391" class="navbar-brand mt-2 mt-lg-0">LE.ON - Admin</a>
+                            <a href="" class="navbar-brand mt-2 mt-lg-0">LE.ON - Admin</a>
 
                             <!-- Left links -->
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">

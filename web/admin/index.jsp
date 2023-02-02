@@ -4,6 +4,23 @@
 <div id="content">
     <h1>Feedbacks Management</h1>
     <!-- <img src="assets/img/welcome_admin.jpg" alt="Welcome to Admin Homepage" width="100%" height="100%" style="margin: 0;"/> -->
+
+    <!--Search-->
+    <form action="" method="" style="padding-top: 3%;">
+        <span class="button-action" style="display: flex;">
+            <select class="form-select" style="width: 15%; margin: 32px 0; text-align: center">
+                <option selected><-- Select option --></option>
+                <option value="1">ID</option>
+                <option value="2">Name</option>
+                <option value="3">Email</option>
+            </select> 
+            <input type="text" name="" id="" class="form-control" placeholder="Search..." style="width: 45%; margin: 32px"> 
+            <input type="submit" value="SEARCH" id="search" class="btn-info" 
+                   style="margin: 32px 0 32px 25%; width: 10%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
+        </span>
+    </form>
+
+    <!--Sort--> 
     <form action="" method="" style="padding-top: 3%;">
         <span class="button-action" style="display: flex;">
             <select class="form-select" style="width: 15%; margin: 32px 0; text-align: center">
@@ -12,11 +29,12 @@
                 <option value="2">Name</option>
                 <option value="3">Email</option>
             </select>
-            <input type="text" name="" id="" class="form-control" placeholder="Search..." style="width: 45%; margin: 32px"> 
-            <input type="submit" value="SEARCH" id="search" class="btn-info" 
+            <!--<input type="text" name="" id="" class="form-control" placeholder="Search..." style="width: 45%; margin: 32px">--> 
+            <input type="submit" value="SORT" id="search" class="btn-info" 
                    style="margin: 32px 0 32px 25%; width: 10%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
     </form>
+
     <div class="table">
         <table class="table table-light table-hover">
             <thead>
@@ -51,7 +69,7 @@
                         <td>fb.getSubmitTime()</td>
                     </tr>
                 </c:forEach>
-                    <c:forEach items="${feedbacks}" var="fb">
+                <c:forEach items="${feedbacks}" var="fb">
                     <tr>
                         <td>${fb.getFeedbackId()}</td>
                         <td>${fb.getAccountId()}</td>
@@ -71,7 +89,7 @@
                         <td>fb.getSubmitTime()</td>
                     </tr>
                 </c:forEach>
-                    <c:forEach items="${feedbacks}" var="fb">
+                <c:forEach items="${feedbacks}" var="fb">
                     <tr>
                         <td>${fb.getFeedbackId()}</td>
                         <td>${fb.getAccountId()}</td>
