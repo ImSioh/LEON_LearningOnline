@@ -35,19 +35,28 @@ public class AccountDAO extends AbstractDAO<Account> {
 
     public ArrayList<Account> getListAccountByEmail(String email, int role) throws Exception {
         String query = "SELECT * FROM account a WHERE a.email LIKE ? and a.role = ?";
-        return selectMany(query, "%" + email + "%" , role);
+        return selectMany(query, "%" + email + "%", role);
     }
 
-    public ArrayList<Account> getListAccountByPhoneNumber(String phoneNumber , int role) throws Exception {
+    public ArrayList<Account> getListAccountByRole(int role) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?;";
+        return selectMany(query, role);
+    }
+
+    public ArrayList<Account> getListAllAccount() throws Exception {
+        String query = "SELECT * FROM account";
+        return selectMany(query);
+    }
+
+    public ArrayList<Account> getListAccountByPhoneNumber(String phoneNumber, int role) throws Exception {
         String query = "SELECT * FROM account a WHERE a.phone_number LIKE ? and a.role = ?";
-        return selectMany(query, "%" + phoneNumber + "%" , role);
+        return selectMany(query, "%" + phoneNumber + "%", role);
     }
 
-    public ArrayList<Account> getListAccountByName(String name , int role) throws Exception {
+    public ArrayList<Account> getListAccountByName(String name, int role) throws Exception {
         String query = "SELECT * FROM account a WHERE a.name LIKE ? and a.role = ?";
-        return selectMany(query, "%" + name + "%" , role);
+        return selectMany(query, "%" + name + "%", role);
     }
-
 
     public int setVerifyCodeNull(UUID id) throws Exception {
         String query = "UPDATE account set verification_code = NULL WHERE account_id = ?";
@@ -97,6 +106,13 @@ public class AccountDAO extends AbstractDAO<Account> {
 //        a.setAddress("May thang ngu ");
 //        System.out.println(new AccountDAO().editAccount(a)); 
 //System.out.println(new AccountDAO().getListAccountByEmail("admin",1));
+        Account a = new AccountDAO().getAccountById(UUID.fromString("1d71af77-a945-4277-863b-ad40c6f1a5e5"));
+//        a.setAddress("May thang ngu ");
+//        System.out.println(new AccountDAO().editAccount(a));
+        ArrayList<Account> accounts = new AccountDAO().getListAccountByRole(2);
+        for (Account account : accounts) {
+            System.out.println(account);
+        }
     }
 
     @Override
