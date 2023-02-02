@@ -35,7 +35,6 @@ public class ClassController extends HttpServlet {
                 if (c.getName().equals("cookPass")) {
                     pass = c.getValue();
                 }
-
             }
             if (email.equals("") || pass.equals("")) {
                 resp.sendRedirect(req.getContextPath() + "/");
@@ -46,12 +45,14 @@ public class ClassController extends HttpServlet {
             
             ArrayList<ClassObject> classObj = new ClassObjectDAO().getClassByAccId(a.getAccountId());
             if (a.getRole() == 1) {
+                req.setAttribute("verified", true);
                 req.setAttribute("classObjList", classObj);
                 req.getRequestDispatcher("ClassT.jsp").forward(req, resp);
             } else if (a.getRole() == 2) {
                 req.setAttribute("hglO", false);
                 req.setAttribute("hglV", true);
                 req.setAttribute("co", CO);
+                req.setAttribute("verified", true);
                 req.getRequestDispatcher("ClassS.jsp").forward(req, resp);
             }
         } catch (Exception ex) {

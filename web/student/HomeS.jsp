@@ -33,14 +33,10 @@
                             </tr>
                         </thead>
                         <tbody style=" color: #6e6e6e !important">
-                            <tr> 
-                                
+                            <tr>                               
                             </tr>
                         </tbody>
                     </table>
-                    <!--                    <div>
-                                            <img style="width: 100%" src="assets/img/Untitled.png" alt=""/>
-                                        </div>-->
                 </div>  
             </div>
 

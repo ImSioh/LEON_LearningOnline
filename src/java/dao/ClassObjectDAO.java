@@ -13,7 +13,17 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
         String query = "SELECT * FROM class c WHERE c.account_id = ?";
         return selectMany(query, Util.UUIDToByteArray(id));
     }
-
+    
+    public ArrayList<ClassObject> getListClassTByNameID(String name, UUID id) throws Exception {
+        String query = "SELECT * FROM class a WHERE a.name LIKE ? and a.account_id = ?";
+        return selectMany(query, "%" + name + "%", Util.UUIDToByteArray(id));
+    }
+    public ArrayList<ClassObject> getListClassSByNameID(String name, UUID id) throws Exception {
+        String query = "select * from class c \n"
+                + " join enrollment e on c.class_id = e.class_id\n"
+                + " join account a on e.account_id = a.account_id and c.name LIKE ? and a.account_id = ?";
+        return selectMany(query, "%" + name + "%", Util.UUIDToByteArray(id));
+    }
     public ArrayList<ClassObject> getClassNameCodeByAccId(UUID id) throws Exception {
         String query = "select * from class c \n"
                 + " join enrollment e on c.class_id = e.class_id\n"
@@ -71,8 +81,8 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
 
     public static void main(String[] args) throws Exception {
 
-        ArrayList<ClassObject> classObj = new ClassObjectDAO().getClassNameCodeByAccId(UUID.fromString("632ec23b-de81-471e-9d0f-8819bf7e629e"));
-//        ClassObject co = new ClassObjectDAO().getClassByAccIdN(UUID.fromString("e6ef22cf-060b-4e16-91a0-359408178fb0"));
+        ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassSByNameID("b", UUID.fromString("5010ed92-4af1-43c2-88eb-4a4e91999d89"));
+//        ClassObject co = new ClassObjectDAO().getClassByAccIdN(UUID.fromString("46459f52-7d08-43b1-9e90-0d31d326f683"));
         for (ClassObject c : classObj) {
             System.out.println(c.getCode());
         }

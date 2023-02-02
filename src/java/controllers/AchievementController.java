@@ -18,12 +18,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @WebServlet(name = "Overview_Acvm_Student", urlPatterns = {"/student/achievement"})
-public class Overview_Acvm_Student extends HttpServlet {
+public class AchievementController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+            // get data form Cookie
             String email = "", pass = "";
             Cookie[] cookies = req.getCookies();
             for (Cookie c : cookies) {
@@ -34,9 +35,11 @@ public class Overview_Acvm_Student extends HttpServlet {
                     pass = c.getValue();
                 }
             }
+            //check valid of url
             if (email.equals("") || pass.equals("")) {
                 resp.sendRedirect(req.getContextPath() + "/");
             }
+            // get data from database
             AccountDAO accountDAO = new AccountDAO();
             Account accL = accountDAO.getAccountByEmail(email);
             if (accL.getRole() == 2) {
@@ -49,7 +52,7 @@ public class Overview_Acvm_Student extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(Overview_Icpl_Student.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OverviewController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
