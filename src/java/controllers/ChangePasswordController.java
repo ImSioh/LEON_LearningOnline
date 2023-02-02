@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author leducphi
  */
-@WebServlet(name = "ChangePasswordController", urlPatterns = {"/profile/change-password"})
+@WebServlet(name = "ChangePasswordController", urlPatterns = {"/student/profile/change-password", "/teacher/profile/change-password"})
 public class ChangePasswordController extends HttpServlet {
 
     /**
@@ -63,7 +63,7 @@ public class ChangePasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("../change-password.jsp").forward(request, response);
+        request.getRequestDispatcher("/change-password.jsp").forward(request, response);
     }
 
     /**
@@ -82,34 +82,53 @@ public class ChangePasswordController extends HttpServlet {
             String txtOldPass = request.getParameter("txtOldPass");
             String txtNewPass = request.getParameter("txtNewPass");
             String txtReNewPass = request.getParameter("txtReNewPass");
+            request.setAttribute("txtOldPass", txtOldPass);
+            request.setAttribute("txtNewPass", txtNewPass);
+            request.setAttribute("txtReNewPass", txtReNewPass);
             String msg = "";
             String hashOld = Util.hashingSHA256(txtOldPass);
             String hashNew = Util.hashingSHA256(txtReNewPass);
             System.out.println(Util.hashingSHA256(txtOldPass));
             Account acc = new AccountDAO().getAccountById(UUID.fromString(txtUUID));
-            if (!hashOld.equals(acc.getPassword())) {
+            
+            if ("".equals(txtOldPass) || "".equals(txtNewPass) || "".equals(txtReNewPass)) {
+                msg = "You are missing some information";
+                request.setAttribute("msg", msg);
+                request.getRequestDispatcher("/change-password.jsp").forward(request, response);
+            } else if (txtOldPass.length() < 8 || txtNewPass.length() < 8 || txtReNewPass.length() < 8) {
+                msg = "Password need to contain at least 8 characters";
+                request.setAttribute("msg", msg);
+                request.getRequestDispatcher("/change-password.jsp").forward(request, response);
+            } else if (!txtNewPass.equals(txtReNewPass)) {
+                msg = "Confirm password doesn't match";
+                request.setAttribute("msg", msg);
+                request.getRequestDispatcher("/change-password.jsp").forward(request, response);
+            } else if (!hashOld.equals(acc.getPassword())) {
                 msg = "Your old password is not correct";
                 request.setAttribute("msg", msg);
-                request.getRequestDispatcher("../change-password.jsp").forward(request, response);
+                request.getRequestDispatcher("/change-password.jsp").forward(request, response);
             } else {
                 acc.setPassword(hashNew);
                 int status = new AccountDAO().editAccount(acc);
                 if (status == 1) {
-                    msg = "changed";
+                    if (acc.getRole() == 1) {
+                        response.sendRedirect(request.getContextPath() + "/teacher/profile");
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/student/profile");
+                    }
+                } else {
+                    msg = "Something wrong please try again!";
                     request.setAttribute("msg", msg);
                     request.getRequestDispatcher("../change-password.jsp").forward(request, response);
                 }
-                request.setAttribute("msg", msg);
-                request.getRequestDispatcher("../change-password.jsp").forward(request, response);
             }
+            
+            
 
-            response.sendRedirect(request.getContextPath() + "/profile");
-//        if (!response.isCommitted()) {
-//            response.sendRedirect(request.getContextPath() + "/profile");
-//        }
         } catch (Exception ex) {
             Logger.getLogger(ChangePasswordController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**
