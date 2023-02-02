@@ -33,19 +33,29 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, Util.UUIDToByteArray(id));
     }
 
-    public ArrayList<Account> getListAccountByEmail(String email) throws Exception {
-        String query = "SELECT * FROM account a WHERE a.email = ?";
-        return selectMany(query, email);
+    public ArrayList<Account> getListAccountByEmail(String email, int role) throws Exception {
+        String query = "SELECT * FROM account a WHERE a.email LIKE ? and a.role = ?";
+        return selectMany(query, "%" + email + "%", role);
     }
 
     public ArrayList<Account> getListAccountByRole(int role) throws Exception {
         String query = "SELECT * FROM account WHERE role = ?;";
         return selectMany(query, role);
     }
-    
+
     public ArrayList<Account> getListAllAccount() throws Exception {
         String query = "SELECT * FROM account";
         return selectMany(query);
+    }
+
+    public ArrayList<Account> getListAccountByPhoneNumber(String phoneNumber, int role) throws Exception {
+        String query = "SELECT * FROM account a WHERE a.phone_number LIKE ? and a.role = ?";
+        return selectMany(query, "%" + phoneNumber + "%", role);
+    }
+
+    public ArrayList<Account> getListAccountByName(String name, int role) throws Exception {
+        String query = "SELECT * FROM account a WHERE a.name LIKE ? and a.role = ?";
+        return selectMany(query, "%" + name + "%", role);
     }
 
     public int setVerifyCodeNull(UUID id) throws Exception {
@@ -92,6 +102,10 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
 
     public static void main(String[] args) throws Exception {
+//        Account a = new AccountDAO().getAccountById(UUID.fromString("1d71af77-a945-4277-863b-ad40c6f1a5e5"));
+//        a.setAddress("May thang ngu ");
+//        System.out.println(new AccountDAO().editAccount(a)); 
+//System.out.println(new AccountDAO().getListAccountByEmail("admin",1));
         Account a = new AccountDAO().getAccountById(UUID.fromString("1d71af77-a945-4277-863b-ad40c6f1a5e5"));
 //        a.setAddress("May thang ngu ");
 //        System.out.println(new AccountDAO().editAccount(a));

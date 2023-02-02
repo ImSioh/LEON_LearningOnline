@@ -79,7 +79,7 @@ public class ViewListAdminController extends HttpServlet {
         } else if (request.getServletPath().contains("student-account-list")) {
             try {
                 ArrayList<Account> students = new AccountDAO().getListAccountByRole(2);
-                request.setAttribute("students", students);
+                request.setAttribute("accountList", students);
             } catch (Exception ex) {
                 Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -87,7 +87,7 @@ public class ViewListAdminController extends HttpServlet {
         } else if (request.getServletPath().contains("teacher-account-list")) {
             try {
                 ArrayList<Account> teachers = new AccountDAO().getListAccountByRole(1);
-                request.setAttribute("teachers", teachers);
+                request.setAttribute("accountList", teachers);
             } catch (Exception ex) {
                 Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
             }

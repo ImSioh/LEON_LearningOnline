@@ -27,7 +27,7 @@
 
     <body>
         <div class="main">
-            <div id="header" class="fixed-top" style="top: 0">
+            <div id="header" class="top" style="top: 0">
                 <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <!-- Container wrapper -->
@@ -39,9 +39,7 @@
                             <i class="fas fa-bars"></i>
                         </button>
 
-                        <!-- Collapsible wrapper -->
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <!-- Navbar brand -->
+                    <!-- Collapsible wrapper -->
 
                             <a href="" class="navbar-brand mt-2 mt-lg-0">LE.ON - Admin</a>
 
