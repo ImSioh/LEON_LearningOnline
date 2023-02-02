@@ -64,22 +64,13 @@ public class EditProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = "";
-        // Get an array of Cookies associated with this domain
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("cookEmail")) {
-                    email = cookie.getValue();
-                }
-            }
-        }
-        try {
-            Account account = new AccountDAO().getAccountByEmail(email);
-            request.getSession().setAttribute("account", account);
-        } catch (Exception ex) {
-            Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        Account account = (Account) request.getAttribute("account");
+//
+//        try {
+//            request.getSession().setAttribute("account", account);
+//        } catch (Exception ex) {
+//            Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         request.getRequestDispatcher("/edit-profile.jsp").forward(request, response);
     }
 
@@ -108,7 +99,7 @@ public class EditProfileController extends HttpServlet {
             int status = new AccountDAO().editAccount(account);
 
             request.setAttribute("status", status);
-            response.sendRedirect(request.getContextPath() + "/profile");
+            response.sendRedirect(request.getContextPath() + "/teacher/profile");
 
         } catch (Exception ex) {
             Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);

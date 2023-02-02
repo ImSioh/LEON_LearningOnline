@@ -14,14 +14,14 @@
 
 <div class="content-main">
     <c:forEach items="${classObjList}" var="co">
-        <div class="class-content">
-            <a href="HomeS.jsp">            
-                <div style="overflow: hidden; width: 100%; height: 100%; height: 100px; background-size: cover;
-                     background-position: center;background-image: url(teacher/assets/img/2165310.png)">               
-                </div>            
-                <div>
+        <div class="class-content" style="border-radius: 8px; overflow: hidden">
+            <a href="HomeS.jsp" style="text-decoration: none;">            
+                <div style="overflow: hidden; width: 100%; height: 100%;height: 100px; background-size: cover;
+                     background-position: center;
+                     background-image: url(<c:url value="${co.getClassPicture() == null ? '/assets/img/Common_picture.png' : co.getClassPicture()}"/>)"> 
+                </div>     
+                <div style="padding: 4px 8px">
                     ${co.getName()}<br>
-                    ${co.getCode()}
                 </div>
             </a>               
         </div>  
