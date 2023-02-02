@@ -34,7 +34,7 @@
                    style="margin: 5px 0 5px 15%; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
     </form>
-            
+
     <div class="table">
         <table class="table table-light table-hover">
             <thead>
@@ -45,7 +45,7 @@
                     <th>Address</th>
                     <th>PhoneNumber</th>
                     <th>CreateTime</th>
-                    <th>Locked</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -70,19 +70,7 @@
             </tbody>
         </table>
     </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-            <li class="page-item disabled">
-                <a class="page-link">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
+    <c:import url="/template/pagination-bar.jsp"/>
 </div>
 
 <%@include file="template/footer.jsp" %>

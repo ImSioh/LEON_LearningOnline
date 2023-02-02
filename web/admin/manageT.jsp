@@ -44,7 +44,7 @@
                     <th>Address</th>
                     <th>PhoneNumber</th>
                     <th>CreateTime</th>
-                    <th>Locked</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
