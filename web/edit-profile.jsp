@@ -40,18 +40,22 @@
                                             <div class="col-md-12">
                                                 <label class="labels">Name</label>
                                                 <input type="text" class="form-control" placeholder="${account.getName()}" value="${account.getName()}" name="txtName">
+                                                <label id="name-error" class="error" for="name">${requestScope["txtName-error"]}</label>
                                             </div>
                                             <div class="col-md-12">
                                                 <label class="labels">Mobile Number</label>
                                                 <input type="text" class="form-control" placeholder="${account.getPhoneNumber()}" value="${account.getPhoneNumber()}" name="txtPhone">
+                                                <label id="name-error" class="error" for="name">${requestScope["txtPhone-error"]}</label>
                                             </div>
                                             <div class="col-md-12">
                                                 <label class="labels">Date of birth</label>
                                                 <input type="date" class="form-control" placeholder="${account.getBirthDate()}" value="${account.getBirthDate()}" name="txtBD">
+                                                <label id="name-error" class="error" for="name">${requestScope["txtBD-error"]}</label>
                                             </div>
                                             <div class="col-md-12">
                                                 <label class="labels">Address</label>
                                                 <input type="text" class="form-control" placeholder="${account.getAddress()}" value="${account.getAddress()}" name="txtAddress">
+                                                <label id="name-error" class="error" for="name">${requestScope["txtAddress-error"]}</label>
                                             </div>
                                             <div class="col-md-12">
                                                 <label class="labels">Email</label>
