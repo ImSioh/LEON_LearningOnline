@@ -8,7 +8,6 @@ import dao.AccountDAO;
 import dao.FeedbackDAO;
 import dto.Account;
 import dto.Feedback;
-import helpers.FormValidator;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -65,44 +64,50 @@ public class ViewListAdminController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Account account = (Account) request.getAttribute("account");
-        AccountDAO aD = new AccountDAO();
-        FeedbackDAO fD = new FeedbackDAO();
+        try {
+            Account account = (Account) request.getAttribute("account");
+            AccountDAO accountDAO = new AccountDAO();
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
 
-        int pageItem = 5;
-        //feedback
-        if (request.getServletPath().contains("feedback-list")) {
-            try {
-                ArrayList<Feedback> feedbacks = fD.getAllFeedbacks();
-                ArrayList<Account> accounts = aD.getListAllAccount();
+            int pageItem = 2;
+            
+            //feedback
+            if (request.getServletPath().contains("feedback-list")) {
+                try {
+                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacks();
+                    feedbackDAO.setItemList(feedbacks);
+                    ArrayList<Account> accounts = accountDAO.getListAllAccount();
 
-//                fD.setMaxPageItem(pageItem);
-//                fD.setMaxTotalPage(10);
+                    feedbackDAO.setMaxPageItem(pageItem);
+                    feedbackDAO.setMaxTotalPage(10);
 
-                request.setAttribute("feedbacks", feedbacks);
-                request.setAttribute("accounts", accounts);
-            } catch (Exception ex) {
-                Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                    request.setAttribute("feedbackDAO", feedbackDAO);
+                    request.setAttribute("feedbacks", feedbacks);
+                    request.setAttribute("accounts", accounts);
+                } catch (Exception ex) {
+                    Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
+            } //student
+            else if (request.getServletPath().contains("student-account-list")) {
+                try {
+                    ArrayList<Account> students = accountDAO.getListAccountByRole(2);
+                    request.setAttribute("accountList", students);
+                } catch (Exception ex) {
+                    Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
+            } //teacher
+            else if (request.getServletPath().contains("teacher-account-list")) {
+                try {
+                    ArrayList<Account> teachers = accountDAO.getListAccountByRole(1);
+                    request.setAttribute("accountList", teachers);
+                } catch (Exception ex) {
+                    Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
             }
-            request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
-        } //student
-        else if (request.getServletPath().contains("student-account-list")) {
-            try {
-                ArrayList<Account> students = aD.getListAccountByRole(2);
-                request.setAttribute("accountList", students);
-            } catch (Exception ex) {
-                Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
-        } //teacher
-        else if (request.getServletPath().contains("teacher-account-list")) {
-            try {
-                ArrayList<Account> teachers = aD.getListAccountByRole(1);
-                request.setAttribute("accountList", teachers);
-            } catch (Exception ex) {
-                Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
+        } catch (Exception e) {
         }
     }
 

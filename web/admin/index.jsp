@@ -1,4 +1,11 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<c:set scope="page" var="pageNumber" value="${param.page != null ? param.page : 1}"/>
+<c:if test="${!(pageNumber >= 1 && pageNumber <= feedbackDAO.totalPage)}">
+    <c:redirect url="/admin/feedback-list"/>
+</c:if>
+
 <%@include file="template/header.jsp" %>
 
 <div id="content">
@@ -49,14 +56,12 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${feedbacks}" var="fb">
+                <c:forEach items="${feedbackDAO.getItemsInPage(pageNumber)}" var="fb">
                     <tr>
                         <td>
                             <a href="">${fb.getFeedbackId()}</a>
                         </td>
-                        <td>
-                            <a href="">${fb.getAccountId()}</a>
-                        </td>
+                        <td>${fb.getAccountId()}</td>
                         <c:forEach items="${accounts}" var="acc">
                             <c:if test="${fb.getAccountId() == acc.getAccountId() 
                                           && acc.getRole() == 1}">
@@ -80,7 +85,15 @@
             </tbody>
         </table>
     </div>
-    <c:import url="/template/pagination-bar.jsp"/>
+
+    <c:url value="admin/feedback-list" var="baseUrl">
+
+    </c:url>
+    <c:import url="/template/pagination-bar.jsp">
+        <c:param name="page" value="${pageNumber}"/>
+        <c:param name="modelDAOName" value="feedbackDAO"/>
+        <c:param name="basePath" value="/${baseUrl}"/>
+    </c:import>
 </div>
 
 <%@include file="template/footer.jsp" %>
