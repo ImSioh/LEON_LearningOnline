@@ -2,27 +2,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controllers;
+package controllers.admin;
 
 import dao.AccountDAO;
+import dao.FeedbackDAO;
 import dto.Account;
+import dto.Feedback;
 import helpers.FormValidator;
-import helpers.Util;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
- * @author leducphi
+ * @author Asus
  */
-@WebServlet(name = "ChangePasswordController", urlPatterns = {"/student/profile/change-password", "/teacher/profile/change-password"})
-public class ChangePasswordController extends HttpServlet {
+@WebServlet(name = "ViewListAdminController", urlPatterns = {"/admin/feedback-list", "/admin/student-account-list", "/admin/teacher-account-list"})
+public class ViewListAdminController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +44,10 @@ public class ChangePasswordController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ChangePasswordController</title>");
+            out.println("<title>Servlet ViewListAdminController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ChangePasswordController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewListAdminController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,7 +65,45 @@ public class ChangePasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/change-password.jsp").forward(request, response);
+        Account account = (Account) request.getAttribute("account");
+        AccountDAO aD = new AccountDAO();
+        FeedbackDAO fD = new FeedbackDAO();
+
+        int pageItem = 5;
+        //feedback
+        if (request.getServletPath().contains("feedback-list")) {
+            try {
+                ArrayList<Feedback> feedbacks = fD.getAllFeedbacks();
+                ArrayList<Account> accounts = aD.getListAllAccount();
+
+//                fD.setMaxPageItem(pageItem);
+//                fD.setMaxTotalPage(10);
+
+                request.setAttribute("feedbacks", feedbacks);
+                request.setAttribute("accounts", accounts);
+            } catch (Exception ex) {
+                Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
+        } //student
+        else if (request.getServletPath().contains("student-account-list")) {
+            try {
+                ArrayList<Account> students = aD.getListAccountByRole(2);
+                request.setAttribute("accountList", students);
+            } catch (Exception ex) {
+                Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
+        } //teacher
+        else if (request.getServletPath().contains("teacher-account-list")) {
+            try {
+                ArrayList<Account> teachers = aD.getListAccountByRole(1);
+                request.setAttribute("accountList", teachers);
+            } catch (Exception ex) {
+                Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -76,46 +117,7 @@ public class ChangePasswordController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Account acc = (Account) request.getAttribute("account");
-        FormValidator formValidator = new FormValidator(request);
-
-        formValidator.setCheckParam("txtOldPass", true, String.class, a -> Util.hashingSHA256(a).equals(acc.getPassword()), "Password not corect!");
-        formValidator.setCheckParam("txtNewPass", true, String.class);
-        formValidator.setCheckParam("txtReNewPass", true, String.class, a -> !a.equals((String) formValidator.get("txtOldPass")) && a.equals((String) formValidator.get("txtNewPass")), "Confirm password do not match");
-
-        boolean validForm = formValidator.isValid();
-
-        if (validForm) {
-
-            try {
-                String txtReNewPass = (String) formValidator.get("txtReNewPass");
-
-                acc.setPassword(Util.hashingSHA256(txtReNewPass));
-
-                int status = new AccountDAO().editAccount(acc);
-                Cookie cookPass = new Cookie("cookPass", acc.getPassword());
-                cookPass.setPath(request.getContextPath());
-                response.addCookie(cookPass);
-                if (status > 0) {
-
-                    request.setAttribute("status", status);
-                    if (acc.getRole() == 1) {
-                        response.sendRedirect(request.getContextPath() + "/teacher/profile");
-                    } else {
-                        response.sendRedirect(request.getContextPath() + "/student/profile");
-                    }
-                } else {
-                    validForm = false;
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-        }
-        if (!validForm) {
-            request.getRequestDispatcher("/change-password.jsp").forward(request, response);
-        }
-
+        processRequest(request, response);
     }
 
     /**

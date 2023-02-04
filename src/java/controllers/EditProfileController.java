@@ -6,6 +6,8 @@ package controllers;
 
 import dao.AccountDAO;
 import dto.Account;
+import helpers.FormValidator;
+import helpers.Util;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -15,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,22 +67,7 @@ public class EditProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = "";
-        // Get an array of Cookies associated with this domain
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("cookEmail")) {
-                    email = cookie.getValue();
-                }
-            }
-        }
-        try {
-            Account account = new AccountDAO().getAccountByEmail(email);
-            request.getSession().setAttribute("account", account);
-        } catch (Exception ex) {
-            Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
         request.getRequestDispatcher("/edit-profile.jsp").forward(request, response);
     }
 
@@ -94,26 +82,92 @@ public class EditProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String txtName = request.getParameter("txtName");
-        String txtPhone = request.getParameter("txtPhone");
-        String txtBD = request.getParameter("txtBD");
-        String txtAddress = request.getParameter("txtAddress");
-        String txtUUID = request.getParameter("txtUUID");
         try {
+            //        String txtName = request.getParameter("txtName");
+//        String txtPhone = request.getParameter("txtPhone");
+//        String txtBD = request.getParameter("txtBD");
+//        String txtAddress = request.getParameter("txtAddress");
+            String txtUUID = request.getParameter("txtUUID");
+            AccountDAO accountDAO = new AccountDAO();
+            FormValidator formValidator = new FormValidator(request);
             Account account = new AccountDAO().getAccountById(UUID.fromString(txtUUID));
-            account.setName(txtName);
-            account.setPhoneNumber(txtPhone);
-            account.setBirthDate(Date.valueOf(txtBD));
-            account.setAddress(txtAddress);
-            int status = new AccountDAO().editAccount(account);
 
-            request.setAttribute("status", status);
-            response.sendRedirect(request.getContextPath() + "/profile");
+            formValidator.setCheckParam(
+                    "txtName",
+                    true,
+                    String.class,
+                    a -> a.length() <= (100),
+                    "Please enter no more than 100 characters"
+            );
 
+            formValidator.setCheckParam(
+                    "txtBD",
+                    false,
+                    Date.class,
+                    (a, b) -> ((Date) b).before(new Date(System.currentTimeMillis())),
+                    "Birth of date must before present"
+            );
+
+            formValidator.setCheckParam("txtAddress", false, String.class);
+
+            formValidator.setCheckParam(
+                    "txtPhone",
+                    false,
+                    String.class,
+                    a -> a.matches("^(84|0[3|5|7|8|9])+([0-9]{8})$"),
+                    "Invalid phone number"
+            );
+            formValidator.addCheckFunction(
+                    "txtPhone",
+                    (a, b) -> {
+                        try {
+                            if (a.equals(account.getPhoneNumber())) {
+                                return true;
+                            } else {
+                                return accountDAO.getAccountByPhone(a) == null;
+                            }
+                        } catch (Exception e) {
+                        }
+                        return false;
+                    },
+                    "Account with phone number %txtPhone% is existed"
+            );
+
+            boolean validForm = formValidator.isValid();
+
+            if (validForm) {
+
+                String name = (String) formValidator.get("txtName");
+                Date dob = (Date) formValidator.get("txtBD");
+                String address = (String) formValidator.get("txtAddress");
+                String phoneNumber = (String) formValidator.get("txtPhone");
+
+                account.setName(name);
+                account.setPhoneNumber(phoneNumber);
+                account.setBirthDate(dob);
+                account.setAddress(address);
+
+                int status = new AccountDAO().editAccount(account);
+
+                if (status > 0) {
+                    request.setAttribute("status", status);
+                    if (account.getRole() == 1) {
+                        response.sendRedirect(request.getContextPath() + "/teacher/profile");
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/student/profile");
+                    }
+
+                } else {
+                    validForm = false;
+                }
+
+            }
+            if (!validForm) {
+                request.getRequestDispatcher("/edit-profile.jsp").forward(request, response);
+            }
         } catch (Exception ex) {
             Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        request.getRequestDispatcher( request.getContextPath() + "profile").forward(request, response);
     }
 
     /**

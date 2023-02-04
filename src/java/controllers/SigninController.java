@@ -70,7 +70,7 @@ public class SigninController extends HttpServlet {
                         response.sendRedirect(request.getContextPath() + "/student/overview");
                         break;
                     case 3:
-                        response.sendRedirect(request.getContextPath() + "/admin");
+                        response.sendRedirect(request.getContextPath() + "/admin/feedback-list");
                         break;
                 }
             }

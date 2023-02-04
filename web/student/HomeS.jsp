@@ -1,8 +1,8 @@
 <%@include file= "./template/header.jsp" %>
-<div class="content" >
+<div class="content"  >
     <div class="row" style="margin-top: 50px;padding-left: calc(100% / 6);">
-        <div class="col-md-2" style="position: fixed;transform: translateX(-100%);">
-            <div style="background-color: #f8f9fa; height: 100vh" class="d-flex flex-shrink-0 p-3" >
+        <div class="col-md-2" style="position: fixed; transform: translateX(-100%);">
+            <div style="background-color: #f8f9fa; height: 100vh; width: 220px;" class="d-flex flex-shrink-0 p-3" >
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto sidebarnav" style="padding-left: 15px">
                     <li class="nav-item ">
@@ -33,14 +33,10 @@
                             </tr>
                         </thead>
                         <tbody style=" color: #6e6e6e !important">
-                            <tr> 
-                                
+                            <tr>                               
                             </tr>
                         </tbody>
                     </table>
-                    <!--                    <div>
-                                            <img style="width: 100%" src="assets/img/Untitled.png" alt=""/>
-                                        </div>-->
                 </div>  
             </div>
 

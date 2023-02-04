@@ -3,7 +3,7 @@ package dao;
 import dto.Feedback;
 import helpers.Util;
 import java.sql.ResultSet;
-import java.util.UUID;
+import java.util.ArrayList;
 
 public class FeedbackDAO extends AbstractDAO<Feedback> {
 
@@ -16,6 +16,20 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
         );
     }
 
+    public ArrayList<Feedback> getAllFeedbacks() throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id;";
+        return selectMany(query);
+    }
+
+    public static void main(String[] args) throws Exception {
+        ArrayList<Feedback> feedbacks = new FeedbackDAO().getAllFeedbacks();
+        for (Feedback feedback : feedbacks) {
+            System.out.println(feedback);
+        }
+    }
+
     @Override
     protected Feedback propMapping(ResultSet rs) throws Exception {
         return new Feedback(
@@ -26,6 +40,5 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
                 rs.getNString("response")
         );
     }
-    
-    
+
 }

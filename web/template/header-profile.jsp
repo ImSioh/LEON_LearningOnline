@@ -23,7 +23,8 @@
               rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
               crossorigin="anonymous" />
 
-        <title>LE.ON</title>
+        <link rel="icon" href="<c:url value="/assets/img/leon-icon.png"/>">
+        <title>Profile</title>
 
         <style>
             body {

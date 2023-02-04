@@ -26,7 +26,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <!--Jquery validate-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+        <link rel="icon" href="<c:url value="/assets/img/leon-icon.png"/>">
         <title>LE.ON</title>
 
         <style>
@@ -53,7 +53,7 @@
             .class-content{
                 width: calc((100% - 220px)/6);
                 border: 1px solid saddlebrown;
-                margin: 10px 18px 120px 18px;
+                margin: 10px 18px 20px 18px;
             }
         </style>
 
@@ -82,7 +82,7 @@
                             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
 
                                 <li class="nav-item">
-                                    <a class="nav-link btn-secondary" href="<%=path%>/teacher/class" style="color: #E0F7FA; font-size: 15px;">Class</a>
+                                    <a class="nav-link" href="<%=path%>/teacher/class" style="color: #E0F7FA; font-size: 15px;">Class</a>
                                 </li>
                             </ul>
                             <!-- Left links -->
