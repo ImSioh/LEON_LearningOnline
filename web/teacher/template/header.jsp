@@ -118,7 +118,7 @@
                                         </div>
                                     </a>
 
-                                    <a href="#" style="font-size: 16px;text-decoration: none">
+                                    <a href="<c:url value="/SendFeedback"/>" style="font-size: 16px;text-decoration: none">
                                         <div class="d-flex bd-highlight dropdown-item">
                                             <span class="p-2 flex-shrink-1 bd-highlight">
                                                 <i class="far fa-paper-plane"></i>
