@@ -17,10 +17,6 @@
                                     <form action="<%=path%>/teacher/search" method="post">
                                         <input type="search" class="form-control rounded" name="searchName" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                                     </form>
-                                    <span class="input-group-text border-0" id="search-addon">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-
                                 </div>
                             </div>
                         </ol>
