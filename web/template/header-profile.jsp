@@ -83,7 +83,7 @@
                             <!--Notifications--> 
                             <div class="dropdown">
                                 <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-bell" style="font-size: 22px; text-decoration: none; color: ${account.getRole() == 1 ? "white" : "black"}";"></i>
+                                    <i class="fas fa-bell" style="font-size: 22px; text-decoration: none; color: ${account.getRole() == 1 ? "white" : "black"}"; margin-left: 14px;"></i>
                                     <span class="badge rounded-pill badge-notification bg-danger">1</span>
                                 </a>
 
@@ -94,42 +94,38 @@
                                     <i class="far fa-user-circle" style="font-size: 24px; text-decoration: none; color: ${account.getRole() == 1 ? "white" : "black"}"; margin-left: 10px;"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                                    <div class="d-flex bd-highlight dropdown-item">
-                                        <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <i class="far fa-user"></i>
-                                        </li>
-                                        <li class="p-2 w-100 bd-highlight">
-                                            <c:choose>
-                                                <c:when test="${account.getRole() == 1 }">
-                                                    <a href="<c:url value="/teacher/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+                                    <a href="<c:url value="/${account.getRole() == 1 ? 'teacher' : 'student'}/profile"/>" style="font-size: 16px;text-decoration: none">
+                                        <div class="d-flex bd-highlight dropdown-item">
+                                            <span class="p-2 flex-shrink-1 bd-highlight">
+                                                <i class="far fa-user"></i>
+                                            </span>
+                                            <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
+                                                Profile
+                                            </span>
+                                        </div>
+                                    </a>
 
-                                                </c:when>    
-                                                <c:otherwise>
-                                                    <a href="<c:url value="/student/profile"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Profile</a>
+                                    <a href="<c:url value="/SendFeedback"/>" style="font-size: 16px;text-decoration: none">
+                                        <div class="d-flex bd-highlight dropdown-item">
+                                            <span class="p-2 flex-shrink-1 bd-highlight">
+                                                <i class="far fa-paper-plane"></i>
+                                            </span>
+                                            <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
+                                                Send feedback
+                                            </span>
+                                        </div>
+                                    </a>
 
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </li>
-                                    </div>
-
-                                    <div class="d-flex bd-highlight dropdown-item">
-                                        <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <i class="far fa-paper-plane"></i>
-                                        </li>
-                                        <li class="p-2 w-100 bd-highlight">
-                                            <a href="<c:url value="/SendFeedback"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Send feedback</a>
-                                        </li>
-                                    </div>
-
-                                    <div class="d-flex bd-highlight dropdown-item">
-                                        <li class="p-2 flex-shrink-1 bd-highlight">
-                                            <i class="fas fa-sign-out-alt"></i>
-                                        </li>
-                                        <li class="p-2 w-100 bd-highlight">
-                                            <a href="<c:url value="/logout"/>" style="color: #6e6e6e; font-size: 16px;text-decoration: none">Log Out</a>
-                                        </li>
-                                    </div>
-
+                                    <a href="<c:url value="/logout"/>" style="font-size: 16px;text-decoration: none">
+                                        <div class="d-flex bd-highlight dropdown-item">
+                                            <span class="p-2 flex-shrink-1 bd-highlight">
+                                                <i class="fas fa-sign-out-alt"></i>
+                                            </span>
+                                            <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
+                                                Log Out
+                                            </span>
+                                        </div>
+                                    </a>
                                 </ul>
                             </div>
                         </div>

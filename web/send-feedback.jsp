@@ -10,7 +10,7 @@
                     <i class="uil uil-phone contact__icon"></i>
 
                     <div>
-                        <h3 class="contact__title">PhoneNumber</h3>
+                        <h3 class="contact__title">Phone Number</h3>
                         <span class="contact__subtitle">0912345678</span>
 
                     </div>
