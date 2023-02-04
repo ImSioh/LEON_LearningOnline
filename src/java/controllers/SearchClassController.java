@@ -58,7 +58,10 @@ public class SearchClassController extends HttpServlet {
         try {
             //get parameter from jsp file
             String searchName = req.getParameter("searchName");
-            
+            if (searchName.equals("%")) {
+                req.setAttribute("verified", false);
+                req.getRequestDispatcher("ClassT.jsp").forward(req, resp);
+            }
             // get data from Cookie
             String email = "", pass = "";
             Cookie[] cookies = req.getCookies();
@@ -74,7 +77,7 @@ public class SearchClassController extends HttpServlet {
             if (email.equals("") || pass.equals("")) {
                 resp.sendRedirect(req.getContextPath() + "/");
             }
-            
+
             // get data from database by query statement
             Account a = new AccountDAO().getAccountByEmail(email);
             ArrayList<ClassObject> classOT = new ClassObjectDAO().getListClassTByNameID(searchName, a.getAccountId());
