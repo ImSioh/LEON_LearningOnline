@@ -13,7 +13,7 @@
                     <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0 position-relative row">
                             <div class="left col-md-6" style="margin-left: 24px;">
-                                <button type="button" class="btn btn-info text-light ">Create class</button>
+                                <a type="button" class="btn btn-info text-light " href="<%=path%>/teacher/class/create">Create class</a>
                             </div>
                             <div class="right position-absolute col-md-6" style="top:0; bottom: 0;right: 0;">
                                 <div class="input-group rounded" style="">
