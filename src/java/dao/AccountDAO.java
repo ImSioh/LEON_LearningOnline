@@ -43,7 +43,7 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, role);
     }
 
-    public ArrayList<Account> getListAllAccount() throws Exception {
+    public ArrayList<Account> getListAllAccounts() throws Exception {
         String query = "SELECT * FROM account";
         return selectMany(query);
     }

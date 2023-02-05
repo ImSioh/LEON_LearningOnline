@@ -27,15 +27,22 @@
     <!--Sort-->
     <form action="<c:url value="/"/>" method="get" style="margin-top: 10px;">
         <span class="button-action" style="display: flex;">
-            <select name="optionSort" class="form-select" style="width: 30%; height: 10%; margin: 0 0 0 55%; text-align: center">
+            <select name="optionSort" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
                 <option value="name" ${optionSort eq "name"?"selected":""}>Name</option>
                 <option value="email" ${optionSort eq "email"?"selected":""}>Email</option>
                 <option value="phoneNumber" ${optionSort eq "phoneNumber"?"selected":""}>PhoneNumber</option>
             </select>
+            <select name="optionOrderBy" class="form-select" style="width: 35%; height: 10%; padding: 6px 12px; text-align: center">
+                <option value="true">Ascending</option>
+                <option value="false">Descending</option>
+<!--                <option value="name" ${optionOr eq "name"?"selected":""}>Name</option>
+                <option value="email" ${optionSort eq "email"?"selected":""}>Email</option>
+                <option value="phoneNumber" ${optionSort eq "phoneNumber"?"selected":""}>PhoneNumber</option>-->
+            </select>
             <input type="hidden" name="sortBy" value="1">
             <!--<input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; margin: 32px">--> 
             <input type="submit" value="SORT" id="sort" class="btn-info" 
-                   style="margin: 5px 0 5px 15%; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
+                   style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
     </form>
 

@@ -22,7 +22,15 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
                 + "WHERE fb.account_id = acc.account_id;";
         return selectMany(query);
     }
-    
+
+    public ArrayList<Feedback> getAllFeedbacksSort() throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "ORDER BY ? ?";
+        return selectMany(query);
+    }
+
     public ArrayList<Feedback> getAllFeedbacksAndPaging(int elements, int page) throws Exception {
         String query = "SELECT fb.*, acc.role\n"
                 + "FROM feedback as fb, account as acc\n"
@@ -32,7 +40,8 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
     }
 
     public static void main(String[] args) throws Exception {
-        ArrayList<Feedback> feedbacks = new FeedbackDAO().getAllFeedbacksAndPaging(3, 0);
+//        ArrayList<Feedback> feedbacks = new FeedbackDAO().getAllFeedbacksAndPaging(3, 0);
+        ArrayList<Feedback> feedbacks = new FeedbackDAO().getAllFeedbacksSort();
         for (Feedback feedback : feedbacks) {
             System.out.println(feedback);
         }

@@ -88,7 +88,7 @@ public class ViewListAdminController extends HttpServlet {
                     feedbackDAO.setMaxPageItem(element);
                     feedbackDAO.setMaxTotalPage(10);
 
-                    ArrayList<Account> accounts = accountDAO.getListAllAccount();
+                    ArrayList<Account> accounts = accountDAO.getListAllAccounts();
 
                     request.setAttribute("feedbackDAO", feedbackDAO);
                     request.setAttribute("feedbacks", feedbacks);
