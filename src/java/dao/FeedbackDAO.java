@@ -4,6 +4,7 @@ import dto.Feedback;
 import helpers.Util;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class FeedbackDAO extends AbstractDAO<Feedback> {
 
@@ -15,6 +16,11 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
                 feedback.getContent()
         );
     }
+    
+     public int updateFeedback(String response, UUID feebackId) throws Exception {
+        String query = "update feedback set response = ? where feedback_id = ?";
+        return update(query, response , Util.UUIDToByteArray(feebackId));
+    }
 
     public ArrayList<Feedback> getAllFeedbacks() throws Exception {
         String query = "SELECT fb.*, acc.role\n"
@@ -22,6 +28,12 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
                 + "WHERE fb.account_id = acc.account_id;";
         return selectMany(query);
     }
+    
+     public Feedback getFeedbackByFeedbackId(UUID feedbackId) throws Exception {
+         String query = "SELECT * FROM feedback f WHERE f.feedback_id = ?";
+        return selectOne(query, Util.UUIDToByteArray(feedbackId));
+    }
+    
 
     public ArrayList<Feedback> getAllFeedbacksSort(String criteria, String sort) throws Exception {
         String query = "SELECT fb.*, acc.role\n"
@@ -41,10 +53,8 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
 
     public static void main(String[] args) throws Exception {
 //        ArrayList<Feedback> feedbacks = new FeedbackDAO().getAllFeedbacksAndPaging(3, 0);
-        ArrayList<Feedback> feedbacks = new FeedbackDAO().getAllFeedbacksSort("content", "asc");
-        for (Feedback feedback : feedbacks) {
-            System.out.println(feedback);
-        }
+       
+        System.out.println(new FeedbackDAO().getFeedbackByFeedbackId(UUID.fromString("31000000-0000-0000-0000-000000000000")));
     }
 
     @Override
