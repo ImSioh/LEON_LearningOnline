@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "SendFeedbackController", urlPatterns = {"/SendFeedback"})
+@WebServlet(name = "SendFeedbackController", urlPatterns = {"/teacher/sendfeedback" ,"/student/sendfeedback"})
 public class SendFeedbackController extends HttpServlet {
 
     @Override
@@ -47,7 +47,7 @@ public class SendFeedbackController extends HttpServlet {
         request.setAttribute("feedbackTitle", feedbackTitle);
         request.setAttribute("feedbackContent", feedbackContent);
         request.setAttribute("msg", msg);
-        request.getRequestDispatcher("send-feedback.jsp").forward(request, response);
+        request.getRequestDispatcher("/send-feedback.jsp").forward(request, response);
     }
 
 }

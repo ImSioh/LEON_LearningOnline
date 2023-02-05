@@ -141,6 +141,9 @@ public class EditProfileController extends HttpServlet {
                 Date dob = (Date) formValidator.get("txtBD");
                 String address = (String) formValidator.get("txtAddress");
                 String phoneNumber = (String) formValidator.get("txtPhone");
+                if (phoneNumber.trim().isEmpty()) {
+                    phoneNumber = null;
+                }
 
                 account.setName(name);
                 account.setPhoneNumber(phoneNumber);
