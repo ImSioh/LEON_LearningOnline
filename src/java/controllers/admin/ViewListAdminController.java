@@ -69,16 +69,25 @@ public class ViewListAdminController extends HttpServlet {
             AccountDAO accountDAO = new AccountDAO();
             FeedbackDAO feedbackDAO = new FeedbackDAO();
 
-            int pageItem = 2;
-            
+            int element;
+            try {
+                element = Integer.parseInt(request.getParameter("element"));
+            } catch (Exception e) {
+                element = 1;
+            }
+            request.setAttribute("element", element);
+            int[] elementOption = {1, 2, 5, 10, 25};
+            request.setAttribute("elementOption", elementOption);
+
             //feedback
             if (request.getServletPath().contains("feedback-list")) {
                 try {
                     ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacks();
+//                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacksAndPaging(element, 0);
                     feedbackDAO.setItemList(feedbacks);
                     ArrayList<Account> accounts = accountDAO.getListAllAccount();
 
-                    feedbackDAO.setMaxPageItem(pageItem);
+                    feedbackDAO.setMaxPageItem(element);
                     feedbackDAO.setMaxTotalPage(10);
 
                     request.setAttribute("feedbackDAO", feedbackDAO);

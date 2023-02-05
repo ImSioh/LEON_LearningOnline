@@ -17,7 +17,7 @@
                     <a class="page-link" href="
                        <c:url value="${param.basePath}">
                            <c:param name="page" value="${pageNumber - 1}"/>
-                       </c:url>
+                       </c:url>&element=${element}
                        ">
                         Previous
                     </a>
@@ -35,7 +35,7 @@
                     <a class="page-link" href="
                        <c:url value="${param.basePath}">
                            <c:param name="page" value="${page}"/>
-                       </c:url>
+                       </c:url>&element=${element}
                        " <c:if test="${pageNumber == page}">
                            class="active"
                        </c:if>> 
@@ -55,7 +55,7 @@
                     <a class="page-link" href="
                        <c:url value="${param.basePath}">
                            <c:param name="page" value="${pageNumber + 1}"/>
-                       </c:url>
+                       </c:url>&element=${element}
                        ">
                         Next
                     </a>
