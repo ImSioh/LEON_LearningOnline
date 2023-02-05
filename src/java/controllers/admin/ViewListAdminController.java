@@ -8,7 +8,6 @@ import dao.AccountDAO;
 import dao.FeedbackDAO;
 import dto.Account;
 import dto.Feedback;
-import helpers.FormValidator;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -65,44 +64,69 @@ public class ViewListAdminController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Account account = (Account) request.getAttribute("account");
-        AccountDAO aD = new AccountDAO();
-        FeedbackDAO fD = new FeedbackDAO();
+        try {
+            Account account = (Account) request.getAttribute("account");
+            AccountDAO accountDAO = new AccountDAO();
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
 
-        int pageItem = 5;
-        //feedback
-        if (request.getServletPath().contains("feedback-list")) {
+            int element;
             try {
-                ArrayList<Feedback> feedbacks = fD.getAllFeedbacks();
-                ArrayList<Account> accounts = aD.getListAllAccount();
+                element = Integer.parseInt(request.getParameter("element"));
+            } catch (Exception e) {
+                element = 5;
+            }
+            request.setAttribute("element", element);
+            int[] elementOption = {1, 2, 5, 10, 25};
+            request.setAttribute("elementOption", elementOption);
 
-//                fD.setMaxPageItem(pageItem);
-//                fD.setMaxTotalPage(10);
+            //feedback
+            if (request.getServletPath().contains("feedback-list")) {
+                try {
+                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacks();
+//                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacksAndPaging(element, 0);
+                    feedbackDAO.setItemList(feedbacks);
+                    feedbackDAO.setMaxPageItem(element);
+                    feedbackDAO.setMaxTotalPage(10);
 
-                request.setAttribute("feedbacks", feedbacks);
-                request.setAttribute("accounts", accounts);
-            } catch (Exception ex) {
-                Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                    ArrayList<Account> accounts = accountDAO.getListAllAccount();
+
+                    request.setAttribute("feedbackDAO", feedbackDAO);
+                    request.setAttribute("feedbacks", feedbacks);
+                    request.setAttribute("accounts", accounts);
+                } catch (Exception ex) {
+                    Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
+            } //student
+            else if (request.getServletPath().contains("student-account-list")) {
+                try {
+                    ArrayList<Account> students = accountDAO.getListAccountByRole(2);
+                    accountDAO.setItemList(students);
+                    accountDAO.setMaxPageItem(element);
+                    accountDAO.setMaxTotalPage(10);
+
+                    request.setAttribute("accountDAO", accountDAO);
+                    request.setAttribute("accountList", students);
+                } catch (Exception ex) {
+                    Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
+            } //teacher
+            else if (request.getServletPath().contains("teacher-account-list")) {
+                try {
+                    ArrayList<Account> teachers = accountDAO.getListAccountByRole(1);
+                    accountDAO.setItemList(teachers);
+                    accountDAO.setMaxPageItem(element);
+                    accountDAO.setMaxTotalPage(10);
+                    
+                    request.setAttribute("accountDAO", accountDAO);
+                    request.setAttribute("accountList", teachers);
+                } catch (Exception ex) {
+                    Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
             }
-            request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
-        } //student
-        else if (request.getServletPath().contains("student-account-list")) {
-            try {
-                ArrayList<Account> students = aD.getListAccountByRole(2);
-                request.setAttribute("accountList", students);
-            } catch (Exception ex) {
-                Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
-        } //teacher
-        else if (request.getServletPath().contains("teacher-account-list")) {
-            try {
-                ArrayList<Account> teachers = aD.getListAccountByRole(1);
-                request.setAttribute("accountList", teachers);
-            } catch (Exception ex) {
-                Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
+        } catch (Exception e) {
         }
     }
 

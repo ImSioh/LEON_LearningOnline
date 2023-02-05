@@ -61,7 +61,7 @@ public class AuthorizationFilter implements Filter {
                 } else if (account.getRole() == 2) {
                     resp.sendRedirect(req.getContextPath() + "/student/overview");
                 } else if (account.getRole() == 3) {
-                    resp.sendRedirect(req.getContextPath() + "/admin");
+                    resp.sendRedirect(req.getContextPath() + "/admin/feedback-list");
                 }
             } else if ((path.startsWith("/teacher") && account.getRole() != 1)
                     || (path.startsWith("/student") && account.getRole() != 2)
