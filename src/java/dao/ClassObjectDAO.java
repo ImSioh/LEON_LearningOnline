@@ -13,17 +13,19 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
         String query = "SELECT * FROM class c WHERE c.account_id = ?";
         return selectMany(query, Util.UUIDToByteArray(id));
     }
-    
+
     public ArrayList<ClassObject> getListClassTByNameID(String name, UUID id) throws Exception {
         String query = "SELECT * FROM class a WHERE a.name LIKE ? and a.account_id = ?";
         return selectMany(query, "%" + name + "%", Util.UUIDToByteArray(id));
     }
+
     public ArrayList<ClassObject> getListClassSByNameID(String name, UUID id) throws Exception {
         String query = "select * from class c \n"
                 + " join enrollment e on c.class_id = e.class_id\n"
                 + " join account a on e.account_id = a.account_id and c.name LIKE ? and a.account_id = ?";
         return selectMany(query, "%" + name + "%", Util.UUIDToByteArray(id));
     }
+
     public ArrayList<ClassObject> getClassNameCodeByAccId(UUID id) throws Exception {
         String query = "select * from class c \n"
                 + " join enrollment e on c.class_id = e.class_id\n"
