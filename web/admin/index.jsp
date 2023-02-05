@@ -86,9 +86,12 @@
                         <td>${fb.getTitle()}</td>
                         <td>
                             <a href="">Link</a>
+  
                         </td>
                         <td>
-                            <a href="">Link</a>
+                            <c:if test="${fb.getResponse()== ''}" >
+                                <a href="<c:url value="/admin/response?Id=${fb.getFeedbackId()}" />">Link</a>
+                            </c:if>
                         </td>
                         <td>fb.getSubmitTime()</td>
                     </tr>
