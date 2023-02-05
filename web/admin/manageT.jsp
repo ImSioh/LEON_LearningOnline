@@ -9,15 +9,15 @@
 <div id="content">
     <h1>Teachers Management</h1>
 
-    <!--Search-->
-    <form action="<c:url value="/SearchAccount"/>" method="get" style="">
+        <!--Search-->
+    <form action="<c:url value="/admin/SearchAccount"/>" method="get" style="">
         <span class="button-action" style="display: flex;">
             <select name="optionSearch" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
                 <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
                 <option value="email" ${optionSearch eq "email"?"selected":""}>Email</option>
                 <option value="phoneNumber" ${optionSearch eq "phoneNumber"?"selected":""}>PhoneNumber</option>
             </select>
-            <input type="hidden" name="searchFor" value="1">
+            
             <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; height: 10%; margin: 0"> 
             <input type="submit" value="SEARCH" id="search" class="btn-info" 
                    style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">

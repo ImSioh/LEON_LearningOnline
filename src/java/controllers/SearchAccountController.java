@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-@WebServlet(name = "SearchAccountController", urlPatterns = {"/SearchAccount"})
+@WebServlet(name = "SearchAccountController", urlPatterns = {"/admin/SearchAccount"})
 public class SearchAccountController extends HttpServlet {
 
     @Override
@@ -21,9 +21,9 @@ public class SearchAccountController extends HttpServlet {
         String optionSearch = request.getParameter("optionSearch");
         int role = 0;
         if (request.getParameter("searchFor") != null) {
-            role = 1;
-        } else {
             role = 2;
+        } else {
+            role = 1;
         }
         AccountDAO accountDAO = new AccountDAO();
         ArrayList<Account> accountList = new ArrayList();
