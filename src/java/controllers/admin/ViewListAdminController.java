@@ -73,7 +73,7 @@ public class ViewListAdminController extends HttpServlet {
             try {
                 element = Integer.parseInt(request.getParameter("element"));
             } catch (Exception e) {
-                element = 1;
+                element = 5;
             }
             request.setAttribute("element", element);
             int[] elementOption = {1, 2, 5, 10, 25};
@@ -85,10 +85,10 @@ public class ViewListAdminController extends HttpServlet {
                     ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacks();
 //                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacksAndPaging(element, 0);
                     feedbackDAO.setItemList(feedbacks);
-                    ArrayList<Account> accounts = accountDAO.getListAllAccount();
-
                     feedbackDAO.setMaxPageItem(element);
                     feedbackDAO.setMaxTotalPage(10);
+
+                    ArrayList<Account> accounts = accountDAO.getListAllAccount();
 
                     request.setAttribute("feedbackDAO", feedbackDAO);
                     request.setAttribute("feedbacks", feedbacks);
@@ -101,6 +101,11 @@ public class ViewListAdminController extends HttpServlet {
             else if (request.getServletPath().contains("student-account-list")) {
                 try {
                     ArrayList<Account> students = accountDAO.getListAccountByRole(2);
+                    accountDAO.setItemList(students);
+                    accountDAO.setMaxPageItem(element);
+                    accountDAO.setMaxTotalPage(10);
+
+                    request.setAttribute("accountDAO", accountDAO);
                     request.setAttribute("accountList", students);
                 } catch (Exception ex) {
                     Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,6 +115,11 @@ public class ViewListAdminController extends HttpServlet {
             else if (request.getServletPath().contains("teacher-account-list")) {
                 try {
                     ArrayList<Account> teachers = accountDAO.getListAccountByRole(1);
+                    accountDAO.setItemList(teachers);
+                    accountDAO.setMaxPageItem(element);
+                    accountDAO.setMaxTotalPage(10);
+                    
+                    request.setAttribute("accountDAO", accountDAO);
                     request.setAttribute("accountList", teachers);
                 } catch (Exception ex) {
                     Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);

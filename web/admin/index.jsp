@@ -1,12 +1,10 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="template/header.jsp" %>
 
 <c:set scope="page" var="pageNumber" value="${param.page != null ? param.page : 1}"/>
 <c:if test="${!(pageNumber >= 1 && pageNumber <= feedbackDAO.totalPage)}">
-    <c:redirect url="/admin/feedback-list"/>
+    <c:redirect url="${baseUrl}"/>
 </c:if>
-
-<%@include file="template/header.jsp" %>
 
 <div id="content">
     <h1>Feedbacks Management</h1>
@@ -42,7 +40,7 @@
     </form>
 
     <!--Show items-->
-    <form action="<c:url value="/admin/feedback-list?page=${pageNumber}&element=${element}"/>" method="get" style="margin-top: 0;">
+    <form action="<c:url value="${baseUrl}?page=${pageNumber}&element=${element}"/>" method="get" style="margin-top: 0;">
         <span class="button-action" style="display: flex;">
             Show 
             <select name="element" style="width: 5%; height: 5%; margin: 5px; text-align: center;
@@ -120,6 +118,7 @@
         <c:param name="modelDAOName" value="feedbackDAO"/>
         <c:param name="basePath" value="/${baseUrl}"/>
     </c:import>
+            
 </div>
 
 <%@include file="template/footer.jsp" %>

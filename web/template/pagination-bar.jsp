@@ -31,14 +31,14 @@
             </li>
             
             <c:forEach begin="${pageRange[0]}" end="${pageRange[1]}" var="page">
-                <li class="page-item">
+                <li class="page-item <c:if test="${pageNumber == page}"> active</c:if>
+                           <c:if test="${pageNumber == page}"></c:if>
+                       "> 
                     <a class="page-link" href="
                        <c:url value="${param.basePath}">
                            <c:param name="page" value="${page}"/>
                        </c:url>&element=${element}
-                       " <c:if test="${pageNumber == page}">
-                           class="active"
-                       </c:if>> 
+                       "> 
                         ${page}
                     </a>
                 </li>
