@@ -11,7 +11,7 @@
     <!-- <img src="assets/img/welcome_admin.jpg" alt="Welcome to Admin Homepage" width="100%" height="100%" style="margin: 0;"/> -->
 
     <!--Search-->
-    <form action="<c:url value="/admin/SearchAccount"/>" method="get" style="">
+    <form action="<c:url value="/admin/student-account-list/search"/>" method="get" style="">
         <span class="button-action" style="display: flex;">
             <select name="optionSearch" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
                 <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
@@ -26,22 +26,30 @@
     </form>
 
     <!--Sort-->
-    <form action="<c:url value="/"/>" method="get" style="margin-top: 10px;">
+    <form action="<c:url value="${baseURL}"/>" method="get" style="margin-top: 10px;">
         <span class="button-action" style="display: flex;">
-            <select name="optionSearch" class="form-select" style="width: 30%; height: 10%; margin: 0 0 0 55%; text-align: center">
-                <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
-                <option value="email" ${optionSearch eq "email"?"selected":""}>Email</option>
-                <option value="phoneNumber" ${optionSearch eq "phoneNumber"?"selected":""}>PhoneNumber</option>
+            <select name="criteria" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
+                <option value="name" ${criteria eq "name"?"selected":""}>Name</option>
+                <option value="email" ${criteria eq "email"?"selected":""}>Email</option>
+                <!--<option value="phoneNumber" ${criteria eq "phoneNumber"?"selected":""}>PhoneNumber</option>-->
             </select>
-            <input type="hidden" name="sortBy" value="1">
-            <!--<input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; margin: 32px">--> 
+            <select name="orderBy" class="form-select" style="width: 35%; height: 10%; padding: 6px 12px; text-align: center">
+                <option value="true" ${orderBy?"selected":""}>Ascending</option>
+                <option value="false" ${orderBy?"":"selected"}>Descending</option>
+            </select>
             <input type="submit" value="SORT" id="sort" class="btn-info" 
-                   style="margin: 5px 0 5px 15%; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
+                   style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
     </form>
 
     <!--Show items-->
-    <form action="<c:url value="${baseUrl}?page=${pageNumber}&element=${element}"/>" method="get" style="margin-top: 0;">
+    <form action="<c:url value="/admin/student-account-list">
+              <c:param name="optionSearch" value="${optionSearch}"/>
+              <c:param name="searchFor" value="${searchFor}"/>
+              <c:param name="keyword" value="${keyword}"/>
+              <c:param name="page" value="${pageNumber - 1}"/>
+              <c:param name="element" value="${element}"/>
+          </c:url>" method="get" style="margin-top: 0;">
         <span class="button-action" style="display: flex;">
             Show 
             <select name="element" style="width: 5%; height: 5%; margin: 5px; text-align: center;
@@ -54,10 +62,6 @@
                         <option value="${eO}">${eO}</option>
                     </c:if>
                 </c:forEach>
-                <!--                <option value="2">2</option>
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="25">25</option>-->
             </select>
             entries
             <!--<input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; margin: 32px">--> 
@@ -81,7 +85,7 @@
             </thead>
             <tbody>
                 <c:forEach var="account" items="${accountDAO.getItemsInPage(pageNumber)}" >
-                <%--<c:forEach var="account" items="${accountList}" >--%>
+                    <%--<c:forEach var="account" items="${accountList}" >--%>
                     <tr>
                         <td>
                             <a href="">${account.getAccountId()}</a>
@@ -102,7 +106,7 @@
             </tbody>
         </table>
     </div>
-            
+
     <c:url value="admin/student-account-list" var="baseUrl">
 
     </c:url>
@@ -111,7 +115,7 @@
         <c:param name="modelDAOName" value="accountDAO"/>
         <c:param name="basePath" value="/${baseUrl}"/>
     </c:import>
-            
+
 </div>
 
 <%@include file="template/footer.jsp" %>

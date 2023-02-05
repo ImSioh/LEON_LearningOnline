@@ -10,7 +10,7 @@
     <h1>Teachers Management</h1>
 
         <!--Search-->
-    <form action="<c:url value="/admin/SearchAccount"/>" method="get" style="">
+    <form action="<c:url value="/admin/teacher-account-list/search"/>" method="get" style="">
         <span class="button-action" style="display: flex;">
             <select name="optionSearch" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
                 <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
@@ -25,17 +25,19 @@
     </form>
 
     <!--Sort-->
-    <form action="<c:url value="/"/>" method="get" style="margin-top: 10px;">
+    <form action="<c:url value="${baseURL}"/>" method="get" style="margin-top: 10px;">
         <span class="button-action" style="display: flex;">
-            <select name="optionSearch" class="form-select" style="width: 30%; height: 10%; margin: 0 0 0 55%; text-align: center">
-                <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
-                <option value="email" ${optionSearch eq "email"?"selected":""}>Email</option>
-                <option value="phoneNumber" ${optionSearch eq "phoneNumber"?"selected":""}>PhoneNumber</option>
+            <select name="criteria" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
+                <option value="name" ${criteria eq "name"?"selected":""}>Name</option>
+                <option value="email" ${criteria eq "email"?"selected":""}>Email</option>
+                <!--<option value="phoneNumber" ${criteria eq "phoneNumber"?"selected":""}>PhoneNumber</option>-->
             </select>
-            <input type="hidden" name="sortBy" value="1">
-            <!--<input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; margin: 32px">--> 
+            <select name="orderBy" class="form-select" style="width: 35%; height: 10%; padding: 6px 12px; text-align: center">
+                <option value="true" ${orderBy?"selected":""}>Ascending</option>
+                <option value="false" ${orderBy?"":"selected"}>Descending</option>
+            </select>
             <input type="submit" value="SORT" id="sort" class="btn-info" 
-                   style="margin: 5px 0 5px 15%; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
+                   style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
     </form>
 
@@ -53,10 +55,6 @@
                         <option value="${eO}">${eO}</option>
                     </c:if>
                 </c:forEach>
-                <!--                <option value="2">2</option>
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="25">25</option>-->
             </select>
             entries
             <!--<input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; margin: 32px">--> 

@@ -42,6 +42,12 @@ public class AccountDAO extends AbstractDAO<Account> {
         String query = "SELECT * FROM account WHERE role = ?;";
         return selectMany(query, role);
     }
+    
+    public ArrayList<Account> getListAccountByRoleAndSort(int role, String criteria, String sort) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "ORDER BY " + criteria + " " + sort;
+        return selectMany(query, role);
+    }
 
     public ArrayList<Account> getListAllAccounts() throws Exception {
         String query = "SELECT * FROM account";
@@ -109,7 +115,8 @@ public class AccountDAO extends AbstractDAO<Account> {
         Account a = new AccountDAO().getAccountById(UUID.fromString("1d71af77-a945-4277-863b-ad40c6f1a5e5"));
 //        a.setAddress("May thang ngu ");
 //        System.out.println(new AccountDAO().editAccount(a));
-        ArrayList<Account> accounts = new AccountDAO().getListAccountByRole(2);
+//        ArrayList<Account> accounts = new AccountDAO().getListAccountByRole(2);
+        ArrayList<Account> accounts = new AccountDAO().getListAccountByRoleAndSort(2, "name", "DESC");
         for (Account account : accounts) {
             System.out.println(account);
         }
