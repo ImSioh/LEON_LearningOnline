@@ -14,7 +14,7 @@ import java.util.Map;
 
 public abstract class AbstractDAO<T> {
 
-    private int maxPageItem = 12;
+    private int maxPageItem = 30;
     private int totalPage;
     private int maxTotalPage = 1000;
     private ArrayList<T> itemList;

@@ -1,6 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file= "template/header.jsp" %>
 
+<c:set scope="page" var="pageNumber" value="${param.page != null ? param.page : 1}"/>
+<c:if test="${!(pageNumber >= 1 && pageNumber <= accountDAO.totalPage)}">
+    <c:redirect url="${baseUrl}"/>
+</c:if>
+
 <div id="content">
     <h1>Teachers Management</h1>
 
@@ -34,6 +39,32 @@
         </span>
     </form>
 
+    <!--Show items-->
+    <form action="<c:url value="${baseUrl}?page=${pageNumber}&element=${element}"/>" method="get" style="margin-top: 0;">
+        <span class="button-action" style="display: flex;">
+            Show 
+            <select name="element" style="width: 5%; height: 5%; margin: 5px; text-align: center;
+                    border: 3px solid #e3f2fd; border-radius: 0.25em;">
+                <c:forEach items="${elementOption}" var="eO">
+                    <c:if test="${eO == element}">
+                        <option value="${eO}" selected>${eO}</option>
+                    </c:if>
+                    <c:if test="${eO != element}">
+                        <option value="${eO}">${eO}</option>
+                    </c:if>
+                </c:forEach>
+                <!--                <option value="2">2</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>-->
+            </select>
+            entries
+            <!--<input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; margin: 32px">--> 
+            <input type="submit" value="SHOW" id="show" class="btn-info" 
+                   style="margin: 5px 5px; width: 5%; height: 5%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
+        </span>
+    </form>
+
     <div class="table">
         <table class="table table-light table-hover">
             <thead>
@@ -48,7 +79,8 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="account" items="${accountList}" >
+                <c:forEach var="account" items="${accountDAO.getItemsInPage(pageNumber)}" >
+                <%--<c:forEach var="account" items="${accountList}" >--%>
                     <tr>
                         <td>
                             <a href="">${account.getAccountId()}</a>
@@ -66,24 +98,18 @@
                                 </c:if>
                     </tr>
                 </c:forEach>
-
-
             </tbody>
         </table>
     </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-            <li class="page-item disabled">
-                <a class="page-link">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
+                 
+    <c:url value="admin/teacher-account-list" var="baseUrl">
+
+    </c:url>
+    <c:import url="/template/pagination-bar.jsp">
+        <c:param name="page" value="${pageNumber}"/>
+        <c:param name="modelDAOName" value="accountDAO"/>
+        <c:param name="basePath" value="/${baseUrl}"/>
+    </c:import>
 
 </div>
 

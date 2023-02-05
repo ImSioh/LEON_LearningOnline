@@ -23,11 +23,16 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
         return selectMany(query);
     }
     
-    
-    
+    public ArrayList<Feedback> getAllFeedbacksAndPaging(int elements, int page) throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "limit ? offset ?;";
+        return selectMany(query, elements, page);
+    }
 
     public static void main(String[] args) throws Exception {
-        ArrayList<Feedback> feedbacks = new FeedbackDAO().getAllFeedbacks();
+        ArrayList<Feedback> feedbacks = new FeedbackDAO().getAllFeedbacksAndPaging(3, 0);
         for (Feedback feedback : feedbacks) {
             System.out.println(feedback);
         }
