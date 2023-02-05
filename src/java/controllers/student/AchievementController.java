@@ -1,4 +1,4 @@
-package controllers;
+package controllers.student;
 
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
