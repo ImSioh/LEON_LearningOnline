@@ -15,7 +15,7 @@
                             <div class="right position-absolute col-md-6" style="top:0; bottom: 0;right: 0;">
                                 <div class="input-group rounded row" style="">
                                     <form action="<%=path%>/teacher/search" method="post">
-                                        <input type="search" class="form-control rounded" name="searchName" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                        <input type="search" class="form-control rounded" name="searchName" value="${searchName}" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                                     </form>
                                 </div>
                             </div>
