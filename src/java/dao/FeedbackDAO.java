@@ -22,6 +22,9 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
                 + "WHERE fb.account_id = acc.account_id;";
         return selectMany(query);
     }
+    
+    
+    
 
     public static void main(String[] args) throws Exception {
         ArrayList<Feedback> feedbacks = new FeedbackDAO().getAllFeedbacks();
