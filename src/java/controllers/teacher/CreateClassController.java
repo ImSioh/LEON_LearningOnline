@@ -1,4 +1,4 @@
-package controllers;
+package controllers.teacher;
 
 import dao.ClassObjectDAO;
 import dto.Account;
