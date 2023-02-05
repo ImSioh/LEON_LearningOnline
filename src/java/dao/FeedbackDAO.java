@@ -7,6 +7,15 @@ import java.util.ArrayList;
 
 public class FeedbackDAO extends AbstractDAO<Feedback> {
 
+    public int insertFeedback(Feedback feedback) throws Exception {
+        String query = "Insert into feedback values(?,?,?,?,'')";
+        return update(query, Util.UUIDToByteArray(feedback.getFeedbackId()),
+                Util.UUIDToByteArray(feedback.getAccountId()),
+                feedback.getTitle(),
+                feedback.getContent()
+        );
+    }
+
     public ArrayList<Feedback> getAllFeedbacks() throws Exception {
         String query = "SELECT fb.*, acc.role\n"
                 + "FROM feedback as fb, account as acc\n"

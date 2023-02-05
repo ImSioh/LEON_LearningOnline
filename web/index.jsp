@@ -156,7 +156,7 @@
                                     </div>
                                     </div>
                                     <div class="about__buttons">
-                                        <a target="_blank" href="signup.html" class="button button--flex">
+                                        <a target="_blank" href="<c:url value="/signup"/>" class="button button--flex">
                                             Sign up<i style="padding-left : 5px ; font-size: 1.25rem;" class="uil uil-rocket"></i>
                                         </a>
                                     </div>
@@ -179,7 +179,7 @@
                                         <div class="portfolio__data">
                                             <h3 class="portfolio__title">Create and manage assignments and tests with AI</h3>
                                             <p class="portfolio__description">No need to edit complicated formulas, everything is okay Fully automatic identification with LE.ON Classroom. Besides, you are also provided with a variety of in-depth customizations according to each use need.</p>
-                                            <a target="_blank" href="signin.html" class="button button--flex button--small portfolio__button">
+                                            <a target="_blank" href="<c:url value="/signin"/>" class="button button--flex button--small portfolio__button">
                                                 Sgin In
                                                 <i class="uil uil-arrow-right button__icon"></i>
                                             </a>
@@ -193,7 +193,7 @@
                                         <div class="portfolio__data">
                                             <h3 class="portfolio__title">Highly customizable classes</h3>
                                             <p class="portfolio__description">Classes on LE.ON Classroom can be used for many different purposes such as: regular classes, extra classes, foreign language classes, professional skills, professional skills, online classes, livestream...</p>
-                                            <a target="_blank" href="signin.html" class="button button--flex button--small portfolio__button">
+                                            <a target="_blank" href="<c:url value="/signin"/>" class="button button--flex button--small portfolio__button">
                                                 Sign In
                                                 <i class="uil uil-arrow-right button__icon"></i>
                                             </a>
@@ -207,7 +207,7 @@
                                         <div class="portfolio__data">
                                             <h3 class="portfolio__title">Unlimited storage of learning materials</h3>
                                             <p class="portfolio__description">Your resources are conveniently stored and organized, which you can share with your students and reuse them for the next class.</p>
-                                            <a target="_blank" href="signin.html" class="button button--flex button--small portfolio__button">
+                                            <a target="_blank" href="<c:url value="/signin"/>" class="button button--flex button--small portfolio__button">
                                                 Sign In
                                                 <i class="uil uil-arrow-right button__icon"></i>
                                             </a>

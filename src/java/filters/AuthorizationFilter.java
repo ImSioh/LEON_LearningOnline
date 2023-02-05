@@ -15,34 +15,36 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebFilter(filterName = "Authorization", urlPatterns = {"/*"})
 public class AuthorizationFilter implements Filter {
-    
+
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest req = HttpServletRequest.class.cast(request);
         HttpServletResponse resp = HttpServletResponse.class.cast(response);
         String path = req.getServletPath();
-        
+
         Cookie[] cookies = req.getCookies();
         String email = "";
         String password = "";
         
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equalsIgnoreCase("cookEmail")) {
-                email = cookie.getValue();
-                continue;
-            }
-            if (cookie.getName().equalsIgnoreCase("cookPass")) {
-                password = cookie.getValue();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equalsIgnoreCase("cookEmail")) {
+                    email = cookie.getValue();
+                    continue;
+                }
+                if (cookie.getName().equalsIgnoreCase("cookPass")) {
+                    password = cookie.getValue();
+                }
             }
         }
-        
+
         Account account = null;
         if (path.contains("assets") || path.startsWith("/files")) {
             chain.doFilter(request, response);
             return;
         }
-        
+
         if (email != null && !email.isEmpty() && password != null && !password.isEmpty()) {
             try {
                 account = new AccountDAO().getAccount(email, password);
@@ -51,7 +53,7 @@ public class AuthorizationFilter implements Filter {
                 throw new ServletException(e);
             }
         }
-        
+
         if (account != null) {
             if ("/index.jsp".equals(path)) {
                 if (account.getRole() == 1) {
@@ -73,10 +75,10 @@ public class AuthorizationFilter implements Filter {
                 resp.sendRedirect(req.getContextPath() + "/signin");
             }
         }
-        
+
         if (!resp.isCommitted()) {
             chain.doFilter(request, response);
         }
     }
-    
+
 }

@@ -6,17 +6,16 @@ package controllers;
 
 import dao.AccountDAO;
 import dto.Account;
+import helpers.FormValidator;
 import helpers.Util;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -77,56 +76,44 @@ public class ChangePasswordController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String txtUUID = request.getParameter("txtUUID");
-            String txtOldPass = request.getParameter("txtOldPass");
-            String txtNewPass = request.getParameter("txtNewPass");
-            String txtReNewPass = request.getParameter("txtReNewPass");
-            request.setAttribute("txtOldPass", txtOldPass);
-            request.setAttribute("txtNewPass", txtNewPass);
-            request.setAttribute("txtReNewPass", txtReNewPass);
-            String msg = "";
-            String hashOld = Util.hashingSHA256(txtOldPass);
-            String hashNew = Util.hashingSHA256(txtReNewPass);
-            System.out.println(Util.hashingSHA256(txtOldPass));
-            Account acc = new AccountDAO().getAccountById(UUID.fromString(txtUUID));
-            
-            if ("".equals(txtOldPass) || "".equals(txtNewPass) || "".equals(txtReNewPass)) {
-                msg = "You are missing some information";
-                request.setAttribute("msg", msg);
-                request.getRequestDispatcher("/change-password.jsp").forward(request, response);
-            } else if (txtOldPass.length() < 8 || txtNewPass.length() < 8 || txtReNewPass.length() < 8) {
-                msg = "Password need to contain at least 8 characters";
-                request.setAttribute("msg", msg);
-                request.getRequestDispatcher("/change-password.jsp").forward(request, response);
-            } else if (!txtNewPass.equals(txtReNewPass)) {
-                msg = "Confirm password doesn't match";
-                request.setAttribute("msg", msg);
-                request.getRequestDispatcher("/change-password.jsp").forward(request, response);
-            } else if (!hashOld.equals(acc.getPassword())) {
-                msg = "Your old password is not correct";
-                request.setAttribute("msg", msg);
-                request.getRequestDispatcher("/change-password.jsp").forward(request, response);
-            } else {
-                acc.setPassword(hashNew);
+        Account acc = (Account) request.getAttribute("account");
+        FormValidator formValidator = new FormValidator(request);
+
+        formValidator.setCheckParam("txtOldPass", true, String.class, a -> Util.hashingSHA256(a).equals(acc.getPassword()), "Password not corect!");
+        formValidator.setCheckParam("txtNewPass", true, String.class);
+        formValidator.setCheckParam("txtReNewPass", true, String.class, a -> !a.equals((String) formValidator.get("txtOldPass")) && a.equals((String) formValidator.get("txtNewPass")), "Confirm password do not match");
+
+        boolean validForm = formValidator.isValid();
+
+        if (validForm) {
+
+            try {
+                String txtReNewPass = (String) formValidator.get("txtReNewPass");
+
+                acc.setPassword(Util.hashingSHA256(txtReNewPass));
+
                 int status = new AccountDAO().editAccount(acc);
-                if (status == 1) {
+                Cookie cookPass = new Cookie("cookPass", acc.getPassword());
+                cookPass.setPath(request.getContextPath());
+                response.addCookie(cookPass);
+                if (status > 0) {
+
+                    request.setAttribute("status", status);
                     if (acc.getRole() == 1) {
                         response.sendRedirect(request.getContextPath() + "/teacher/profile");
                     } else {
                         response.sendRedirect(request.getContextPath() + "/student/profile");
                     }
                 } else {
-                    msg = "Something wrong please try again!";
-                    request.setAttribute("msg", msg);
-                    request.getRequestDispatcher("../change-password.jsp").forward(request, response);
+                    validForm = false;
                 }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            
-            
 
-        } catch (Exception ex) {
-            Logger.getLogger(ChangePasswordController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (!validForm) {
+            request.getRequestDispatcher("/change-password.jsp").forward(request, response);
         }
 
     }

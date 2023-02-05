@@ -26,7 +26,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <!--Jquery validate-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+        <link rel="icon" href="<c:url value="/assets/img/leon-icon.png"/>">
         <title>LE.ON</title>
 
         <style>
@@ -118,7 +118,7 @@
                                         </div>
                                     </a>
 
-                                    <a href="#" style="font-size: 16px;text-decoration: none">
+                                    <a href="<c:url value="/SendFeedback"/>" style="font-size: 16px;text-decoration: none">
                                         <div class="d-flex bd-highlight dropdown-item">
                                             <span class="p-2 flex-shrink-1 bd-highlight">
                                                 <i class="far fa-paper-plane"></i>

@@ -74,7 +74,7 @@ public class SearchClassController extends HttpServlet {
             if (email.equals("") || pass.equals("")) {
                 resp.sendRedirect(req.getContextPath() + "/");
             }
-            
+
             // get data from database by query statement
             Account a = new AccountDAO().getAccountByEmail(email);
             ArrayList<ClassObject> classOT = new ClassObjectDAO().getListClassTByNameID(searchName, a.getAccountId());
