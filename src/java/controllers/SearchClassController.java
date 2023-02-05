@@ -58,7 +58,7 @@ public class SearchClassController extends HttpServlet {
         try {
             //get parameter from jsp file
             String searchName = req.getParameter("searchName");
-            
+            req.setAttribute("searchName", searchName);
             // get data from Cookie
             String email = "", pass = "";
             Cookie[] cookies = req.getCookies();
