@@ -1,4 +1,4 @@
-﻿USE mysql;
+﻿/* USE mysql; */
 DROP DATABASE IF EXISTS online_learning;
 CREATE DATABASE IF NOT EXISTS online_learning CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE online_learning;
@@ -186,3 +186,6 @@ CREATE TABLE IF NOT EXISTS student_answer(
   FOREIGN KEY (assign_test_id) REFERENCES assign_test(assign_test_id),
   FOREIGN KEY (answer_id) REFERENCES answer(answer_id)
 );
+
+INSERT INTO account (account_id, name, email, password, role, create_time, locked)
+  VALUES (UUID_TO_BIN(UUID()), 'admin', 'admin@gmail.com', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 3, NOW(), 0);
