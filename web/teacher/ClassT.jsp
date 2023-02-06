@@ -1,5 +1,3 @@
-
-
 <%@include file= "./template/header.jsp" %>
 
 <div class="Content" style="background-color: rgb(209, 209, 209); height:  1000px; margin-top: 38px;">
@@ -56,6 +54,9 @@
     </section>
 
 </div>
+</div>
+<div class="footer">
+
 </div>
 <script
     type="text/javascript"
