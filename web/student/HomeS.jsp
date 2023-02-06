@@ -1,4 +1,4 @@
-<%@include file= "./template/header.jsp" %>
+<%@include file= "../template/header.jsp" %>
 <div class="content"  >
     <div class="row" style="margin-top: 50px;padding-left: calc(100% / 6);">
         <div class="col-md-2" style="position: fixed; transform: translateX(-100%);">
