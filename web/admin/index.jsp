@@ -13,7 +13,7 @@
     <!--Search-->
     
     <!--Sort-->
-    <form action="<c:url value="${baseURL}"/>" method="get" style="margin-top: 10px;">
+    <!-- <form action="<c:url value="${baseURL}"/>" method="get" style="margin-top: 10px;">
         <span class="button-action" style="display: flex;">
             <select name="criteria" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
                 <option value="title" ${criteria eq "title"?"selected":""}>Title</option>
@@ -27,7 +27,7 @@
             <input type="submit" value="SORT" id="sort" class="btn-info" 
                    style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
-    </form>
+    </form> -->
             
     <!--Show items-->
     <form action="<c:url value="${baseUrl}?page=${pageNumber}&element=${element}"/>" method="get" style="margin-top: 0;">

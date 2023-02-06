@@ -10,7 +10,7 @@
     <h1>Teachers Management</h1>
 
         <!--Search-->
-    <form action="<c:url value="/admin/teacher-account-list/search"/>" method="get" style="">
+    <!-- <form action="<c:url value="/admin/teacher-account-list/search"/>" method="get" style="">
         <span class="button-action" style="display: flex;">
             <select name="optionSearch" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
                 <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
@@ -22,7 +22,7 @@
             <input type="submit" value="SEARCH" id="search" class="btn-info" 
                    style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
-    </form>
+    </form> -->
 
     <!--Sort-->
     <form action="<c:url value="${baseURL}"/>" method="get" style="margin-top: 10px;">

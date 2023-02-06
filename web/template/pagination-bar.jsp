@@ -22,9 +22,9 @@
                 <c:if test="${pageNumber != 1}">
                     <a class="page-link" href="
                        <c:url value="${param.basePath}">
-                           <c:param name="optionSearch" value="${optionSearch}"/>
+                           <!-- <c:param name="optionSearch" value="${optionSearch}"/>
                            <c:param name="searchFor" value="${searchFor}"/>
-                           <c:param name="keyword" value="${keyword}"/>
+                           <c:param name="keyword" value="${keyword}"/> -->
                            <c:param name="criteria" value="${criteria}"/>
                            <c:param name="orderBy" value="${orderBy}"/>
                            <c:param name="page" value="${pageNumber - 1}"/>
@@ -48,9 +48,9 @@
                        "> 
                     <a class="page-link" href="
                        <c:url value="${param.basePath}">
-                           <c:param name="optionSearch" value="${optionSearch}"/>
+                           <!-- <c:param name="optionSearch" value="${optionSearch}"/>
                            <c:param name="searchFor" value="${searchFor}"/>
-                           <c:param name="keyword" value="${keyword}"/>
+                           <c:param name="keyword" value="${keyword}"/> -->
                            <c:param name="criteria" value="${criteria}"/>
                            <c:param name="orderBy" value="${orderBy}"/>
                            <c:param name="page" value="${page}"/>
@@ -72,9 +72,9 @@
                 <c:if test="${pageNumber != modelDAO.totalPage}">
                     <a class="page-link" href="
                        <c:url value="${param.basePath}">
-                           <c:param name="optionSearch" value="${optionSearch}"/>
+                           <!-- <c:param name="optionSearch" value="${optionSearch}"/>
                            <c:param name="searchFor" value="${searchFor}"/>
-                           <c:param name="keyword" value="${keyword}"/>
+                           <c:param name="keyword" value="${keyword}"/> -->
                            <c:param name="criteria" value="${criteria}"/>
                            <c:param name="orderBy" value="${orderBy}"/>
                            <c:param name="page" value="${pageNumber + 1}"/>
