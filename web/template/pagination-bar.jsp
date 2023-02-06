@@ -22,11 +22,11 @@
                 <c:if test="${pageNumber != 1}">
                     <a class="page-link" href="
                        <c:url value="${param.basePath}">
-                           <c:param name="optionSearch" value="${optionSearch}"/>
-                           <c:param name="searchFor" value="${searchFor}"/>
-                           <c:param name="keyword" value="${keyword}"/>
-                           <c:param name="criteria" value="${criteria}"/>
-                           <c:param name="orderBy" value="${orderBy}"/>
+                           <%--<c:param name="optionSearch" value="${optionSearch}"/>--%>
+                           <%--<c:param name="searchFor" value="${searchFor}"/>--%>
+                           <%--<c:param name="keyword" value="${keyword}"/>--%>
+                           <%--<c:param name="criteria" value="${criteria}"/>--%>
+                           <%--<c:param name="orderBy" value="${orderBy}"/>--%>
                            <c:param name="page" value="${pageNumber - 1}"/>
                            <c:param name="element" value="${element}"/>
                        </c:url>
@@ -48,11 +48,11 @@
                        "> 
                     <a class="page-link" href="
                        <c:url value="${param.basePath}">
-                           <c:param name="optionSearch" value="${optionSearch}"/>
-                           <c:param name="searchFor" value="${searchFor}"/>
-                           <c:param name="keyword" value="${keyword}"/>
-                           <c:param name="criteria" value="${criteria}"/>
-                           <c:param name="orderBy" value="${orderBy}"/>
+                           <%--<c:param name="optionSearch" value="${optionSearch}"/>--%>
+                           <%--<c:param name="searchFor" value="${searchFor}"/>--%>
+                           <%--<c:param name="keyword" value="${keyword}"/>--%>
+                           <%--<c:param name="criteria" value="${criteria}"/>--%>
+                           <%--<c:param name="orderBy" value="${orderBy}"/>--%>
                            <c:param name="page" value="${page}"/>
                            <c:param name="element" value="${element}"/>
                        </c:url>
@@ -72,11 +72,11 @@
                 <c:if test="${pageNumber != modelDAO.totalPage}">
                     <a class="page-link" href="
                        <c:url value="${param.basePath}">
-                           <c:param name="optionSearch" value="${optionSearch}"/>
-                           <c:param name="searchFor" value="${searchFor}"/>
-                           <c:param name="keyword" value="${keyword}"/>
-                           <c:param name="criteria" value="${criteria}"/>
-                           <c:param name="orderBy" value="${orderBy}"/>
+                           <%--<c:param name="optionSearch" value="${optionSearch}"/>--%>
+                           <%--<c:param name="searchFor" value="${searchFor}"/>--%>
+                           <%--<c:param name="keyword" value="${keyword}"/>--%>
+                           <%--<c:param name="criteria" value="${criteria}"/>--%>
+                           <%--<c:param name="orderBy" value="${orderBy}"/>--%>
                            <c:param name="page" value="${pageNumber + 1}"/>
                            <c:param name="element" value="${element}"/>
                        </c:url>
@@ -86,10 +86,5 @@
                 </c:if>
             </li>
         </c:if>
-        <!--        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>-->
     </ul>
 </nav>

@@ -95,12 +95,14 @@
                         <td>${account.getAddress()}</td>
                         <td>${account.getPhoneNumber()}</td>
                         <td>${account.getCreateTime()}</td>
+                        <td>
                         <c:if test="${account.isLocked()}">
-                            <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
+                                <a href="lock?sid=${account.getAccountId()}&status=open" onclick="return lockAcc()"><i class="fa-solid fa-lock"></i></a>
                                 </c:if>
                                 <c:if test="${account.isLocked()!=true}">
-                            <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
+                                <a href="lock?sid=${account.getAccountId()}&status=close" onclick="return lockAcc()"><i class="fa-solid fa-lock-open"></i></a>
                                 </c:if>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
@@ -117,5 +119,15 @@
     </c:import>
 
 </div>
+
+<script>
+    function lockAcc() {
+        if (confirm("Do you want to lock this account?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 
 <%@include file="template/footer.jsp" %>
