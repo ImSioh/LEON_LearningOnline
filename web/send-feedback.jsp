@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@include file= "/template/header-profile.jsp" %>
+<%@include file= "/template/header.jsp" %>
 <html lang="en">
 
     <head>
