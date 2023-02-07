@@ -1,6 +1,6 @@
 <%@include file= "../template/header.jsp" %>
 
-<div class="Content" style="background-color: rgb(209, 209, 209); height:  1000px; margin-top: 38px;">
+<div class="Content" style="background-color: rgb(209, 209, 209 , 50%); height:  1000px; margin-top: 38px;">
     <section>
         <div class="container py-5">
             <div class="row">
@@ -55,12 +55,4 @@
 
 </div>
 </div>
-<div class="footer">
-
-</div>
-<script
-    type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"
-></script>
-</body>
-</html>
+<c:import url="../template/footer.jsp"/>

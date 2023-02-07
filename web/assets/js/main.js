@@ -280,3 +280,9 @@ sign_in_btn.addEventListener("click", () => {
 });
 
 
+$(".sidebar ul li").onclick('click', function(){
+    $(".sidebar ul li.active").removeClass('active');
+    $(this).addClass('active');
+} )
+
+

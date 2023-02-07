@@ -1,6 +1,6 @@
 <%@include file= "/template/header.jsp" %>
 <div class="content" style="margin-top: 50px;">
-    <section style="background-color: rgb(209, 209, 209);" >
+    <section style="background-color: rgb(209, 209, 209 , 50%);" >
         <div class="container py-5">
             <div class="row">
                 <div class="col">
@@ -78,15 +78,6 @@
             </div>
         </div>
     </section>
-                                    
-</div>
-<div class="footer">
 
 </div>
-</div>
-<!-- MDB -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"></script>
-<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-</body>
-
-</html>
+<c:import url="/template/footer.jsp"/>
