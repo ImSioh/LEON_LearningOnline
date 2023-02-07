@@ -5,26 +5,28 @@
 
     <div class="content-main d-flex justify-content-center container">
 
-        <div class="card col-md-7 mt-4 " style="height: 330px;">
+        <div class="card col-md-7 mt-4 "  >
             <div class="card-header">Create Post</div>
             <div class="card-body">
-                <h5 class="card-title">
-                    <div class="form-outline">
-                        <input type="text" id="form12" class="form-control" />
-                        <label class="form-label" for="form12">Tittle</label>
-                    </div>
-                </h5>
                 <p class="card-text">
-                <div class="form-outline" style="height: 50px;">
-                    <input type="text" id="form12" class="form-control"  />
-                    <label class="form-label" for="form12">Content</label>
+                <div class="form-outline">
+                    <div class="form-floating" style="padding: 0;">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 90px" ></textarea>
+                        <label for="floatingTextarea2">Create a post</label>
+                    </div>
                 </div>
                 </p>
-                <label class="form-label" for="customFile">Upload file</label>
-                <input type="file" class="form-control" id="customFile" />
+
             </div>
             <div class="card-footer text-muted ">
-                <a href="#" class="btn btn-primary ">Post</a>
+
+                <div style="float: right;">
+                    <div class="file btn btn-primary ml-2" style="position: relative; overflow: hidden;">
+                        Attack file
+                        <input type="file" style=" position: absolute; opacity: 0; right: 0; top: 0;"/>
+                    </div>
+                    <a href="#" class="btn btn-primary" >Post</a>
+                </div>
             </div>
         </div>
 

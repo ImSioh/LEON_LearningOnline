@@ -78,7 +78,7 @@
 
                             <c:choose>
                                 <c:when test="${account.getRole() == 1 }">
-                                    <a href="<c:url value="/teacher/class"/>" class="navbar-brand mt-2 mt-lg-0" style="color: white;">LE.ON - Teacher </a>
+                                    <a href="<c:url value="/teacher/class"/>" class="navbar-brand mt-2 mt-lg-0 text-light">LE.ON - Teacher </a>
                                 </c:when>    
                                 <c:otherwise>
                                     <a href="<c:url value="/student/overview"/>" class="navbar-brand mt-2 mt-lg-0">LE.ON -Student </a>
@@ -126,7 +126,7 @@
 
 
                             <!--Notifications--> 
-                            <div class="dropdown">
+                            <div class="dropdown" style="margin-right: 15px;">
                                 <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-bell" style="font-size: 22px; text-decoration: none; color: ${account.getRole() == 1 ? "white" : "black"}"; margin-left: 14px;"></i>
                                     <span class="badge rounded-pill badge-notification bg-danger">9</span>

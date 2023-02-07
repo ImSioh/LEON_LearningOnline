@@ -9,13 +9,13 @@
     </div>
     <hr class="h-color mx-2">
     <ul class="list-unstyled px-2">
-        <li class="active"><a href="#" class="text-decoration-none px-3 py-2 d-block"> <i class="fas fa-align-left"></i>  NewFeed</a> </li> 
-        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block active"> <i class="fas fa-users"></i>  Members</a> </li> 
-        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> <i class="fas fa-book"></i>  Assignment</a> </li> 
-        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> <i class="fas fa-sort-amount-down"></i>  Rank</a> </li> 
-        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> <i class="fas fa-file"></i>  Document</a> </li> 
+        <li class="active"><a href="#" class="text-decoration-none px-3 py-2 d-block ml-3"> New Feed</a> </li> 
+        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block active">Members</a> </li> 
+        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> Assignment</a> </li> 
+        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">  Rank</a> </li> 
+        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">Document</a> </li> 
 
         <hr class="h-color mx-2">
-        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> <i class="fas fa-cog"></i>  Setting</a> </li>
+        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> Setting</a> </li>
     </ul>
 </div>

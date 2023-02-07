@@ -30,4 +30,6 @@ hr.h-color{
 .sidebar li a {
     color: #332d2d;
     text-transform: uppercase;
+    margin-left: 20px;
+    font-weight: 500;
 }
