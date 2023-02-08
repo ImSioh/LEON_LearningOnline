@@ -1,7 +1,7 @@
-<%@include file="../template/header.jsp" %>
+<%@include file="/template/header.jsp" %>
 
 <div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 50px;">
-    <%@include file="../template/sidebar.jsp" %>
+    <%@include file="/template/sidebar.jsp" %>
 
 
     <div class="content-main  d-flex justify-content-center container position-relative">
@@ -69,6 +69,6 @@
 
     </div>
 
-    <%@include file="../template/notificationbar.jsp" %>
+    <%@include file="/template/notificationbar.jsp" %>
 </div>
-<c:import url="../template/footer.jsp" />
+<c:import url="/template/footer.jsp" />
