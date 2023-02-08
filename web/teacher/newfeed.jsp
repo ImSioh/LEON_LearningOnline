@@ -3,9 +3,10 @@
 <div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 50px;">
     <%@include file="../template/sidebar.jsp" %>
 
-    <div class="content-main d-flex justify-content-center container">
 
-        <div class="card col-md-7 mt-4 "  >
+    <div class="content-main  d-flex justify-content-center container position-relative">
+
+        <div class="card col-md-7 mt-4" style="height: 320px;" >
             <div class="card-header">Create Post</div>
             <div class="card-body">
                 <p class="card-text">
@@ -30,58 +31,50 @@
             </div>
         </div>
 
-        <div class="card col-md-7 mt-4">
-            <div class="card-header">Teacher Post</div>
+        <!--//for 1 post-->
+
+        <div class="card col-md-7 mt-4" style="height: 320px; " >
+            <div class="card-header">Post</div>
             <div class="card-body">
-                <h5 class="card-title">
-                    HomeWork
-                </h5>
                 <p class="card-text">
-                <div class="form-outline" style="height: 50px;">
-                    here is your homework for to night, have a good night!
-                </div>
+
                 </p>
+
             </div>
-            <div class="card-footer text-muted ">
-                Comment this post here
-            </div>
+
         </div>
 
-        <div class="card col-md-7 mt-4 ">
-            <div class="card-header">Teacher Post</div>
+        <div class="card col-md-7 mt-4" style="height: 320px; " >
+            <div class="card-header">Post</div>
             <div class="card-body">
-                <h5 class="card-title">
-                    HomeWork
-                </h5>
                 <p class="card-text">
-                <div class="form-outline" style="height: 50px;">
-                    here is your homework for to night, have a good night!
-                </div>
+
                 </p>
+
             </div>
-            <div class="card-footer text-muted ">
-                Comment this post here
-            </div>
-        </div>
-        <div class="card col-md-7 mt-4 ">
-            <div class="card-header">Teacher Post</div>
+
+        </div><!-- comment -->        
+        <div class="card col-md-7 mt-4" style="height: 320px; " >
+            <div class="card-header">Post</div>
             <div class="card-body">
-                <h5 class="card-title">
-                    HomeWork
-                </h5>
                 <p class="card-text">
-                <div class="form-outline" style="height: 50px;">
-                    here is your homework for to night, have a good night!
-                </div>
+
                 </p>
+
             </div>
-            <div class="card-footer text-muted ">
-                Comment this post here
-            </div>
+
         </div>
+
 
 
     </div>
+
+    <div class="row position-fixed" style="top:0; bottom: 0; right: 0;" >
+        <div style="background-color: white; width: 300px; height: 100vh; margin-top: 50px;">
+            <h1>NOTIFICATION</h1>
+            <hr class="h-color mx-2">
+        </div>
+    </div>
+
 </div>
-<!--</div>-->
 <c:import url="../template/footer.jsp" />
