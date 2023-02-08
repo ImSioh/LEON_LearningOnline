@@ -74,4 +74,4 @@
         })
     </script>
 </div>
-<c:import url="/teacher/template/footer.jsp"/>
+<c:import url="../template/footer.jsp"/>

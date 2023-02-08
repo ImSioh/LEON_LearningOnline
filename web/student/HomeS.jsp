@@ -1,6 +1,6 @@
 <%@include file= "../template/header.jsp" %>
-<div class="content"  >
-    <div class="row" style="margin-top: 50px;padding-left: calc(100% / 6);">
+<div class="content"  style="background-color: rgba(209, 209, 209, 0.5); height:  1000px;">
+    <div class="row" style="margin-top: 50px; padding-left: calc(100% / 6); " >
         <div class="col-md-2" style="position: fixed; transform: translateX(-100%);">
             <div style="background-color: #f8f9fa; height: 100vh; width: 220px;" class="d-flex flex-shrink-0 p-3" >
                 <hr>
@@ -43,4 +43,4 @@
         </div>
     </div>
 </div>
-<%@include file= "./template/footer.jsp" %>
+<%@include file= "../template/footer.jsp" %>

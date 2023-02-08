@@ -96,8 +96,8 @@ public class EditProfileController extends HttpServlet {
                     "txtName",
                     true,
                     String.class,
-                    a -> a.length() <= (100),
-                    "Please enter no more than 100 characters"
+                    a -> a.length() <= (40),
+                    "Please enter no more than 40 characters"
             );
 
             formValidator.setCheckParam(
