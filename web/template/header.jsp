@@ -131,7 +131,40 @@
                                     <i class="fas fa-bell" style="font-size: 22px; text-decoration: none; color: ${account.getRole() == 1 ? "white" : "black"}"; margin-left: 14px;"></i>
                                     <span class="badge rounded-pill badge-notification bg-danger">9</span>
                                 </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                                    <a href="<c:url value="/${account.getRole() == 1 ? 'teacher' : 'student'}/profile"/>" style="font-size: 16px;text-decoration: none">
+                                        <div class="d-flex bd-highlight dropdown-item">
+                                            <span class="p-2 flex-shrink-1 bd-highlight">
+                                                <i class="far fa-user"></i>
+                                            </span>
+                                            <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
+                                                Profile
+                                            </span>
+                                        </div>
+                                    </a>
 
+                                    <a href="<c:url value="/${account.getRole() == 1 ? 'teacher' : 'student'}/sendfeedback"/>" style="font-size: 16px;text-decoration: none">
+                                        <div class="d-flex bd-highlight dropdown-item">
+                                            <span class="p-2 flex-shrink-1 bd-highlight">
+                                                <i class="far fa-paper-plane"></i>
+                                            </span>
+                                            <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
+                                                Send feedback
+                                            </span>
+                                        </div>
+                                    </a>
+
+                                    <a href="<c:url value="/logout"/>" style="font-size: 16px;text-decoration: none">
+                                        <div class="d-flex bd-highlight dropdown-item">
+                                            <span class="p-2 flex-shrink-1 bd-highlight">
+                                                <i class="fas fa-sign-out-alt"></i>
+                                            </span>
+                                            <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
+                                                Log Out
+                                            </span>
+                                        </div>
+                                    </a>
+                                </ul>
                             </div>
                             <!--Avatar--> 
                             <div class="dropdown">

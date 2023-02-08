@@ -6,13 +6,13 @@
 
     <div class="content-main  d-flex justify-content-center container position-relative">
 
-        <div class="card col-md-7 mt-4" style="height: 320px;" >
+        <div class="card col-md-7 mt-4" style="height: fit-content;" >
             <div class="card-header">Create Post</div>
             <div class="card-body">
                 <p class="card-text">
                 <div class="form-outline">
                     <div class="form-floating" style="padding: 0;">
-                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 90px" ></textarea>
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100%; resize: none;" rows="5" ></textarea>
                         <label for="floatingTextarea2">Create a post</label>
                     </div>
                 </div>
@@ -69,12 +69,6 @@
 
     </div>
 
-    <div class="row position-fixed" style="top:0; bottom: 0; right: 0;" >
-        <div style="background-color: white; width: 300px; height: 100vh; margin-top: 50px;">
-            <h1>NOTIFICATION</h1>
-            <hr class="h-color mx-2">
-        </div>
-    </div>
-
+    <%@include file="../template/notificationbar.jsp" %>
 </div>
 <c:import url="../template/footer.jsp" />
