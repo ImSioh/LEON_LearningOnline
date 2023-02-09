@@ -4,11 +4,19 @@
     <%@include file="../template/sidebar.jsp" %>
 
     <div class="content-main d-flex justify-content-center container" style="margin-left: 250px;">
-        <div class="card col-md-9 mt-4 "  >
+        <div class="card col-md-9 mt-4 row" style="height: fit-content;" >
             <!--<div class="card-header">Create Post</div>-->
-            <div class="card-body">
-                <table class="table align-middle mb-0 bg-white">
-                    <thead class="bg-light card-header">
+            <div class=""  style="margin-left: 31%;"> 
+                <div class="form-outline mt-4 col-md-8 ">
+                    <input type="search" class="form-control" id="datatable-search-input">
+                    <label class="form-label" for="datatable-search-input">Search</label>
+                </div>
+                <div id="datatable">
+                </div>
+            </div>
+            <div class="card-body m-3" >
+                <table class="table align-middle mb-0 bg-white" style="padding: -10px;">
+                    <thead class="bg-light">
                         <tr>
                             <th>Name</th>
                             <th>Title</th>
