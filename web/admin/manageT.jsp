@@ -69,6 +69,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Gender</th>
                     <th>Email</th>
                     <th>Address</th>
                     <th>PhoneNumber</th>
@@ -81,9 +82,10 @@
                 <%--<c:forEach var="account" items="${accountList}" >--%>
                     <tr>
                         <td>
-                            <a href="">${account.getAccountId()}</a>
+                            <a href="/profile?id=${account.getAccountId()}">Profile</a>
                         </td>
                         <td>${account.getName()}</td>
+                        <td>account.getGender()</td>
                         <td>${account.getEmail()}</td>
                         <td>${account.getAddress()}</td>
                         <td>${account.getPhoneNumber()}</td>
