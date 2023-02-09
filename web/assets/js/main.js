@@ -1,7 +1,7 @@
 /*==================== MENU SHOW Y HIDDEN ====================*/
 const navMenu = document.getElementById('nav-menu'),
-    navToggle = document.getElementById('nav-toggle'),
-    navClose = document.getElementById('nav-close')
+        navToggle = document.getElementById('nav-toggle'),
+        navClose = document.getElementById('nav-close')
 
 /*===== MENU SHOW =====*/
 /* Validate if constant exists */
@@ -31,7 +31,7 @@ navLink.forEach(n => n.addEventListener('click', linkAction))
 
 /*==================== ACCORDION SKILLS ====================*/
 const skillsContent = document.getElementsByClassName('skills__content'),
-    skillsHeader = document.querySelectorAll('.skills__header')
+        skillsHeader = document.querySelectorAll('.skills__header')
 
 function toggleSkills() {
     let itemClass = this.parentNode.className
@@ -49,7 +49,7 @@ skillsHeader.forEach((el) => {
 
 /*==================== QUALIFICATION TABS ====================*/
 const tabs = document.querySelectorAll('[data-target]'),
-    tabContents = document.querySelectorAll('[data-content]')
+        tabContents = document.querySelectorAll('[data-content]')
 
 tabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -68,8 +68,8 @@ tabs.forEach(tab => {
 
 /*==================== SERVICES MODAL ====================*/
 const modalViews = document.querySelectorAll('.services__modal'),
-    modalBtns = document.querySelectorAll('.services__button'),
-    modalCloses = document.querySelectorAll('.services__modal-close')
+        modalBtns = document.querySelectorAll('.services__button'),
+        modalCloses = document.querySelectorAll('.services__modal-close')
 
 
 let modal = function (modalClick) {
@@ -114,7 +114,6 @@ let swiperTestimonial = new Swiper(".testimonial__container", {
     grabCursor: true,
     spaceBetween: 48,
 
-
     pagination: {
         el: ".swiper-pagination",
         clickable: true,
@@ -152,7 +151,10 @@ window.addEventListener('scroll', scrollActive)
 /*==================== CHANGE BACKGROUND HEADER ====================*/
 function scrollHeader() {
     const nav = document.getElementById('header')
-    if (this.scrollY = 200) nav.classList.add('scroll-header'); else nav.classList.remove('scroll-header')
+    if (this.scrollY = 200)
+        nav.classList.add('scroll-header');
+    else
+        nav.classList.remove('scroll-header')
 }
 window.addEventListener('scroll', scrollHeader)
 
@@ -221,46 +223,46 @@ themeButton.addEventListener('click', () => {
 
 // EMAIL JS
 const contactForm = document.getElementById('contact-form'),
-    contactName = document.getElementById('contact-name'),
-    contactEmail = document.getElementById('contact-email'),
-    contactMessage = document.getElementById('contact-message'),
-    contactMess = document.getElementById('contact-mess')
+        contactName = document.getElementById('contact-name'),
+        contactEmail = document.getElementById('contact-email'),
+        contactMessage = document.getElementById('contact-message'),
+        contactMess = document.getElementById('contact-mess')
 
 
 const sendEmail = (e) => {
     e.preventDefault()
-    
+
     // Check if the field has a value
     if (contactName.value === '' || contactEmail.value === '' || contactMessage.value === '') {
         //Add remove color
         // contactMess.classList.remove('color-blue')
         contactMess.classList.add('color-red')
-    //    console.log('1')
+        //    console.log('1')
         //Show message
         contactMess.textContent = 'Input fields ❌'
     } else {
-      
-      
-        emailjs.sendForm('service_o9muxqb', 'template_ionjs2n','#contact-form','J8D9lWSkT2WCHBCus')
-        .then(()=>{
-            //show mess and color
-            contactMess.classList.add('color-blue')
-            contactMess.textContent = 'Message sent ✔'
-           
-            // console.log('2')
-            //remove mess after 5 s
-            setTimeout(() =>{
-                contactMess.textContent=''
-            },5000)
 
-        },(error)=>{
-            alert('some thing wrong',error)
-        })
-    }   
 
-    contactName.value =''
-    contactEmail.value =''
-    contactMessage.value =''
+        emailjs.sendForm('service_o9muxqb', 'template_ionjs2n', '#contact-form', 'J8D9lWSkT2WCHBCus')
+                .then(() => {
+                    //show mess and color
+                    contactMess.classList.add('color-blue')
+                    contactMess.textContent = 'Message sent ✔'
+
+                    // console.log('2')
+                    //remove mess after 5 s
+                    setTimeout(() => {
+                        contactMess.textContent = ''
+                    }, 5000)
+
+                }, (error) => {
+                    alert('some thing wrong', error)
+                })
+    }
+
+    contactName.value = ''
+    contactEmail.value = ''
+    contactMessage.value = ''
 
 }
 contactForm.addEventListener('submit', sendEmail)
@@ -272,17 +274,16 @@ const sign_up_btn = document.querySelector("#sign-up-btn");
 const container = document.querySelector(".container");
 
 sign_up_btn.addEventListener("click", () => {
-  container.classList.add("sign-up-mode");
+    container.classList.add("sign-up-mode");
 });
 
 sign_in_btn.addEventListener("click", () => {
-  container.classList.remove("sign-up-mode");
+    container.classList.remove("sign-up-mode");
 });
 
 
-$(".sidebar ul li").onclick('click', function(){
+$(".sidebar ul li").onclick('click', function () {
     $(".sidebar ul li.active").removeClass('active');
     $(this).addClass('active');
-} )
-
+})
 
