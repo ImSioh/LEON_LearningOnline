@@ -1,11 +1,11 @@
 
+<h1 align="center">Online Learning Website</h1>
 
-*Note before run this project:
-you need to config some variable in `variable system` below:
+Before running this project you need to config some `system variable` to use DBContext, send mail and folder to save upload picture
 
 ```
 Variable name : MYSQL_USERNAME
-Variable value : root
+Variable value : {your mysql username}
 ```
 
 ```
