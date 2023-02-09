@@ -42,7 +42,7 @@ public class AccountDAO extends AbstractDAO<Account> {
         String query = "SELECT * FROM account WHERE role = ?;";
         return selectMany(query, role);
     }
-    
+
     public ArrayList<Account> getListAccountByRoleAndSort(int role, String criteria, String sort) throws Exception {
         String query = "SELECT * FROM account WHERE role = ?\n"
                 + "ORDER BY " + criteria + " " + sort;
@@ -62,6 +62,13 @@ public class AccountDAO extends AbstractDAO<Account> {
     public ArrayList<Account> getListAccountByName(String name, int role) throws Exception {
         String query = "SELECT * FROM account a WHERE a.name LIKE ? and a.role = ?";
         return selectMany(query, "%" + name + "%", role);
+    }
+
+    public ArrayList<Account> getListAllStudentByClassCode(String classCode) throws Exception {
+        String query = "select a.*  from account as a , enrollment as e , class as c\n"
+                + "where e.account_id= a.account_id and  c.class_id =  e.class_id\n"
+                + "and c.code = ?;";
+        return selectMany(query, classCode);
     }
 
     public int setVerifyCodeNull(UUID id) throws Exception {
@@ -108,18 +115,8 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
 
     public static void main(String[] args) throws Exception {
-//        Account a = new AccountDAO().getAccountById(UUID.fromString("1d71af77-a945-4277-863b-ad40c6f1a5e5"));
-//        a.setAddress("May thang ngu ");
-//        System.out.println(new AccountDAO().editAccount(a)); 
-//System.out.println(new AccountDAO().getListAccountByEmail("admin",1));
-        Account a = new AccountDAO().getAccountById(UUID.fromString("1d71af77-a945-4277-863b-ad40c6f1a5e5"));
-//        a.setAddress("May thang ngu ");
-//        System.out.println(new AccountDAO().editAccount(a));
-//        ArrayList<Account> accounts = new AccountDAO().getListAccountByRole(2);
-        ArrayList<Account> accounts = new AccountDAO().getListAccountByRoleAndSort(2, "name", "DESC");
-        for (Account account : accounts) {
-            System.out.println(account);
-        }
+
+        System.out.println(new AccountDAO().getListAllStudentByClassCode("FXJNH"));
     }
 
     @Override
