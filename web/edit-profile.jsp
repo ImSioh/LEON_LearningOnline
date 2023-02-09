@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="col-md-8 border-right card">
-                    <form action="<c:url value="${account.getRole() == 1 ? '/teacher': '/student'}/profile/edit"/>" method="post">
+                    <form action="<c:url value="${account.getRole() == 1 ? '/teacher': '/student'}/profile/edit"/>" method="post" enctype="multipart/form-data">
                         <div class="p-3 py-5 col-md-9">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h4 class="text-right">Edit Profile</h4>
@@ -58,8 +58,8 @@
                                     <label id="name-error" class="error" for="name">${requestScope["txtAddress-error"]}</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <label class="labels">Email</label>
-                                    <input type="text" class="form-control" placeholder="${account.getEmail()}" value="${account.getEmail()}" disabled name="txtMail">
+                                    <label class="labels" for="customFile">Change profile picture</label>
+                                    <input type="file" class="form-control" id="customFile" name="txtImg"/>
                                 </div>
                                 <div class="col-md-12">
                                     <input type="hidden" class="form-control" placeholder="${account.getAccountId()}" value="${account.getAccountId()}" name="txtUUID">
