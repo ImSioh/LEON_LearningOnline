@@ -37,7 +37,7 @@
                                     </div>
                                     <form action="<%=path%>/student/join" class="signin-form" method="POST">
                                         <div class="form-group mt-3">
-                                            <input type="text" class="form-control" name="classCode" required>
+                                            <input type="text" class="form-control" name="classCode">
                                             <label class="form-control-placeholder" for="username">Code</label>
                                         </div>
 
@@ -70,10 +70,16 @@
                                     </div>
                                     <form action="<%=path%>/student/join" class="signin-form" method="POST">
                                         <div class="form-group mt-3">
-                                            <input type="text" class="form-control" name="classCode" required>
+                                            <input type="text" class="form-control" name="classCode">
                                             <label class="form-control-placeholder" for="username">Code</label>
                                         </div>
-                                        <div style="color: red">(◕‿◕) Please input others code (◕‿◕)</div>
+                                        
+                                        <c:if test="${notification3}">
+                                            <div style="color: red">(◕‿◕) Code existed (◕‿◕)</div>
+                                        </c:if> 
+                                        <c:if test="${notification2}">
+                                            <div style="color: red">(◕‿◕) Code does not exist (◕‿◕)</div>
+                                        </c:if>  
                                         <div class="form-group">
                                             <button type="submit" class="form-control btn btn-primary rounded submit px-3">Join</button>
                                         </div>
