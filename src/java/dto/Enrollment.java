@@ -7,14 +7,16 @@ public class Enrollment {
 
     private UUID accountId;
     private UUID classId;
+    private boolean accepted;
     private Timestamp enrollTime;
 
     public Enrollment() {
     }
 
-    public Enrollment(UUID accountId, UUID classId, Timestamp enrollTime) {
+    public Enrollment(UUID accountId, UUID classId, boolean accepted, Timestamp enrollTime) {
         this.accountId = accountId;
         this.classId = classId;
+        this.accepted = accepted;
         this.enrollTime = enrollTime;
     }
 
@@ -34,6 +36,14 @@ public class Enrollment {
         this.classId = classId;
     }
 
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
+    }
+
     public Timestamp getEnrollTime() {
         return enrollTime;
     }
@@ -47,6 +57,7 @@ public class Enrollment {
         return "Enrollment(" + String.join(", ", new String[]{
             accountId.toString(),
             classId.toString(),
+            String.valueOf(accepted),
             enrollTime.toString()
         }) + ")";
     }

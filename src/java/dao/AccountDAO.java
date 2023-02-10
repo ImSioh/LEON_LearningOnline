@@ -82,12 +82,14 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
 
     public int insertAccount(Account account) throws Exception {
-        String query = "INSERT INTO account VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)";
+        String query = "INSERT INTO account VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)";
         return update(
                 query,
                 Util.UUIDToByteArray(account.getAccountId()),
                 account.getName(),
                 account.getBirthDate(),
+                account.isGender(),
+                account.getSchool(),
                 account.getAddress(),
                 account.getPhoneNumber(),
                 account.getEmail(),
@@ -125,6 +127,8 @@ public class AccountDAO extends AbstractDAO<Account> {
                 Util.ByteArrayToUUID(rs.getBytes("account_id")),
                 rs.getString("name"),
                 rs.getDate("birth_date"),
+                rs.getBoolean("gender"),
+                rs.getString("school"),
                 rs.getString("address"),
                 rs.getString("phone_number"),
                 rs.getString("email"),

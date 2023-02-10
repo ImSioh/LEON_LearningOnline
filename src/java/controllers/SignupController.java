@@ -43,7 +43,23 @@ public class SignupController extends HttpServlet {
                 "Birth of date must before present"
         );
         
-        formValidator.setCheckParam("address", false, String.class);
+        formValidator.setCheckParam("gender", true, String.class);
+        
+        formValidator.setCheckParam(
+                "school",
+                false,
+                String.class,
+                a -> a.length() <= (100),
+                "Please enter no more than 100 characters"
+        );
+        
+        formValidator.setCheckParam(
+                "address",
+                false,
+                String.class,
+                a -> a.length() <= (100),
+                "Please enter no more than 100 characters"
+        );
         
         formValidator.setCheckParam(
                 "phone",
@@ -106,6 +122,8 @@ public class SignupController extends HttpServlet {
             try {
                 String name = (String) formValidator.get("name");
                 Date dob = (Date) formValidator.get("dob");
+                boolean gender = ((String) formValidator.get("gender")).equalsIgnoreCase("male");
+                String school = (String) formValidator.get("school");
                 String address = (String) formValidator.get("address");
                 String phoneNumber = (String) formValidator.get("phone");
                 if (phoneNumber == null || phoneNumber.isEmpty()) {
@@ -117,7 +135,7 @@ public class SignupController extends HttpServlet {
                 String verificationCode = Util.randomString(6).toUpperCase();
                 Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
-                Account account = new Account(UUID.randomUUID(), name, dob, address, phoneNumber, email, password, role, "", verificationCode, createTime, false);
+                Account account = new Account(UUID.randomUUID(), name, dob, gender, school, address, phoneNumber, email, password, role, "", verificationCode, createTime, false);
                 Util.sendEmail(account.getEmail(), "LE.ON Email verification", "Your verification code at LE.ON - Learning Online is: " + account.getVerificationCode());
                 int result = accountDAO.insertAccount(account);
                 

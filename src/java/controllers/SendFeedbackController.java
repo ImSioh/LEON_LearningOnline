@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +39,7 @@ public class SendFeedbackController extends HttpServlet {
             msg = "Please enter Title or Content";
         } else {
             try {
-                new FeedbackDAO().insertFeedback(new Feedback(UUID.randomUUID(), account.getAccountId(), feedbackTitle, feedbackContent, ""));
+                new FeedbackDAO().insertFeedback(new Feedback(UUID.randomUUID(), account.getAccountId(), feedbackTitle, feedbackContent, "", new Timestamp(System.currentTimeMillis())));
                 msg = "Send feedback successfully";
             } catch (Exception ex) {
                 Logger.getLogger(SendFeedbackController.class.getName()).log(Level.SEVERE, null, ex);
