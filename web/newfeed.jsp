@@ -1,5 +1,12 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/template/header.jsp" %>
 
+<style>
+    .card {
+        border-radius: 0.5rem;
+    }
+</style>
 <div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 50px;">
     <%@include file="/template/sidebar.jsp" %>
 
@@ -33,7 +40,7 @@
 
         <!--//for 1 post-->
 
-        <div class="card col-md-7 mt-4" style="height: 320px; " >
+        <div class="newfeed-post card col-md-7 mt-4" style="height: 320px; " >
             <div class="card-header">Post</div>
             <div class="card-body">
                 <p class="card-text">
@@ -72,3 +79,15 @@
     <%@include file="/template/notificationbar.jsp" %>
 </div>
 <c:import url="/template/footer.jsp" />
+        <button class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i>
+            New notification
+        </button>
+        <ul>
+            <li>Em mới học html css. Cho hỏi từ khóa để code cái này ạ</li>
+            <li>second</li>
+            <li>third</li>
+        </ul>
+
+    </div>
+</div>
