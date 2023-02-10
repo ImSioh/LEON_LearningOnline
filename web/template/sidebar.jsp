@@ -4,10 +4,9 @@
         <div style="display: flex; justify-content: center;" >
             <img src="https://www.shareicon.net/data/128x128/2016/09/15/829459_man_512x512.png" alt="" class=""/>
         </div>
-        <p class="text-center" style="margin:8px auto;">CodegangZ</p>
-        <p class="text-center">Class Code: HFUJK</p>
-         <p class="text-center">Teacher: Dung Dung Dung Dung Dung</p>
-
+        <p class="text-center" style="margin:8px auto;">${classObject.name}</p>
+        <p class="text-center">Class Code: ${classObject.code}</p>
+        <p class="text-center">Teacher: ${teacher.name}</p>
     </div>
     <hr class="h-color mx-2">
     <ul class="list-unstyled px-2">

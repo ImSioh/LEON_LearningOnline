@@ -7,10 +7,8 @@
         border-radius: 0.5rem;
     }
 </style>
-<div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 50px;">
+<div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 56px;">
     <%@include file="/template/sidebar.jsp" %>
-
-
     <div class="content-main  d-flex justify-content-center container position-relative">
 
         <div class="card col-md-7 mt-4" style="height: fit-content;" >
@@ -24,7 +22,6 @@
                     </div>
                 </div>
                 </p>
-
             </div>
             <div class="card-footer text-muted ">
 
@@ -78,16 +75,5 @@
 
     <%@include file="/template/notificationbar.jsp" %>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <c:import url="/template/footer.jsp" />
-        <button class="btn btn-primary">
-            <i class="fa-solid fa-plus"></i>
-            New notification
-        </button>
-        <ul>
-            <li>Em mới học html css. Cho hỏi từ khóa để code cái này ạ</li>
-            <li>second</li>
-            <li>third</li>
-        </ul>
-
-    </div>
-</div>
