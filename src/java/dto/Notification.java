@@ -1,5 +1,6 @@
 package dto;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public class Notification {
@@ -10,14 +11,16 @@ public class Notification {
     private String title;
     private String redirectUrl;
     private String content;
+    private Timestamp createTime;
 
-    public Notification(UUID notificationId, UUID accountId, UUID classId, String title, String redirectUrl, String content) {
+    public Notification(UUID notificationId, UUID accountId, UUID classId, String title, String redirectUrl, String content, Timestamp createTime) {
         this.notificationId = notificationId;
         this.accountId = accountId;
         this.classId = classId;
         this.title = title;
         this.redirectUrl = redirectUrl;
         this.content = content;
+        this.createTime = createTime;
     }
 
     public UUID getNotificationId() {
@@ -68,6 +71,14 @@ public class Notification {
         this.content = content;
     }
 
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
     @Override
     public String toString() {
         return "Notification(" + String.join(", ", new String[]{
@@ -76,7 +87,8 @@ public class Notification {
             classId.toString(),
             title,
             redirectUrl,
-            content
+            content,
+            createTime.toString()
         }) + ")";
     }
 

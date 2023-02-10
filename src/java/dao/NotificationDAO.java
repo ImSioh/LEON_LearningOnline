@@ -14,7 +14,8 @@ public class NotificationDAO extends AbstractDAO<Notification> {
                 Util.ByteArrayToUUID(rs.getBytes("class_id")),
                 rs.getNString("title"),
                 rs.getString("redirect_url"),
-                rs.getNString("content")
+                rs.getNString("content"),
+                rs.getTimestamp("create_time")
         );
     }
     
