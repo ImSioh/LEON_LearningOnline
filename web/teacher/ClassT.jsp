@@ -8,7 +8,11 @@
                     <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0 position-relative row">
                             <div class="left col-md-6" style="margin-left: 24px;">
-                                <button type="button" class="btn btn-info text-light "><a href="<%=path%>/teacher/class/create" style="text-decoration: none; color: white ">+ Create class</a></button>
+                                <button type="button " class="btn btn-info text-light btn-rounded text-wrap">
+                                    <a href="<%=path%>/teacher/class/create" style="text-decoration: none; color: white ">
+                                        + Create class
+                                    </a>
+                                </button>
                             </div>
                             <div class="right position-absolute col-md-6" style="top:0; bottom: 0;right: 0;">
                                 <div class="input-group rounded row" style="">
@@ -27,7 +31,7 @@
                     <c:forEach items="${classObjList}" var="co">
                         <div class="col-lg-3" style="margin-bottom: 24px;">
                             <a href="<c:url value="/teacher/class/newfeed?code=${co.getCode()}"/>" style="text-decoration: none;">
-                                <div class="card">
+                                <div class="card" style=" border-radius: 15px; overflow: hidden;">
                                     <div style="overflow: hidden; width: 100%; height: 100%;height: 188px; background-size: cover;
                                          background-position: center;
                                          background-image: url(<c:url value="${co.getClassPicture() == null ? '/assets/img/Common_picture.png' : co.getClassPicture()}"/>)"> 
