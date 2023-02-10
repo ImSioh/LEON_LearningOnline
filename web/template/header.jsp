@@ -111,6 +111,7 @@
                                         </li>
                                         <li class="nav-item navbariteam">
                                             <c:if test="${hglV}">
+                                                
                                                 <a class="nav-link" href="<%=path%>/student/class" style="color:#1e88e5 !important; font-size: 15px;">Class</a>
                                             </c:if>
                                             <c:if test="${!hglV}">
