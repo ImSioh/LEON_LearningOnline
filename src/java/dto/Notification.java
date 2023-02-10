@@ -6,13 +6,15 @@ public class Notification {
 
     private UUID notificationId;
     private UUID accountId;
+    private UUID classId;
     private String title;
     private String redirectUrl;
     private String content;
 
-    public Notification(UUID notificationId, UUID accountId, String title, String redirectUrl, String content) {
+    public Notification(UUID notificationId, UUID accountId, UUID classId, String title, String redirectUrl, String content) {
         this.notificationId = notificationId;
         this.accountId = accountId;
+        this.classId = classId;
         this.title = title;
         this.redirectUrl = redirectUrl;
         this.content = content;
@@ -32,6 +34,14 @@ public class Notification {
 
     public void setAccountId(UUID accountId) {
         this.accountId = accountId;
+    }
+
+    public UUID getClassId() {
+        return classId;
+    }
+
+    public void setClassId(UUID classId) {
+        this.classId = classId;
     }
 
     public String getTitle() {
@@ -63,6 +73,7 @@ public class Notification {
         return "Notification(" + String.join(", ", new String[]{
             notificationId.toString(),
             accountId.toString(),
+            classId.toString(),
             title,
             redirectUrl,
             content
