@@ -14,11 +14,12 @@ public class EnrollmentDAO extends AbstractDAO<Enrollment> {
     }
     
     public int insertEnrollment(Enrollment enrollment) throws Exception {
-        String query = "INSERT INTO enrollment VALUES (?, ?, ?)";
+        String query = "INSERT INTO enrollment VALUES (?, ?, ?, ?)";
         return update(
                 query,
                 Util.UUIDToByteArray(enrollment.getAccountId()),
                 Util.UUIDToByteArray(enrollment.getClassId()),
+                enrollment.isAccepted(),
                 enrollment.getEnrollTime()
         );
     }
@@ -28,6 +29,7 @@ public class EnrollmentDAO extends AbstractDAO<Enrollment> {
         return new Enrollment(
                 Util.ByteArrayToUUID(rs.getBytes("account_id")),
                 Util.ByteArrayToUUID(rs.getBytes("class_id")),
+                rs.getBoolean("accepted"),
                 rs.getTimestamp("enroll_time")
         );
     }
