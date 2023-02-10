@@ -81,18 +81,34 @@
     .modal-open #right-sidebar {
         padding-right: 17px
     }
+    
+    .modal-dialog {
+        margin: 0;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%) !important;
+    }
+    
+    #notification-content {
+        resize: none;
+        outline: none;
+        border: none;
+    }
 </style>
 <div class="modal fade" id="new-notification-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create new notification</h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">...</div>
+            <div class="modal-body">
+                <textarea au rows="4" cols="50" id="notification-content"></textarea>
+            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" id="modal-close-btn" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                <button type="button" id="add-noti-btn" class="btn btn-primary">Add</button>
             </div>
         </div>
     </div>
@@ -116,3 +132,26 @@
         </ul>
     </div>
 </div>
+<script>
+    const classId = '${classObject.classId.toString()}'
+    const teacherId = '${teacher.accountId.toString()}'
+    const notiContentTextarea = document.getElementById('notification-content')
+    const addBtn = document.getElementById('add-noti-btn')
+    const closeBtn = document.getElementById('modal-close-btn')
+    addBtn.addEventListener('click', async () => {
+        const content = notiContentTextarea.value.trim()
+        if (content) {
+            const formData = new FormData()
+            formData.append('classId', classId)
+            formData.append('teacherId', teacherId)
+            formData.append('title', 'Notification from ${classObject.name}')
+            formData.append('content', content)
+            const response = await fetch('<c:url value="/teacher/class/notification"/>', {
+                method: 'POST',
+                body: formData
+            })
+            closeBtn.click()
+            notiContentTextarea.value = ''
+        }
+    })
+</script>

@@ -93,7 +93,7 @@ public class CreateClassController extends HttpServlet {
                 
                 int result = classObjectDAO.insertClass(classObject);
                 if (result > 0) {
-                    resp.sendRedirect(req.getContextPath() + "/teacher/class/" + classCode + "/newfeed");
+                    resp.sendRedirect(req.getContextPath() + "/teacher/class/newfeed?code=" + classCode);
                 } else {
                     resp.sendError(500);
                 }
