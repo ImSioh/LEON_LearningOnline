@@ -9,11 +9,13 @@ import java.util.UUID;
 public class FeedbackDAO extends AbstractDAO<Feedback> {
 
     public int insertFeedback(Feedback feedback) throws Exception {
-        String query = "Insert into feedback values(?,?,?,?,'')";
-        return update(query, Util.UUIDToByteArray(feedback.getFeedbackId()),
+        String query = "Insert into feedback values(?,?,?,?,'',?)";
+        return update(
+                query, Util.UUIDToByteArray(feedback.getFeedbackId()),
                 Util.UUIDToByteArray(feedback.getAccountId()),
                 feedback.getTitle(),
-                feedback.getContent()
+                feedback.getContent(),
+                feedback.getCreateTime()
         );
     }
     
@@ -64,7 +66,8 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
                 Util.ByteArrayToUUID(rs.getBytes("account_id")),
                 rs.getNString("title"),
                 rs.getNString("content"),
-                rs.getNString("response")
+                rs.getNString("response"),
+                rs.getTimestamp("create_time")
         );
     }
 

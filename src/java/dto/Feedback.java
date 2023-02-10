@@ -1,5 +1,6 @@
 package dto;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public class Feedback {
@@ -9,13 +10,15 @@ public class Feedback {
     private String title;
     private String content;
     private String response;
+    private Timestamp createTime;
 
-    public Feedback(UUID feedbackId, UUID accountId, String title, String content, String response) {
+    public Feedback(UUID feedbackId, UUID accountId, String title, String content, String response, Timestamp createTime) {
         this.feedbackId = feedbackId;
         this.accountId = accountId;
         this.title = title;
         this.content = content;
         this.response = response;
+        this.createTime = createTime;
     }
 
     public UUID getFeedbackId() {
@@ -58,6 +61,14 @@ public class Feedback {
         this.response = response;
     }
 
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+    
     @Override
     public String toString() {
         return "Feedback(" + String.join(", ", new String[]{
@@ -65,7 +76,8 @@ public class Feedback {
             accountId.toString(),
             title,
             content,
-            response
+            response,
+            createTime.toString()
         }) + ")";
     }
 
