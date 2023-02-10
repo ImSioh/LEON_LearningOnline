@@ -17,8 +17,8 @@
         </a> </li>      
 
         <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> Assignment</a> </li> 
-        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> Rank</a> </li> 
-        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">Document</a> </li> 
+        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">  Rank</a> </li> 
+        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">request</a> </li> 
 
         <hr class="h-color mx-2">
         <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> Setting</a> </li>

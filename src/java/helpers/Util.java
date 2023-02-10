@@ -56,7 +56,7 @@ public class Util {
     }
 
     public static void sendEmail(String to, String title, String content) {
-        final String sender = "zedovblack@gmail.com";
+        final String sender = "leoneduservice@gmail.com";
         final String password = System.getenv("EMAIL_PASS");
         if (password == null) {
             System.out.println("Cannot send email to " + to);

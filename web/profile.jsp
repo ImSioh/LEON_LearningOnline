@@ -25,8 +25,22 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
-                            <img src="https://www.shareicon.net/data/128x128/2016/09/15/829459_man_512x512.png"
-                                 alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+
+                            <div style="width: 150px; height: 150px; overflow: hidden; margin: 0 auto;" class="rounded-circle mt-5 position-relative" >
+                                <div id="profile-img" style="
+                                     width: 100%;
+                                     height: 0;
+                                     padding-bottom: 100%;
+                                     background-image: url(<c:url value="${account.getProfilePicture()==null ? '/assets/img/ava.png' :account.getProfilePicture()}"/>);
+                                     background-position: center;
+                                     background-repeat: no-repeat;
+                                     background-size: cover;
+                                     ">;
+                                </div>
+
+                            </div>
+
+
                             <h5 class="my-3">${account.getName()}</h5>
                             <p class="text-muted mb-1">${account.getRole() == 1 ? "Teacher" : "Student"}</p>
                             <p class="text-muted mb-4">${account.getAddress()}</p>
@@ -44,10 +58,7 @@
                                     </div>
                                 </c:otherwise>
                             </c:choose>
-                            <!--                                        <div class="d-flex justify-content-center mb-2">
-                                                                        <a type="button" class="btn btn-primary" href="<c:url value="/profile/change-password"/>">Change Password</a>
-                                                                        <a type="button" class="btn btn-outline-primary ms-1" href="<c:url value="/profile/edit"/>">Edit Profile</a>
-                                                                    </div>-->
+
                         </div>
                     </div>
 
