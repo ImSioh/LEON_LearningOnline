@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS notification(
   title varchar(100) CHARACTER SET utf8mb4 NOT NULL,
   redirect_url varchar(100) CHARACTER SET utf8mb4,
   content varchar(200) CHARACTER SET utf8mb4 NOT NULL,
+  create_time datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (notification_id),
   FOREIGN KEY (account_id) REFERENCES account(account_id),
   FOREIGN KEY (class_id) REFERENCES class(class_id)
