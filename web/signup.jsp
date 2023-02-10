@@ -41,6 +41,26 @@
                     <input id="dob" name="dob" class="input--email" type="date" value="${requestScope["dob"]}"/>
                     <label id="dob-error" class="error" for="dob">${requestScope["dob-error"]}</label>
 
+                    <div style="display: flex; margin-top: 16px; gap: 3rem">
+                        <label>Gender:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" id="gender-male" type="radio" name="gender" value="male" checked>
+                            <label class="form-check-label" for="gender-male">
+                                Male
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="gender-female" type="radio" name="gender" value="male" checked>
+                            <label class="form-check-label" for="gender-female">
+                                Female
+                            </label>
+                        </div>
+                    </div>
+
+                    <label>School</label>
+                    <input id="schoold" name="school" class="input--email" type="text" value="${requestScope["schoold"]}"/>
+                    <label id="schoold-error" class="error" for="dob">${requestScope["schoold-error"]}</label>
+
                     <label>Address</label>
                     <input name="address" class="input--email" type="text" value="${requestScope["address"]}"/>
 
@@ -63,21 +83,21 @@
                     <div class="d-grid gap-2" style="margin-top: 16px">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="role" id="role1" value="1" <c:if test="${requestScope['role'] == null || requestScope['role'] == '1'}">checked</c:if>>
-                            <label class="form-check-label" for="role1">
-                                I'm a teacher
-                                
-                            </label>
+                                <label class="form-check-label" for="role1">
+                                    I'm a teacher
+
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role" id="role2" value="2" <c:if test="${requestScope['role'] == '2'}">checked</c:if>>
+                                <label class="form-check-label" for="role2">
+                                    I'm a student
+                                </label>
+                            </div>
+                            <input class="btn btn-primary btn--signin" type="submit" value="Sign up" style="margin-top: 4px">
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="role" id="role2" value="2" <c:if test="${requestScope['role'] == '2'}">checked</c:if>>
-                            <label class="form-check-label" for="role2">
-                                I'm a student
-                            </label>
-                        </div>
-                        <input class="btn btn-primary btn--signin" type="submit" value="Sign up" style="margin-top: 4px">
-                    </div>
-                </form>
-                <div class="signin--account" style="justify-content: center;gap: 4px;">Have a account ?<a class="btn--signup" href="<c:url value="/signin"/>"> Signin</a></div>
+                    </form>
+                    <div class="signin--account" style="justify-content: center;gap: 4px;">Have a account ?<a class="btn--signup" href="<c:url value="/signin"/>"> Signin</a></div>
             </div>
             <div class="content--right">
                 <img src="./assets/img/signin.svg" alt="">

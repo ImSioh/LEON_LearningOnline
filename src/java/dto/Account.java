@@ -9,6 +9,8 @@ public class Account {
     private UUID accountId;
     private String name;
     private Date birthDate;
+    private boolean gender;
+    private String school;
     private String address;
     private String phoneNumber;
     private String email;
@@ -19,10 +21,12 @@ public class Account {
     private Timestamp createTime;
     private boolean locked;
 
-    public Account(UUID accountId, String name, Date birthDate, String address, String phoneNumber, String email, String password, int role, String profilePicture, String verificationCode, Timestamp createTime, boolean locked) {
+    public Account(UUID accountId, String name, Date birthDate, boolean gender, String school, String address, String phoneNumber, String email, String password, int role, String profilePicture, String verificationCode, Timestamp createTime, boolean locked) {
         this.accountId = accountId;
         this.name = name;
         this.birthDate = birthDate;
+        this.gender = gender;
+        this.school = school;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -56,6 +60,22 @@ public class Account {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
     }
 
     public String getAddress() {
@@ -136,6 +156,8 @@ public class Account {
             accountId.toString(),
             name,
             birthDate == null ? "null" : birthDate.toString(),
+            String.valueOf(gender),
+            school,
             address,
             phoneNumber,
             email,
