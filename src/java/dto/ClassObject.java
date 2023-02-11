@@ -25,6 +25,10 @@ public class ClassObject {
         this.createTime = createTime;
     }
 
+    public ClassObject() {
+    }
+    
+
     public UUID getClassId() {
         return classId;
     }

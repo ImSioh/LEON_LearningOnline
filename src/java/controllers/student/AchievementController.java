@@ -46,7 +46,7 @@ public class AchievementController extends HttpServlet {
                 req.setAttribute("accL", accL);
                 req.setAttribute("hglO", true);
                 req.setAttribute("hglV", false);
-                req.getRequestDispatcher("AchievementS.jsp").forward(req, resp);
+                req.getRequestDispatcher("achievementS.jsp").forward(req, resp);
             } else {
                 resp.sendRedirect(req.getContextPath() + "/");
             }

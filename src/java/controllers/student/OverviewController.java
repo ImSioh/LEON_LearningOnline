@@ -50,7 +50,7 @@ public class OverviewController extends HttpServlet {
                 req.setAttribute("accL", accL);
                 req.setAttribute("hglO", true);
                 req.setAttribute("hglV", false);
-                req.getRequestDispatcher("HomeS.jsp").forward(req, resp);
+                req.getRequestDispatcher("homeS.jsp").forward(req, resp);
             } else {
                 resp.sendRedirect(req.getContextPath() + "/");
             }
