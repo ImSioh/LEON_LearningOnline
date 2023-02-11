@@ -15,16 +15,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author leducphi
- */
+
 @WebServlet(name = "EditProfileController", urlPatterns = {"/student/profile/edit", "/teacher/profile/edit"})
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 1,
@@ -33,27 +28,9 @@ import java.util.logging.Logger;
 )
 public class EditProfileController extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet EditProfileController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet EditProfileController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         request.getRequestDispatcher("/edit-profile.jsp").forward(request, response);
     }
 
@@ -62,11 +39,10 @@ public class EditProfileController extends HttpServlet {
             throws ServletException, IOException {
         try {
 
-            String txtUUID = request.getParameter("txtUUID");
             Part profilePicture = request.getPart("txtImg");
             AccountDAO accountDAO = new AccountDAO();
             FormValidator formValidator = new FormValidator(request);
-            Account account = new AccountDAO().getAccountById(UUID.fromString(txtUUID));
+            Account account = (Account) request.getAttribute("account");
 
             formValidator.setCheckParam(
                     "txtName",
@@ -86,6 +62,8 @@ public class EditProfileController extends HttpServlet {
 
             formValidator.setCheckParam("txtAddress", false, String.class);
 
+            formValidator.setCheckParam("txtSchool", false, String.class);
+            
             formValidator.setCheckParam(
                     "txtPhone",
                     false,
@@ -118,7 +96,10 @@ public class EditProfileController extends HttpServlet {
                 String name = (String) formValidator.get("txtName");
                 Date dob = (Date) formValidator.get("txtBD");
                 String address = (String) formValidator.get("txtAddress");
+                String school = (String) formValidator.get("txtSchool");
                 String phoneNumber = (String) formValidator.get("txtPhone");
+//                boolean gender = ((String) formValidator.get("gender")).equalsIgnoreCase("male");
+                boolean gender = Boolean.parseBoolean(request.getParameter("txtGender"));
 
                 if (phoneNumber.trim().isEmpty()) {
                     phoneNumber = null;
@@ -128,6 +109,8 @@ public class EditProfileController extends HttpServlet {
                 account.setPhoneNumber(phoneNumber);
                 account.setBirthDate(dob);
                 account.setAddress(address);
+                account.setSchool(school);
+                account.setGender(gender);
 
                 String urlToDB = null;
                 if (profilePicture.getSize() > 0) {
@@ -142,7 +125,6 @@ public class EditProfileController extends HttpServlet {
                 int status = new AccountDAO().editAccount(account);
 
                 if (status > 0) {
-                    request.setAttribute("status", status);
                     if (account.getRole() == 1) {
                         response.sendRedirect(request.getContextPath() + "/teacher/profile");
                     } else {
@@ -161,15 +143,5 @@ public class EditProfileController extends HttpServlet {
             Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

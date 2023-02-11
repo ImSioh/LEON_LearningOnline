@@ -104,6 +104,24 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
+                                    <p class="mb-0">School</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">${account.getSchool()}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Gender</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">${account.isGender() eq true ? 'Male' : 'Female'}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
                                     <p class="mb-0">Address</p>
                                 </div>
                                 <div class="col-sm-9">
