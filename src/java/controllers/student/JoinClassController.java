@@ -37,7 +37,7 @@ public class JoinClassController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setAttribute("verified", true);
-        req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
+        req.getRequestDispatcher("enter-classCode.jsp").forward(req, resp);
 
     }
 
@@ -79,7 +79,7 @@ public class JoinClassController extends HttpServlet {
                         if (CO.getCode().equalsIgnoreCase(code)) {
                             if (CO.isHidden() == true) {
                                 req.setAttribute("hideClass", true);
-                                req.getRequestDispatcher("ClassS.jsp").forward(req, resp);
+                                req.getRequestDispatcher("classS.jsp").forward(req, resp);
                             }
                             req.setAttribute("verified", true);
                             // insert data to enrollment table
@@ -96,13 +96,13 @@ public class JoinClassController extends HttpServlet {
                 } catch (Exception e) {
                     req.setAttribute("verified", false);
                     req.setAttribute("notification3", true);
-                    req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
+                    req.getRequestDispatcher("enter-classCode.jsp").forward(req, resp);
                 }
                 // codeClass doesn't exist in class
 //                if (count == 0) {
                 req.setAttribute("verified", false);
                 req.setAttribute("notification2", true);
-                req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
+                req.getRequestDispatcher("enter-classCode.jsp").forward(req, resp);
 //                }
             } else {
                 resp.sendRedirect(req.getContextPath() + "/");

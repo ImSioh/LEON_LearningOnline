@@ -9,7 +9,7 @@
             <div class="card-body">
                 <div class="signup-form">
                     <h2 class="form-title">Setting</h2>
-                    <form method="POST" action="<%=path%>/teacher/setting" enctype="multipart/form-data">
+                    <form method="POST" action="<%=path%>/teacher/class/setting?code=${param.code}" enctype="multipart/form-data">
                         <div class="form-group">
                             <label class="labels" style=" font-weight: bold !important; margin: 30px 0px 5px 0px!important">Name class</label>
                             <input type="text" class="form-control" placeholder="${account.getName()}" name="txtName">
