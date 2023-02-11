@@ -58,29 +58,44 @@
                                 <div class="col-md-12">
                                     <label class="labels">Name</label>
                                     <input type="text" class="form-control" placeholder="${account.getName()}" value="${account.getName()}" name="txtName">
-                                    <label id="name-error" class="error" for="name">${requestScope["txtName-error"]}</label>
+                                    <label id="name-error" class="error text-danger" for="name">${requestScope["txtName-error"]}</label>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="labels">Mobile Number</label>
                                     <input type="text" class="form-control" placeholder="${account.getPhoneNumber()}" value="${account.getPhoneNumber()}" name="txtPhone">
-                                    <label id="name-error" class="error" for="name">${requestScope["txtPhone-error"]}</label>
+                                    <label id="name-error" class="error text-danger" for="name">${requestScope["txtPhone-error"]}</label>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="labels">Date of birth</label>
                                     <input type="date" class="form-control" placeholder="${account.getBirthDate()}" value="${account.getBirthDate()}" name="txtBD">
-                                    <label id="name-error" class="error" for="name">${requestScope["txtBD-error"]}</label>
+                                    <label id="name-error" class="error text-danger" for="name">${requestScope["txtBD-error"]}</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">School</label>
+                                    <input type="text" class="form-control" placeholder="${account.getSchool()}" value="${account.getSchool()}" name="txtSchool">
+                                    <label id="name-error" class="error text-danger" for="name">${requestScope["txtSchool-error"]}</label>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="labels">Address</label>
                                     <input type="text" class="form-control" placeholder="${account.getAddress()}" value="${account.getAddress()}" name="txtAddress">
-                                    <label id="name-error" class="error" for="name">${requestScope["txtAddress-error"]}</label>
-                                </div>
-                                <div class="col-md-12 d-none">
-                                    <input type="file" class="form-control" id="uploadImgProfile" name="txtImg" />
+                                    <label id="name-error" class="error text-danger" for="name">${requestScope["txtAddress-error"]}</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="hidden" class="form-control" placeholder="${account.getAccountId()}" value="${account.getAccountId()}" name="txtUUID">
+                                    <label class="labels">Gender</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="txtGender" ${account.isGender() eq "true" ? "checked" : ""} value="true"/>
+                                        <label class="form-check-label" for="flexRadioDefault1"> Male </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="txtGender" ${account.isGender() eq "false" ? "checked" : ""} value="false"/>
+                                        <label class="form-check-label" for="flexRadioDefault2"> Female </label>
+                                    </div>
+
                                 </div>
+                                <div class="d-none">
+                                    <input type="file" class="form-control" id="uploadImgProfile" name="txtImg" />
+                                </div>
+
                             </div>
 
                             <div class="mt-5 text-center">

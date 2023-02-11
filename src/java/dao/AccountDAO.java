@@ -102,11 +102,25 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
 
     public int editAccount(Account account) throws Exception {
-        String query = "UPDATE `online_learning`.`account` SET `name` = ?, `birth_date` = ?, `address` = ?, `phone_number` = ?,`password` = ?, `profile_picture` = ?,`locked` = ? WHERE (`account_id` = ?);";
+        String query
+                = "UPDATE `online_learning`.`account` \n"
+                + "SET \n"
+                + "	`name` = ?, \n"
+                + "	`birth_date` = ?, \n"
+                + "	`gender` = ?, \n"
+                + "	`school` = ?, \n"
+                + "	`address` = ?, \n"
+                + "	`phone_number` = ?, \n"
+                + "	`password` = ?, \n"
+                + "	`profile_picture` = ?, \n"
+                + "	`locked` = ? \n"
+                + "WHERE (`account_id` = ?);";
         return update(
                 query,
                 account.getName(),
                 account.getBirthDate(),
+                account.isGender(),
+                account.getSchool(),
                 account.getAddress(),
                 account.getPhoneNumber(),
                 account.getPassword(),
