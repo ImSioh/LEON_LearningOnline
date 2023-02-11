@@ -55,8 +55,10 @@
                 margin: 10px 18px 20px 18px;
             }
         </style>
-
-
+        <script>
+            const wsUrl = location.origin.replace('http', 'ws') + '<c:url value="/wsendpoint"/>'
+            window.generalWS = new WebSocket(wsUrl)
+        </script>
     </head>
 
     <body>
@@ -129,25 +131,19 @@
                             <div class="dropdown" style="margin-right: 15px;">
                                 <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-bell" style="font-size: 22px; text-decoration: none; color: ${account.getRole() == 1 ? "white" : "black"}"; margin-left: 14px;"></i>
-                                    <span class="badge rounded-pill badge-notification bg-danger">9</span>
+                                    <span class="badge rounded-pill badge-notification bg-danger"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                                     <a href="<c:url value="/${account.getRole() == 1 ? 'teacher' : 'student'}/profile"/>" style="font-size: 16px;text-decoration: none">
                                         <div class="d-flex bd-highlight dropdown-item">
-                                            <span class="p-2 flex-shrink-1 bd-highlight">
-                                                <i class="far fa-user"></i>
-                                            </span>
                                             <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
-                                                Profile
+                                                Profile Swiper is not defined Swiper is not defined Swiper is not defined Swiper is not defined Swiper is not defined
                                             </span>
                                         </div>
                                     </a>
 
                                     <a href="<c:url value="/${account.getRole() == 1 ? 'teacher' : 'student'}/sendfeedback"/>" style="font-size: 16px;text-decoration: none">
                                         <div class="d-flex bd-highlight dropdown-item">
-                                            <span class="p-2 flex-shrink-1 bd-highlight">
-                                                <i class="far fa-paper-plane"></i>
-                                            </span>
                                             <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
                                                 Send feedback
                                             </span>
@@ -156,9 +152,6 @@
 
                                     <a href="<c:url value="/logout"/>" style="font-size: 16px;text-decoration: none">
                                         <div class="d-flex bd-highlight dropdown-item">
-                                            <span class="p-2 flex-shrink-1 bd-highlight">
-                                                <i class="fas fa-sign-out-alt"></i>
-                                            </span>
                                             <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
                                                 Log Out
                                             </span>

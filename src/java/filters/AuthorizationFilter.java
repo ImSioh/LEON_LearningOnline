@@ -48,7 +48,11 @@ public class AuthorizationFilter implements Filter {
         if (email != null && !email.isEmpty() && password != null && !password.isEmpty()) {
             try {
                 account = new AccountDAO().getAccount(email, password);
-                req.setAttribute("account", account);
+                if (path.startsWith("/wsendpoint")) {
+                    req.getSession(true).setAttribute("account", account);
+                } else {
+                    req.setAttribute("account", account);
+                }
             } catch (Exception e) {
                 throw new ServletException(e);
             }

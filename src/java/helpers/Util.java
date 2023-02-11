@@ -18,6 +18,7 @@ import java.util.concurrent.CompletableFuture;
 public class Util {
 
     public static byte[] UUIDToByteArray(UUID uuid) {
+        if (uuid == null) return null;
         ByteBuffer byteBuffer = ByteBuffer.wrap(new byte[16]);
         byteBuffer.putLong(uuid.getMostSignificantBits());
         byteBuffer.putLong(uuid.getLeastSignificantBits());
@@ -25,6 +26,7 @@ public class Util {
     }
     
     public static UUID ByteArrayToUUID(byte[] bytes) {
+        if (bytes == null) return null;
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
         long high = byteBuffer.getLong();
         long low = byteBuffer.getLong();

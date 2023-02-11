@@ -74,14 +74,14 @@
 
     #notification-box .notification-time {
         font-size: 0.9rem;
-        opacity: 0.7;
+        opacity: 0.6;
         margin-top: 4px;
     }
 
     .modal-open #right-sidebar {
         padding-right: 17px
     }
-    
+
     .modal-dialog {
         margin: 0;
         position: fixed;
@@ -89,30 +89,37 @@
         left: 50%;
         transform: translateX(-50%) translateY(-50%) !important;
     }
-    
+
     #notification-content {
         resize: none;
         outline: none;
         border: none;
     }
+
+    #notification-msg {
+        color: red;
+    }
 </style>
-<div class="modal fade" id="new-notification-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create new notification</h5>
-                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <textarea au rows="4" cols="50" id="notification-content"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="modal-close-btn" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                <button type="button" id="add-noti-btn" class="btn btn-primary">Add</button>
+<c:if test="${account.role == 1}">
+    <div class="modal fade" id="new-notification-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create new notification</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea spellcheck="false" rows="4" cols="50" id="notification-content"></textarea>
+                    <p id="notification-msg"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modal-close-btn" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                    <button type="button" id="add-noti-btn" class="btn btn-primary">Add</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</c:if>
 <div id="right-sidebar" class="position-fixed">
     <div id="notification-box">
         <p>Notification</p>
@@ -125,10 +132,12 @@
             </div>
         </c:if>
         <ul id="notification-side-receive">
-            <li>
-                <p class="notification-content">Các ông có hiểu cảm giác nhận được cuộc gọi từ điện thoại của người thân, mà bên kia đầu máy là giọng của người lạ chưa</p>
-                <p class="notification-time">dd-mm-yyyy hh:MM</p>
-            </li>
+            <c:forEach items="${notifications}" var="n">
+                <li>
+                    <p class="notification-content">${n.content}</p>
+                    <p class="notification-time">${formater.format(n.createTime)}</p>
+                </li>
+            </c:forEach>
         </ul>
     </div>
 </div>
@@ -138,8 +147,47 @@
     const notiContentTextarea = document.getElementById('notification-content')
     const addBtn = document.getElementById('add-noti-btn')
     const closeBtn = document.getElementById('modal-close-btn')
+    const notiMsg = document.getElementById('notification-msg')
+    const notiReceiveBox = document.getElementById('notification-side-receive')
+
+    window.generalWS.addEventListener('message', e => {
+        const data = JSON.parse(e.data)
+        if (data.type !== 'notification')
+            return
+        const notification = data.data
+
+        const liElement = document.createElement('li')
+        const contentElement = document.createElement('p')
+        contentElement.classList.add('notification-content')
+        contentElement.textContent = notification.content
+
+        const timeElement = document.createElement('p')
+        timeElement.classList.add('notification-time')
+        timeElement.textContent = notification.createTime
+
+        liElement.append(contentElement)
+        liElement.append(timeElement)
+        notiReceiveBox.insertBefore(liElement, notiReceiveBox.children[0])
+    })
+
+    let validContent = true
+
+    notiContentTextarea.addEventListener('input', () => {
+        const content = notiContentTextarea.value.trim()
+        if (content.length > 200) {
+            validContent = false
+            notiMsg.textContent = 'Notification length must less than 200 character'
+            return
+        } else {
+            validContent = true
+            notiMsg.textContent = ''
+        }
+    })
+
     addBtn.addEventListener('click', async () => {
         const content = notiContentTextarea.value.trim()
+        if (!validContent)
+            return
         if (content) {
             const formData = new FormData()
             formData.append('classId', classId)
@@ -152,6 +200,8 @@
             })
             closeBtn.click()
             notiContentTextarea.value = ''
+        } else {
+            notiMsg.textContent = 'Notification must not left empty'
         }
     })
 </script>

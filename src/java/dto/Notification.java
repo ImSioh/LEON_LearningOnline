@@ -1,5 +1,6 @@
 package dto;
 
+import com.google.gson.annotations.Expose;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -8,15 +9,21 @@ public class Notification {
     private UUID notificationId;
     private UUID accountId;
     private UUID classId;
+    private UUID target;
+    @Expose
     private String title;
+    @Expose
     private String redirectUrl;
+    @Expose
     private String content;
+    @Expose
     private Timestamp createTime;
 
-    public Notification(UUID notificationId, UUID accountId, UUID classId, String title, String redirectUrl, String content, Timestamp createTime) {
+    public Notification(UUID notificationId, UUID accountId, UUID classId, UUID target, String title, String redirectUrl, String content, Timestamp createTime) {
         this.notificationId = notificationId;
         this.accountId = accountId;
         this.classId = classId;
+        this.target = target;
         this.title = title;
         this.redirectUrl = redirectUrl;
         this.content = content;
@@ -45,6 +52,14 @@ public class Notification {
 
     public void setClassId(UUID classId) {
         this.classId = classId;
+    }
+
+    public UUID getTarget() {
+        return target;
+    }
+
+    public void setTarget(UUID target) {
+        this.target = target;
     }
 
     public String getTitle() {
@@ -85,6 +100,7 @@ public class Notification {
             notificationId.toString(),
             accountId.toString(),
             classId.toString(),
+            target.toString(),
             title,
             redirectUrl,
             content,

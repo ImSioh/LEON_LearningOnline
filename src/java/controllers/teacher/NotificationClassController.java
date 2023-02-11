@@ -1,8 +1,12 @@
 package controllers.teacher;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import controllers.WebSocketController;
 import dao.NotificationDAO;
 import dto.Notification;
 import helpers.FormValidator;
+import helpers.JsonWrapper;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -15,7 +19,7 @@ import java.util.UUID;
 
 @WebServlet(name = "NotificationClass", urlPatterns = {"/teacher/class/notification"})
 @MultipartConfig
-public class NotificationClass extends HttpServlet {
+public class NotificationClassController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,10 +37,15 @@ public class NotificationClass extends HttpServlet {
                 String title = (String) formValidator.get("title");
                 String content = (String) formValidator.get("content");
                 
-                Notification notification = new Notification(UUID.randomUUID(), teacherId, classId, title, null, content, new Timestamp(System.currentTimeMillis()));
+                Notification notification = new Notification(UUID.randomUUID(), teacherId, classId, null, title, null, content, new Timestamp(System.currentTimeMillis()));
                 int result = new NotificationDAO().insertNotification(notification);
                 if (result <= 0) {
                     resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                } else {
+                    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("hh:mm - E, MMM dd, yyyy").create();
+                    JsonWrapper<Notification> jsonWrapper = new JsonWrapper<>("notification", notification);
+                    String json = gson.toJson(jsonWrapper);
+                    WebSocketController.sendToClass(classId, json);
                 }
             }
         } catch (Exception e) {
