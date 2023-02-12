@@ -37,7 +37,7 @@
                                 <td>
                                     
                                 </td>
-                                <td>Otto</td>
+                                <td>Ottoo</td>
                             </tr>
                         </tbody>
                     </table>
