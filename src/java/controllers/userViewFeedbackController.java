@@ -22,7 +22,8 @@ public class userViewFeedbackController extends HttpServlet {
         Account account = (Account) request.getAttribute("account");
         try {
             ArrayList<Feedback> listFeedback = new FeedbackDAO().getFeedbackByAccountId(account.getAccountId());
-            request.setAttribute("listFeedback", listFeedback);         
+            request.setAttribute("listFeedback", listFeedback); 
+            request.setAttribute("account", account);
         } catch (Exception ex) {
             Logger.getLogger(userViewFeedbackController.class.getName()).log(Level.SEVERE, null, ex);
         }     
