@@ -5,7 +5,7 @@
         alert("Waiting for accept by teacher");
     </script>
 </c:if>
-<div class="content" style="background-color: rgba(209, 209, 209, 0.5); height: 999px; margin-top: 38px;">
+<div class="content" style="background-color: rgba(209, 209, 209, 0.5); height: 100vh; margin-top: 38px;">
     <section>
         <div class="container py-5">
             <div class="row">
