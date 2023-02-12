@@ -50,7 +50,7 @@ public class ClassController extends HttpServlet {
                 req.getRequestDispatcher("classT.jsp").forward(req, resp);
             } else if (a.getRole() == 2) {
                 req.setAttribute("hglO", false);
-                req.setAttribute("hglV", true);
+                req.setAttribute("hglV", true);               
                 req.setAttribute("co", CO);
                 req.setAttribute("verified", true);
                 req.getRequestDispatcher("classS.jsp").forward(req, resp);
