@@ -1,6 +1,6 @@
 <%@include file= "/template/header.jsp" %>
 <div class="content" style="margin-top: 50px;">
-    <section style="background-color: rgba(209, 209, 209, 0.5);" >
+    <section style="background-color: rgba(209, 209, 209, 0.5); height: 100vh;" >
         <div class="container py-5">
             <div class="row">
                 <div class="col">

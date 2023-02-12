@@ -28,7 +28,6 @@
                         <div>                                
                             <p id="msg-error" style="display: none;">Your upload file must less than 5MB</p>
                             <label for="uploadImgProfile" id="change-img-profile" class="rounded-circle mt-5 position-relative " >
-                                <!--<img id="profile-img" class="rounded-circle" width="150px" height="150px" src="https://www.shareicon.net/data/128x128/2016/09/15/829459_man_512x512.png">-->
                                 <div id="profile-img" style="
                                      overflow: hidden; width: 100% ; width: 930px; height: 100%;height: 208px; background-size: cover;
                                      background-position: center;
