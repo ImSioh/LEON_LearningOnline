@@ -71,8 +71,13 @@
         padding: 8px 12px;
         background: rgb(245, 246, 252);
     }
+    
+    #notification-box .notification-content {
+        white-space: pre-wrap;
+    }
 
     #notification-box .notification-time {
+        user-select: none;
         font-size: 0.9rem;
         opacity: 0.6;
         margin-top: 4px;
@@ -131,31 +136,59 @@
                 </button>
             </div>
         </c:if>
-        <ul id="notification-side-receive">
-            <c:forEach items="${notifications}" var="n">
-                <li>
-                    <p class="notification-content">${n.content}</p>
-                    <p class="notification-time">${formater.format(n.createTime)}</p>
-                </li>
-            </c:forEach>
-        </ul>
+        <ul id="notification-side-receive"></ul>
     </div>
 </div>
-<script>
+<script defer>
     const classId = '${classObject.classId.toString()}'
+    const classCode = '${classObject.code}'
     const teacherId = '${teacher.accountId.toString()}'
-    const notiContentTextarea = document.getElementById('notification-content')
-    const addBtn = document.getElementById('add-noti-btn')
-    const closeBtn = document.getElementById('modal-close-btn')
     const notiMsg = document.getElementById('notification-msg')
     const notiReceiveBox = document.getElementById('notification-side-receive')
+    <c:if test="${account.role == 1}">
+        const notiContentTextarea = document.getElementById('notification-content')
+        const addBtn = document.getElementById('add-noti-btn')
+        const closeBtn = document.getElementById('modal-close-btn')
 
-    window.generalWS.addEventListener('message', e => {
-        const data = JSON.parse(e.data)
-        if (data.type !== 'notification')
-            return
-        const notification = data.data
+        let validContent = true
 
+        notiContentTextarea.addEventListener('input', () => {
+            const content = notiContentTextarea.value.trim()
+            if (content.length > 200) {
+                validContent = false
+                notiMsg.textContent = 'Notification length must less than 200 character'
+                return
+            } else {
+                validContent = true
+                notiMsg.textContent = ''
+            }
+        })
+
+        addBtn.addEventListener('click', async () => {
+            const content = notiContentTextarea.value.trim()
+            if (!validContent)
+                return
+            if (content) {
+                const formData = new FormData()
+                formData.append('classId', classId)
+                formData.append('classCode', classCode)
+                formData.append('teacherId', teacherId)
+                formData.append('title', 'Notification from ${classObject.name}')
+                formData.append('content', content)
+                const response = await fetch('<c:url value="/teacher/class/notification"/>', {
+                    method: 'POST',
+                    body: formData
+                })
+                closeBtn.click()
+                notiContentTextarea.value = ''
+            } else {
+                notiMsg.textContent = 'Notification must not left empty'
+            }
+        })
+    </c:if>
+    
+    function insertNotificationSide(notification) {
+        if (notification.classId !== classId) return
         const liElement = document.createElement('li')
         const contentElement = document.createElement('p')
         contentElement.classList.add('notification-content')
@@ -168,40 +201,10 @@
         liElement.append(contentElement)
         liElement.append(timeElement)
         notiReceiveBox.insertBefore(liElement, notiReceiveBox.children[0])
-    })
-
-    let validContent = true
-
-    notiContentTextarea.addEventListener('input', () => {
-        const content = notiContentTextarea.value.trim()
-        if (content.length > 200) {
-            validContent = false
-            notiMsg.textContent = 'Notification length must less than 200 character'
-            return
-        } else {
-            validContent = true
-            notiMsg.textContent = ''
-        }
-    })
-
-    addBtn.addEventListener('click', async () => {
-        const content = notiContentTextarea.value.trim()
-        if (!validContent)
-            return
-        if (content) {
-            const formData = new FormData()
-            formData.append('classId', classId)
-            formData.append('teacherId', teacherId)
-            formData.append('title', 'Notification from ${classObject.name}')
-            formData.append('content', content)
-            const response = await fetch('<c:url value="/teacher/class/notification"/>', {
-                method: 'POST',
-                body: formData
-            })
-            closeBtn.click()
-            notiContentTextarea.value = ''
-        } else {
-            notiMsg.textContent = 'Notification must not left empty'
-        }
+    }
+    
+    generalWS.on('notification', insertNotificationSide)
+    generalWS.on('init-notification', notifications => {
+        notifications.forEach(n => insertNotificationSide(n))
     })
 </script>

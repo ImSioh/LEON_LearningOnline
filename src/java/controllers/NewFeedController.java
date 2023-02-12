@@ -2,9 +2,10 @@ package controllers;
 
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
-import dao.NotificationDAO;
+import dao.EnrollmentDAO;
 import dto.Account;
 import dto.ClassObject;
+import helpers.Constant;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,7 +23,7 @@ public class NewFeedController extends HttpServlet {
             Account account = (Account) req.getAttribute("account");
             String classCode = req.getParameter("code");
             if (classCode == null) {
-                resp.sendRedirect(req.getContextPath() + "/teacher/class");
+                resp.sendRedirect(req.getContextPath() + (account.getRole() == 1 ? "/teacher" : "/student") + "/class");
                 return;
             }
             if (classCode.isEmpty()) {
@@ -36,9 +37,13 @@ public class NewFeedController extends HttpServlet {
                 return;
             }
             
-            req.setAttribute("notifications", new NotificationDAO().getNotificationsByClassId(classObject.getClassId()));
+            if (account.getRole() == 2 && !new EnrollmentDAO().isJoined(account.getAccountId(), classObject.getClassId())) {
+                resp.sendRedirect(req.getContextPath() + "/student/class");
+                return;
+            }
+            
             req.setAttribute("classObject", classObject);
-            req.setAttribute("formater", new SimpleDateFormat("hh:mm - E, MMM dd, yyyy"));
+            req.setAttribute("formater", new SimpleDateFormat(Constant.FORMAT_DATETIME));
             if (account.getRole() == 1) {
                 req.setAttribute("teacher", account);
             } else {

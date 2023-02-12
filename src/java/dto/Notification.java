@@ -8,7 +8,9 @@ public class Notification {
 
     private UUID notificationId;
     private UUID accountId;
+    @Expose
     private UUID classId;
+    @Expose
     private UUID target;
     @Expose
     private String title;

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import controllers.WebSocketController;
 import dao.NotificationDAO;
 import dto.Notification;
+import helpers.Constant;
 import helpers.FormValidator;
 import helpers.JsonWrapper;
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class NotificationClassController extends HttpServlet {
         try {
             FormValidator formValidator = new FormValidator(req);
             formValidator.setCheckParam("classId", true, String.class);
+            formValidator.setCheckParam("classCode", true, String.class);
             formValidator.setCheckParam("teacherId", true, String.class);
             formValidator.setCheckParam("title", true, String.class);
             formValidator.setCheckParam("content", true, String.class);
@@ -35,14 +37,15 @@ public class NotificationClassController extends HttpServlet {
                 UUID classId = UUID.fromString((String) formValidator.get("classId"));
                 UUID teacherId = UUID.fromString((String) formValidator.get("teacherId"));
                 String title = (String) formValidator.get("title");
+                String redirectUrl = "/class/newfeed?code=" + (String) formValidator.get("classCode");
                 String content = (String) formValidator.get("content");
                 
-                Notification notification = new Notification(UUID.randomUUID(), teacherId, classId, null, title, null, content, new Timestamp(System.currentTimeMillis()));
+                Notification notification = new Notification(UUID.randomUUID(), teacherId, classId, null, title, redirectUrl, content, new Timestamp(System.currentTimeMillis()));
                 int result = new NotificationDAO().insertNotification(notification);
                 if (result <= 0) {
                     resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 } else {
-                    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("hh:mm - E, MMM dd, yyyy").create();
+                    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(Constant.FORMAT_DATETIME).create();
                     JsonWrapper<Notification> jsonWrapper = new JsonWrapper<>("notification", notification);
                     String json = gson.toJson(jsonWrapper);
                     WebSocketController.sendToClass(classId, json);
