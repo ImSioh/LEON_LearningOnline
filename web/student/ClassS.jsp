@@ -1,5 +1,10 @@
 
 <%@include file= "../template/header.jsp" %>
+<c:if test="${hideClass}">
+    <script>
+        alert("Waiting for accept by teacher");
+    </script>
+</c:if>
 <div class="content" style="background-color: rgba(209, 209, 209, 0.5); height:  1000px; margin-top: 38px;">
     <section>
         <div class="container py-5">

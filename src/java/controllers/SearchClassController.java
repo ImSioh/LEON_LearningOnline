@@ -84,24 +84,24 @@ public class SearchClassController extends HttpServlet {
                 // check if don't have data from database
                 if (classOT.isEmpty()) {
                     req.setAttribute("verified", false);
-                    req.getRequestDispatcher("ClassT.jsp").forward(req, resp);
+                    req.getRequestDispatcher("classT.jsp").forward(req, resp);
                 }
                 req.setAttribute("verified", true);
                 req.setAttribute("classObjList", classOT);
-                req.getRequestDispatcher("ClassT.jsp").forward(req, resp);
+                req.getRequestDispatcher("classT.jsp").forward(req, resp);
             } else if (a.getRole() == 2) {
                 // check if don't have data from database
                 if (classOS.isEmpty()) {
                     req.setAttribute("hglO", false);
                     req.setAttribute("hglV", true);
                     req.setAttribute("verified", false);
-                    req.getRequestDispatcher("ClassS.jsp").forward(req, resp);
+                    req.getRequestDispatcher("classS.jsp").forward(req, resp);
                 }
                 req.setAttribute("co", classOS);
                 req.setAttribute("hglO", false);
                 req.setAttribute("hglV", true);
                 req.setAttribute("verified", true);
-                req.getRequestDispatcher("ClassS.jsp").forward(req, resp);
+                req.getRequestDispatcher("classS.jsp").forward(req, resp);
             }
         } catch (Exception ex) {
             Logger.getLogger(ClassController.class.getName()).log(Level.SEVERE, null, ex);

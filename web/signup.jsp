@@ -97,7 +97,7 @@
                             <input class="btn btn-primary btn--signin" type="submit" value="Sign up" style="margin-top: 4px">
                         </div>
                     </form>
-                    <div class="signin--account" style="justify-content: center;gap: 4px;">Have a account ?<a class="btn--signup" href="<c:url value="/signin"/>"> Signin</a></div>
+                    <div class="signin--account" style="justify-content: center;gap: 4px;">Have a account ?<a class="btn--signup" href="<c:url value="/signin"/>"> Sign In</a></div>
             </div>
             <div class="content--right">
                 <img src="./assets/img/signin.svg" alt="">

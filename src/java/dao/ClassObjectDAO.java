@@ -71,6 +71,17 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
                 classObject.getCreateTime()
         );
     }
+    
+    public int updateClass(ClassObject classObject) throws Exception {
+        String query = "UPDATE class SET name = ?, enroll_approve = ?, hidden = ? WHERE class_id = ?";
+        return update(
+                query,
+                classObject.getName(),
+                classObject.isEnrollApprove(),
+                classObject.isHidden(),
+                Util.UUIDToByteArray(classObject.getClassId())
+        );
+    }
 
     @Override
     protected ClassObject propMapping(ResultSet rs) throws Exception {
