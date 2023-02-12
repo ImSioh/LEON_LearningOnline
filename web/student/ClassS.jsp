@@ -31,7 +31,7 @@
                 <c:if test="${verified}">
                     <c:forEach items="${co}" var="co">
                         <div class="col-lg-3" style="margin-bottom: 24px;">
-                            <a href="<c:url value="/teacher/class/newfeed?code=${co.getCode()}"/>" style="text-decoration: none;">
+                            <a href="<c:url value="/student/class/newfeed?code=${co.getCode()}"/>" style="text-decoration: none;">
                                 <div class="card">
                                     <div style="overflow: hidden; width: 100%; height: 100%;height: 188px; background-size: cover;
                                          background-position: center;
