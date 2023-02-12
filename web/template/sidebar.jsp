@@ -19,7 +19,7 @@
 
         <hr class="h-color mx-2">
         <c:if test="${account.getRole() == 1}">
-            <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> Setting </a> </li>
+            <li class=""><a href="<c:url value="/${role}/class/setting?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block"> Setting </a> </li>
         </c:if>
         <c:if test="${account.getRole() == 2}">
             <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> Leave class </a> </li>
