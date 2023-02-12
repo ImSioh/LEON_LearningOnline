@@ -90,7 +90,7 @@ public class JoinClassController extends HttpServlet {
                             ermt.setEnrollTime(timestamp);
                             int erm = new EnrollmentDAO().insertEnrollment(ermt);
 
-                            resp.sendRedirect(req.getContextPath() + "/student/class/" + code + "/newfeed");
+                            resp.sendRedirect(req.getContextPath() + "/student/class/newfeed?code=" + code);
                         }
                     }
                 } catch (Exception e) {
