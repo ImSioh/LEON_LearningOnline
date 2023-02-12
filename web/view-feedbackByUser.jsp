@@ -48,11 +48,11 @@
 
                             <!-- Left links -->
 
-                                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ">
+                            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ">
                                 <li class="nav-item navbariteam">
                                     <c:choose>
                                         <c:when test="${account.getRole() == 2}">
-                                            <a class="nav-link " href="<%=path%>/student/sendfeedback" style="color:#1e88e5 !important; font-size: 15px;">Send Feedback</a>
+                                            <a  class="nav-link " href="<%=path%>/student/sendfeedback" style="color:#1e88e5 !important; font-size: 15px;">Send Feedback</a>
                                         </c:when>
                                         <c:otherwise>
                                             <a class="nav-link " href="<%=path%>/teacher/sendfeedback" style=" font-size: 15px;">Send Feedback</a>
@@ -60,12 +60,12 @@
                                     </c:choose>
                                 </li>
                                 <li class="nav-item navbariteam">
-                                     <c:choose>
+                                    <c:choose>
                                         <c:when test="${account.getRole() == 2}">
-                                            <a class="nav-link " href="<%=path%>/student/viewfeedback" style="color:#1e88e5 !important; font-size: 15px;">View Feedback</a>
+                                            <a  class="nav-link " href="<%=path%>/student/viewfeedback" style="color: white !important; font-size: 15px;">View Feedback</a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a class="nav-link " href="<%=path%>/teacher/viewfeedback" style=" font-size: 15px;">View Feedback</a>
+                                            <a  class="nav-link " href="<%=path%>/teacher/viewfeedback" style="border-radius: 8px;color:white; font-size: 15px;">View Feedback</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </li>
@@ -190,3 +190,5 @@
                 </tbody>
             </table>
     </body>
+
+   

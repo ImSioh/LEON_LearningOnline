@@ -62,10 +62,10 @@
                                 <li class="nav-item navbariteam">
                                      <c:choose>
                                         <c:when test="${account.getRole() == 2}">
-                                            <a class="nav-link " href="<%=path%>/student/viewfeedback" style="color:#1e88e5 !important; font-size: 15px;">View Feedback</a>
+                                            <a class="nav-link " href="<%=path%>/student/viewfeedback" style="color: white  !important; font-size: 15px;">View Feedback</a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a class="nav-link " href="<%=path%>/teacher/viewfeedback" style=" font-size: 15px;">View Feedback</a>
+                                            <a class="nav-link " href="<%=path%>/teacher/viewfeedback" style=" color: white !important;font-size: 15px;">View Feedback</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </li>
@@ -236,6 +236,8 @@
     </div>
 
 </body>
+
+
 
 
 

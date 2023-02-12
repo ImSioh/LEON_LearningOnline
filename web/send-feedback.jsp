@@ -52,10 +52,10 @@
                                 <li class="nav-item navbariteam">
                                     <c:choose>
                                         <c:when test="${account.getRole() == 2}">
-                                            <a class="nav-link " href="<%=path%>/student/sendfeedback" style="color:#1e88e5 !important; font-size: 15px;">Send Feedback</a>
+                                            <a class="nav-link " href="<%=path%>/student/sendfeedback" style="color: white !important; font-size: 15px;">Send Feedback</a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a class="nav-link " href="<%=path%>/teacher/sendfeedback" style=" font-size: 15px;">Send Feedback</a>
+                                            <a class="nav-link " href="<%=path%>/teacher/sendfeedback" style=" color: white !important;font-size: 15px;">Send Feedback</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </li>
@@ -65,7 +65,7 @@
                                             <a class="nav-link " href="<%=path%>/student/viewfeedback" style="color:#1e88e5 !important; font-size: 15px;">View Feedback</a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a class="nav-link " href="<%=path%>/teacher/vieweedback" style=" font-size: 15px;">View Feedback</a>
+                                            <a class="nav-link " href="<%=path%>/teacher/viewfeedback" style=" font-size: 15px;">View Feedback</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </li>
@@ -209,11 +209,11 @@
                             <div class="contact__inputs grid">
                                 <div class="contact__content">
                                     <label for="" class="contact__label">Title</label>
-                                    <input name="feedbackTitle" type="text" class="contact__input" id="contact-name">
+                                    <input value="${feedbackTitle}" name="feedbackTitle" type="text" class="contact__input" id="contact-name">
                                 </div>
                                 <div class="contact__content">
                                     <label for="" class="contact__label">Content</label>
-                                    <textarea name="feedbackContent" id="contact-message" class="contact__input" id="" cols="0" rows="7"></textarea>
+                                    <textarea name="feedbackContent" id="contact-message" class="contact__input" id="" cols="0" rows="7">${feedbackContent}</textarea>
                                 </div>
                                 <p class="contact__mess" id="contact-mess"></p>
                                 <div style="color : red">${msg}</div>
