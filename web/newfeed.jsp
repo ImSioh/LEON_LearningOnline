@@ -1,9 +1,14 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/template/header.jsp" %>
 
-<div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 50px;">
+<style>
+    .card {
+        border-radius: 0.5rem;
+    }
+</style>
+<div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 56px;">
     <%@include file="/template/sidebar.jsp" %>
-
-
     <div class="content-main  d-flex justify-content-center container position-relative">
 
         <div class="card col-md-7 mt-4" style="height: fit-content;" >
@@ -17,7 +22,6 @@
                     </div>
                 </div>
                 </p>
-
             </div>
             <div class="card-footer text-muted ">
 
@@ -33,7 +37,7 @@
 
         <!--//for 1 post-->
 
-        <div class="card col-md-7 mt-4" style="height: 320px; " >
+        <div class="newfeed-post card col-md-7 mt-4" style="height: 320px; " >
             <div class="card-header">Post</div>
             <div class="card-body">
                 <p class="card-text">
@@ -71,4 +75,5 @@
 
     <%@include file="/template/notificationbar.jsp" %>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <c:import url="/template/footer.jsp" />

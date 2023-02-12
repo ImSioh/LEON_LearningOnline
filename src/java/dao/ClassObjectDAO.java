@@ -47,6 +47,11 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
         String query = "SELECT * FROM class c where c.code = ?;";
         return selectOne(query, code);
     }
+    
+    public ClassObject getClassById(UUID classId) throws Exception {
+        String query = "SELECT * FROM class c WHERE c.class_id = ?";
+        return selectOne(query, Util.UUIDToByteArray(classId));
+    }
 
     public boolean isCodeExist(String code) throws Exception {
         String query = "SELECT COUNT(*) FROM class c WHERE c.code = ?";

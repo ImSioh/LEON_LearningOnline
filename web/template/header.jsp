@@ -19,10 +19,10 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min1.css" rel="stylesheet" >
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
               rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
               crossorigin="anonymous" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <link href="<c:url value="/assets/css/css-main.css"/>" rel="stylesheet" type="text/css"/>
         <link rel="icon" href="<c:url value="/assets/img/leon-icon.png"/>">
         <title>LE.ON</title>
@@ -54,9 +54,134 @@
                 border: 1px solid saddlebrown;
                 margin: 10px 18px 20px 18px;
             }
+
+            #header-notification {
+                width: 440px;
+                max-width: 40vw;
+                max-height: 50vh;
+                overflow-y: scroll;
+                padding: 0.25rem;
+            }
+
+            #header-notification * {
+                margin: 0;
+            }
+
+            #header-notification::-webkit-scrollbar {
+                width: 8px;
+                padding: 0 4px;
+            }
+
+            #header-notification::-webkit-scrollbar-thumb {
+                background-color: #ddd;
+                border-radius: 4px;
+            }
+
+            #header-notification::-webkit-scrollbar-thumb:hover {
+                background-color: #bbb;
+            }
+
+            #header-notification::-webkit-scrollbar-track {
+                background-color: white;
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+            }
+
+            #header-notification > * {
+                cursor: pointer;
+            }
+
+            #header-notification > a {
+                text-decoration: none;
+            }
+
+            #header-notification .dropdown-item {
+                white-space: normal;
+                align-items: center;
+                gap: 1rem;
+                padding: 0.5rem 1rem;
+                border-radius: 4px;
+            }
+
+            .header-noti-info {
+                width: 100%;
+            }
+
+            .header-noti-thumbnail {
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+
+            .header-noti-thumbnail > div {
+                width: 100%;
+                height: 0;
+                padding-top: 100%;
+                background-position: center;
+                background-size: cover;
+            }
+
+            .header-noti-title {
+                font-weight: 500;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: pre;
+            }
+
+            .header-noti-content {
+                font-size: 1rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                line-clamp: 2;
+                -webkit-box-orient: vertical;
+                white-space: pre-wrap;
+            }
+
+            .header-noti-time {
+                user-select: none;
+                font-size: 0.85rem;
+                opacity: 0.5;
+            }
         </style>
-
-
+        <script defer>
+            const wsUrl = location.origin.replace('http', 'ws') + '<c:url value="/wsendpoint"/>'
+            window.generalWS = (function () {
+                const listener = {}
+                console.log(listener);
+                return {
+                    init: () => {
+                        const socket = new WebSocket(wsUrl)
+                        socket.addEventListener('message', e => {
+                            const data = JSON.parse(e.data)
+                            const listenerArr = listener[data.type]
+                            if (listenerArr) {
+                                listenerArr.forEach(l => l(data.data))
+                            }
+                        })
+                    },
+                    on: (type, cb) => {
+                        const listenerArr = listener[type]
+                        if (listenerArr) {
+                            listenerArr.push(cb)
+                        } else {
+                            listener[type] = [cb]
+                        }
+                    },
+                    off: (type, cb) => {
+                        const listenerArr = listener[type]
+                        if (listenerArr) {
+                            const index = listenerArr.indexOf(cb)
+                            if (index > -1) {
+                                listenerArr.splice(index, 1)
+                            }
+                        }
+                    }
+                }
+            })()
+        </script>
     </head>
 
     <body>
@@ -130,42 +255,9 @@
                             <div class="dropdown" style="margin-right: 15px;">
                                 <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-bell" style="font-size: 22px; text-decoration: none; color: ${account.getRole() == 1 ? "white" : "black"}"; margin-left: 14px;"></i>
-                                    <span class="badge rounded-pill badge-notification bg-danger">9</span>
+                                    <span class="badge rounded-pill badge-notification bg-danger"></span>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                                    <a href="<c:url value="/${account.getRole() == 1 ? 'teacher' : 'student'}/profile"/>" style="font-size: 16px;text-decoration: none">
-                                        <div class="d-flex bd-highlight dropdown-item">
-                                            <span class="p-2 flex-shrink-1 bd-highlight">
-                                                <i class="far fa-user"></i>
-                                            </span>
-                                            <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
-                                                Profile
-                                            </span>
-                                        </div>
-                                    </a>
-
-                                    <a href="<c:url value="/${account.getRole() == 1 ? 'teacher' : 'student'}/sendfeedback"/>" style="font-size: 16px;text-decoration: none">
-                                        <div class="d-flex bd-highlight dropdown-item">
-                                            <span class="p-2 flex-shrink-1 bd-highlight">
-                                                <i class="far fa-paper-plane"></i>
-                                            </span>
-                                            <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
-                                                Send feedback
-                                            </span>
-                                        </div>
-                                    </a>
-
-                                    <a href="<c:url value="/logout"/>" style="font-size: 16px;text-decoration: none">
-                                        <div class="d-flex bd-highlight dropdown-item">
-                                            <span class="p-2 flex-shrink-1 bd-highlight">
-                                                <i class="fas fa-sign-out-alt"></i>
-                                            </span>
-                                            <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
-                                                Log Out
-                                            </span>
-                                        </div>
-                                    </a>
-                                </ul>
+                                <ul id="header-notification" class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar"></ul>
                             </div>
                             <!--Avatar--> 
                             <div class="dropdown">
@@ -214,4 +306,46 @@
                 </nav>
                 <!-- Navbar -->
             </div>
+            <script>
+                function insertNotificationHeader(n) {
+                    const nList = document.getElementById('header-notification')
+                    const divWrap = document.createElement('div')
+                    divWrap.classList.add('d-flex', 'dropdown-item')
+
+                    const divInfo = document.createElement('div')
+                    divInfo.classList.add('header-noti-info')
+                    divWrap.append(divInfo)
+
+                    const pTitle = document.createElement('p')
+                    pTitle.classList.add('header-noti-title')
+                    pTitle.textContent = n.title
+                    divInfo.append(pTitle)
+
+                    const pContent = document.createElement('p')
+                    pContent.classList.add('header-noti-content')
+                    pContent.textContent = n.content
+                    divInfo.append(pContent)
+
+                    const pTime = document.createElement('p')
+                    pTime.classList.add('header-noti-time')
+                    pTime.textContent = n.createTime
+                    divInfo.append(pTime)
+
+                    if (n.redirectUrl) {
+                        const anchorWrap = document.createElement('a')
+                        if (n.redirectUrl.startsWith('/class')) {
+                            n.redirectUrl = '${account.role == 1 ? "/teacher" : "/student"}' + n.redirectUrl
+                        }
+                        anchorWrap.href = '${pageContext.request.contextPath}' + n.redirectUrl
+                        nList.insertBefore(anchorWrap, nList.children[0])
+                        anchorWrap.append(divWrap)
+                    } else {
+                        nList.insertBefore(divWrap, nList.children[0])
+                    }
+                }
+                generalWS.on('init-notification', notifications => {
+                    notifications.forEach(n => insertNotificationHeader(n))
+                })
+                generalWS.on('notification', insertNotificationHeader)
+            </script>
 

@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class EnrollmentDAO extends AbstractDAO<Enrollment> {
+    
+    public boolean isJoined(UUID accountId, UUID classId) throws Exception {
+        String query = "SELECT COUNT(*) FROM enrollment e WHERE e.account_id = ? AND e.class_id = ? AND e.accepted = TRUE";
+        return selectScalar(query, Long.class, Util.UUIDToByteArray(accountId), Util.UUIDToByteArray(classId)) > 0;
+    }
 
     public ArrayList<Enrollment> getListEnrollmentById(UUID id) throws Exception {
         String query = "SELECT * FROM enrollment e where e.account_id = ?";
@@ -22,6 +27,13 @@ public class EnrollmentDAO extends AbstractDAO<Enrollment> {
                 enrollment.isAccepted(),
                 enrollment.getEnrollTime()
         );
+    }
+    
+    public static void main(String[] args) throws Exception {
+        System.out.println(new EnrollmentDAO().isJoined(
+                UUID.fromString("7f44bf31-be32-4b20-800b-642cd0a551df"),
+                UUID.fromString("19880897-a45a-41c2-8233-fd5be18253c1")
+        ));
     }
     
     @Override
