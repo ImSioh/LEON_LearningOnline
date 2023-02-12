@@ -35,6 +35,11 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
          String query = "SELECT * FROM feedback f WHERE f.feedback_id = ?";
         return selectOne(query, Util.UUIDToByteArray(feedbackId));
     }
+     
+      public ArrayList<Feedback> getFeedbackByAccountId(UUID accountId) throws Exception {
+         String query = "SELECT * FROM feedback f WHERE f.account_id = ?";
+        return selectMany(query, Util.UUIDToByteArray(accountId));
+    }
     
 
     public ArrayList<Feedback> getAllFeedbacksSort(String criteria, String sort) throws Exception {

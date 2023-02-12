@@ -164,7 +164,7 @@
 
 
                 <section class="contact section" id="contact" style="padding-top: 100px">
-                    <h2 class="section__title">Feedback</h2>
+                    <h2 class="section__title">Response by Admin</h2>
                     <span class="section__subtitle">Support by LE.ON</span>
 
                     <div class="contact__container container grid">
@@ -205,20 +205,19 @@
                             <div class="contact__inputs grid">
                                 <div class="contact__content">
                                     <label for="" class="contact__label">Title</label>
-                                    <input name="feedbackTitle" type="text" class="contact__input" id="contact-name">
+                                    <input value="${titleFeedback}" name="feedbackTitle" readonly class="contact__input" id="contact-name">
                                 </div>
                                 <div class="contact__content">
                                     <label for="" class="contact__label">Content</label>
-                                    <textarea name="feedbackContent" id="contact-message" class="contact__input" id="" cols="0" rows="7"></textarea>
+                                    <textarea readonly name="feedbackContent" id="contact-message" class="contact__input"  cols="0" rows="7">${contentFeedback}</textarea>
+                                </div>
+                                <div class="contact__content">
+                                    <label for="" class="contact__label">Response</label>
+                                    <textarea readonly name="feedbackContent" id="contact-message" class="contact__input"  cols="0" rows="7">${responseFeedback}</textarea>
                                 </div>
                                 <p class="contact__mess" id="contact-mess"></p>
                                 <div style="color : red">${msg}</div>
-                                <div>
-                                    <button class="button button--flex" style="border : none ; font-size: medium ; margin-bottom: 20px">
-                                        Send Feedback
-                                        <i class="uil uil-envelope-send button__icon"></i>
-                                    </button>
-                                </div>
+                               
 
                             </div>
                         </form>
