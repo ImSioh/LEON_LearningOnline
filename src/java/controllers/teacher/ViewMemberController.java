@@ -22,7 +22,7 @@ public class ViewMemberController extends HttpServlet {
         try {
             String classCode = request.getParameter("code");
             ArrayList<Account> listStudent = new ArrayList<>();
-            listStudent = new AccountDAO().getListAllStudentByClassCode(classCode);
+            listStudent = new AccountDAO().getListAllStudentByClassCode(classCode,"1");
             request.setAttribute("listStudent", listStudent);
             request.getRequestDispatcher("/teacher/member.jsp").forward(request, response);
         } catch (Exception ex) {
