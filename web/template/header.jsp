@@ -220,7 +220,7 @@
                                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
 
                                         <li class="nav-item">
-                                            <a class="nav-link" href="<%=path%>/teacher/class" style="color: #E0F7FA; font-size: 15px;">Class</a>
+                                            <a class="nav-link" href="<%=path%>/teacher/class" style="color: #E0F7FA; font-size: 15px; font-weight: 600;">Class</a>
                                         </li>
                                     </ul>
                                 </c:when>    
@@ -228,19 +228,19 @@
                                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ">
                                         <li class="nav-item navbariteam">
                                             <c:if test="${hglO}">
-                                                <a class="nav-link " href="<%=path%>/student/overview" style="color:#1e88e5 !important; font-size: 15px;">Overview</a>
+                                                <a class="nav-link " href="<%=path%>/student/overview" style="color:#1e88e5 !important; font-size: 15px; font-weight: 600; ">Overview</a>
                                             </c:if>
                                             <c:if test="${!hglO}">
-                                                <a class="nav-link " href="<%=path%>/student/overview" style=" font-size: 15px;">Overview</a>
+                                                <a class="nav-link " href="<%=path%>/student/overview" style=" font-size: 15px; font-weight: 600;">Overview</a>
                                             </c:if>
                                         </li>
                                         <li class="nav-item navbariteam">
                                             <c:if test="${hglV}">
                                                 
-                                                <a class="nav-link" href="<%=path%>/student/class" style="color:#1e88e5 !important; font-size: 15px;">Class</a>
+                                                <a class="nav-link" href="<%=path%>/student/class" style="color:#1e88e5 !important; font-size: 15px; font-weight: 600;">Class</a>
                                             </c:if>
                                             <c:if test="${!hglV}">
-                                                <a class="nav-link" href="<%=path%>/student/class" style=" font-size: 15px;">Class</a>
+                                                <a class="nav-link" href="<%=path%>/student/class" style=" font-size: 15px; font-weight: 600;">Class</a>
                                             </c:if>
                                         </li>
                                     </ul>

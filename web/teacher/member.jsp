@@ -18,10 +18,13 @@
                 <table class="table align-middle mb-0 bg-white" style="padding: -10px;">
                     <thead class="bg-light">
                         <tr>
-                            <th>Name</th>
+                            <th>
+                                <i class="fas fa-sort fa-sm m-2" style="cursor: pointer;"></i> 
+                                Name 
+                            </th>
                             <th>School</th>
-                            <th>PhoneNumber</th>
-                            <th>Excercise</th>
+                            <th>Phone Number</th>
+                            <th><i class="fas fa-sort fa-sm"></i>Exercise</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -30,12 +33,18 @@
                             <tr>                          
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img
-                                            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                                            alt=""
-                                            style="width: 45px; height: 45px"
-                                            class="rounded-circle"
-                                            />
+                                        <div style="width: 45px; height: 45px; overflow: hidden;" class="rounded-circle" >
+                                            <div id="profile-img" style="
+                                                 width: 100%;
+                                                 height: 0;
+                                                 padding-bottom: 100%;
+                                                 background-image: url(<c:url value="${listS.getProfilePicture() ==null ? '/assets/img/ava.png' : listS.getProfilePicture()}"/>);
+                                                 background-position: center;
+                                                 background-repeat: no-repeat;
+                                                 background-size: cover;
+                                                 ">;
+                                            </div>
+                                        </div>
                                         <div class="ms-3">
                                             <p class="fw-bold mb-1">${listS.getName()}</p>
                                             <p class="text-muted mb-0">${listS.getEmail()}</p>
@@ -43,8 +52,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <p class="fw-normal mb-1">FBT Uni</p>
-                                    <!--                                <p class="text-muted mb-0">IT department</p>-->
+                                    <p class="fw-normal mb-1">${listS.getSchool()}</p>
                                 </td>
                                 <td>
                                     <span class="">${listS.getPhoneNumber()}</span>
