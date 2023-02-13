@@ -6,6 +6,8 @@
     <c:redirect url="${baseUrl}"/>
 </c:if>
 
+<input type="number" name="role" value="2" hidden/>
+
 <div id="content">
     <h1>Students Management</h1>
     <!-- <img src="assets/img/welcome_admin.jpg" alt="Welcome to Admin Homepage" width="100%" height="100%" style="margin: 0;"/> -->
@@ -97,12 +99,14 @@
                         <td>${account.getAddress()}</td>
                         <td>${account.getPhoneNumber()}</td>
                         <td>${account.getCreateTime()}</td>
-                        <c:if test="${account.isLocked()}">
-                            <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
+                        <td>
+                            <c:if test="${account.isLocked()}">
+                                <a href="lock?sid=${account.getAccountId()}&status=open" onclick="return lockAcc()"><i class="fa-solid fa-lock"></i></a>
                                 </c:if>
                                 <c:if test="${account.isLocked()!=true}">
-                            <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
+                                <a href="lock?sid=${account.getAccountId()}&status=close" onclick="return lockAcc()"><i class="fa-solid fa-lock-open"></i></a>
                                 </c:if>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
@@ -119,5 +123,15 @@
     </c:import>
 
 </div>
+
+<script>
+    function lockAcc() {
+        if (confirm("Do you want to lock this account?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 
 <%@include file="template/footer.jsp" %>

@@ -11,7 +11,7 @@
     <!-- <img src="assets/img/welcome_admin.jpg" alt="Welcome to Admin Homepage" width="100%" height="100%" style="margin: 0;"/> -->
 
     <!--Search-->
-    
+
     <!--Sort-->
     <form action="<c:url value="${baseURL}"/>" method="get" style="margin-top: 10px;">
         <span class="button-action" style="display: flex;">
@@ -28,7 +28,7 @@
                    style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
     </form>
-            
+
     <!--Show items-->
     <form action="<c:url value="${baseUrl}?page=${pageNumber}&element=${element}"/>" method="get" style="margin-top: 0;">
         <span class="button-action" style="display: flex;">
@@ -56,6 +56,8 @@
             <thead>
                 <tr>
                     <th>FeedbackID</th>
+                    <th>Email</th>
+                    <th>Name</th>
                     <th>Role</th>
                     <th>Title</th>
                     <th>Content</th>
@@ -65,19 +67,21 @@
             </thead>
             <tbody>
                 <c:forEach items="${feedbackDAO.getItemsInPage(pageNumber)}" var="fb">
-                <%--<c:forEach items="${feedbacks}" var="fb">--%>
+                    <%--<c:forEach items="${feedbacks}" var="fb">--%>
                     <tr>
-                        <td>
-                            <a href="">${fb.getFeedbackId()}</a>
-                        </td>
+                        <td> <a href="">${fb.getFeedbackId()}</a> </td>
+
                         <c:forEach items="${accounts}" var="acc">
-                            <c:if test="${fb.getAccountId() == acc.getAccountId() 
-                                          && acc.getRole() == 1}">
-                                  <td>Teacher</td>
-                            </c:if>
-                            <c:if test="${fb.getAccountId() == acc.getAccountId() 
-                                          && acc.getRole() == 2}">
-                                  <td>Student</td>
+                            <c:if test="${fb.getAccountId() == acc.getAccountId()}">
+                                <td>${acc.getEmail()}</td>
+                                <c:if test="${acc.getRole() == 1}">
+                                    <td> <a href="/swp391/teacher/profile">${acc.getName()}</a> </td>
+                                    <td>Teacher</td>
+                                </c:if>
+                                <c:if test="${acc.getRole() == 2}">
+                                    <td> <a href="/swp391/student/profile">${acc.getName()}</a> </td>
+                                    <td>Student</td>
+                                </c:if>
                             </c:if>
                         </c:forEach>
                         <td>${fb.getTitle()}</td>
@@ -104,7 +108,7 @@
         <c:param name="modelDAOName" value="feedbackDAO"/>
         <c:param name="basePath" value="/${baseUrl}"/>
     </c:import>
-            
+
 </div>
 
 <%@include file="template/footer.jsp" %>

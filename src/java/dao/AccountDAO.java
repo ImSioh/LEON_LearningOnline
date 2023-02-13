@@ -33,6 +33,11 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectOne(query, Util.UUIDToByteArray(id));
     }
 
+    public ArrayList<Account> getListAllAccounts() throws Exception {
+        String query = "SELECT * FROM account";
+        return selectMany(query);
+    }
+
     public ArrayList<Account> getListAccountById(UUID id) throws Exception {
         String query = "SELECT * FROM account a where a.account_id = ?";
         return selectMany(query, Util.UUIDToByteArray(id));
@@ -52,11 +57,6 @@ public class AccountDAO extends AbstractDAO<Account> {
         String query = "SELECT * FROM account WHERE role = ?\n"
                 + "ORDER BY " + criteria + " " + sort;
         return selectMany(query, role);
-    }
-
-    public ArrayList<Account> getListAllAccounts() throws Exception {
-        String query = "SELECT * FROM account";
-        return selectMany(query);
     }
 
     public ArrayList<Account> getListAccountByPhoneNumber(String phoneNumber, int role) throws Exception {
@@ -126,6 +126,21 @@ public class AccountDAO extends AbstractDAO<Account> {
                 account.getBirthDate(),
                 account.isGender(),
                 account.getSchool(),
+                account.getAddress(),
+                account.getPhoneNumber(),
+                account.getPassword(),
+                account.getProfilePicture(),
+                account.isLocked(),
+                Util.UUIDToByteArray(account.getAccountId())
+        );
+    }
+
+    public int lockAccount(Account account, boolean status, String id) throws Exception {
+        String query = "UPDATE account SET locked= ? WHERE account_id = ?;";
+        return update(
+                query,
+                account.getName(),
+                account.getBirthDate(),
                 account.getAddress(),
                 account.getPhoneNumber(),
                 account.getPassword(),
