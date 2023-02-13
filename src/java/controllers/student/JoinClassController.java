@@ -65,7 +65,6 @@ public class JoinClassController extends HttpServlet {
             if (acc.getRole() == 2) {
 //                ArrayList<Enrollment> enrollment = new EnrollmentDAO().getListEnrollmentById(acc.getAccountId());
                 ArrayList<ClassObject> classObjAll = new ClassObjectDAO().getAllClass();
-
                 try {
                     for (ClassObject CO : classObjAll) {
                         // check code exist in class 
@@ -77,12 +76,18 @@ public class JoinClassController extends HttpServlet {
                             ermt.setClassId(CO.getClassId());
                             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                             ermt.setEnrollTime(timestamp);
-                            int erm = new EnrollmentDAO().insertEnrollment(ermt);
+
                             ClassObject c = new ClassObjectDAO().getClassByCode(code);
                             if (c.isEnrollApprove() == false) {
+                                ermt.setAccepted(true);
+                                int erm = new EnrollmentDAO().insertEnrollment(ermt);
                                 resp.sendRedirect(req.getContextPath() + "/student/class/newfeed?code=" + code);
+
+                            } else {
+                                ermt.setAccepted(false);
+                                int erm = new EnrollmentDAO().insertEnrollment(ermt);
+                                resp.sendRedirect(req.getContextPath()+"/student/class");
                             }
-                            req.getRequestDispatcher("classS.jsp").forward(req, resp);
                         }
                     }
                 } catch (Exception e) {

@@ -19,6 +19,22 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
         return selectMany(query, "%" + name + "%", Util.UUIDToByteArray(id));
     }
 
+    public ArrayList<ClassObject> getListClassAcceptedFromEnroll(UUID id) throws Exception {
+        String query = "SELECT c.* FROM class c \n"
+                + " JOIN enrollment e ON c.class_id = e.class_id\n"
+                + "  JOIN account a ON e.account_id = a.account_id\n"
+                + "AND a.account_id = ? AND e.accepted = true;";
+        return selectMany(query , Util.UUIDToByteArray(id));
+    }
+    
+     public ArrayList<ClassObject> getListClassNotAcceptedFromEnroll(UUID id) throws Exception {
+        String query = "SELECT c.* FROM class c \n"
+                + "JOIN enrollment e ON c.class_id = e.class_id\n"
+                + "JOIN account a ON e.account_id = a.account_id\n"
+                + "AND a.account_id = ? AND c.enroll_approve = true AND e.accepted = false;";
+        return selectMany(query , Util.UUIDToByteArray(id));
+    }
+
     public ArrayList<ClassObject> getListClassSByNameID(String name, UUID id) throws Exception {
         String query = "select * from class c \n"
                 + " join enrollment e on c.class_id = e.class_id\n"
@@ -47,7 +63,7 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
         String query = "SELECT * FROM class c where c.code = ?;";
         return selectOne(query, code);
     }
-    
+
     public ClassObject getClassById(UUID classId) throws Exception {
         String query = "SELECT * FROM class c WHERE c.class_id = ?";
         return selectOne(query, Util.UUIDToByteArray(classId));
@@ -71,7 +87,7 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
                 classObject.getCreateTime()
         );
     }
-    
+
     public int updateClass(ClassObject classObject) throws Exception {
         String query = "UPDATE class SET name = ?, enroll_approve = ?, hidden = ? WHERE class_id = ?";
         return update(
@@ -99,10 +115,10 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
 
     public static void main(String[] args) throws Exception {
 
-        ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassSByNameID("b", UUID.fromString("5010ed92-4af1-43c2-88eb-4a4e91999d89"));
-//        ClassObject co = new ClassObjectDAO().getClassByAccIdN(UUID.fromString("46459f52-7d08-43b1-9e90-0d31d326f683"));
+        ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassAcceptedFromEnroll(UUID.fromString("e0e2e372-c422-4b1e-a00a-ba1ace16d06c"));
         for (ClassObject c : classObj) {
             System.out.println(c.getCode());
         }
+
     }
 }

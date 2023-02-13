@@ -40,9 +40,9 @@ public class ClassController extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/");
             }
             Account a = new AccountDAO().getAccountByEmail(email);
-            
-            ArrayList<ClassObject> CO = new ClassObjectDAO().getClassNameCodeByAccId(a.getAccountId());
-            
+            ArrayList<ClassObject> ClassObjAcc = new ClassObjectDAO().getListClassAcceptedFromEnroll(a.getAccountId());
+//            ArrayList<ClassObject> CO = new ClassObjectDAO().getClassNameCodeByAccId(a.getAccountId());
+            ArrayList<ClassObject> ClassObjNotAcc = new ClassObjectDAO().getListClassNotAcceptedFromEnroll(a.getAccountId());
             ArrayList<ClassObject> classObj = new ClassObjectDAO().getClassByAccId(a.getAccountId());
             if (a.getRole() == 1) {
                 req.setAttribute("verified", true);
@@ -50,8 +50,9 @@ public class ClassController extends HttpServlet {
                 req.getRequestDispatcher("classT.jsp").forward(req, resp);
             } else if (a.getRole() == 2) {
                 req.setAttribute("hglO", false);
-                req.setAttribute("hglV", true);               
-                req.setAttribute("co", CO);
+                req.setAttribute("hglV", true);
+                req.setAttribute("classobjna", ClassObjNotAcc);
+                req.setAttribute("co", ClassObjAcc);
                 req.setAttribute("verified", true);
                 req.getRequestDispatcher("classS.jsp").forward(req, resp);
             }
