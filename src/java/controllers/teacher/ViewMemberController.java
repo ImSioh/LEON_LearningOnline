@@ -1,7 +1,9 @@
 package controllers.teacher;
 
 import dao.AccountDAO;
+import dao.ClassObjectDAO;
 import dto.Account;
+import dto.ClassObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,10 +22,18 @@ public class ViewMemberController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            Account account = (Account) request.getAttribute("account");
             String classCode = request.getParameter("code");
             ArrayList<Account> listStudent = new ArrayList<>();
-            listStudent = new AccountDAO().getListAllStudentByClassCode(classCode);
+            ClassObject classObject = new ClassObjectDAO().getClassByCode(classCode);
+            listStudent = new AccountDAO().getListAllStudentByClassCode(classCode, "1");
             request.setAttribute("listStudent", listStudent);
+            request.setAttribute("classObject", classObject);
+            if (account.getRole() == 1) {
+                request.setAttribute("teacher", account);
+            } else {
+                request.setAttribute("teacher", new AccountDAO().getAccountById(classObject.getAccountId()));
+            }
             request.getRequestDispatcher("/teacher/member.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ViewMemberController.class.getName()).log(Level.SEVERE, null, ex);

@@ -69,11 +69,11 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, "%" + name + "%", role);
     }
 
-    public ArrayList<Account> getListAllStudentByClassCode(String classCode) throws Exception {
+    public ArrayList<Account> getListAllStudentByClassCode(String classCode , String accepted) throws Exception {
         String query = "select a.*  from account as a , enrollment as e , class as c\n"
                 + "where e.account_id= a.account_id and  c.class_id =  e.class_id\n"
-                + "and c.code = ?;";
-        return selectMany(query, classCode);
+                + "and c.code = ? and e.accepted = ?;";
+        return selectMany(query, classCode , accepted);
     }
 
     public int setVerifyCodeNull(UUID id) throws Exception {
@@ -152,7 +152,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(new AccountDAO().getListAllStudentByClassCode("FXJNH"));
+       
     }
 
     @Override
