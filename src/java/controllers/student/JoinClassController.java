@@ -26,10 +26,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Anh
- */
 @WebServlet(name = "JoinClassController", urlPatterns = {"/student/join"})
 public class JoinClassController extends HttpServlet {
 
@@ -37,7 +33,7 @@ public class JoinClassController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setAttribute("verified", true);
-        req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
+        req.getRequestDispatcher("enter-classCode.jsp").forward(req, resp);
 
     }
 
@@ -45,9 +41,8 @@ public class JoinClassController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-            // get data from jsp file
             String code = req.getParameter("classCode");
-            
+
             // take data from Cookie
             String email = "", pass = "";
             Cookie[] cookies = req.getCookies();
@@ -66,10 +61,9 @@ public class JoinClassController extends HttpServlet {
             // take data from account by query statement
             AccountDAO accountDAO = new AccountDAO();
             Account acc = accountDAO.getAccountByEmail(email);
-            
-            int count = 0;           
+
             if (acc.getRole() == 2) {
-                ArrayList<Enrollment> enrollment = new EnrollmentDAO().getListEnrollmentById(acc.getAccountId());
+//                ArrayList<Enrollment> enrollment = new EnrollmentDAO().getListEnrollmentById(acc.getAccountId());
                 ArrayList<ClassObject> classObjAll = new ClassObjectDAO().getAllClass();
 
                 try {
@@ -77,30 +71,33 @@ public class JoinClassController extends HttpServlet {
                         // check code exist in class 
                         if (CO.getCode().equalsIgnoreCase(code)) {
                             req.setAttribute("verified", true);
-                            
                             // insert data to enrollment table
                             Enrollment ermt = new Enrollment();
                             ermt.setAccountId(acc.getAccountId());
                             ermt.setClassId(CO.getClassId());
                             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                            ermt.setEnrollTime(timestamp);                           
+                            ermt.setEnrollTime(timestamp);
                             int erm = new EnrollmentDAO().insertEnrollment(ermt);
-                            
-                            resp.sendRedirect(req.getContextPath() + "/teacher/class/" + code + "/newfeed");
+                            ClassObject c = new ClassObjectDAO().getClassByCode(code);
+                            if (c.isEnrollApprove() == false) {
+                                resp.sendRedirect(req.getContextPath() + "/student/class/newfeed?code=" + code);
+                            }
+                            req.getRequestDispatcher("classS.jsp").forward(req, resp);
                         }
                     }
                 } catch (Exception e) {
                     req.setAttribute("verified", false);
-                    req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
+                    req.setAttribute("notification3", true);
+                    req.getRequestDispatcher("enter-classCode.jsp").forward(req, resp);
                 }
                 // codeClass doesn't exist in class
-                if (count == 0) {
-                    req.setAttribute("verified", false);
-                    req.getRequestDispatcher("Enter_ClassCode.jsp").forward(req, resp);
-                }
+                req.setAttribute("verified", false);
+                req.setAttribute("notification2", true);
+                req.getRequestDispatcher("enter-classCode.jsp").forward(req, resp);
             } else {
                 resp.sendRedirect(req.getContextPath() + "/");
             }
+
         } catch (Exception ex) {
             Logger.getLogger(JoinClassController.class.getName()).log(Level.SEVERE, null, ex);
         }

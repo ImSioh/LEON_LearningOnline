@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class AccountDAO extends AbstractDAO<Account> {
+    
+    public ArrayList<Account> getAccountsInClass(UUID classId) throws Exception {
+        String query = "SELECT a.* FROM account a LEFT JOIN enrollment e ON a.account_id = e.account_id WHERE (e.class_id = ? AND e.accepted = TRUE) OR a.account_id = (SELECT c.account_id FROM class c WHERE c.class_id = ?)";
+        return selectMany(query, Util.UUIDToByteArray(classId), Util.UUIDToByteArray(classId));
+    }
 
     public Account getAccount(String email, String password) throws Exception {
         String query = "SELECT * FROM account a WHERE a.email = ? and a.password = ?";
@@ -64,6 +69,13 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, "%" + name + "%", role);
     }
 
+    public ArrayList<Account> getListAllStudentByClassCode(String classCode) throws Exception {
+        String query = "select a.*  from account as a , enrollment as e , class as c\n"
+                + "where e.account_id= a.account_id and  c.class_id =  e.class_id\n"
+                + "and c.code = ?;";
+        return selectMany(query, classCode);
+    }
+
     public int setVerifyCodeNull(UUID id) throws Exception {
         String query = "UPDATE account set verification_code = NULL WHERE account_id = ?";
         return update(query, Util.UUIDToByteArray(id));
@@ -75,12 +87,14 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
 
     public int insertAccount(Account account) throws Exception {
-        String query = "INSERT INTO account VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)";
+        String query = "INSERT INTO account VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)";
         return update(
                 query,
                 Util.UUIDToByteArray(account.getAccountId()),
                 account.getName(),
                 account.getBirthDate(),
+                account.isGender(),
+                account.getSchool(),
                 account.getAddress(),
                 account.getPhoneNumber(),
                 account.getEmail(),
@@ -93,11 +107,25 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
 
     public int editAccount(Account account) throws Exception {
-        String query = "UPDATE `online_learning`.`account` SET `name` = ?, `birth_date` = ?, `address` = ?, `phone_number` = ?,`password` = ?, `profile_picture` = ?,`locked` = ? WHERE (`account_id` = ?);";
+        String query
+                = "UPDATE `online_learning`.`account` \n"
+                + "SET \n"
+                + "	`name` = ?, \n"
+                + "	`birth_date` = ?, \n"
+                + "	`gender` = ?, \n"
+                + "	`school` = ?, \n"
+                + "	`address` = ?, \n"
+                + "	`phone_number` = ?, \n"
+                + "	`password` = ?, \n"
+                + "	`profile_picture` = ?, \n"
+                + "	`locked` = ? \n"
+                + "WHERE (`account_id` = ?);";
         return update(
                 query,
                 account.getName(),
                 account.getBirthDate(),
+                account.isGender(),
+                account.getSchool(),
                 account.getAddress(),
                 account.getPhoneNumber(),
                 account.getPassword(),
@@ -123,18 +151,8 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
 
     public static void main(String[] args) throws Exception {
-//        Account a = new AccountDAO().getAccountById(UUID.fromString("1d71af77-a945-4277-863b-ad40c6f1a5e5"));
-//System.out.println(new AccountDAO().getListAccountByEmail("admin",1));
-        Account a = new AccountDAO().getAccountById(UUID.fromString("402f1523-1384-4341-9ed4-e3acdeb4e202"));
-//        a.setAddress("May thang ngu ");
-//        System.out.println(new AccountDAO().editAccount(a));
-//        ArrayList<Account> accounts = new AccountDAO().getListAccountByRole(2);
-        ArrayList<Account> accounts = new AccountDAO().getListAccountByRoleAndSort(2, "name", "DESC");
-        for (Account account : accounts) {
-            System.out.println(account);
-        }
-//        int check = new AccountDAO().lockAccount(a, true, UUID.fromString("402f1523-1384-4341-9ed4-e3acdeb4e202"));
-//        System.out.println("check = " + check);
+
+        System.out.println(new AccountDAO().getListAllStudentByClassCode("FXJNH"));
     }
 
     @Override
@@ -143,6 +161,8 @@ public class AccountDAO extends AbstractDAO<Account> {
                 Util.ByteArrayToUUID(rs.getBytes("account_id")),
                 rs.getString("name"),
                 rs.getDate("birth_date"),
+                rs.getBoolean("gender"),
+                rs.getString("school"),
                 rs.getString("address"),
                 rs.getString("phone_number"),
                 rs.getString("email"),

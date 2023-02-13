@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS account(
   account_id binary(16),
   name varchar(100) CHARACTER SET utf8mb4 NOT NULL,
   birth_date date,
+  gender bit,
+  school varchar(100) CHARACTER SET utf8mb4, 
   address varchar(100) CHARACTER SET utf8mb4,
   phone_number varchar(24) CHARACTER SET utf8mb4 UNIQUE,
   email varchar(100) CHARACTER SET utf8mb4 UNIQUE NOT NULL,
@@ -35,6 +37,7 @@ CREATE TABLE IF NOT EXISTS class(
 CREATE TABLE IF NOT EXISTS enrollment(
   account_id binary(16),
   class_id binary(16),
+  accepted bit,
   enroll_time datetime,
   PRIMARY KEY (account_id, class_id),
   FOREIGN KEY (account_id) REFERENCES account(account_id),
@@ -46,7 +49,8 @@ CREATE TABLE IF NOT EXISTS feedback(
   account_id binary(16) NOT NULL,
   title varchar(300) CHARACTER SET utf8mb4 NOT NULL,
   content text CHARACTER SET utf8mb4 NOT NULL,
-  response text CHARACTER SET utf8mb4 NOT NULL,
+  response text CHARACTER SET utf8mb4,
+  create_time datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (feedback_id),
   FOREIGN KEY (account_id) REFERENCES account(account_id)
 );
@@ -54,11 +58,16 @@ CREATE TABLE IF NOT EXISTS feedback(
 CREATE TABLE IF NOT EXISTS notification(
   notification_id binary(16),
   account_id binary(16) NOT NULL,
+  class_id binary(16),
+  target binary(16),
   title varchar(100) CHARACTER SET utf8mb4 NOT NULL,
   redirect_url varchar(100) CHARACTER SET utf8mb4,
   content varchar(200) CHARACTER SET utf8mb4 NOT NULL,
+  create_time datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (notification_id),
-  FOREIGN KEY (account_id) REFERENCES account(account_id)
+  FOREIGN KEY (account_id) REFERENCES account(account_id),
+  FOREIGN KEY (class_id) REFERENCES class(class_id),
+  FOREIGN KEY (target) REFERENCES account(account_id)
 );
 
 CREATE TABLE IF NOT EXISTS send_notification(

@@ -34,7 +34,7 @@
 
 
                             <c:choose>
-                                <c:when test="${account.getRole() == 1 }">
+                                <c:when test="${account.getRole() == 1}">
                                     <a href="<c:url value="/teacher/class"/>" class="navbar-brand mt-2 mt-lg-0 text-light">LE.ON - Teacher </a>
                                 </c:when>    
                                 <c:otherwise>
@@ -52,20 +52,20 @@
                                 <li class="nav-item navbariteam">
                                     <c:choose>
                                         <c:when test="${account.getRole() == 2}">
-                                            <a class="nav-link " href="<%=path%>/student/sendfeedback" style="color: white !important; font-size: 15px;">Send Feedback</a>
+                                            <a  class="nav-link " href="<%=path%>/student/sendfeedback" style="color:#1e88e5 !important; font-size: 15px;">Send Feedback</a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a class="nav-link " href="<%=path%>/teacher/sendfeedback" style=" color: white !important;font-size: 15px;">Send Feedback</a>
+                                            <a class="nav-link " href="<%=path%>/teacher/sendfeedback" style=" font-size: 15px;">Send Feedback</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </li>
                                 <li class="nav-item navbariteam">
-                                     <c:choose>
+                                    <c:choose>
                                         <c:when test="${account.getRole() == 2}">
-                                            <a class="nav-link " href="<%=path%>/student/viewfeedback" style="color:#1e88e5 !important; font-size: 15px;">View Feedback</a>
+                                            <a  class="nav-link " href="<%=path%>/student/viewfeedback" style="color: white !important; font-size: 15px;">View Feedback</a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a class="nav-link " href="<%=path%>/teacher/viewfeedback" style=" font-size: 15px;">View Feedback</a>
+                                            <a  class="nav-link " href="<%=path%>/teacher/viewfeedback" style="border-radius: 8px;color:white; font-size: 15px;">View Feedback</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </li>
@@ -164,79 +164,31 @@
                 </nav>
                 <!-- Navbar -->
             </div>
-            <div class="content" style="margin-top: 50px;">
+            <table style="margin-top: 70px !important ; position: fixed !important;" class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Response</th>
+                        <th scope="col">Submit Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${listFeedback}" var="listFB" >
+                        <tr>
+                            <td scope="row">${listFB.getTitle()}</td>
+                            <c:if test="${listFB.getResponse()== ''}" >
+                                <td>Admin will response later</td>
+                            </c:if>
+                            <c:if test="${listFB.getResponse()!= ''}" >
+                                <td>  <a href="<c:url value="/${account.getRole() == 1 ? 'teacher' : 'student'}/view-response?Id=${listFB.getFeedbackId()}"/>">View</a></td>
+                            </c:if>
+                            <td>${listFB.getCreateTime()}</td>
+                        </tr>
+                    </c:forEach>
 
 
-                <section class="contact section" id="contact" style="padding-top: 100px">
-                    <h2 class="section__title">Feedback</h2>
-                    <span class="section__subtitle">Support by LE.ON</span>
+                </tbody>
+            </table>
+    </body>
 
-                    <div class="contact__container container grid">
-                        <div>
-                            <div class="contact__information">
-                                <i class="uil uil-phone contact__icon"></i>
-
-                                <div>
-                                    <h3 class="contact__title">Phone Number</h3>
-                                    <span class="contact__subtitle">0912345678</span>
-
-                                </div>
-                            </div>
-
-                            <div class="contact__information">
-                                <i class="uil uil-envelope-heart contact__icon"></i>
-
-                                <div>
-                                    <h3 class="contact__title">Email</h3>
-                                    <span class="contact__subtitle">leoneduservice@gmail.com</span>
-
-                                </div>
-                            </div>
-
-
-                            <div class="contact__information">
-                                <i class="uil uil-map-marker contact__icon"></i>
-
-                                <div>
-                                    <h3 class="contact__title">Location</h3>
-                                    <span class="contact__subtitle">Hoa Lac,Ha Noi,Viet Nam</span>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <form action="<c:url value="/${account.getRole() == 1 ? 'teacher' : 'student'}/sendfeedback"/>" method="post" class="contact__form" id="contact-form">
-                            <div class="contact__inputs grid">
-                                <div class="contact__content">
-                                    <label for="" class="contact__label">Title</label>
-                                    <input value="${feedbackTitle}" name="feedbackTitle" type="text" class="contact__input" id="contact-name">
-                                </div>
-                                <div class="contact__content">
-                                    <label for="" class="contact__label">Content</label>
-                                    <textarea name="feedbackContent" id="contact-message" class="contact__input" id="" cols="0" rows="7">${feedbackContent}</textarea>
-                                </div>
-                                <p class="contact__mess" id="contact-mess"></p>
-                                <div style="color : red">${msg}</div>
-                                <div>
-                                    <button class="button button--flex" style="border : none ; font-size: medium ; margin-bottom: 20px">
-                                        Send Feedback
-                                        <i class="uil uil-envelope-send button__icon"></i>
-                                    </button>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div>
-                </section>
-            </div>
-        </div>
-
-        <div class="footer">
-
-        </div>
-    </div>
-
-</body>
-
-
-
+   

@@ -48,24 +48,24 @@
 
                             <!-- Left links -->
 
-                            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ">
+                               <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ">
                                 <li class="nav-item navbariteam">
                                     <c:choose>
                                         <c:when test="${account.getRole() == 2}">
-                                            <a class="nav-link " href="<%=path%>/student/sendfeedback" style="color: white !important; font-size: 15px;">Send Feedback</a>
+                                            <a class="nav-link " href="<%=path%>/student/sendfeedback" style="color:#1e88e5 !important; font-size: 15px;">Send Feedback</a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a class="nav-link " href="<%=path%>/teacher/sendfeedback" style=" color: white !important;font-size: 15px;">Send Feedback</a>
+                                            <a class="nav-link " href="<%=path%>/teacher/sendfeedback" style=" font-size: 15px;">Send Feedback</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </li>
                                 <li class="nav-item navbariteam">
                                      <c:choose>
                                         <c:when test="${account.getRole() == 2}">
-                                            <a class="nav-link " href="<%=path%>/student/viewfeedback" style="color:#1e88e5 !important; font-size: 15px;">View Feedback</a>
+                                            <a class="nav-link " href="<%=path%>/student/viewfeedback" style="color: white  !important; font-size: 15px;">View Feedback</a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a class="nav-link " href="<%=path%>/teacher/viewfeedback" style=" font-size: 15px;">View Feedback</a>
+                                            <a class="nav-link " href="<%=path%>/teacher/viewfeedback" style=" color: white !important;font-size: 15px;">View Feedback</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </li>
@@ -168,7 +168,7 @@
 
 
                 <section class="contact section" id="contact" style="padding-top: 100px">
-                    <h2 class="section__title">Feedback</h2>
+                    <h2 class="section__title">Response by Admin</h2>
                     <span class="section__subtitle">Support by LE.ON</span>
 
                     <div class="contact__container container grid">
@@ -209,20 +209,19 @@
                             <div class="contact__inputs grid">
                                 <div class="contact__content">
                                     <label for="" class="contact__label">Title</label>
-                                    <input value="${feedbackTitle}" name="feedbackTitle" type="text" class="contact__input" id="contact-name">
+                                    <input value="${titleFeedback}" name="feedbackTitle" readonly class="contact__input" id="contact-name">
                                 </div>
                                 <div class="contact__content">
                                     <label for="" class="contact__label">Content</label>
-                                    <textarea name="feedbackContent" id="contact-message" class="contact__input" id="" cols="0" rows="7">${feedbackContent}</textarea>
+                                    <textarea readonly name="feedbackContent" id="contact-message" class="contact__input"  cols="0" rows="7">${contentFeedback}</textarea>
+                                </div>
+                                <div class="contact__content">
+                                    <label for="" class="contact__label">Response</label>
+                                    <textarea readonly name="feedbackContent" id="contact-message" class="contact__input"  cols="0" rows="7">${responseFeedback}</textarea>
                                 </div>
                                 <p class="contact__mess" id="contact-mess"></p>
                                 <div style="color : red">${msg}</div>
-                                <div>
-                                    <button class="button button--flex" style="border : none ; font-size: medium ; margin-bottom: 20px">
-                                        Send Feedback
-                                        <i class="uil uil-envelope-send button__icon"></i>
-                                    </button>
-                                </div>
+                               
 
                             </div>
                         </form>
@@ -237,6 +236,8 @@
     </div>
 
 </body>
+
+
 
 
 

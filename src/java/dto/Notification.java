@@ -1,21 +1,35 @@
 package dto;
 
+import com.google.gson.annotations.Expose;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public class Notification {
 
     private UUID notificationId;
     private UUID accountId;
+    @Expose
+    private UUID classId;
+    @Expose
+    private UUID target;
+    @Expose
     private String title;
+    @Expose
     private String redirectUrl;
+    @Expose
     private String content;
+    @Expose
+    private Timestamp createTime;
 
-    public Notification(UUID notificationId, UUID accountId, String title, String redirectUrl, String content) {
+    public Notification(UUID notificationId, UUID accountId, UUID classId, UUID target, String title, String redirectUrl, String content, Timestamp createTime) {
         this.notificationId = notificationId;
         this.accountId = accountId;
+        this.classId = classId;
+        this.target = target;
         this.title = title;
         this.redirectUrl = redirectUrl;
         this.content = content;
+        this.createTime = createTime;
     }
 
     public UUID getNotificationId() {
@@ -32,6 +46,22 @@ public class Notification {
 
     public void setAccountId(UUID accountId) {
         this.accountId = accountId;
+    }
+
+    public UUID getClassId() {
+        return classId;
+    }
+
+    public void setClassId(UUID classId) {
+        this.classId = classId;
+    }
+
+    public UUID getTarget() {
+        return target;
+    }
+
+    public void setTarget(UUID target) {
+        this.target = target;
     }
 
     public String getTitle() {
@@ -58,14 +88,25 @@ public class Notification {
         this.content = content;
     }
 
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
     @Override
     public String toString() {
         return "Notification(" + String.join(", ", new String[]{
             notificationId.toString(),
             accountId.toString(),
+            classId.toString(),
+            target.toString(),
             title,
             redirectUrl,
-            content
+            content,
+            createTime.toString()
         }) + ")";
     }
 

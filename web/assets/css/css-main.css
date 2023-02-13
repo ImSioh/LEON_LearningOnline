@@ -14,7 +14,8 @@
 }
 
 hr.h-color{
-    background-color: black;;
+    background-color: black;
+    ;
 }
 
 .sidebar li.active{
@@ -32,4 +33,14 @@ hr.h-color{
     text-transform: uppercase;
     margin-left: 20px;
     font-weight: 500;
+}
+
+#change-img-profile:hover div{
+    display: flex!important;
+    align-items: center;
+    justify-content: center;
+}
+
+.card{
+/*    border-radius: 15px; overflow: hidden;*/
 }

@@ -47,6 +47,11 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
         String query = "SELECT * FROM class c where c.code = ?;";
         return selectOne(query, code);
     }
+    
+    public ClassObject getClassById(UUID classId) throws Exception {
+        String query = "SELECT * FROM class c WHERE c.class_id = ?";
+        return selectOne(query, Util.UUIDToByteArray(classId));
+    }
 
     public boolean isCodeExist(String code) throws Exception {
         String query = "SELECT COUNT(*) FROM class c WHERE c.code = ?";
@@ -64,6 +69,17 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
                 classObject.isEnrollApprove(),
                 classObject.getClassPicture(),
                 classObject.getCreateTime()
+        );
+    }
+    
+    public int updateClass(ClassObject classObject) throws Exception {
+        String query = "UPDATE class SET name = ?, enroll_approve = ?, hidden = ? WHERE class_id = ?";
+        return update(
+                query,
+                classObject.getName(),
+                classObject.isEnrollApprove(),
+                classObject.isHidden(),
+                Util.UUIDToByteArray(classObject.getClassId())
         );
     }
 
