@@ -28,6 +28,11 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectOne(query, Util.UUIDToByteArray(id));
     }
 
+    public ArrayList<Account> getListAllAccounts() throws Exception {
+        String query = "SELECT * FROM account";
+        return selectMany(query);
+    }
+
     public ArrayList<Account> getListAccountById(UUID id) throws Exception {
         String query = "SELECT * FROM account a where a.account_id = ?";
         return selectMany(query, Util.UUIDToByteArray(id));
@@ -47,11 +52,6 @@ public class AccountDAO extends AbstractDAO<Account> {
         String query = "SELECT * FROM account WHERE role = ?\n"
                 + "ORDER BY " + criteria + " " + sort;
         return selectMany(query, role);
-    }
-
-    public ArrayList<Account> getListAllAccounts() throws Exception {
-        String query = "SELECT * FROM account";
-        return selectMany(query);
     }
 
     public ArrayList<Account> getListAccountByPhoneNumber(String phoneNumber, int role) throws Exception {
@@ -124,10 +124,8 @@ public class AccountDAO extends AbstractDAO<Account> {
 
     public static void main(String[] args) throws Exception {
 //        Account a = new AccountDAO().getAccountById(UUID.fromString("1d71af77-a945-4277-863b-ad40c6f1a5e5"));
-//        a.setAddress("May thang ngu ");
-//        System.out.println(new AccountDAO().editAccount(a)); 
 //System.out.println(new AccountDAO().getListAccountByEmail("admin",1));
-        Account a = new AccountDAO().getAccountById(UUID.fromString("1d71af77-a945-4277-863b-ad40c6f1a5e5"));
+        Account a = new AccountDAO().getAccountById(UUID.fromString("402f1523-1384-4341-9ed4-e3acdeb4e202"));
 //        a.setAddress("May thang ngu ");
 //        System.out.println(new AccountDAO().editAccount(a));
 //        ArrayList<Account> accounts = new AccountDAO().getListAccountByRole(2);
@@ -135,6 +133,8 @@ public class AccountDAO extends AbstractDAO<Account> {
         for (Account account : accounts) {
             System.out.println(account);
         }
+//        int check = new AccountDAO().lockAccount(a, true, UUID.fromString("402f1523-1384-4341-9ed4-e3acdeb4e202"));
+//        System.out.println("check = " + check);
     }
 
     @Override
