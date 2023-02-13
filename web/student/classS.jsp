@@ -39,9 +39,9 @@
                     <div class="row">
                         <c:if test="${verified}">
                             <c:forEach items="${co}" var="co">
-                                <c:if test="${co.isEnrollApprove() == false}">
+                                
                                     <div class="col-lg-3" style="margin-bottom: 24px;">
-                                        <a href="<c:url value="/student/class/newfeed??code=${co.getCode()}"/>" style="text-decoration: none;">
+                                        <a href="<c:url value="/student/class/newfeed?code=${co.getCode()}"/>" style="text-decoration: none;">
                                             <div class="card">
                                                 <div style="overflow: hidden; width: 100%; height: 100%;height: 188px; background-size: cover;
                                                      background-position: center;
@@ -53,7 +53,7 @@
                                             </div>
                                         </a>
                                     </div>
-                                </c:if>
+                                
 
                             </c:forEach>
                         </c:if>
@@ -68,10 +68,10 @@
                 <div class="tab-pane fade" id="ex-with-icons-tabs-2" role="tabpanel" aria-labelledby="ex-with-icons-tab-2">
                     <div class="row">
                         <c:if test="${verified}">
-                            <c:forEach items="${co}" var="co">
-                                <c:if test="${co.isEnrollApprove() == true}">
+                            <c:forEach items="${classobjna}" var="co">
+                                
                                     <div class="col-lg-3" style="margin-bottom: 24px;">
-                                        <a href="<c:url value="/student/class/newfeed??code=${co.getCode()}"/>" style="text-decoration: none;">
+                                        <a href="<c:url value="/student/class/newfeed?code=${co.getCode()}"/>" style="text-decoration: none;">
                                             <div class="card">
                                                 <div style="overflow: hidden; width: 100%; height: 100%;height: 188px; background-size: cover;
                                                      background-position: center;
@@ -83,7 +83,7 @@
                                             </div>
                                         </a>
                                     </div>
-                                </c:if>
+                                
 
                             </c:forEach>
                         </c:if>

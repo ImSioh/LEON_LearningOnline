@@ -82,7 +82,7 @@ public class SearchClassController extends HttpServlet {
 
             if (a.getRole() == 1) {
                 // check if don't have data from database
-                if (classOT.isEmpty()) {
+                if (classOT.isEmpty() || searchName.trim().equals("")) {
                     req.setAttribute("verified", false);
                     req.getRequestDispatcher("classT.jsp").forward(req, resp);
                 }
@@ -91,7 +91,7 @@ public class SearchClassController extends HttpServlet {
                 req.getRequestDispatcher("classT.jsp").forward(req, resp);
             } else if (a.getRole() == 2) {
                 // check if don't have data from database
-                if (classOS.isEmpty()) {
+                if (classOS.isEmpty() || searchName.trim().equals("")) {
                     req.setAttribute("hglO", false);
                     req.setAttribute("hglV", true);
                     req.setAttribute("verified", false);
