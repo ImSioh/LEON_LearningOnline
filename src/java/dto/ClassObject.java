@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class ClassObject {
-
     private UUID classId;
     private UUID accountId;
     private String name;

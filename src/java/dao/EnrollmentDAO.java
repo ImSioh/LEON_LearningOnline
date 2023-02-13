@@ -18,6 +18,14 @@ public class EnrollmentDAO extends AbstractDAO<Enrollment> {
         return selectMany(query, Util.UUIDToByteArray(id));
     }
     
+    public int leaveClass(UUID id) throws Exception {
+        String query = "delete from enrollment where class_id = ?";
+        return update(
+                query,
+                Util.UUIDToByteArray(id)
+        );
+    }
+    
     public int insertEnrollment(Enrollment enrollment) throws Exception {
         String query = "INSERT INTO enrollment VALUES (?, ?, ?, ?)";
         return update(

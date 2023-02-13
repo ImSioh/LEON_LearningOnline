@@ -4,6 +4,7 @@ package controllers.teacher;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+import dao.AccountDAO;
 import dao.ClassObjectDAO;
 import dto.Account;
 import dto.ClassObject;
@@ -30,17 +31,33 @@ public class SettingClassInfo extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        resp.sendRedirect(req.getContextPath()+"/teacher/setting.jsp");
+        String classCode = req.getParameter("code");
+        try {
+            Account account = (Account) req.getAttribute("account");
+            ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
+            req.setAttribute("classObject", classobj);
+            if (account.getRole() == 1) {
+                req.setAttribute("teacher", account);
+            } else {
+                req.setAttribute("teacher", new AccountDAO().getAccountById(classobj.getAccountId()));
+            }
+            req.getRequestDispatcher("/teacher/setting.jsp").forward(req, resp);
+        } catch (Exception ex) {
+            Logger.getLogger(SettingClassInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String classCode = req.getParameter("code");
+        
         Part profilePicture = req.getPart("txtImg");
-        boolean txtStudentApprove = (boolean) req.getAttribute("txtStudentApprove");
-        boolean txtHideClass = (boolean) req.getAttribute("txtHideClass");
-        String name = (String) req.getAttribute("txtName");
+
+        boolean txtStudentApprove = "on".equalsIgnoreCase(req.getParameter("txtStudentApprove"));
+        boolean txtHideClass = "on".equalsIgnoreCase(req.getParameter("txtHideClass"));
+        String name = req.getParameter("txtName");
         // picture
         FormValidator formValidator = new FormValidator(req);
         boolean validForm = formValidator.isValid();
@@ -55,14 +72,16 @@ public class SettingClassInfo extends HttpServlet {
             String urlImg = "/profile/" + account.getAccountId().toString() + fileExtension;
             profilePicture.write(System.getProperty("leon.updir") + urlImg);
             urlToDB = "/files" + urlImg;
-            
         }
+
         try {
             ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
             ClassObject clob = new ClassObject();
             clob.setClassPicture(urlToDB);
             clob.setAccountId(account.getAccountId());
             clob.setClassId(classobj.getClassId());
+            clob.setCode(classCode);
+            clob.setCreateTime(classobj.getCreateTime());
             if (txtStudentApprove == true) {
                 clob.setEnrollApprove(true);
             } else {
@@ -74,11 +93,20 @@ public class SettingClassInfo extends HttpServlet {
             } else {
                 clob.setHidden(false);
             }
-            if(!(name.trim().equals(" "))) {
+           
+            if ((name.trim().equals(""))) {
+                clob.setName(classobj.getName());
+            } else {
                 clob.setName(name);
             }
+           if (account.getRole() == 1) {
+                req.setAttribute("teacher", account);
+            } else {
+                req.setAttribute("teacher", new AccountDAO().getAccountById(classobj.getAccountId()));
+            }
             int clo = new ClassObjectDAO().updateClass(clob);
-            req.getRequestDispatcher("newfeed.jsp").forward(req, resp);
+            req.setAttribute("classObject", classobj);
+            req.getRequestDispatcher("/newfeed.jsp").forward(req, resp);
         } catch (Exception ex) {
             Logger.getLogger(SettingClassInfo.class.getName()).log(Level.SEVERE, null, ex);
         }
