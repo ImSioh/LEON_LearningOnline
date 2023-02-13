@@ -1,6 +1,6 @@
 
 <%@include file= "../template/header.jsp" %>
-<div style="margin-top: 70px !important; padding-left: 282px !important">
+<div style="margin-top: 70px !important; padding-left: 92px !important">
     <ul class="nav nav-tabs mb-3" id="ex-with-icons" role="tablist">
         <li class="nav-item" role="presentation">
             <a class="nav-link active" id="ex-with-icons-tab-1" data-mdb-toggle="tab" href="#ex-with-icons-tabs-1" role="tab"

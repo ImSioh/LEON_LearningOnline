@@ -1,5 +1,5 @@
 <%@include file= "../template/header.jsp" %>
-<div style="margin-top: 70px !important; padding-left: 282px !important">
+<div style="margin-top: 70px !important; padding-left: 92px !important">
     <ul class="nav nav-tabs mb-3" id="ex-with-icons" role="tablist">
         <li class="nav-item" role="presentation">
             <a class="nav-link active" id="ex-with-icons-tab-1" data-mdb-toggle="tab" href="#ex-with-icons-tabs-1" role="tab"
@@ -77,7 +77,7 @@
                             <c:forEach items="${classObjList}" var="co">
                                 <c:if test="${co.isHidden() == true}">
                                     <div class="col-lg-3" style="margin-bottom: 24px;">
-                                        <a href="<c:url value="/teacher/class/newfeed?code=${co.getCode()}"/>" style="text-decoration: none;">
+                                        <a href="" style="text-decoration: none;">
                                             <div class="card" style=" border-radius: 15px; overflow: hidden;">
                                                 <div style="overflow: hidden; width: 100%; height: 100%;height: 188px; background-size: cover;
                                                      background-position: center;
