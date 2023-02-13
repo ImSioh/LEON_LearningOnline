@@ -42,7 +42,7 @@
                                 
                                     <div class="col-lg-3" style="margin-bottom: 24px;">
                                         <a href="<c:url value="/student/class/newfeed?code=${co.getCode()}"/>" style="text-decoration: none;">
-                                            <div class="card">
+                                            <div class="card" style=" border-radius: 15px; overflow: hidden;">
                                                 <div style="overflow: hidden; width: 100%; height: 100%;height: 188px; background-size: cover;
                                                      background-position: center;
                                                      background-image: url(<c:url value="${co.getClassPicture() == null ? '/assets/img/Common_picture.png' : co.getClassPicture()}"/>)"> 
@@ -72,7 +72,7 @@
                                 
                                     <div class="col-lg-3" style="margin-bottom: 24px;">
                                         <a href="<c:url value="/student/class/newfeed?code=${co.getCode()}"/>" style="text-decoration: none;">
-                                            <div class="card">
+                                            <div class="card" style=" border-radius: 15px; overflow: hidden;">
                                                 <div style="overflow: hidden; width: 100%; height: 100%;height: 188px; background-size: cover;
                                                      background-position: center;
                                                      background-image: url(<c:url value="${co.getClassPicture() == null ? '/assets/img/Common_picture.png' : co.getClassPicture()}"/>)"> 
