@@ -6,8 +6,10 @@ package controllers.teacher;
  */
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
+import dao.EnrollmentDAO;
 import dto.Account;
 import dto.ClassObject;
+import dto.Enrollment;
 import helpers.FormValidator;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -36,7 +38,7 @@ public class SettingClassInfo extends HttpServlet {
             Account account = (Account) req.getAttribute("account");
             ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
             req.setAttribute("classObject", classobj);
-                req.setAttribute("activeST", "active");
+            req.setAttribute("activeST", "active");
             if (account.getRole() == 1) {
                 req.setAttribute("teacher", account);
             } else {
@@ -53,7 +55,7 @@ public class SettingClassInfo extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String classCode = req.getParameter("code");
-        
+
         Part profilePicture = req.getPart("txtImg");
 
         boolean txtStudentApprove = "on".equalsIgnoreCase(req.getParameter("txtStudentApprove"));
@@ -78,6 +80,7 @@ public class SettingClassInfo extends HttpServlet {
         try {
             ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
             ClassObject clob = new ClassObject();
+
             clob.setClassPicture(urlToDB);
             clob.setAccountId(account.getAccountId());
             clob.setClassId(classobj.getClassId());
@@ -87,20 +90,21 @@ public class SettingClassInfo extends HttpServlet {
                 clob.setEnrollApprove(true);
             } else {
                 clob.setEnrollApprove(false);
+                int updateErm = new EnrollmentDAO().updateEnrollment(classobj.getClassId());
             }
-            
+
             if (txtHideClass == true) {
                 clob.setHidden(true);
             } else {
                 clob.setHidden(false);
             }
-           
+
             if ((name.trim().equals(""))) {
                 clob.setName(classobj.getName());
             } else {
                 clob.setName(name);
             }
-           if (account.getRole() == 1) {
+            if (account.getRole() == 1) {
                 req.setAttribute("teacher", account);
             } else {
                 req.setAttribute("teacher", new AccountDAO().getAccountById(classobj.getAccountId()));
