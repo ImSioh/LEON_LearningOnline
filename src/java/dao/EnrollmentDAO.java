@@ -18,6 +18,11 @@ public class EnrollmentDAO extends AbstractDAO<Enrollment> {
         return selectMany(query, Util.UUIDToByteArray(id));
     }
     
+    public Enrollment getEnrollmentByClassId(UUID id) throws Exception {
+        String query = "SELECT * FROM enrollment e where e.class_id = ?";
+        return selectOne(query, Util.UUIDToByteArray(id));
+    }
+    
     public int leaveClass(UUID id) throws Exception {
         String query = "delete from enrollment where class_id = ?";
         return update(
@@ -34,6 +39,15 @@ public class EnrollmentDAO extends AbstractDAO<Enrollment> {
                 Util.UUIDToByteArray(enrollment.getClassId()),
                 enrollment.isAccepted(),
                 enrollment.getEnrollTime()
+        );
+    }
+    
+    public int updateEnrollment(UUID Cid) throws Exception {
+        String query = "UPDATE enrollment SET accepted = true WHERE class_id = ?";
+        return update(
+                query,
+                
+                Util.UUIDToByteArray(Cid)
         );
     }
     
