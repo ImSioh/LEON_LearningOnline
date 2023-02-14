@@ -25,7 +25,7 @@
             <div class="row d-flex flex-column align-items-center">
 
                 <div class="col-lg-9">
-                    <div class="card mb-4 ">
+                    <div class="card mb-4 " style=" border-radius: 15px; overflow: hidden;">
                         <div class="card-body ">
                             <div class=" p-3 py-5 justify-content-center">
 

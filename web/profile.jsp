@@ -2,7 +2,7 @@
 <div class="content" style="margin-top: 50px;">
     <section style="background-color: rgba(209, 209, 209, 0.5); height: 100vh;">
         <div class="container py-5">
-            <div class="row">
+            <div class="row" >
                 <div class="col">
                     <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
@@ -23,7 +23,7 @@
 
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="card mb-4">
+                    <div class="card mb-4" style=" border-radius: 15px; overflow: hidden;">
                         <div class="card-body text-center">
 
                             <div style="width: 150px; height: 150px; overflow: hidden; margin: 0 auto;" class="rounded-circle mt-5 position-relative" >
@@ -64,7 +64,7 @@
 
                 </div>
                 <div class="col-lg-8">
-                    <div class="card mb-4">
+                    <div class="card mb-4" style=" border-radius: 15px; overflow: hidden;">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-3">

@@ -36,6 +36,7 @@ public class SettingClassInfo extends HttpServlet {
             Account account = (Account) req.getAttribute("account");
             ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
             req.setAttribute("classObject", classobj);
+                req.setAttribute("activeST", "active");
             if (account.getRole() == 1) {
                 req.setAttribute("teacher", account);
             } else {

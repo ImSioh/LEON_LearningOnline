@@ -29,6 +29,7 @@ public class ViewMemberController extends HttpServlet {
             listStudent = new AccountDAO().getListAllStudentByClassCode(classCode, "1");
             request.setAttribute("listStudent", listStudent);
             request.setAttribute("classObject", classObject);
+            request.setAttribute("activeMB", "active");
             if (account.getRole() == 1) {
                 request.setAttribute("teacher", account);
             } else {
