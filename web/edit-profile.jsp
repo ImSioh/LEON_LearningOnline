@@ -1,6 +1,6 @@
 <%@include file= "/template/header.jsp" %>
 <div class="content"style="margin-top: 50px;">
-    <section style="background-color: rgba(209, 209, 209, 0.5); height: 100vh;">
+    <section style="background-color: rgba(209, 209, 209, 0.5); min-height: 100vh; max-height: fit-content;">
         <div class="container py-5 ">
             <div class="row">
                 <div class="col">
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="row d-flex justify-content-evenly">
-                <div class="col-md-3 border-right card">
+                <div class="col-md-3 border-right card" style=" border-radius: 15px; overflow: hidden;">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                         <p id="msg-error" style="display: none;">Your upload file must less than 5MB</p>
                         <label for="uploadImgProfile" id="change-img-profile" style="cursor: pointer;width: 150px; height: 150px; overflow: hidden;" class="rounded-circle mt-5 position-relative" >
@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-8 border-right card">
+                <div class="col-md-8 border-right card" style=" border-radius: 15px; overflow: hidden;">
                     <form action="<c:url value="${account.getRole() == 1 ? '/teacher': '/student'}/profile/edit"/>" method="post" enctype="multipart/form-data">
                         <div class="p-3 py-5 col-md-9">
                             <div class="d-flex justify-content-between align-items-center mb-3">

@@ -43,6 +43,7 @@ public class NewFeedController extends HttpServlet {
             }
             
             req.setAttribute("classObject", classObject);
+            req.setAttribute("activeNF", "active");
             req.setAttribute("formater", new SimpleDateFormat(Constant.FORMAT_DATETIME));
             if (account.getRole() == 1) {
                 req.setAttribute("teacher", account);

@@ -37,6 +37,7 @@
                                     <p class="text-light text-center" style=" overflow-wrap: break-word; font-weight: bold;">Click here to <br> change image</p>
                                 </div>
                             </label>
+                            </div>
                         </div>
 
                         <input type="file" class="form-control d-none" id="uploadImgProfile" name="txtImg" />
