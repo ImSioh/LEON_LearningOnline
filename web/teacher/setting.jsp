@@ -25,8 +25,8 @@
                             </div>                           
                             <div>                                
                                 <p id="msg-error" style="display: none;">Your upload file must less than 5MB</p>
-                                <label for="uploadImgProfile" id="change-img-profile" class="rounded-circle mt-5 position-relative " >
-                                    <div id="profile-img" style="
+                                <label for="uploadImgProfile2" id="change-img-profile" class="mt-5 position-relative " >
+                                    <div id="profile-img2" style="
                                          overflow: hidden; width: 100% ; width: 930px; height: 100%;height: 208px; background-position: center;
                                          background-repeat: no-repeat;
                                          background-size: cover;
@@ -40,7 +40,7 @@
                             </div>
                         </div>
 
-                        <input type="file" class="form-control d-none" id="uploadImgProfile" name="txtImg" />
+                        <input type="file" class="form-control d-none" id="uploadImgProfile2" name="txtImg2" />
                         <div class="form-group form-button d-flex justify-content-center mt-4 row m-5">
                             <button class="btn btn-primary" type="submit">Save</button>
                         </div>
@@ -52,8 +52,8 @@
     </div>
 </div>
 <script>
-    const uploadImgProfile = document.getElementById('uploadImgProfile');
-    const profileimg = document.getElementById('profile-img');
+    const uploadImgProfile = document.getElementById('uploadImgProfile2');
+    const profileimg = document.getElementById('profile-img2');
     const msg = document.getElementById('msg-error');
     var tmpImg = profileimg.style.backgroundImage;
     tmpImg = tmpImg.substring(5, tmpImg.length - 2);
