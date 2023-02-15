@@ -6,7 +6,7 @@
     <c:redirect url="${baseUrl}"/>
 </c:if>
 
-<input type="number" name="role" value="2" hidden/>
+<c:set var="role" value="2"/>
 
 <div id="content">
     <h1>Students Management</h1>
@@ -94,17 +94,17 @@
                             <a href="/profile?id=${account.getAccountId()}">Profile</a>
                         </td>
                         <td>${account.getName()}</td>
-                        <td>account.getGender()</td>
+                        <td>${account.isGender()}</td>
                         <td>${account.getEmail()}</td>
                         <td>${account.getAddress()}</td>
                         <td>${account.getPhoneNumber()}</td>
                         <td>${account.getCreateTime()}</td>
                         <td>
                             <c:if test="${account.isLocked()}">
-                                <a href="lock?sid=${account.getAccountId()}&status=open" onclick="return lockAcc()"><i class="fa-solid fa-lock"></i></a>
+                                <a href="lock?id=${account.getAccountId()}&status=open" onclick="return lockAcc()"><i class="fa-solid fa-lock"></i></a>
                                 </c:if>
                                 <c:if test="${account.isLocked()!=true}">
-                                <a href="lock?sid=${account.getAccountId()}&status=close" onclick="return lockAcc()"><i class="fa-solid fa-lock-open"></i></a>
+                                <a href="lock?id=${account.getAccountId()}&status=close" onclick="return lockAcc()"><i class="fa-solid fa-lock-open"></i></a>
                                 </c:if>
                         </td>
                     </tr>

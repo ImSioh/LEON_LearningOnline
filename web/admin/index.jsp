@@ -93,7 +93,7 @@
                                 <a href="<c:url value="/admin/response?Id=${fb.getFeedbackId()}"/>">Link</a>
                             </c:if>
                         </td>
-                        <td>fb.getSubmitTime()</td>
+                        <td>${fb.getCreateTime()}</td>
                     </tr>
                 </c:forEach>
             </tbody>
