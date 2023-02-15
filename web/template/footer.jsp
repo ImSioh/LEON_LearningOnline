@@ -8,7 +8,7 @@
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <script src="<c:url value="/assets/js/main.js"/>" type="text/javascript"></script>
 <script>
-
+    generalWS.init();
 </script>
 </body>
 </html>

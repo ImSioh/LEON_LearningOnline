@@ -14,9 +14,9 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
         return selectMany(query, Util.UUIDToByteArray(id));
     }
 
-    public ArrayList<ClassObject> getListClassTByNameID(String name, UUID id) throws Exception {
-        String query = "SELECT * FROM class a WHERE a.name LIKE ? and a.account_id = ?";
-        return selectMany(query, "%" + name + "%", Util.UUIDToByteArray(id));
+    public ArrayList<ClassObject> getListClassTByNameID(String name, UUID id, boolean isHidden) throws Exception {
+        String query = "SELECT * FROM class a WHERE a.name LIKE ? and a.account_id = ? and a.hidden = ?";
+        return selectMany(query, "%" + name + "%", Util.UUIDToByteArray(id), isHidden);
     }
 
     public ArrayList<ClassObject> getListClassAcceptedFromEnroll(UUID id) throws Exception {
@@ -25,6 +25,14 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
                 + "  JOIN account a ON e.account_id = a.account_id\n"
                 + "AND a.account_id = ? AND e.accepted = true;";
         return selectMany(query , Util.UUIDToByteArray(id));
+    }
+    
+    public ArrayList<ClassObject> getListClassAccepted(String nameSeach, UUID id, boolean accepted) throws Exception {
+        String query = "SELECT c.* FROM class c \n"
+                + " JOIN enrollment e ON c.class_id = e.class_id\n"
+                + "  JOIN account a ON e.account_id = a.account_id\n"
+                + "AND c.name LIKE ? AND a.account_id = ? AND e.accepted = ?;";
+        return selectMany(query ,"%" + nameSeach + "%", Util.UUIDToByteArray(id), accepted);
     }
     
      public ArrayList<ClassObject> getListClassNotAcceptedFromEnroll(UUID id) throws Exception {
@@ -89,12 +97,13 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
     }
 
     public int updateClass(ClassObject classObject) throws Exception {
-        String query = "UPDATE class SET name = ?, enroll_approve = ?, hidden = ? WHERE class_id = ?";
+        String query = "UPDATE class SET name = ?, enroll_approve = ?, hidden = ?, class_picture = ? WHERE class_id = ?";
         return update(
                 query,
                 classObject.getName(),
                 classObject.isEnrollApprove(),
                 classObject.isHidden(),
+                classObject.getClassPicture(),
                 Util.UUIDToByteArray(classObject.getClassId())
         );
     }
@@ -113,12 +122,12 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
         );
     }
 
-    public static void main(String[] args) throws Exception {
-
-        ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassAcceptedFromEnroll(UUID.fromString("e0e2e372-c422-4b1e-a00a-ba1ace16d06c"));
-        for (ClassObject c : classObj) {
-            System.out.println(c.getCode());
-        }
-
-    }
+//    public static void main(String[] args) throws Exception {
+//
+//        ArrayList<ClassObject> classObj = new ClassObjectDAO().getListClassTByNameID();
+//        for (ClassObject c : classObj) {
+//            System.out.println(c.getCode());
+//        }
+//
+//    }
 }
