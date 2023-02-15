@@ -23,11 +23,12 @@ public class EnrollmentDAO extends AbstractDAO<Enrollment> {
         return selectOne(query, Util.UUIDToByteArray(id));
     }
     
-    public int leaveClass(UUID id) throws Exception {
-        String query = "delete from enrollment where class_id = ?";
+    public int leaveClass(UUID id , UUID accountId) throws Exception {
+        String query = "delete from enrollment where class_id = ? and account_id = ?";
         return update(
                 query,
-                Util.UUIDToByteArray(id)
+                Util.UUIDToByteArray(id),
+                Util.UUIDToByteArray(accountId)
         );
     }
     
@@ -51,11 +52,19 @@ public class EnrollmentDAO extends AbstractDAO<Enrollment> {
         );
     }
     
+    public int  updateAccepted(int Accepted,UUID AccountId , UUID ClassId) throws Exception {
+        String query = "UPDATE enrollment SET accepted = ? WHERE account_id = ? and class_id = ?";
+        return update(
+                query,
+                Accepted,       
+                Util.UUIDToByteArray(AccountId),Util.UUIDToByteArray(ClassId)
+        );
+    }
+    
     public static void main(String[] args) throws Exception {
-        System.out.println(new EnrollmentDAO().isJoined(
-                UUID.fromString("7f44bf31-be32-4b20-800b-642cd0a551df"),
-                UUID.fromString("19880897-a45a-41c2-8233-fd5be18253c1")
-        ));
+        System.out.println(new EnrollmentDAO().updateAccepted(0,UUID.fromString("9b62d2bd-a2a6-49a2-95c8-77cd7d535937"), UUID.fromString("312aa066-aaae-401a-8e33-7d2ea6a55180"))
+               
+        );
     }
     
     @Override
@@ -67,5 +76,7 @@ public class EnrollmentDAO extends AbstractDAO<Enrollment> {
                 rs.getTimestamp("enroll_time")
         );
     }
+    
+    
     
 }

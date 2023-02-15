@@ -16,7 +16,7 @@
             </div>
             <div class="card-body m-3" >
                 <table class="table align-middle mb-0 bg-white" style="padding: -10px;">
-                    <thead class="bg-light">
+                    <thead class="bg-light">               
                         <tr>
                             <th>
                                 <i class="fas fa-sort fa-sm m-2" style="cursor: pointer;"></i> 
@@ -59,9 +59,9 @@
                                 </td>
                                 <td>10/12</td>
                                 <td>
-                                    <button style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded">
+                                    <a href="<c:url value="/teacher/class/delete-student?code=${param.code}&accountId=${listS.getAccountId()}" />" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded">
                                         Delete
-                                    </button>
+                                    </a>
                                 </td>              
                             </tr>
                         </c:forEach>
