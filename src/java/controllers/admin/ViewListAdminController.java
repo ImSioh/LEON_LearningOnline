@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author Asus
  */
-@WebServlet(name = "ViewListAdminController", urlPatterns = {"/admin/feedback-list", "/admin/student-account-list", "/admin/teacher-account-list"})
+@WebServlet(name = "ViewListAdminController", urlPatterns = {"/admin/feedback-list", "/admin/student-list", "/admin/teacher-list"})
 public class ViewListAdminController extends HttpServlet {
 
     /**
@@ -61,51 +61,31 @@ public class ViewListAdminController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    AccountDAO accountDAO = new AccountDAO();
+    FeedbackDAO feedbackDAO = new FeedbackDAO();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            Account account = (Account) request.getAttribute("account");
-            AccountDAO accountDAO = new AccountDAO();
-            FeedbackDAO feedbackDAO = new FeedbackDAO();
-
             int element;
             try {
                 element = Integer.parseInt(request.getParameter("element"));
             } catch (Exception e) {
-                element = 2;
+                element = 5;
             }
             request.setAttribute("element", element);
-            int[] elementOption = {1, 2, 5, 10, 25};
+            int[] elementOption = {3, 5, 7, 10, 15};
             request.setAttribute("elementOption", elementOption);
 
-            String criteria;
-            try {
-                criteria = request.getParameter("criteria");
-            } catch (Exception e) {
-                criteria = "name";
-            }
-            request.setAttribute("criteria", criteria);
-
-            boolean orderBy;
-            try {
-                orderBy = Boolean.valueOf(request.getParameter("orderBy"));
-            } catch (Exception e) {
-                orderBy = true;
-            }
-            request.setAttribute("orderBy", orderBy);
-
-            String sort = orderBy ? "" : "desc";
             //feedback
             if (request.getServletPath().contains("feedback-list")) {
                 try {
-                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacksSort(criteria, sort);
-//                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacksAndPaging(element, 0);
+                    ArrayList<Account> accounts = accountDAO.getListAllAccounts();
+                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacks();
                     feedbackDAO.setItemList(feedbacks);
                     feedbackDAO.setMaxPageItem(element);
                     feedbackDAO.setMaxTotalPage(10);
-
-                    ArrayList<Account> accounts = accountDAO.getListAllAccounts();
 
                     request.setAttribute("feedbackDAO", feedbackDAO);
                     request.setAttribute("feedbacks", feedbacks);
@@ -115,10 +95,9 @@ public class ViewListAdminController extends HttpServlet {
                 }
                 request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
             } //student
-            else if (request.getServletPath().contains("student-account-list")) {
+            else if (request.getServletPath().contains("student-list")) {
                 try {
-//                    ArrayList<Account> students = accountDAO.getListAccountByRole(2);
-                    ArrayList<Account> students = accountDAO.getListAccountByRoleAndSort(2, criteria, sort);
+                    ArrayList<Account> students = accountDAO.getListAccountByRole(2);
                     accountDAO.setItemList(students);
                     accountDAO.setMaxPageItem(element);
                     accountDAO.setMaxTotalPage(10);
@@ -130,9 +109,9 @@ public class ViewListAdminController extends HttpServlet {
                 }
                 request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
             } //teacher
-            else if (request.getServletPath().contains("teacher-account-list")) {
+            else if (request.getServletPath().contains("teacher-list")) {
                 try {
-                    ArrayList<Account> teachers = accountDAO.getListAccountByRoleAndSort(1, criteria, sort);
+                    ArrayList<Account> teachers = accountDAO.getListAccountByRole(1);
                     accountDAO.setItemList(teachers);
                     accountDAO.setMaxPageItem(element);
                     accountDAO.setMaxTotalPage(10);
@@ -159,7 +138,79 @@ public class ViewListAdminController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int element;
+        try {
+            element = Integer.parseInt(request.getParameter("element"));
+        } catch (Exception e) {
+            element = 5;
+        }
+        request.setAttribute("element", element);
+        int[] elementOption = {3, 5, 7, 10, 15};
+        request.setAttribute("elementOption", elementOption);
+        
+        String criteria;
+            try {
+                criteria = request.getParameter("criteria");
+            } catch (Exception e) {
+                criteria = "name";
+            }
+            request.setAttribute("criteria", criteria);
+
+            boolean orderBy;
+            try {
+                orderBy = Boolean.valueOf(request.getParameter("orderBy"));
+            } catch (Exception e) {
+                orderBy = true;
+            }
+            request.setAttribute("orderBy", orderBy);
+
+            String sort = orderBy ? "" : "desc";
+            
+        //feedback
+            if (request.getServletPath().contains("feedback-list")) {
+                try {
+                    ArrayList<Account> accounts = accountDAO.getListAllAccounts();
+                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacksSort(criteria, sort);
+                    feedbackDAO.setItemList(feedbacks);
+                    feedbackDAO.setMaxPageItem(element);
+                    feedbackDAO.setMaxTotalPage(10);
+
+                    request.setAttribute("feedbackDAO", feedbackDAO);
+                    request.setAttribute("feedbacks", feedbacks);
+                    request.setAttribute("accounts", accounts);
+                } catch (Exception ex) {
+                    Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
+            } //student
+            else if (request.getServletPath().contains("student-list")) {
+                try {
+                    ArrayList<Account> students = accountDAO.getListAccountByRoleAndSort(2, criteria, sort);
+                    accountDAO.setItemList(students);
+                    accountDAO.setMaxPageItem(element);
+                    accountDAO.setMaxTotalPage(10);
+
+                    request.setAttribute("accountDAO", accountDAO);
+                    request.setAttribute("accountList", students);
+                } catch (Exception ex) {
+                    Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
+            } //teacher
+            else if (request.getServletPath().contains("teacher-list")) {
+                try {
+                    ArrayList<Account> teachers = accountDAO.getListAccountByRoleAndSort(1,criteria, sort);
+                    accountDAO.setItemList(teachers);
+                    accountDAO.setMaxPageItem(element);
+                    accountDAO.setMaxTotalPage(10);
+
+                    request.setAttribute("accountDAO", accountDAO);
+                    request.setAttribute("accountList", teachers);
+                } catch (Exception ex) {
+                    Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
+            }
     }
 
     /**

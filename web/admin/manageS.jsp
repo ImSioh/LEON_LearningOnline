@@ -3,17 +3,17 @@
 
 <c:set scope="page" var="pageNumber" value="${param.page != null ? param.page : 1}"/>
 <c:if test="${!(pageNumber >= 1 && pageNumber <= accountDAO.totalPage)}">
-    <c:redirect url="${baseUrl}"/>
+    <c:redirect url="/admin/student-list"/>
 </c:if>
 
-<input type="number" name="role" value="2" hidden/>
+<c:set var="role" value="2"/>
 
 <div id="content">
     <h1>Students Management</h1>
     <!-- <img src="assets/img/welcome_admin.jpg" alt="Welcome to Admin Homepage" width="100%" height="100%" style="margin: 0;"/> -->
 
     <!--Search-->
-    <!-- <form action="<c:url value="/admin/student-account-list/search"/>" method="get" style="">
+    <!-- <form action="<c:url value="/admin/student-list/search"/>" method="get" style="">
         <span class="button-action" style="display: flex;">
             <select name="optionSearch" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
                 <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
@@ -28,7 +28,7 @@
     </form> -->
 
     <!--Sort-->
-    <form action="<c:url value="${baseURL}"/>" method="get" style="margin-top: 10px;">
+    <form action="<c:url value="${baseURL}"/>" method="post" style="margin-top: 10px;">
         <span class="button-action" style="display: flex;">
             <select name="criteria" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
                 <option value="name" ${criteria eq "name"?"selected":""}>Name</option>
@@ -45,28 +45,16 @@
     </form>
 
     <!--Show items-->
-    <form action="<c:url value="/admin/student-account-list">
-              <c:param name="optionSearch" value="${optionSearch}"/>
-              <c:param name="searchFor" value="${searchFor}"/>
-              <c:param name="keyword" value="${keyword}"/>
-              <c:param name="page" value="${pageNumber - 1}"/>
-              <c:param name="element" value="${element}"/>
-          </c:url>" method="get" style="margin-top: 0;">
+    <form action="" method="post" style="margin-top: 0;">
         <span class="button-action" style="display: flex;">
             Show 
             <select name="element" style="width: 5%; height: 5%; margin: 5px; text-align: center;
                     border: 3px solid #e3f2fd; border-radius: 0.25em;">
                 <c:forEach items="${elementOption}" var="eO">
-                    <c:if test="${eO == element}">
-                        <option value="${eO}" selected>${eO}</option>
-                    </c:if>
-                    <c:if test="${eO != element}">
-                        <option value="${eO}">${eO}</option>
-                    </c:if>
+                    <option value="${eO}" ${element eq eO ?"selected":""}>${eO}</option>
                 </c:forEach>
             </select>
             entries
-            <!--<input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; margin: 32px">--> 
             <input type="submit" value="SHOW" id="show" class="btn-info" 
                    style="margin: 5px 5px; width: 5%; height: 5%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
@@ -94,17 +82,24 @@
                             <a href="/profile?id=${account.getAccountId()}">Profile</a>
                         </td>
                         <td>${account.getName()}</td>
-                        <td>account.getGender()</td>
+                        <td>
+                            <c:if test="${account.isGender()}">
+                                Male
+                            </c:if>
+                            <c:if test="${!account.isGender()}">
+                                Female
+                            </c:if>
+                        </td>
                         <td>${account.getEmail()}</td>
                         <td>${account.getAddress()}</td>
                         <td>${account.getPhoneNumber()}</td>
                         <td>${account.getCreateTime()}</td>
                         <td>
                             <c:if test="${account.isLocked()}">
-                                <a href="lock?sid=${account.getAccountId()}&status=open" onclick="return lockAcc()"><i class="fa-solid fa-lock"></i></a>
+                                <a href="lock?id=${account.getAccountId()}&status=open" onclick="return lockAcc()"><i class="fa-solid fa-lock"></i></a>
                                 </c:if>
                                 <c:if test="${account.isLocked()!=true}">
-                                <a href="lock?sid=${account.getAccountId()}&status=close" onclick="return lockAcc()"><i class="fa-solid fa-lock-open"></i></a>
+                                <a href="lock?id=${account.getAccountId()}&status=close" onclick="return lockAcc()"><i class="fa-solid fa-lock-open"></i></a>
                                 </c:if>
                         </td>
                     </tr>
@@ -113,7 +108,7 @@
         </table>
     </div>
 
-    <c:url value="admin/student-account-list" var="baseUrl">
+    <c:url value="admin/student-list" var="baseUrl">
 
     </c:url>
     <c:import url="/template/pagination-bar.jsp">

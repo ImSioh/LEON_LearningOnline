@@ -19,7 +19,7 @@ import java.util.UUID;
  *
  * @author Asus
  */
-@WebServlet(name = "LockAccountServlet", urlPatterns = {"/admin/lock"})
+@WebServlet(name = "LockAccountServlet", urlPatterns = {"/admin/student-list/lock", "/admin/teacher-list"})
 public class LockAccountController extends HttpServlet {
 
     /**
@@ -62,32 +62,45 @@ public class LockAccountController extends HttpServlet {
             throws ServletException, IOException {
         try {
 //            Account account = (Account) request.getAttribute("account");
-            AccountDAO accountDAO = new AccountDAO();
 
-            int check = 0;
-            boolean status = Boolean.valueOf(request.getParameter("status"));
-            //student
-            if (request.getServletPath().contains("student-account-list")) {
-                String id = request.getParameter("sid");
-                Account account = accountDAO.getAccountById(UUID.fromString(id));
-
-                check = accountDAO.lockAccount(account, status, id);
-                if (check > 0) {
-                    request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
-                }
-            } //teacher
-            else if (request.getServletPath().contains("teacher-account-list")) {
-                String id = request.getParameter("tid");
-                Account account = accountDAO.getAccountById(UUID.fromString(id));
-
-                check = accountDAO.lockAccount(account, status, id);
-                if (check > 0) {
-                    request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
-                }
+            //get request param
+            int role = Integer.parseInt(request.getParameter("role"));
+            String id = request.getParameter("id");
+            UUID uuid = UUID.fromString(id);
+            String status = request.getParameter("status");
+            boolean lock = false;
+            if (status.equals("open")) {
+                lock = false;
+            } else {
+                lock = true;
             }
+
+            System.out.println("Information of param: ");
+            System.out.println("role = " + role);
+            System.out.println("id = " + id);
+            System.out.println("status = " + status);
+            System.out.println("lock = " + lock);
+
+            //connect db
+            AccountDAO accountDAO = new AccountDAO();
+            Account account = accountDAO.getAccountById(UUID.fromString(id));
+            int check = accountDAO.lockAccount(account, lock, uuid);
+
+//            if (check > 0) {
+
+                request.setAttribute("check", check);
+                if (role == 1) {
+//                    request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/admin/teacher-list");
+                } else if (role == 2) {
+//                    request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/admin/student-list");
+                }
+//            } else {
+//                response.sendRedirect(request.getContextPath() + "/admin/student-list");
+//            }
         } catch (Exception e) {
         }
-
     }
 
     /**
@@ -101,7 +114,33 @@ public class LockAccountController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        //lock acc
+//            account.setLocked(lock);
+//            if (role == 1) {
+////                request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
+//                response.sendRedirect(request.getContextPath() + "/admin/teacher-list");
+//            } else if (role == 2) {
+////                request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
+//                response.sendRedirect(request.getContextPath() + "/admin/student-list");
+//            }
+//            int check = 0;
+//            //student
+//            if (request.getServletPath().contains("student-list")) {
+//
+//                check = accountDAO.lockAccount(account, status, id);
+//                if (check > 0) {
+//                    request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
+//                }
+//            } //teacher
+//            else if (request.getServletPath().contains("teacher-list")) {
+//                Account account = accountDAO.getAccountById(UUID.fromString(id));
+//
+//                check = accountDAO.lockAccount(account, status, id);
+//                if (check > 0) {
+//                    request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
+//                }
+//            }
     }
 
     /**
