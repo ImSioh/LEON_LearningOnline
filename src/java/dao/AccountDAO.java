@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class AccountDAO extends AbstractDAO<Account> {
-
+    
     public ArrayList<Account> getAccountsInClass(UUID classId) throws Exception {
         String query = "SELECT a.* FROM account a LEFT JOIN enrollment e ON a.account_id = e.account_id WHERE (e.class_id = ? AND e.accepted = TRUE) OR a.account_id = (SELECT c.account_id FROM class c WHERE c.class_id = ?)";
         return selectMany(query, Util.UUIDToByteArray(classId), Util.UUIDToByteArray(classId));
@@ -135,9 +135,19 @@ public class AccountDAO extends AbstractDAO<Account> {
         );
     }
 
-    public int lockAccount(Account account, boolean status, UUID id) throws Exception {
-        String query = "UPDATE account SET locked = ? WHERE account_id = ?;";
-        return update(query, status, id);
+    public int lockAccount(Account account, boolean status, String id) throws Exception {
+        String query = "UPDATE account SET locked= ? WHERE account_id = ?;";
+        return update(
+                query,
+                account.getName(),
+                account.getBirthDate(),
+                account.getAddress(),
+                account.getPhoneNumber(),
+                account.getPassword(),
+                account.getProfilePicture(),
+                account.isLocked(),
+                Util.UUIDToByteArray(account.getAccountId())
+        );
     }
 
     public static void main(String[] args) throws Exception {

@@ -18,7 +18,7 @@
                 <table class="table align-middle mb-0 bg-white" style="padding: -10px;">
                     <thead class="bg-light">               
                         <tr>
-                            <th>
+                            <th> 
                                 <i class="fas fa-sort fa-sm m-2" style="cursor: pointer;"></i> 
                                 Name 
                             </th>
@@ -59,14 +59,16 @@
                                 </td>
                                 <td>10/12</td>
                                 <td>
-                                    <a onclick="return confirm('Do you want to delete this student?')" eq true ? href="<c:url value="/teacher/class/delete-student?code=${param.code}&accountId=${listS.getAccountId()}" />" : href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded">
-                                        Delete
+                                    <a onclick="return confirm('Do you want to remove this student?')" eq true ? href="<c:url value="/teacher/class/remove-student?code=${param.code}&accountId=${listS.getAccountId()}" />" : href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-danger text-light">
+                                        Remove
                                     </a>
                                 </td>              
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
+                
+                
             </div>
         </div>
     </div>

@@ -22,7 +22,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "LeaveClass", urlPatterns = {"/student/class/leave", "/teacher/class/delete-student", "/teacher/class/reject-student"})
+@WebServlet(name = "LeaveClass", urlPatterns = {"/student/class/leave", "/teacher/class/remove-student", "/teacher/class/reject-student"})
 public class LeaveClass extends HttpServlet {
 
     @Override
@@ -52,7 +52,7 @@ public class LeaveClass extends HttpServlet {
         if (req.getServletPath().contains("/student/class/leave")) {
             resp.sendRedirect(req.getContextPath() + "/student/class");
         }
-        if (req.getServletPath().contains("/teacher/class/delete-student")) {
+        if (req.getServletPath().contains("/teacher/class/remove-student")) {
             req.getRequestDispatcher("/teacher/member.jsp").forward(req, resp);
         }
         if (req.getServletPath().contains("/teacher/class/reject-student")) {

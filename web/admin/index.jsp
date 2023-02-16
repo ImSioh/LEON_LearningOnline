@@ -13,10 +13,9 @@
     <!--Search-->
 
     <!--Sort-->
-    <form action="<c:url value="${baseURL}"/>" method="post" style="margin-top: 10px;">
+    <form action="<c:url value="${baseURL}"/>" method="get" style="margin-top: 10px;">
         <span class="button-action" style="display: flex;">
             <select name="criteria" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
-                <option value="name" ${criteria eq "name"?"selected":""}>Name</option>
                 <option value="title" ${criteria eq "title"?"selected":""}>Title</option>
                 <option value="email" ${criteria eq "email"?"selected":""}>Email</option>
                 <option value="role" ${criteria eq "role"?"selected":""}>Role</option>
@@ -31,16 +30,22 @@
     </form>
 
     <!--Show items-->
-    <form action="" method="post" style="margin-top: 0;">
+    <form action="<c:url value="${baseUrl}?page=${pageNumber}&element=${element}"/>" method="get" style="margin-top: 0;">
         <span class="button-action" style="display: flex;">
             Show 
             <select name="element" style="width: 5%; height: 5%; margin: 5px; text-align: center;
                     border: 3px solid #e3f2fd; border-radius: 0.25em;">
                 <c:forEach items="${elementOption}" var="eO">
-                    <option value="${eO}" ${element eq eO ?"selected":""}>${eO}</option>
+                    <c:if test="${eO == element}">
+                        <option value="${eO}" selected>${eO}</option>
+                    </c:if>
+                    <c:if test="${eO != element}">
+                        <option value="${eO}">${eO}</option>
+                    </c:if>
                 </c:forEach>
             </select>
             entries
+            <!--<input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; margin: 32px">--> 
             <input type="submit" value="SHOW" id="show" class="btn-info" 
                    style="margin: 5px 5px; width: 5%; height: 5%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
@@ -88,7 +93,7 @@
                                 <a href="<c:url value="/admin/response?Id=${fb.getFeedbackId()}"/>">Link</a>
                             </c:if>
                         </td>
-                        <td>${fb.getCreateTime()}</td>
+                        <td>fb.getSubmitTime()</td>
                     </tr>
                 </c:forEach>
             </tbody>

@@ -26,15 +26,6 @@ import java.util.logging.Logger;
 @WebServlet(name = "ViewListAdminController", urlPatterns = {"/admin/feedback-list", "/admin/student-account-list", "/admin/teacher-account-list"})
 public class ViewListAdminController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -52,15 +43,6 @@ public class ViewListAdminController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     AccountDAO accountDAO = new AccountDAO();
     FeedbackDAO feedbackDAO = new FeedbackDAO();
 
@@ -77,9 +59,26 @@ public class ViewListAdminController extends HttpServlet {
                 element = 10;
             }
             request.setAttribute("element", element);
-            int[] elementOption = {3, 5, 7, 10, 15};
+            int[] elementOption = {1, 2, 5, 10, 25};
             request.setAttribute("elementOption", elementOption);
 
+            String criteria;
+            try {
+                criteria = request.getParameter("criteria");
+            } catch (Exception e) {
+                criteria = "name";
+            }
+            request.setAttribute("criteria", criteria);
+
+            boolean orderBy;
+            try {
+                orderBy = Boolean.valueOf(request.getParameter("orderBy"));
+            } catch (Exception e) {
+                orderBy = true;
+            }
+            request.setAttribute("orderBy", orderBy);
+
+            String sort = orderBy ? "" : "desc";
             //feedback
             if (request.getServletPath().contains("feedback-list")) {
                 try {
@@ -100,7 +99,8 @@ public class ViewListAdminController extends HttpServlet {
             } //student
             else if (request.getServletPath().contains("student-account-list")) {
                 try {
-                    ArrayList<Account> students = accountDAO.getListAccountByRole(2);
+//                    ArrayList<Account> students = accountDAO.getListAccountByRole(2);
+                    ArrayList<Account> students = accountDAO.getListAccountByRoleAndSort(2, criteria, sort);
                     accountDAO.setItemList(students);
                     accountDAO.setMaxPageItem(element);
                     accountDAO.setMaxTotalPage(10);
@@ -114,7 +114,7 @@ public class ViewListAdminController extends HttpServlet {
             } //teacher
             else if (request.getServletPath().contains("teacher-account-list")) {
                 try {
-                    ArrayList<Account> teachers = accountDAO.getListAccountByRole(1);
+                    ArrayList<Account> teachers = accountDAO.getListAccountByRoleAndSort(1, criteria, sort);
                     accountDAO.setItemList(teachers);
                     accountDAO.setMaxPageItem(element);
                     accountDAO.setMaxTotalPage(10);
@@ -130,14 +130,6 @@ public class ViewListAdminController extends HttpServlet {
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -221,11 +213,6 @@ public class ViewListAdminController extends HttpServlet {
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";

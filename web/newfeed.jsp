@@ -9,7 +9,7 @@
 </style>
 <div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 56px;">
     <%@include file="/template/sidebar.jsp" %>
-    <div class="content-main  d-flex justify-content-center container position-relative">
+    <div class="content-main  d-flex justify-content-center container position-relative" style="max-width: 1100px;">
 
         <div class="card col-md-7 mt-4" style="height: fit-content;" >
             <div class="card-header">Create Post</div>

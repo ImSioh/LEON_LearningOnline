@@ -19,7 +19,7 @@ import java.util.UUID;
  *
  * @author Asus
  */
-@WebServlet(name = "LockAccountServlet", urlPatterns = {"/admin/student-list/lock", "/admin/teacher-list"})
+@WebServlet(name = "LockAccountServlet", urlPatterns = {"/admin/lock"})
 public class LockAccountController extends HttpServlet {
 
     /**
@@ -62,29 +62,7 @@ public class LockAccountController extends HttpServlet {
             throws ServletException, IOException {
         try {
 //            Account account = (Account) request.getAttribute("account");
-
-            //get request param
-            int role = Integer.parseInt(request.getParameter("role"));
-            String id = request.getParameter("id");
-            UUID uuid = UUID.fromString(id);
-            String status = request.getParameter("status");
-            boolean lock = false;
-            if (status.equals("open")) {
-                lock = false;
-            } else {
-                lock = true;
-            }
-
-            System.out.println("Information of param: ");
-            System.out.println("role = " + role);
-            System.out.println("id = " + id);
-            System.out.println("status = " + status);
-            System.out.println("lock = " + lock);
-
-            //connect db
             AccountDAO accountDAO = new AccountDAO();
-            Account account = accountDAO.getAccountById(UUID.fromString(id));
-            int check = accountDAO.lockAccount(account, lock, uuid);
 
 //            if (check > 0) {
             request.setAttribute("check", check);
@@ -100,6 +78,7 @@ public class LockAccountController extends HttpServlet {
 //            }
         } catch (Exception e) {
         }
+
     }
 
     /**
@@ -113,33 +92,7 @@ public class LockAccountController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        //lock acc
-//            account.setLocked(lock);
-//            if (role == 1) {
-////                request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
-//                response.sendRedirect(request.getContextPath() + "/admin/teacher-list");
-//            } else if (role == 2) {
-////                request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
-//                response.sendRedirect(request.getContextPath() + "/admin/student-list");
-//            }
-//            int check = 0;
-//            //student
-//            if (request.getServletPath().contains("student-list")) {
-//
-//                check = accountDAO.lockAccount(account, status, id);
-//                if (check > 0) {
-//                    request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
-//                }
-//            } //teacher
-//            else if (request.getServletPath().contains("teacher-list")) {
-//                Account account = accountDAO.getAccountById(UUID.fromString(id));
-//
-//                check = accountDAO.lockAccount(account, status, id);
-//                if (check > 0) {
-//                    request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
-//                }
-//            }
+        processRequest(request, response);
     }
 
     /**
