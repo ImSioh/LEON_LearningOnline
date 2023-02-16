@@ -29,7 +29,7 @@ import java.util.logging.Logger;
         maxRequestSize = 1024 * 1024 * 15
 )
 public class SettingClassController extends HttpServlet {
-
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -48,14 +48,14 @@ public class SettingClassController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(SettingClassController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String classCode = req.getParameter("code");
-
+        
         Part profilePicture = req.getPart("txtImg2");
         
         boolean txtStudentApprove = "on".equalsIgnoreCase(req.getParameter("txtStudentApprove"));
@@ -67,7 +67,7 @@ public class SettingClassController extends HttpServlet {
         if (profilePicture.getSize() > 5 * 1024 * 1024) {
             validForm = false;
         }
-
+        
         try {
             ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
             ClassObject clob = new ClassObject();
@@ -84,7 +84,7 @@ public class SettingClassController extends HttpServlet {
             } else {
                 clob.setClassPicture(classobj.getClassPicture());
             }
-     
+            
             clob.setAccountId(account.getAccountId());
             clob.setClassId(classobj.getClassId());
             clob.setCode(classCode);
@@ -95,13 +95,13 @@ public class SettingClassController extends HttpServlet {
                 clob.setEnrollApprove(false);
                 int updateErm = new EnrollmentDAO().updateEnrollment(classobj.getClassId());
             }
-
+            
             if (txtHideClass == true) {
                 clob.setHidden(true);
             } else {
                 clob.setHidden(false);
             }
-
+            
             if ((name.trim().equals(""))) {
                 clob.setName(classobj.getName());
             } else {
@@ -114,12 +114,13 @@ public class SettingClassController extends HttpServlet {
             }
             int clo = new ClassObjectDAO().updateClass(clob);
             req.setAttribute("classObject", classobj);
-            req.getRequestDispatcher("/newfeed.jsp").forward(req, resp);
+//            req.getRequestDispatcher("/newfeed.jsp").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/teacher/class/newfeed?code=" + classCode);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         // checkbox 
 
     }
-
+    
 }

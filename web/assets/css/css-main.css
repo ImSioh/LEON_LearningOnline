@@ -3,7 +3,9 @@
     background: white;
     min-width: 250px;
     max-width: 250px;
-    height: 100vh;
+    height: calc(100vh - 56px);
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -42,6 +44,6 @@ hr.h-color{
 }
 
 .card{
-/*    border-radius: 15px; overflow: hidden;*/
+    /*    border-radius: 15px; overflow: hidden;*/
 }
 
