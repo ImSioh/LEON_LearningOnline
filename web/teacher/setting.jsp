@@ -13,7 +13,7 @@
                     <form method="POST" action="<c:url value="/teacher/class/setting?code=${param.code}"/>" enctype="multipart/form-data">
                         <div class="form-group">
                             <label class="labels" style=" font-weight: bold !important; margin: 30px 0px 5px 0px!important">Name class</label>
-                            <input type="text" class="form-control" placeholder="${classObject.name}" name="txtName">
+                            <input type="text" class="form-control" placeholder="Enter class name..." name="txtName" value="${classObject.name}">
                         </div>
                         <div class=" form-switch form-check" style="padding-left: 0px !important; font-weight: bold !important; margin: 10px 0px !important">
                             <label class="form-check-label" >Student approve</label>

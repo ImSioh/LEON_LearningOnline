@@ -11,7 +11,7 @@
     <%@include file="/template/sidebar.jsp" %>
     <div class="content-main  d-flex justify-content-center container position-relative" style="max-width: 1100px;">
 
-        <div class="card col-md-7 mt-4" style="height: fit-content;" >
+        <div class="card col-md-9 mt-4" style="height: fit-content;" >
             <div class="card-header">Create Post</div>
             <div class="card-body">
                 <p class="card-text">
@@ -37,7 +37,7 @@
 
         <!--//for 1 post-->
 
-        <div class="newfeed-post card col-md-7 mt-4" style="height: 320px; " >
+        <div class="newfeed-post card col-md-9 mt-4" style="height: 320px; " >
             <div class="card-header">Post</div>
             <div class="card-body">
                 <p class="card-text">
@@ -48,7 +48,7 @@
 
         </div>
 
-        <div class="card col-md-7 mt-4" style="height: 320px; " >
+        <div class="card col-md-9 mt-4" style="height: 320px; " >
             <div class="card-header">Post</div>
             <div class="card-body">
                 <p class="card-text">
@@ -58,7 +58,7 @@
             </div>
 
         </div><!-- comment -->        
-        <div class="card col-md-7 mt-4" style="height: 320px; " >
+        <div class="card col-md-9 mt-4" style="height: 320px; " >
             <div class="card-header">Post</div>
             <div class="card-body">
                 <p class="card-text">
