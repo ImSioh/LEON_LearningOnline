@@ -61,22 +61,97 @@ public class ViewListAdminController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    AccountDAO accountDAO = new AccountDAO();
+    FeedbackDAO feedbackDAO = new FeedbackDAO();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            Account account = (Account) request.getAttribute("account");
-            AccountDAO accountDAO = new AccountDAO();
-            FeedbackDAO feedbackDAO = new FeedbackDAO();
+//            Account account = (Account) request.getAttribute("account");
 
             int element;
             try {
                 element = Integer.parseInt(request.getParameter("element"));
             } catch (Exception e) {
-                element = 2;
+                element = 10;
             }
             request.setAttribute("element", element);
-            int[] elementOption = {1, 2, 5, 10, 25};
+            int[] elementOption = {3, 5, 7, 10, 15};
+            request.setAttribute("elementOption", elementOption);
+
+            //feedback
+            if (request.getServletPath().contains("feedback-list")) {
+                try {
+                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacks();
+                    feedbackDAO.setItemList(feedbacks);
+                    feedbackDAO.setMaxPageItem(element);
+                    feedbackDAO.setMaxTotalPage(10);
+
+                    ArrayList<Account> accounts = accountDAO.getListAllAccounts();
+
+                    request.setAttribute("feedbackDAO", feedbackDAO);
+                    request.setAttribute("feedbacks", feedbacks);
+                    request.setAttribute("accounts", accounts);
+                } catch (Exception ex) {
+                    Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
+            } //student
+            else if (request.getServletPath().contains("student-account-list")) {
+                try {
+                    ArrayList<Account> students = accountDAO.getListAccountByRole(2);
+                    accountDAO.setItemList(students);
+                    accountDAO.setMaxPageItem(element);
+                    accountDAO.setMaxTotalPage(10);
+
+                    request.setAttribute("accountDAO", accountDAO);
+                    request.setAttribute("accountList", students);
+                } catch (Exception ex) {
+                    Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
+            } //teacher
+            else if (request.getServletPath().contains("teacher-account-list")) {
+                try {
+                    ArrayList<Account> teachers = accountDAO.getListAccountByRole(1);
+                    accountDAO.setItemList(teachers);
+                    accountDAO.setMaxPageItem(element);
+                    accountDAO.setMaxTotalPage(10);
+
+                    request.setAttribute("accountDAO", accountDAO);
+                    request.setAttribute("accountList", teachers);
+                } catch (Exception ex) {
+                    Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+//            Account account = (Account) request.getAttribute("account");
+
+            int element;
+            try {
+                element = Integer.parseInt(request.getParameter("element"));
+            } catch (Exception e) {
+                element = 10;
+            }
+            request.setAttribute("element", element);
+            int[] elementOption = {3, 5, 7, 10, 15};
             request.setAttribute("elementOption", elementOption);
 
             String criteria;
@@ -100,7 +175,6 @@ public class ViewListAdminController extends HttpServlet {
             if (request.getServletPath().contains("feedback-list")) {
                 try {
                     ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacksSort(criteria, sort);
-//                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacksAndPaging(element, 0);
                     feedbackDAO.setItemList(feedbacks);
                     feedbackDAO.setMaxPageItem(element);
                     feedbackDAO.setMaxTotalPage(10);
@@ -117,7 +191,6 @@ public class ViewListAdminController extends HttpServlet {
             } //student
             else if (request.getServletPath().contains("student-account-list")) {
                 try {
-//                    ArrayList<Account> students = accountDAO.getListAccountByRole(2);
                     ArrayList<Account> students = accountDAO.getListAccountByRoleAndSort(2, criteria, sort);
                     accountDAO.setItemList(students);
                     accountDAO.setMaxPageItem(element);
@@ -146,20 +219,6 @@ public class ViewListAdminController extends HttpServlet {
             }
         } catch (Exception e) {
         }
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**
