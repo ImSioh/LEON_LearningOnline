@@ -25,7 +25,7 @@
                             </th>
                             <th>School</th>
                             <th>Phone Number</th>                         
-                            <th>Actions</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,13 +58,15 @@
                                     <span class="">${listS.getPhoneNumber()}</span>
                                 </td>
 
-                                <td>
-                                    <a onclick="return confirm('Do you want to accept this student?')" eq true ? href="<c:url value="/teacher/class/accept-student?code=${param.code}&accountId=${listS.getAccountId()}" />":href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded">
-                                        Accept
-                                    </a>
-                                        <a onclick="return confirm('Do you want to reject this student?')" eq true ? href="<c:url value="/teacher/class/reject-student?code=${param.code}&accountId=${listS.getAccountId()}" />":href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded">
-                                       Reject
-                                    </a>
+                                <td class="">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a  onclick="return confirm('demo')" eq true ? href="<c:url value="/teacher/class/accept-student?code=${param.code}&accountId=${listS.getAccountId()}" />":href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-success text-light">
+                                            Accept <i class="fas fa-check"></i>
+                                        </a>
+                                        <a onclick="return confirm('demo')" eq true ? href="<c:url value="/teacher/class/accept-student?code=${param.code}&accountId=${listS.getAccountId()}" />":href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-danger text-light">
+                                            Reject <i class="fas fa-times"></i>
+                                        </a>
+                                    </div>
                                 </td>              
                             </tr>
                         <input type="hidden" value="${listS.getAccountId()}" name="accountId">
@@ -78,7 +80,7 @@
 <!--</div>-->
 <c:import url="../template/footer.jsp" />
 <script>
-    function confirmFunction(){
+    function confirmFunction() {
         alert("Accept student successfully"");
     }
 </script>
