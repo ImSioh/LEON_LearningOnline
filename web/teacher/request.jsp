@@ -59,8 +59,11 @@
                                 </td>
 
                                 <td>
-                                    <a onclick="confirmFunction()" href="<c:url value="/teacher/class/accept-student?code=${param.code}&accountId=${listS.getAccountId()}" />" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded">
+                                    <a onclick="return confirm('demo')" eq true ? href="<c:url value="/teacher/class/accept-student?code=${param.code}&accountId=${listS.getAccountId()}" />":href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded">
                                         Accept
+                                    </a>
+                                        <a onclick="return confirm('demo')" eq true ? href="<c:url value="/teacher/class/accept-student?code=${param.code}&accountId=${listS.getAccountId()}" />":href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded">
+                                       Reject
                                     </a>
                                 </td>              
                             </tr>
@@ -75,7 +78,7 @@
 <!--</div>-->
 <c:import url="../template/footer.jsp" />
 <script>
-    function confirmFunction() {
+    function confirmFunction(){
         alert("Accept student successfully"");
     }
 </script>
