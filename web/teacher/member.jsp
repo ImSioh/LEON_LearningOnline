@@ -18,7 +18,7 @@
                 <table class="table align-middle mb-0 bg-white" style="padding: -10px;">
                     <thead class="bg-light">               
                         <tr>
-                            <th>
+                            <th> 
                                 <i class="fas fa-sort fa-sm m-2" style="cursor: pointer;"></i> 
                                 Name 
                             </th>
@@ -67,6 +67,8 @@
                         </c:forEach>
                     </tbody>
                 </table>
+                
+                
             </div>
         </div>
     </div>
