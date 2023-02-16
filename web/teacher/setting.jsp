@@ -25,9 +25,9 @@
                             </div>                           
                             <div>                                
                                 <p id="msg-error" style="display: none;">Your upload file must less than 5MB</p>
-                                <label for="uploadImgProfile2" id="change-img-profile" class="mt-5 position-relative " >
+                                <label for="uploadImgProfile2" style="width: 100%" id="change-img-profile" class="mt-5 position-relative " >
                                     <div id="profile-img2" style="
-                                         overflow: hidden; width: 100% ; width: 930px; height: 100%;height: 208px; background-position: center;
+                                         overflow: hidden;width: 100% ; height: 100%;height: 208px; background-position: center;
                                          background-repeat: no-repeat;
                                          background-size: cover;
                                          background-image: url(<c:url value="${classObject.getClassPicture() == null ? '/assets/img/Common_picture.png' : classObject.getClassPicture()}"/>);

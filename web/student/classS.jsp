@@ -25,9 +25,9 @@
                             </div>
                             <div class="right position-absolute col-md-6" style="top:0; bottom: 0;right: 0;">
                                 <div class="input-group rounded row" style="">
-                                    <form action="<%=path%>/student/search" method="post">
-                                        <input type="search" id="searchBar" class="form-control rounded" value="${searchName}" placeholder="Search" name="searchName" aria-label="Search" aria-describedby="search-addon" />
-                                    </form>
+
+                                    <input type="search" id="searchBar" class="form-control rounded" value="${searchName}" placeholder="Search" name="searchName" aria-label="Search" aria-describedby="search-addon" />
+
                                 </div>
                             </div>
                         </ol>
@@ -39,21 +39,21 @@
                     <div class="row">
                         <c:if test="${verified}">
                             <c:forEach items="${co}" var="co">
-                                
-                                    <div class="col-lg-3" style="margin-bottom: 24px;">
-                                        <a href="<c:url value="/student/class/newfeed?code=${co.getCode()}"/>" style="text-decoration: none;">
-                                            <div class="card" style=" border-radius: 15px; overflow: hidden;">
-                                                <div style="overflow: hidden; width: 100%; height: 100%;height: 188px; background-size: cover;
-                                                     background-position: center;
-                                                     background-image: url(<c:url value="${co.getClassPicture() == null ? '/assets/img/Common_picture.png' : co.getClassPicture()}"/>)"> 
-                                                </div>
-                                                <div class="card-body">
-                                                    <h5 class="card-title"  style="padding: 4px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${co.getName()}</h5>
-                                                </div>
+
+                                <div class="col-lg-3" style="margin-bottom: 24px;">
+                                    <a href="<c:url value="/student/class/newfeed?code=${co.getCode()}"/>" style="text-decoration: none;">
+                                        <div class="card" style=" border-radius: 15px; overflow: hidden;">
+                                            <div style="overflow: hidden; width: 100%; height: 100%;height: 188px; background-size: cover;
+                                                 background-position: center;
+                                                 background-image: url(<c:url value="${co.getClassPicture() == null ? '/assets/img/Common_picture.png' : co.getClassPicture()}"/>)"> 
                                             </div>
-                                        </a>
-                                    </div>
-                                
+                                            <div class="card-body">
+                                                <h5 class="card-title"  style="padding: 4px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${co.getName()}</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
 
                             </c:forEach>
                         </c:if>
@@ -69,21 +69,21 @@
                     <div class="row">
                         <c:if test="${verified}">
                             <c:forEach items="${classobjna}" var="co">
-                                
-                                    <div class="col-lg-3" style="margin-bottom: 24px;">
-                                        <a href="<c:url value="/student/class/newfeed?code=${co.getCode()}"/>" style="text-decoration: none;">
-                                            <div class="card" style=" border-radius: 15px; overflow: hidden;">
-                                                <div style="overflow: hidden; width: 100%; height: 100%;height: 188px; background-size: cover;
-                                                     background-position: center;
-                                                     background-image: url(<c:url value="${co.getClassPicture() == null ? '/assets/img/Common_picture.png' : co.getClassPicture()}"/>)"> 
-                                                </div>
-                                                <div class="card-body">
-                                                    <h5 class="card-title"  style="padding: 4px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${co.getName()}</h5>
-                                                </div>
+
+                                <div class="col-lg-3" style="margin-bottom: 24px;">
+                                    <a href="<c:url value="/student/class/newfeed?code=${co.getCode()}"/>" style="text-decoration: none;">
+                                        <div class="card" style=" border-radius: 15px; overflow: hidden;">
+                                            <div style="overflow: hidden; width: 100%; height: 100%;height: 188px; background-size: cover;
+                                                 background-position: center;
+                                                 background-image: url(<c:url value="${co.getClassPicture() == null ? '/assets/img/Common_picture.png' : co.getClassPicture()}"/>)"> 
                                             </div>
-                                        </a>
-                                    </div>
-                                
+                                            <div class="card-body">
+                                                <h5 class="card-title"  style="padding: 4px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${co.getName()}</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
 
                             </c:forEach>
                         </c:if>
@@ -126,7 +126,7 @@
         var classList = document.querySelector("#ex-with-icons-content > .active").querySelector("div.row");
         classList.textContent = "";
         var result = await response.json();
-        
+
         if (result.length === 0) {
             var classElementBegin = createElement({
                 tagName: "div",
@@ -148,7 +148,7 @@
             classList.append(classElementBegin2);
             return;
         }
-        
+
         result.forEach(item => {
             var pictureURL = item.classPicture ? item.classPicture.substring(1) : "assets/img/Common_picture.png";
             var classElement = createElement({
@@ -185,7 +185,7 @@
                     }]
             });
             classList.append(classElement);
-            
+
         })
     }
 
