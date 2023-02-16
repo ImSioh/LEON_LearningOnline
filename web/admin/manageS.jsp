@@ -51,16 +51,10 @@
             <select name="element" style="width: 5%; height: 5%; margin: 5px; text-align: center;
                     border: 3px solid #e3f2fd; border-radius: 0.25em;">
                 <c:forEach items="${elementOption}" var="eO">
-                    <c:if test="${eO == element}">
-                        <option value="${eO}" selected>${eO}</option>
-                    </c:if>
-                    <c:if test="${eO != element}">
-                        <option value="${eO}">${eO}</option>
-                    </c:if>
+                    <option value="${eO}" ${element eq eO ?"selected":""}>${eO}</option>
                 </c:forEach>
             </select>
             entries
-            <!--<input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; margin: 32px">--> 
             <input type="submit" value="SHOW" id="show" class="btn-info" 
                    style="margin: 5px 5px; width: 5%; height: 5%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
