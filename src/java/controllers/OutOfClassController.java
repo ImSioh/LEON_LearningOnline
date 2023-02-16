@@ -26,7 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-@WebServlet(name = "LeaveClass", urlPatterns = {"/student/class/leave", "/teacher/class/delete-student", "/teacher/class/reject-student"})
+@WebServlet(name = "LeaveClass", urlPatterns = {"/student/class/leave", "/teacher/class/remove-student", "/teacher/class/reject-student"})
 public class OutOfClassController extends HttpServlet {
 
     @Override
