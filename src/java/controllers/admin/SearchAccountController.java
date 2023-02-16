@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-@WebServlet(name = "SearchAdminController", urlPatterns = {"/admin/search"})
-public class SearchAdminController extends HttpServlet {
+@WebServlet(name = "SearchAccountController", urlPatterns = {"/admin/student-account-list/search", "/admin/teacher-account-list/search"})
+public class SearchAccountController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
