@@ -22,7 +22,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "LeaveClass", urlPatterns = {"/student/class/leave", "/teacher/class/delete-student"})
+@WebServlet(name = "LeaveClass", urlPatterns = {"/student/class/leave", "/teacher/class/delete-student","/teacher/class/reject-student"})
 public class LeaveClass extends HttpServlet {
 
     @Override

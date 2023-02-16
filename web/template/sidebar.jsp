@@ -25,7 +25,7 @@
         <li class="${activeMB}"><a href="<c:url value="/${role}/class/member-list?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block active">Members</a> </li>      
         <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> Assignment</a> </li> 
         <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">  Rank</a> </li> 
-        <li class=""><a href="<c:url value="/${role}/class/member-request-list?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block">request</a> </li> 
+        <li class="${activeRQ}"><a href="<c:url value="/${role}/class/member-request-list?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block">request</a> </li> 
 
         <hr class="h-color mx-2">
         <c:if test="${account.getRole() == 1}">
