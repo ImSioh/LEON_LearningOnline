@@ -60,10 +60,10 @@
 
                                 <td class="">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a  onclick="return confirm('demo')" eq true ? href="<c:url value="/teacher/class/accept-student?code=${param.code}&accountId=${listS.getAccountId()}" />":href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-success text-light">
+                                        <a  onclick="return confirm('Do you want accept student?')" eq true ? href="<c:url value="/teacher/class/accept-student?code=${param.code}&accountId=${listS.getAccountId()}" />":href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-success text-light">
                                             Accept <i class="fas fa-check"></i>
                                         </a>
-                                        <a onclick="return confirm('demo')" eq true ? href="<c:url value="/teacher/class/accept-student?code=${param.code}&accountId=${listS.getAccountId()}" />":href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-danger text-light">
+                                        <a onclick="return confirm('Do you want reject student?')" eq true ? href="<c:url value="/teacher/class/reject-student?code=${param.code}&accountId=${listS.getAccountId()}" />":href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-danger text-light">
                                             Reject <i class="fas fa-times"></i>
                                         </a>
                                     </div>
