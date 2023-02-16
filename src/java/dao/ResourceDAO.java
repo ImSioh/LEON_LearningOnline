@@ -20,9 +20,14 @@ public class ResourceDAO extends AbstractDAO<Resource> {
         );
     }
     
-    public ArrayList<Resource> getResources(UUID accountId) throws Exception {
+    public ArrayList<Resource> getResourcesByAccount(UUID accountId) throws Exception {
         String query = "SELECT resource_id, account_id, url, thumbnail, mime_type FROM resource r WHERE r.account_id = ?";
         return selectMany(query, Util.UUIDToByteArray(accountId));
+    }
+    
+    public ArrayList<Resource> getResourcesByPost(UUID postId) throws Exception {
+        String query = "SELECT r.* FROM post_resource pr LEFT JOIN resource r ON pr.resource_id = r.resource_id WHERE pr.post_id = ?";
+        return selectMany(query, Util.UUIDToByteArray(postId));
     }
 
     @Override

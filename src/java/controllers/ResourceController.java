@@ -24,7 +24,7 @@ public class ResourceController extends HttpServlet {
                 return;
             }
             
-            ArrayList<Resource> resources = new ResourceDAO().getResources(account.getAccountId());
+            ArrayList<Resource> resources = new ResourceDAO().getResourcesByAccount(account.getAccountId());
             Gson gson = new Gson();
             resp.setContentType("application/json");
             resp.setCharacterEncoding("utf-8");

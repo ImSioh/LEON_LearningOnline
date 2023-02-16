@@ -1,6 +1,7 @@
 package dto;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Post {
@@ -11,6 +12,7 @@ public class Post {
     private boolean pin;
     private String content;
     private Timestamp createTime;
+    public ArrayList<Resource> resources = null;
 
     public Post(UUID postId, UUID accountId, UUID classId, boolean pin, String content, Timestamp createTime) {
         this.postId = postId;

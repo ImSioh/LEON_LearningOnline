@@ -1,10 +1,15 @@
 package controllers;
 
+import com.google.gson.Gson;
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
 import dao.EnrollmentDAO;
+import dao.PostDAO;
+import dao.ResourceDAO;
 import dto.Account;
 import dto.ClassObject;
+import dto.Post;
+import dto.Resource;
 import helpers.Constant;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -13,6 +18,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "NewFeedController", urlPatterns = {"/teacher/class/newfeed", "/student/class/newfeed"})
 public class NewFeedController extends HttpServlet {
@@ -42,6 +50,16 @@ public class NewFeedController extends HttpServlet {
                 return;
             }
             
+            ArrayList<Post> posts = new PostDAO().getPostsInClass(classObject.getClassId());
+            ResourceDAO resourceDAO = new ResourceDAO();
+            for (Post post : posts) {
+                post.resources = resourceDAO.getResourcesByPost(post.getPostId());
+            }
+            
+            Gson gson = new Gson();
+            String postArr = gson.toJson(posts);
+            
+            req.setAttribute("postObject", postArr);
             req.setAttribute("classObject", classObject);
             req.setAttribute("activeNF", "active");
             req.setAttribute("formater", new SimpleDateFormat(Constant.FORMAT_DATETIME));

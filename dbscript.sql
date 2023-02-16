@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS resource(
   account_id binary(16) NOT NULL,
   url varchar(100) CHARACTER SET utf8mb4 NOT NULL,
   thumbnail varchar(100) CHARACTER set utf8mb4,
-  mime_type varchar(50) CHARACTER set utf8mb4 NOT NULL,
+  mime_type varchar(100) CHARACTER set utf8mb4 NOT NULL,
   PRIMARY KEY (resource_id),
   FOREIGN KEY (account_id) REFERENCES account(account_id)
 );
