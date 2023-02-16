@@ -19,12 +19,12 @@
                     <thead class="bg-light">               
                         <tr>
                             <th>
-                                <a onclick="sortTable(0)" class="fas fa-sort-alpha-down-alt fa-sm m-2" style="cursor: pointer; text-decoration: none"></a>   
+                                <a onclick="sortTable(0)" class="fas fa-sort fa-sm m-2" style="cursor: pointer; text-decoration: none"></a>   
                                 Name 
                             </th>
                             <th>School</th>
                             <c:if test="${account.getRole() ==1}"><th>Phone Number</th></c:if>
-                            <c:if test="${account.getRole() ==1}"> <th><a onclick="sortTable(4) class="fas fa-sort-numeric-up-alt fa-sm" style="cursor: pointer;text-decoration: none"></a>  
+                            <c:if test="${account.getRole() ==1}"> <th><a onclick="sortTable(4)" class="fas fa-sort fa-sm" style="cursor: pointer;text-decoration: none"></a>  
                                 Exercise  </th></c:if>
                             <c:if test="${account.getRole() ==1}"> <th>Actions</th></c:if>
                         </tr>
@@ -113,3 +113,6 @@
     }
   }
   </script>
+  
+  
+  
