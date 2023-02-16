@@ -22,7 +22,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "LeaveClass", urlPatterns = {"/student/class/leave", "/teacher/class/delete-student","/teacher/class/reject-student"})
+@WebServlet(name = "LeaveClass", urlPatterns = {"/student/class/leave", "/teacher/class/delete-student", "/teacher/class/reject-student"})
 public class LeaveClass extends HttpServlet {
 
     @Override
@@ -33,7 +33,7 @@ public class LeaveClass extends HttpServlet {
             req.setAttribute("classCode", classCode);
             ClassObjectDAO co = new ClassObjectDAO();
             ClassObject classObject = co.getClassByCode(classCode);
-            req.setAttribute("classObject", classObject);    
+            req.setAttribute("classObject", classObject);
             String AccountId = req.getParameter("accountId");
             req.setAttribute("teacher", new AccountDAO().getAccountById(classObject.getAccountId()));
             try {
@@ -54,6 +54,9 @@ public class LeaveClass extends HttpServlet {
         }
         if (req.getServletPath().contains("/teacher/class/delete-student")) {
             req.getRequestDispatcher("/teacher/member.jsp").forward(req, resp);
+        }
+        if (req.getServletPath().contains("/teacher/class/reject-student")) {
+            req.getRequestDispatcher("/teacher/request.jsp").forward(req, resp);
         }
 
     }

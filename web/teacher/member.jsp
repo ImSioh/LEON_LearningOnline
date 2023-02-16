@@ -59,7 +59,7 @@
                                 </td>
                                 <td>10/12</td>
                                 <td>
-                                    <a onclick="return confirm('demo')" eq true ? href="<c:url value="/teacher/class/delete-student?code=${param.code}&accountId=${listS.getAccountId()}" />" : href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded">
+                                    <a onclick="return confirm('Do you want to delete this student?')" eq true ? href="<c:url value="/teacher/class/delete-student?code=${param.code}&accountId=${listS.getAccountId()}" />" : href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded">
                                         Delete
                                     </a>
                                 </td>              
