@@ -10,7 +10,7 @@
     <h1>Teachers Management</h1>
 
         <!--Search-->
-    <!-- <form action="<c:url value="/admin/teacher-account-list/search"/>" method="get" style="">
+    <!-- <form action="<c:url value="/admin/teacher-list/search"/>" method="get" style="">
         <span class="button-action" style="display: flex;">
             <select name="optionSearch" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
                 <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
@@ -96,7 +96,7 @@
         </table>
     </div>
                  
-    <c:url value="admin/teacher-account-list" var="baseUrl">
+    <c:url value="admin/teacher-list" var="baseUrl">
 
     </c:url>
     <c:import url="/template/pagination-bar.jsp">

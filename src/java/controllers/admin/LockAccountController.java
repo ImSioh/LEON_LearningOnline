@@ -19,7 +19,7 @@ import java.util.UUID;
  *
  * @author Asus
  */
-@WebServlet(name = "LockAccountServlet", urlPatterns = {"/admin/lock"})
+@WebServlet(name = "LockAccountServlet", urlPatterns = {"/admin/student-list/lock", "/admin/teacher-list"})
 public class LockAccountController extends HttpServlet {
 
     /**
@@ -90,14 +90,14 @@ public class LockAccountController extends HttpServlet {
 
                 request.setAttribute("check", check);
                 if (role == 1) {
-                    request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
-//                    response.sendRedirect(request.getContextPath() + "/admin/teacher-account-list");
+//                    request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/admin/teacher-list");
                 } else if (role == 2) {
-                    request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
-//                    response.sendRedirect(request.getContextPath() + "/admin/student-account-list");
+//                    request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/admin/student-list");
                 }
 //            } else {
-//                response.sendRedirect(request.getContextPath() + "/admin/student-account-list");
+//                response.sendRedirect(request.getContextPath() + "/admin/student-list");
 //            }
         } catch (Exception e) {
         }
@@ -119,21 +119,21 @@ public class LockAccountController extends HttpServlet {
 //            account.setLocked(lock);
 //            if (role == 1) {
 ////                request.getRequestDispatcher("/admin/manageT.jsp").forward(request, response);
-//                response.sendRedirect(request.getContextPath() + "/admin/teacher-account-list");
+//                response.sendRedirect(request.getContextPath() + "/admin/teacher-list");
 //            } else if (role == 2) {
 ////                request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
-//                response.sendRedirect(request.getContextPath() + "/admin/student-account-list");
+//                response.sendRedirect(request.getContextPath() + "/admin/student-list");
 //            }
 //            int check = 0;
 //            //student
-//            if (request.getServletPath().contains("student-account-list")) {
+//            if (request.getServletPath().contains("student-list")) {
 //
 //                check = accountDAO.lockAccount(account, status, id);
 //                if (check > 0) {
 //                    request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
 //                }
 //            } //teacher
-//            else if (request.getServletPath().contains("teacher-account-list")) {
+//            else if (request.getServletPath().contains("teacher-list")) {
 //                Account account = accountDAO.getAccountById(UUID.fromString(id));
 //
 //                check = accountDAO.lockAccount(account, status, id);

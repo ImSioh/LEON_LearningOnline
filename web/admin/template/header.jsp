@@ -50,11 +50,11 @@
                                        style="color: #1e88e5; font-size: 15px;">Feedback</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="teacher-account-list"
+                                    <a class="nav-link" href="teacher-list"
                                        style="color: #1e88e5; font-size: 15px;">Teacher</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="student-account-list"
+                                    <a class="nav-link" href="student-list"
                                        style="color: #1e88e5; font-size: 15px;">Student</a>
                                 </li>
                             </ul>

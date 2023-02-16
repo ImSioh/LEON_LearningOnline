@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author Asus
  */
-@WebServlet(name = "ViewListAdminController", urlPatterns = {"/admin/feedback-list", "/admin/student-account-list", "/admin/teacher-account-list"})
+@WebServlet(name = "ViewListAdminController", urlPatterns = {"/admin/feedback-list", "/admin/student-list", "/admin/teacher-list"})
 public class ViewListAdminController extends HttpServlet {
 
     /**
@@ -95,7 +95,7 @@ public class ViewListAdminController extends HttpServlet {
                 }
                 request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
             } //student
-            else if (request.getServletPath().contains("student-account-list")) {
+            else if (request.getServletPath().contains("student-list")) {
                 try {
                     ArrayList<Account> students = accountDAO.getListAccountByRole(2);
                     accountDAO.setItemList(students);
@@ -109,7 +109,7 @@ public class ViewListAdminController extends HttpServlet {
                 }
                 request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
             } //teacher
-            else if (request.getServletPath().contains("teacher-account-list")) {
+            else if (request.getServletPath().contains("teacher-list")) {
                 try {
                     ArrayList<Account> teachers = accountDAO.getListAccountByRole(1);
                     accountDAO.setItemList(teachers);
@@ -183,7 +183,7 @@ public class ViewListAdminController extends HttpServlet {
                 }
                 request.getRequestDispatcher("/admin/index.jsp").forward(request, response);
             } //student
-            else if (request.getServletPath().contains("student-account-list")) {
+            else if (request.getServletPath().contains("student-list")) {
                 try {
                     ArrayList<Account> students = accountDAO.getListAccountByRoleAndSort(2, criteria, sort);
                     accountDAO.setItemList(students);
@@ -197,7 +197,7 @@ public class ViewListAdminController extends HttpServlet {
                 }
                 request.getRequestDispatcher("/admin/manageS.jsp").forward(request, response);
             } //teacher
-            else if (request.getServletPath().contains("teacher-account-list")) {
+            else if (request.getServletPath().contains("teacher-list")) {
                 try {
                     ArrayList<Account> teachers = accountDAO.getListAccountByRoleAndSort(1,criteria, sort);
                     accountDAO.setItemList(teachers);

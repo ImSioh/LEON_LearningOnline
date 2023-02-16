@@ -3,7 +3,7 @@
 
 <c:set scope="page" var="pageNumber" value="${param.page != null ? param.page : 1}"/>
 <c:if test="${!(pageNumber >= 1 && pageNumber <= accountDAO.totalPage)}">
-    <c:redirect url="/admin/student-account-list"/>
+    <c:redirect url="/admin/student-list"/>
 </c:if>
 
 <c:set var="role" value="2"/>
@@ -13,7 +13,7 @@
     <!-- <img src="assets/img/welcome_admin.jpg" alt="Welcome to Admin Homepage" width="100%" height="100%" style="margin: 0;"/> -->
 
     <!--Search-->
-    <!-- <form action="<c:url value="/admin/student-account-list/search"/>" method="get" style="">
+    <!-- <form action="<c:url value="/admin/student-list/search"/>" method="get" style="">
         <span class="button-action" style="display: flex;">
             <select name="optionSearch" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
                 <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
@@ -108,7 +108,7 @@
         </table>
     </div>
 
-    <c:url value="admin/student-account-list" var="baseUrl">
+    <c:url value="admin/student-list" var="baseUrl">
 
     </c:url>
     <c:import url="/template/pagination-bar.jsp">
