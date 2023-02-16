@@ -3,7 +3,7 @@
 
 <c:set scope="page" var="pageNumber" value="${param.page != null ? param.page : 1}"/>
 <c:if test="${!(pageNumber >= 1 && pageNumber <= accountDAO.totalPage)}">
-    <c:redirect url="${baseUrl}"/>
+    <c:redirect url="/admin/student-account-list"/>
 </c:if>
 
 <c:set var="role" value="2"/>
@@ -28,7 +28,7 @@
     </form> -->
 
     <!--Sort-->
-    <form action="<c:url value="${baseURL}"/>" method="get" style="margin-top: 10px;">
+    <form action="<c:url value="${baseURL}"/>" method="post" style="margin-top: 10px;">
         <span class="button-action" style="display: flex;">
             <select name="criteria" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
                 <option value="name" ${criteria eq "name"?"selected":""}>Name</option>
@@ -45,13 +45,7 @@
     </form>
 
     <!--Show items-->
-    <form action="<c:url value="/admin/student-account-list">
-              <c:param name="optionSearch" value="${optionSearch}"/>
-              <c:param name="searchFor" value="${searchFor}"/>
-              <c:param name="keyword" value="${keyword}"/>
-              <c:param name="page" value="${pageNumber - 1}"/>
-              <c:param name="element" value="${element}"/>
-          </c:url>" method="get" style="margin-top: 0;">
+    <form action="" method="post" style="margin-top: 0;">
         <span class="button-action" style="display: flex;">
             Show 
             <select name="element" style="width: 5%; height: 5%; margin: 5px; text-align: center;
@@ -94,7 +88,14 @@
                             <a href="/profile?id=${account.getAccountId()}">Profile</a>
                         </td>
                         <td>${account.getName()}</td>
-                        <td>${account.isGender()}</td>
+                        <td>
+                            <c:if test="${account.isGender()}">
+                                Male
+                            </c:if>
+                            <c:if test="${!account.isGender()}">
+                                Female
+                            </c:if>
+                        </td>
                         <td>${account.getEmail()}</td>
                         <td>${account.getAddress()}</td>
                         <td>${account.getPhoneNumber()}</td>

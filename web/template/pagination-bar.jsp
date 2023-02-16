@@ -9,11 +9,11 @@
 </c:if>
 <c:set scope="page" var="pageRange" value="${modelDAO.getPageRange(pageNumber)}"/>
 
-<c:set scope="page" var="optionSearch" value="${optionSearch}"/>
-<c:set scope="page" var="searchFor" value="${searchFor}"/>
-<c:set scope="page" var="keyword" value="${keyword}"/>
-<c:set scope="page" var="criteria" value="${criteria}"/>
-<c:set scope="page" var="orderBy" value="${orderBy}"/>
+<%--<c:set scope="page" var="optionSearch" value="${optionSearch}"/>--%>
+<%--<c:set scope="page" var="searchFor" value="${searchFor}"/>--%>
+<%--<c:set scope="page" var="keyword" value="${keyword}"/>--%>
+<%--<c:set scope="page" var="criteria" value="${criteria}"/>--%>
+<%--<c:set scope="page" var="orderBy" value="${orderBy}"/>--%>
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end">
@@ -28,7 +28,7 @@
                            <%--<c:param name="criteria" value="${criteria}"/>--%>
                            <%--<c:param name="orderBy" value="${orderBy}"/>--%>
                            <c:param name="page" value="${pageNumber - 1}"/>
-                           <c:param name="element" value="${element}"/>
+                           <%--<c:param name="element" value="${element}"/>--%>
                        </c:url> ">
                         Previous
                     </a>
@@ -53,7 +53,7 @@
                             <%--<c:param name="criteria" value="${criteria}"/>--%>
                             <%--<c:param name="orderBy" value="${orderBy}"/>--%>
                             <c:param name="page" value="${page}"/>
-                            <c:param name="element" value="${element}"/>
+                            <%--<c:param name="element" value="${element}"/>--%>
                         </c:url> "> 
                         ${page}
                     </a>
@@ -76,7 +76,7 @@
                            <%--<c:param name="criteria" value="${criteria}"/>--%>
                            <%--<c:param name="orderBy" value="${orderBy}"/>--%>
                            <c:param name="page" value="${pageNumber + 1}"/>
-                           <c:param name="element" value="${element}"/>
+                           <%--<c:param name="element" value="${element}"/>--%>
                        </c:url> ">
                         Next
                     </a>
