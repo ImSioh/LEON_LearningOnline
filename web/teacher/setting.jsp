@@ -9,38 +9,38 @@
             <div class="card-body">
                 <div class="signup-form">
                     <h2 class="form-title">Setting</h2>
-                    <form method="POST" action="<%=path%>/teacher/class/setting?code=${param.code}" enctype="multipart/form-data">
+
+                    <form method="POST" action="<c:url value="/teacher/class/setting?code=${param.code}"/>" enctype="multipart/form-data">
                         <div class="form-group">
                             <label class="labels" style=" font-weight: bold !important; margin: 30px 0px 5px 0px!important">Name class</label>
-                            <input type="text" class="form-control" placeholder="${account.getName()}" name="txtName">
+                            <input type="text" class="form-control" placeholder="${classObject.name}" name="txtName">
                         </div>
                         <div class=" form-switch form-check" style="padding-left: 0px !important; font-weight: bold !important; margin: 10px 0px !important">
                             <label class="form-check-label" >Student approve</label>
-                            <input class="form-check-input" style="float: right !important" name="txtStudentApprove" checked type="checkbox" >
-                        </div>
-                        <div class=" form-switch form-check" style="padding-left: 0px !important; font-weight: bold !important; margin: 10px 0px 0px 0px !important">
-                            <label class="form-check-label" >Hidden class</label>
-                            <input class="form-check-input"  style="float: right !important" name="txtHideClass" checked type="checkbox">
-                        </div>
-
-                     
-                            
-                        <div>                                
-                            <p id="msg-error" style="display: none;">Your upload file must less than 5MB</p>
-                            <label for="uploadImgProfile" id="change-img-profile" class="rounded-circle mt-5 position-relative " >
-                                <div id="profile-img" style="
-                                     overflow: hidden; width: 100% ; width: 930px; height: 100%;height: 208px; background-size: cover;
-                                     background-position: center;
-                                     background-image: url(<c:url value="${account.getProfilePicture()==null ? '/assets/img/about.png' :account.getProfilePicture()}"/>);
-                                     ">
+                            <input class="form-check-input" style="float: right !important" name="txtStudentApprove" <c:if test="${classObject.isEnrollApprove() == true}">checked</c:if> type="checkbox" >
+                            </div>
+                            <div class=" form-switch form-check" style="padding-left: 0px !important; font-weight: bold !important; margin: 10px 0px 0px 0px !important">
+                                <label class="form-check-label" >Hidden class</label>
+                                <input class="form-check-input"  style="float: right !important" name="txtHideClass" <c:if test="${classObject.isHidden() == true}">checked</c:if> type="checkbox">
+                            </div>                           
+                            <div>                                
+                                <p id="msg-error" style="display: none;">Your upload file must less than 5MB</p>
+                                <label for="uploadImgProfile2" id="change-img-profile" class="mt-5 position-relative " >
+                                    <div id="profile-img2" style="
+                                         overflow: hidden; width: 100% ; width: 930px; height: 100%;height: 208px; background-position: center;
+                                         background-repeat: no-repeat;
+                                         background-size: cover;
+                                         background-image: url(<c:url value="${classObject.getClassPicture() == null ? '/assets/img/Common_picture.png' : classObject.getClassPicture()}"/>);
+                                    ">
                                 </div>
                                 <div class="position-absolute" style=" top:0; left: 0; background-color: rgba(0, 0, 0, 0.3); display: none; width: 100%; height: 100%;">
                                     <p class="text-light text-center" style=" overflow-wrap: break-word; font-weight: bold;">Click here to <br> change image</p>
                                 </div>
                             </label>
+                            </div>
                         </div>
-                                     
-                        <input type="file" class="form-control d-none" id="uploadImgProfile" name="txtImg" />
+
+                        <input type="file" class="form-control d-none" id="uploadImgProfile2" name="txtImg2" />
                         <div class="form-group form-button d-flex justify-content-center mt-4 row m-5">
                             <button class="btn btn-primary" type="submit">Save</button>
                         </div>
@@ -52,8 +52,8 @@
     </div>
 </div>
 <script>
-    const uploadImgProfile = document.getElementById('uploadImgProfile');
-    const profileimg = document.getElementById('profile-img');
+    const uploadImgProfile = document.getElementById('uploadImgProfile2');
+    const profileimg = document.getElementById('profile-img2');
     const msg = document.getElementById('msg-error');
     var tmpImg = profileimg.style.backgroundImage;
     tmpImg = tmpImg.substring(5, tmpImg.length - 2);

@@ -15,25 +15,33 @@
             </div>
 
         </div>
-        <p class="text-center" style="margin:8px auto;">${classObject.name}</p>
-        <p class="text-center">Class Code: ${classObject.code}</p>
-        <p class="text-center">Teacher: ${teacher.name}</p>
+        <p class="text-center fw-bold fs-4" style="margin:8px auto;">${classObject.name}</p>
+        <p class="text-center mb-1">Class Code: ${classObject.code} </p>
+        <p class="text-center mb-1">Teacher: ${teacher.name}</p>
     </div>
     <hr class="h-color mx-2">
     <ul class="list-unstyled px-2">
-        <li class="active"><a href="<c:url value="/${role}/class/newfeed?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block ml-3"> New Feed</a> </li> 
-        <li class=""><a href="<c:url value="/${role}/class/member-list?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block active">Members</a> </li>      
+        <li class="${activeNF}"><a href="<c:url value="/${role}/class/newfeed?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block ml-3"> New Feed</a> </li> 
+        <li class="${activeMB}"><a href="<c:url value="/${role}/class/member-list?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block active">Members</a> </li>      
         <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> Assignment</a> </li> 
         <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">  Rank</a> </li> 
-        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">request</a> </li> 
+        <li class=""><a href="<c:url value="/${role}/class/member-request-list?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block">request</a> </li> 
 
         <hr class="h-color mx-2">
         <c:if test="${account.getRole() == 1}">
-            <li class=""><a href="<c:url value="/${role}/class/setting?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block"> Setting </a> </li>
-        </c:if>
-        <c:if test="${account.getRole() == 2}">
-            <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> Leave class </a> </li>
+            <li class="${activeST}"><a href="<c:url value="/${role}/class/setting?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block"> Setting </a> </li>
+            </c:if>
+            <c:if test="${account.getRole() == 2}">
+            <li class="${activeST}"><a href="<c:url value="/${role}/class/leave?code=${param.code}&accountId=${account.getAccountId()}"/>" class="text-decoration-none px-3 py-2 d-block"> Leave class </a> </li>
             </c:if>
 
     </ul>
 </div>
+<!--<script>
+    function myFunction() {
+        let text = "Are you sure with that choice?";
+        if (confirm("Are you sure with that choice?") === true) {
+             window.location = '/student/class';
+        }
+    }
+</script>-->
