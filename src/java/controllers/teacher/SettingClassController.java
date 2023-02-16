@@ -28,7 +28,7 @@ import java.util.logging.Logger;
         maxFileSize = 1024 * 1024 * 5,
         maxRequestSize = 1024 * 1024 * 15
 )
-public class SettingClassInfo extends HttpServlet {
+public class SettingClassController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -46,7 +46,7 @@ public class SettingClassInfo extends HttpServlet {
             }
             req.getRequestDispatcher("/teacher/setting.jsp").forward(req, resp);
         } catch (Exception ex) {
-            Logger.getLogger(SettingClassInfo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SettingClassController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -57,7 +57,7 @@ public class SettingClassInfo extends HttpServlet {
         String classCode = req.getParameter("code");
 
         Part profilePicture = req.getPart("txtImg2");
-
+        
         boolean txtStudentApprove = "on".equalsIgnoreCase(req.getParameter("txtStudentApprove"));
         boolean txtHideClass = "on".equalsIgnoreCase(req.getParameter("txtHideClass"));
         String name = req.getParameter("txtName");
@@ -80,10 +80,11 @@ public class SettingClassInfo extends HttpServlet {
                 String urlImg = "/class/" + classobj.getClassId().toString() + fileExtension;
                 profilePicture.write(System.getProperty("leon.updir") + urlImg);
                 urlToDB = "/files" + urlImg;
+                clob.setClassPicture(urlToDB);
+            } else {
+                clob.setClassPicture(classobj.getClassPicture());
             }
-            
-            clob.setClassPicture(urlToDB);
-            
+     
             clob.setAccountId(account.getAccountId());
             clob.setClassId(classobj.getClassId());
             clob.setCode(classCode);

@@ -1,8 +1,11 @@
+package controllers;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
+import controllers.student.*;
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
 import dao.EnrollmentDAO;
@@ -22,8 +25,9 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "LeaveClass", urlPatterns = {"/student/class/leave", "/teacher/class/remove-student", "/teacher/class/reject-student"})
-public class LeaveClass extends HttpServlet {
+
+@WebServlet(name = "LeaveClass", urlPatterns = {"/student/class/leave", "/teacher/class/delete-student", "/teacher/class/reject-student"})
+public class OutOfClassController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -41,13 +45,13 @@ public class LeaveClass extends HttpServlet {
                 int leaveClass = new EnrollmentDAO().leaveClass(classobj.getClassId(), UUID.fromString(AccountId));
 
             } catch (Exception ex) {
-                Logger.getLogger(LeaveClass.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(OutOfClassController.class.getName()).log(Level.SEVERE, null, ex);
             }
             ArrayList<Account> listStudent = new ArrayList<>();
             listStudent = new AccountDAO().getListAllStudentByClassCode(classCode, "1");
             req.setAttribute("listStudent", listStudent);
         } catch (Exception ex) {
-            Logger.getLogger(LeaveClass.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OutOfClassController.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (req.getServletPath().contains("/student/class/leave")) {
             resp.sendRedirect(req.getContextPath() + "/student/class");
