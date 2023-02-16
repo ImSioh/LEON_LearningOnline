@@ -39,7 +39,7 @@ public class AcceptStudentController extends HttpServlet {
             request.setAttribute("listStudent", listStudent);
             request.setAttribute("listRequest", listRequest);
             request.setAttribute("classObject", classObject);
-            request.setAttribute("activeMB", "active");
+            
 
         } catch (Exception ex) {
             Logger.getLogger(AcceptStudentController.class.getName()).log(Level.SEVERE, null, ex);

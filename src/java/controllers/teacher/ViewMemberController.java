@@ -32,15 +32,17 @@ public class ViewMemberController extends HttpServlet {
             request.setAttribute("listStudent", listStudent);
             request.setAttribute("listRequest", listRequest);
             request.setAttribute("classObject", classObject);
-            request.setAttribute("activeMB", "active");
+
             if (account.getRole() == 1) {
                 request.setAttribute("teacher", account);
             } else {
                 request.setAttribute("teacher", new AccountDAO().getAccountById(classObject.getAccountId()));
             }
             if (request.getServletPath().contains("/teacher/class/member-request-list")) {
+                request.setAttribute("activeRQ", "active");
                 request.getRequestDispatcher("/teacher/request.jsp").forward(request, response);
             } else {
+                request.setAttribute("activeMB", "active");
                 request.getRequestDispatcher("/teacher/member.jsp").forward(request, response);
             }
         } catch (Exception ex) {
