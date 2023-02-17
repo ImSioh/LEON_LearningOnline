@@ -27,8 +27,8 @@ public class FileController extends HttpServlet {
 
     private static final int BUFFER_SIZE = 10240;
     private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
-    private static final ArrayList<String> rasterType = new ArrayList<>();
-    private static final int thumbSize = 150;
+    private static ArrayList<String> rasterType = new ArrayList<>();
+    private static final int THUMBNAIL_SIZE = 150;
 
     @Override
     public void init() throws ServletException {
@@ -49,7 +49,7 @@ public class FileController extends HttpServlet {
             }
             Part part = req.getPart("file");
 
-            String fileName = part.getSubmittedFileName();
+            String fileName = part.getSubmittedFileName().replaceAll("[#\"\\\\\\/:|<>*?]+", "");
             UUID resourceId = UUID.randomUUID();
             String relativePath = "/resource/" + resourceId.toString() + "/" + fileName;
             String fileUrl = "/files" + relativePath;
@@ -92,11 +92,11 @@ public class FileController extends HttpServlet {
             int width = img.getWidth();
             int height = img.getHeight();
             if (height > width) {
-                width = width * thumbSize / height;
-                height = thumbSize;
+                width = width * THUMBNAIL_SIZE / height;
+                height = THUMBNAIL_SIZE;
             } else {
-                height = height * thumbSize / width;
-                width = thumbSize;
+                height = height * THUMBNAIL_SIZE / width;
+                width = THUMBNAIL_SIZE;
             }
             BufferedImage scaledImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
             scaledImg.createGraphics().drawImage(img.getScaledInstance(width, height, Image.SCALE_FAST), 0, 0, null);

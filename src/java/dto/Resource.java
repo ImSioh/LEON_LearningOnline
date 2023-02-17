@@ -1,13 +1,18 @@
 package dto;
 
+import com.google.gson.annotations.Expose;
 import java.util.UUID;
 
 public class Resource {
 
+    @Expose
     private UUID resourceId;
     private UUID accountId;
+    @Expose
     private String url;
+    @Expose
     private String thumbnail;
+    @Expose
     private String mimeType;
 
     public Resource(UUID resourceId, UUID accountId, String url, String thumbnail, String mimeType) {

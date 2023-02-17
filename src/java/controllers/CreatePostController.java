@@ -1,12 +1,14 @@
 package controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dao.PostDAO;
 import dao.PostResourceDAO;
 import dao.ResourceDAO;
 import dto.Account;
 import dto.Post;
 import dto.PostResource;
+import helpers.Constant;
 import helpers.JsonWrapper;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -31,7 +33,7 @@ public class CreatePostController extends HttpServlet {
             String resources = req.getParameter("resources");
             System.out.println(classId);
             System.out.println(content);
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(Constant.FORMAT_DATETIME).create();
             String[] resourceArr = gson.fromJson(resources, String[].class);
 
             Post post = new Post(UUID.randomUUID(), account.getAccountId(), classId, false, content, new Timestamp(System.currentTimeMillis()));
@@ -44,6 +46,7 @@ public class CreatePostController extends HttpServlet {
                 }
                 post.resources = new ResourceDAO().getResourcesByPost(post.getPostId());
             }
+            post.account = account;
             JsonWrapper<Post> jsonWrapper = new JsonWrapper<>("new-post", post);
             WebSocketController.sendToClass(classId, gson.toJson(jsonWrapper));
         } catch (Exception e) {

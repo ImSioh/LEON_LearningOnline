@@ -2,6 +2,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/template/header.jsp" %>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <style>
     .card {
         border-radius: 0.5rem;
@@ -17,6 +19,7 @@
         padding: 1rem;
         background-color: white;
         border-radius: 8px;
+        height: fit-content;
     }
 
     .post-header {
@@ -153,13 +156,23 @@
     .image-box .image-item {
         width: 100%;
         flex-grow: 1;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    .image-box .image-item > div {
+        width: 100%;
+        height: 100%;
         background-size: cover;
         background-position: center;
-        cursor: pointer;
+        transition: transform ease 0.2s;
+    }
+
+    .image-box .image-item > div:hover {
+        transform: scale(1.03);
     }
 
     .image-box .image-more {
-        content: "+2";
         color: white;
         font-size: 4rem;
         font-weight: 500;
@@ -186,12 +199,24 @@
         border: 2px solid rgb(216, 220, 240);
     }
 
+    .document-box > a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .document-box > a:hover {
+        color: #0d6efd;
+    }
+
     .document-item {
         font-weight: 500;
         cursor: pointer;
         padding: 0.5rem 1rem;
         border-top: 1px solid rgb(216, 220, 240);
         position: relative;
+    }
+
+    #create-post .document-item {
         display: flex;
         justify-content: space-between;
     }
@@ -205,7 +230,7 @@
         background-color: aliceblue;
     }
 
-    .document-item:first-child {
+    .document-box > a:first-child .document-item {
         border: none;
     }
 
@@ -430,8 +455,78 @@
     #new-post-modal .post-footer {
         justify-content: space-between;
     }
+
+    .swiper {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        z-index: 2000;
+        top: 100%;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        transition: top ease 0.2s;
+    }
+
+    .swiper.open {
+        top: 0;
+    }
+
+    .swiper-button-prev {
+        margin-left: 1rem;
+    }
+
+    .swiper-button-next {
+        margin-right: 1rem;
+    }
+
+    .swiper-button-next::after, .swiper-button-prev::after {
+        padding: 0.5rem;
+        box-sizing: initial;
+        font-size: 4rem;
+    }
+
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+
+    .swiper-slide img {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .swiper-pagination-bullet:not(.swiper-pagination-bullet-active) {
+        background-color: white;
+    }
+
+    .swiper-close-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 4rem;
+        height: 4rem;
+        z-index: 10;
+        margin: 1rem;
+        border: none;
+        border-radius: 50%;
+        font-size: 2rem;
+    }
 </style>
 <div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 56px;">
+    <div class="swiper" id="image-swipper">
+        <button class="swiper-close-btn">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="swiper-wrapper"></div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
     <%@include file="/template/sidebar.jsp" %>
     <div class="content-main  d-flex justify-content-center container position-relative">
         <div class="modal fade" id="new-post-modal" tabindex="-1" aria-hidden="true">
@@ -453,11 +548,9 @@
         </div>
         <div class="col-md-7 mt-4 post" id="create-post">
             <div class="post-header">
-                <div class="post-profile-picture" style="background-image: url(https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg)"></div>
+                <div class="post-profile-picture" style="background-image: url(<c:url value="${account.profilePicture == null ? '/assets/img/ava.png' : account.profilePicture}"/>);"></div>
                 <div>
-                    <p class="post-owner">
-                        Maggi Buckberry
-                    </p>
+                    <p class="post-owner">${account.name}</p>
                 </div>
             </div>
             <div class="post-body">
@@ -469,72 +562,7 @@
                 <button id="post-btn" class="btn btn-primary">Post</button>
             </div>
         </div>
-        <div id="post-list" class="col-md-7">
-            <div class="mt-4 post">
-                <div class="post-header dropdown">
-                    <div class="post-profile-picture" style="background-image: url(https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg)"></div>
-                    <div>
-                        <p class="post-owner">Maggi Buckberry</p>
-                        <p class="post-time">Class Code: FQQBS</p>
-                    </div>
-                    <div class="dropdown">
-                        <button class="open-menu" data-mdb-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-ellipsis"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li class="d-flex dropdown-item">
-                                <span class="p-2 flex-shrink-1 bd-highlight">
-                                    <i class="far fa-user"></i>
-                                </span>
-                                <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
-                                    Profile
-                                </span>
-                            </li>
-                            <li class="d-flex dropdown-item">
-                                <span class="p-2 flex-shrink-1 bd-highlight">
-                                    <i class="far fa-user"></i>
-                                </span>
-                                <span class="p-2 w-100 bd-highlight" style="color: #6e6e6e;">
-                                    Profile
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="post-body">
-                    <div class="image-box more">
-                        <div>
-                            <div class="image-more">+5</div>
-                            <div class="image-column">
-                                <div class="image-item" style="background-image: url(https://images.unsplash.com/photo-1604998103924-89e012e5265a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFuc2NhcGV8ZW58MHx8MHx8&w=1000&q=80);"></div>
-                                <div class="image-item" style="background-image: url(https://images.unsplash.com/photo-1604998103924-89e012e5265a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFuc2NhcGV8ZW58MHx8MHx8&w=1000&q=80);"></div>
-                            </div>
-                            <div class="image-column">
-                                <div class="image-item" style="background-image: url(https://c4.wallpaperflare.com/wallpaper/997/891/658/photography-nature-landscape-lake-wallpaper-preview.jpg);"></div>
-                                <div class="image-item" style="background-image: url(https://w0.peakpx.com/wallpaper/1009/8/HD-wallpaper-golden-sunset-sunset-river-lanscape.jpg);"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="document-box">
-                        <div class="document-item">Slot 11-Assemblies .NET.pptx</div>
-                        <div class="document-item">Assignment2_MusicStoreWin.docx</div>
-                        <div class="document-item">Guides_MVC.rar</div>
-                    </div>
-                </div>
-                <div class="post-footer">
-                    <i class="fa-regular fa-comment"></i>
-                    <p>12 comments</p>
-                </div>
-                <div class="post-comment">
-                    <div class="comment-item">
-                        <div class="post-profile-picture" style="background-image: url(https://c4.wallpaperflare.com/wallpaper/997/891/658/photography-nature-landscape-lake-wallpaper-preview.jpg);"></div>
-                        <input class="comment-input" placeholder="Enter your comment here" type="text">
-                    </div>
-                    <div class="comment-list">
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="post-list" class="col-md-7"></div>
     </div>
 
     <%@include file="/template/notificationbar.jsp" %>
@@ -584,6 +612,16 @@
         })
     }
 
+    const swiper = new Swiper('#image-swipper', {
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+        },
+    })
+
     const rasterType = [
         'image/png',
         'image/jpeg',
@@ -594,6 +632,8 @@
         'image/avif'
     ]
     const postList = document.getElementById('post-list')
+    const imageSwiper = document.querySelector('.swiper')
+    document.querySelector('.swiper-close-btn').addEventListener('click', () => imageSwiper.classList.remove('open'))
 
     function addPost(post) {
         const bindList = {}
@@ -608,7 +648,7 @@
                         {
                             tagName: 'div',
                             className: 'post-profile-picture',
-                            style: 'background-image: url(https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg)'
+                            style: 'background-image: url("' + <c:url value="/"/> + (post.account.profilePicture ? post.account.profilePicture : '/assets/img/ava.png').substring(1) + '");'
                         },
                         {
                             tagName: 'div',
@@ -616,12 +656,12 @@
                                 {
                                     tagName: 'p',
                                     className: 'post-owner',
-                                    textContent: 'Example name'
+                                    textContent: post.account.name
                                 },
                                 {
                                     tagName: 'p',
                                     className: 'post-time',
-                                    textContent: 'Example time'
+                                    textContent: post.createTime
                                 }
                             ]
                         },
@@ -700,7 +740,7 @@
                                 {
                                     tagName: 'div',
                                     className: 'post-profile-picture',
-                                    style: 'background-image: url(https://c4.wallpaperflare.com/wallpaper/997/891/658/photography-nature-landscape-lake-wallpaper-preview.jpg);'
+                                    style: 'background-image: url("<c:url value="${account.profilePicture == null ? '/assets/img/ava.png' : account.profilePicture}"/>");'
                                 },
                                 {
                                     tagName: 'input',
@@ -738,11 +778,35 @@
                 })
                 const end = ePos + Math.ceil(Math.min(4, imageL.length - ePos + i) / 2)
                 for (ePos; ePos < end; ePos++) {
-                    imageColumn.append(createElement({
+                    const tmpPos = ePos
+                    const imgEl = createElement({
                         tagName: 'div',
                         className: 'image-item',
-                        style: 'background-image: url("<c:url value="/"/>' + imageL[ePos].url.substring(1) + '")'
-                    }))
+                        children: [{
+                                tagName: 'div',
+                                style: 'background-image: url("<c:url value="/"/>' + imageL[ePos].url.substring(1) + '")'
+                            }]
+                    })
+                    imageColumn.append(imgEl)
+                    imgEl.addEventListener('click', () => {
+                        if (!post.imgCarousel) {
+                            post.imgCarousel = []
+                            imageL.forEach(img => {
+                                post.imgCarousel.push(createElement({
+                                    tagName: 'div',
+                                    className: 'swiper-slide',
+                                    children: [{
+                                            tagName: 'img',
+                                            src: '<c:url value="/"/>' + img.url.substring(1)
+                                        }]
+                                }))
+                            })
+                        }
+                        swiper.removeAllSlides()
+                        swiper.appendSlide(post.imgCarousel)
+                        swiper.slideTo(tmpPos, false, false)
+                        imageSwiper.classList.add('open')
+                    })
                 }
                 bindList.imageList.append(imageColumn)
             }
@@ -750,6 +814,7 @@
                 bindList.imageBox.classList.add('more')
                 bindList.extraCount.textContent = '+' + (imageL.length - 4)
             }
+//            bindList.imageList
         }
         if (otherL.length > 0) {
             const documentBox = createElement({
@@ -758,9 +823,15 @@
             })
             otherL.forEach(d => {
                 documentBox.append(createElement({
-                    tagName: 'div',
-                    className: 'document-item',
-                    textContent: d.url.split('/').pop()
+                    tagName: 'a',
+                    href: '<c:url value="/"/>' + d.url.substring(1),
+                    target: '_blank',
+                    download: d.url.split('/').pop(),
+                    children: [{
+                            tagName: 'div',
+                            className: 'document-item text-truncate',
+                            textContent: d.url.split('/').pop()
+                        }]
                 }))
             })
             bindList.postBody.append(documentBox)

@@ -1,6 +1,7 @@
 package controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
 import dao.EnrollmentDAO;
@@ -9,7 +10,6 @@ import dao.ResourceDAO;
 import dto.Account;
 import dto.ClassObject;
 import dto.Post;
-import dto.Resource;
 import helpers.Constant;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -20,7 +20,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.UUID;
 
 @WebServlet(name = "NewFeedController", urlPatterns = {"/teacher/class/newfeed", "/student/class/newfeed"})
 public class NewFeedController extends HttpServlet {
@@ -51,12 +52,20 @@ public class NewFeedController extends HttpServlet {
             }
             
             ArrayList<Post> posts = new PostDAO().getPostsInClass(classObject.getClassId());
+            HashMap<UUID, Account> postOwners = new HashMap<>();
             ResourceDAO resourceDAO = new ResourceDAO();
+            AccountDAO accountDAO = new AccountDAO();
             for (Post post : posts) {
                 post.resources = resourceDAO.getResourcesByPost(post.getPostId());
+                Account postOwner = postOwners.get(post.getAccountId());
+                if (postOwner == null) {
+                    postOwner = accountDAO.getAccountById(post.getAccountId());
+                    postOwners.put(post.getAccountId(), postOwner);
+                }
+                post.account = postOwner;
             }
             
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(Constant.FORMAT_DATETIME).create();
             String postArr = gson.toJson(posts);
             
             req.setAttribute("postObject", postArr);
@@ -66,7 +75,7 @@ public class NewFeedController extends HttpServlet {
             if (account.getRole() == 1) {
                 req.setAttribute("teacher", account);
             } else {
-                req.setAttribute("teacher", new AccountDAO().getAccountById(classObject.getAccountId()));
+                req.setAttribute("teacher", accountDAO.getAccountById(classObject.getAccountId()));
             }
             req.getRequestDispatcher("/newfeed.jsp").forward(req, resp);
         } catch (Exception e) {
