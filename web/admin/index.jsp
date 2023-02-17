@@ -69,12 +69,11 @@
                         <c:forEach items="${accounts}" var="acc">
                             <c:if test="${fb.getAccountId() == acc.getAccountId()}">
                                 <td>${acc.getEmail()}</td>
+                                <td> <a href="user-account-profile?id=${fb.getAccountId()}">${acc.getName()}</a> </td>
                                 <c:if test="${acc.getRole() == 1}">
-                                    <td> <a href="/swp391/teacher/profile">${acc.getName()}</a> </td>
                                     <td>Teacher</td>
                                 </c:if>
                                 <c:if test="${acc.getRole() == 2}">
-                                    <td> <a href="/swp391/student/profile">${acc.getName()}</a> </td>
                                     <td>Student</td>
                                 </c:if>
                             </c:if>

@@ -43,15 +43,14 @@ public class ViewListAdminController extends HttpServlet {
         }
     }
 
-    AccountDAO accountDAO = new AccountDAO();
-    FeedbackDAO feedbackDAO = new FeedbackDAO();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
 //            Account account = (Account) request.getAttribute("account");
-
+            AccountDAO accountDAO = new AccountDAO();
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
+            
             int element;
             try {
                 element = Integer.parseInt(request.getParameter("element"));
@@ -59,7 +58,7 @@ public class ViewListAdminController extends HttpServlet {
                 element = 10;
             }
             request.setAttribute("element", element);
-            int[] elementOption = {1, 2, 5, 10, 25};
+            int[] elementOption = {3, 5, 7, 10, 15};
             request.setAttribute("elementOption", elementOption);
 
             String criteria;
@@ -82,7 +81,7 @@ public class ViewListAdminController extends HttpServlet {
             //feedback
             if (request.getServletPath().contains("feedback-list")) {
                 try {
-                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacks();
+                    ArrayList<Feedback> feedbacks = feedbackDAO.getAllFeedbacksSort(criteria, sort);
                     feedbackDAO.setItemList(feedbacks);
                     feedbackDAO.setMaxPageItem(element);
                     feedbackDAO.setMaxTotalPage(10);
@@ -135,7 +134,9 @@ public class ViewListAdminController extends HttpServlet {
             throws ServletException, IOException {
         try {
 //            Account account = (Account) request.getAttribute("account");
-
+            AccountDAO accountDAO = new AccountDAO();
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
+            
             int element;
             try {
                 element = Integer.parseInt(request.getParameter("element"));
