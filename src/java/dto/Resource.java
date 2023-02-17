@@ -1,16 +1,23 @@
 package dto;
 
+import com.google.gson.annotations.Expose;
 import java.util.UUID;
 
 public class Resource {
 
+    @Expose
     private UUID resourceId;
+    private UUID accountId;
+    @Expose
     private String url;
+    @Expose
     private String thumbnail;
+    @Expose
     private String mimeType;
 
-    public Resource(UUID resourceId, String url, String thumbnail, String mimeType) {
+    public Resource(UUID resourceId, UUID accountId, String url, String thumbnail, String mimeType) {
         this.resourceId = resourceId;
+        this.accountId = accountId;
         this.url = url;
         this.thumbnail = thumbnail;
         this.mimeType = mimeType;
@@ -22,6 +29,14 @@ public class Resource {
 
     public void setResourceId(UUID resourceId) {
         this.resourceId = resourceId;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
 
     public String getUrl() {
@@ -52,6 +67,7 @@ public class Resource {
     public String toString() {
         return "Resource(" + String.join(", ", new String[]{
             resourceId.toString(),
+            accountId.toString(),
             url,
             thumbnail,
             mimeType

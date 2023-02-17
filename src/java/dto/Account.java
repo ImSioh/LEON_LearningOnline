@@ -1,5 +1,6 @@
 package dto;
 
+import com.google.gson.annotations.Expose;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -7,6 +8,7 @@ import java.util.UUID;
 public class Account {
 
     private UUID accountId;
+    @Expose
     private String name;
     private Date birthDate;
     private boolean gender;
@@ -15,10 +17,13 @@ public class Account {
     private String phoneNumber;
     private String email;
     private String password;
+    @Expose
     private int role;
+    @Expose
     private String profilePicture;
     private String verificationCode;
     private Timestamp createTime;
+    @Expose
     private boolean locked;
 
     public Account(UUID accountId, String name, Date birthDate, boolean gender, String school, String address, String phoneNumber, String email, String password, int role, String profilePicture, String verificationCode, Timestamp createTime, boolean locked) {

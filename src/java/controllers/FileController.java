@@ -1,26 +1,116 @@
 package controllers;
 
+import com.google.gson.Gson;
+import dao.ResourceDAO;
+import dto.Account;
+import dto.Resource;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.UUID;
+import javax.imageio.ImageIO;
 
 @WebServlet(name = "FileController", urlPatterns = {"/files/*"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1)
 public class FileController extends HttpServlet {
 
     private static final int BUFFER_SIZE = 10240;
     private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
+    private static ArrayList<String> rasterType = new ArrayList<>();
+    private static final int THUMBNAIL_SIZE = 150;
+
+    @Override
+    public void init() throws ServletException {
+        rasterType.add("image/png");
+        rasterType.add("image/jpeg");
+        rasterType.add("image/bmp");
+        rasterType.add("image/tiff");
+        rasterType.add("image/webp");
+        rasterType.add("image/avif");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            Account account = (Account) req.getAttribute("account");
+            if (account == null) {
+                throw new ServletException();
+            }
+            Part part = req.getPart("file");
+
+            String fileName = part.getSubmittedFileName().replaceAll("[#\"\\\\\\/:|<>*?]+", "");
+            UUID resourceId = UUID.randomUUID();
+            String relativePath = "/resource/" + resourceId.toString() + "/" + fileName;
+            String fileUrl = "/files" + relativePath;
+            String savePath = System.getProperty("leon.updir") + relativePath;
+            System.out.println(part.getContentType());
+            new File(System.getProperty("leon.updir") + "/resource/" + resourceId.toString()).mkdirs();
+            part.write(savePath);
+
+            String mimeType = part.getContentType();
+            if (mimeType == null) {
+                mimeType = "application/octet-stream";
+            }
+            Resource resource = new Resource(resourceId, account.getAccountId(), fileUrl, null, mimeType);
+
+            if (rasterType.contains(part.getContentType())) {
+                BufferedImage resizedImg = resizeImage(new File(savePath));
+                if (resizedImg != null) {
+                    String thumbnailPath = "/thumbnail/" + resourceId.toString() + "/" + fileName;
+                    new File(System.getProperty("leon.updir") + "/thumbnail/" + resourceId.toString()).mkdirs();
+                    ImageIO.write(resizedImg, fileName.substring(fileName.lastIndexOf('.') + 1), new File(System.getProperty("leon.updir") + thumbnailPath));
+                    resource.setThumbnail("/files" + thumbnailPath);
+                }
+            }
+            int result = new ResourceDAO().setResource(resource);
+            if (result > 0) {
+                resp.setContentType("application/json");
+                resp.setCharacterEncoding("utf-8");
+                Gson gson = new Gson();
+                resp.getWriter().print(gson.toJson(resource));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException(e);
+        }
+    }
+
+    private BufferedImage resizeImage(File file) throws IOException {
+        try {
+            BufferedImage img = ImageIO.read(file);
+            int width = img.getWidth();
+            int height = img.getHeight();
+            if (height > width) {
+                width = width * THUMBNAIL_SIZE / height;
+                height = THUMBNAIL_SIZE;
+            } else {
+                height = height * THUMBNAIL_SIZE / width;
+                width = THUMBNAIL_SIZE;
+            }
+            BufferedImage scaledImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            scaledImg.createGraphics().drawImage(img.getScaledInstance(width, height, Image.SCALE_FAST), 0, 0, null);
+            return scaledImg;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String relativePath = req.getPathInfo();
-        if (relativePath == null || !relativePath.matches("^\\/(class|profile|resource|thumbnail)\\/[^\\/]+$")) {
+        if (relativePath == null || !relativePath.matches("^\\/(class|profile|resource|thumbnail)\\/.+$")) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Files not found");
             return;
         }

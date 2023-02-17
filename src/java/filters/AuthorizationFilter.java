@@ -40,7 +40,7 @@ public class AuthorizationFilter implements Filter {
         }
 
         Account account = null;
-        if (path.contains("assets") || path.startsWith("/files")) {
+        if (path.contains("assets") || (path.startsWith("/files") && req.getMethod().equalsIgnoreCase("GET"))) {
             chain.doFilter(request, response);
             return;
         }

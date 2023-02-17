@@ -74,6 +74,7 @@
     
     #notification-box .notification-content {
         white-space: pre-wrap;
+        word-break: break-word;
     }
 
     #notification-box .notification-time {
