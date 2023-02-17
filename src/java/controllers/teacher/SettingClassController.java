@@ -6,8 +6,10 @@ package controllers.teacher;
  */
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
+import dao.EnrollmentDAO;
 import dto.Account;
 import dto.ClassObject;
+import dto.Enrollment;
 import helpers.FormValidator;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -26,8 +28,8 @@ import java.util.logging.Logger;
         maxFileSize = 1024 * 1024 * 5,
         maxRequestSize = 1024 * 1024 * 15
 )
-public class SettingClassInfo extends HttpServlet {
-
+public class SettingClassController extends HttpServlet {
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -36,7 +38,7 @@ public class SettingClassInfo extends HttpServlet {
             Account account = (Account) req.getAttribute("account");
             ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
             req.setAttribute("classObject", classobj);
-                req.setAttribute("activeST", "active");
+            req.setAttribute("activeST", "active");
             if (account.getRole() == 1) {
                 req.setAttribute("teacher", account);
             } else {
@@ -44,18 +46,18 @@ public class SettingClassInfo extends HttpServlet {
             }
             req.getRequestDispatcher("/teacher/setting.jsp").forward(req, resp);
         } catch (Exception ex) {
-            Logger.getLogger(SettingClassInfo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SettingClassController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String classCode = req.getParameter("code");
         
-        Part profilePicture = req.getPart("txtImg");
-
+        Part profilePicture = req.getPart("txtImg2");
+        
         boolean txtStudentApprove = "on".equalsIgnoreCase(req.getParameter("txtStudentApprove"));
         boolean txtHideClass = "on".equalsIgnoreCase(req.getParameter("txtHideClass"));
         String name = req.getParameter("txtName");
@@ -65,20 +67,24 @@ public class SettingClassInfo extends HttpServlet {
         if (profilePicture.getSize() > 5 * 1024 * 1024) {
             validForm = false;
         }
-        Account account = (Account) req.getAttribute("account");
-        String urlToDB = null;
-        if (profilePicture.getSize() > 0) {
-            String fileName = profilePicture.getSubmittedFileName();
-            String fileExtension = fileName.substring(fileName.lastIndexOf("."));
-            String urlImg = "/profile/" + account.getAccountId().toString() + fileExtension;
-            profilePicture.write(System.getProperty("leon.updir") + urlImg);
-            urlToDB = "/files" + urlImg;
-        }
-
+        
         try {
             ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
             ClassObject clob = new ClassObject();
-            clob.setClassPicture(urlToDB);
+            Account account = (Account) req.getAttribute("account");
+            
+            String urlToDB = null;
+            if (profilePicture.getSize() > 0) {
+                String fileName = profilePicture.getSubmittedFileName();
+                String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+                String urlImg = "/class/" + classobj.getClassId().toString() + fileExtension;
+                profilePicture.write(System.getProperty("leon.updir") + urlImg);
+                urlToDB = "/files" + urlImg;
+                clob.setClassPicture(urlToDB);
+            } else {
+                clob.setClassPicture(classobj.getClassPicture());
+            }
+            
             clob.setAccountId(account.getAccountId());
             clob.setClassId(classobj.getClassId());
             clob.setCode(classCode);
@@ -87,6 +93,7 @@ public class SettingClassInfo extends HttpServlet {
                 clob.setEnrollApprove(true);
             } else {
                 clob.setEnrollApprove(false);
+                int updateErm = new EnrollmentDAO().updateEnrollment(classobj.getClassId());
             }
             
             if (txtHideClass == true) {
@@ -94,25 +101,26 @@ public class SettingClassInfo extends HttpServlet {
             } else {
                 clob.setHidden(false);
             }
-           
+            
             if ((name.trim().equals(""))) {
                 clob.setName(classobj.getName());
             } else {
                 clob.setName(name);
             }
-           if (account.getRole() == 1) {
+            if (account.getRole() == 1) {
                 req.setAttribute("teacher", account);
             } else {
                 req.setAttribute("teacher", new AccountDAO().getAccountById(classobj.getAccountId()));
             }
             int clo = new ClassObjectDAO().updateClass(clob);
             req.setAttribute("classObject", classobj);
-            req.getRequestDispatcher("/newfeed.jsp").forward(req, resp);
+//            req.getRequestDispatcher("/newfeed.jsp").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/teacher/class/newfeed?code=" + classCode);
         } catch (Exception ex) {
-            Logger.getLogger(SettingClassInfo.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         // checkbox 
 
     }
-
+    
 }

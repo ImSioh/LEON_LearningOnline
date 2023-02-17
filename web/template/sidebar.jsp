@@ -20,28 +20,27 @@
         <p class="text-center mb-1">Teacher: ${teacher.name}</p>
     </div>
     <hr class="h-color mx-2">
-    <ul class="list-unstyled px-2">
+    <ul class="list-unstyled px-2 d-flex flex-grow-1 flex-column">
         <li class="${activeNF}"><a href="<c:url value="/${role}/class/newfeed?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block ml-3"> New Feed</a> </li> 
-        <li class="${activeMB}"><a href="<c:url value="/${role}/class/member-list?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block active">Members</a> </li>      
+        <li class="${activeMB}"><a href="<c:url value="/${role}/class/member-list?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block ml-3">Members</a> </li>      
         <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block"> Assignment</a> </li> 
         <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">  Rank</a> </li> 
-        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">request</a> </li> 
+        <li class="${activeRQ}"><a href="<c:url value="/${role}/class/member-request-list?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block">request</a> </li> 
 
         <hr class="h-color mx-2">
         <c:if test="${account.getRole() == 1}">
             <li class="${activeST}"><a href="<c:url value="/${role}/class/setting?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block"> Setting </a> </li>
             </c:if>
             <c:if test="${account.getRole() == 2}">
-            <li class="${activeST}"><a href="<c:url value="/${role}/class/leave?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block"> Leave class </a> </li>
+            <li class="btn btn-danger d-flex justify-content-center" style="margin-top: auto;"><a href="<c:url value="/${role}/class/leave?code=${param.code}&accountId=${account.getAccountId()}"/>" id="leaveStudent" class="text-decoration-none px-3 py-2 d-block text-light"> Leave class <i class="fas fa-sign-out-alt"></i></a> </li>
             </c:if>
 
     </ul>
 </div>
-<!--<script>
-    function myFunction() {
-        let text = "Are you sure with that choice?";
-        if (confirm("Are you sure with that choice?") === true) {
-             window.location = '/student/class';
+<script>
+    document.getElementById("leaveStudent").addEventListener("click", e => {
+        if (!confirm("Are you sure about this choice ?")) {
+            e.preventDefault();
         }
-    }
-</script>-->
+    })
+</script>

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class AccountDAO extends AbstractDAO<Account> {
-    
+
     public ArrayList<Account> getAccountsInClass(UUID classId) throws Exception {
         String query = "SELECT a.* FROM account a LEFT JOIN enrollment e ON a.account_id = e.account_id WHERE (e.class_id = ? AND e.accepted = TRUE) OR a.account_id = (SELECT c.account_id FROM class c WHERE c.class_id = ?)";
         return selectMany(query, Util.UUIDToByteArray(classId), Util.UUIDToByteArray(classId));
@@ -69,11 +69,11 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, "%" + name + "%", role);
     }
 
-    public ArrayList<Account> getListAllStudentByClassCode(String classCode , String accepted) throws Exception {
+    public ArrayList<Account> getListAllStudentByClassCode(String classCode, String accepted) throws Exception {
         String query = "select a.*  from account as a , enrollment as e , class as c\n"
                 + "where e.account_id= a.account_id and  c.class_id =  e.class_id\n"
                 + "and c.code = ? and e.accepted = ?;";
-        return selectMany(query, classCode , accepted);
+        return selectMany(query, classCode, accepted);
     }
 
     public int setVerifyCodeNull(UUID id) throws Exception {
@@ -135,24 +135,13 @@ public class AccountDAO extends AbstractDAO<Account> {
         );
     }
 
-    public int lockAccount(Account account, boolean status, String id) throws Exception {
-        String query = "UPDATE account SET locked= ? WHERE account_id = ?;";
-        return update(
-                query,
-                account.getName(),
-                account.getBirthDate(),
-                account.getAddress(),
-                account.getPhoneNumber(),
-                account.getPassword(),
-                account.getProfilePicture(),
-                account.isLocked(),
-                Util.UUIDToByteArray(account.getAccountId())
-        );
+    public int lockAccount(Account account, boolean status, UUID id) throws Exception {
+        String query = "UPDATE account SET locked = ? WHERE account_id = ?;";
+        return update(query, status, id);
     }
 
     public static void main(String[] args) throws Exception {
 
-       
     }
 
     @Override
@@ -174,5 +163,4 @@ public class AccountDAO extends AbstractDAO<Account> {
                 rs.getBoolean("locked")
         );
     }
-
 }
