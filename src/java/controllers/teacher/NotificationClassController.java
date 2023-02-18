@@ -40,7 +40,7 @@ public class NotificationClassController extends HttpServlet {
                 String redirectUrl = "/class/newfeed?code=" + (String) formValidator.get("classCode");
                 String content = (String) formValidator.get("content");
                 
-                Notification notification = new Notification(UUID.randomUUID(), teacherId, classId, null, title, redirectUrl, content, new Timestamp(System.currentTimeMillis()));
+                Notification notification = new Notification(UUID.randomUUID(), teacherId, classId, null, 0, title, redirectUrl, content, new Timestamp(System.currentTimeMillis()));
                 int result = new NotificationDAO().insertNotification(notification);
                 if (result <= 0) {
                     resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

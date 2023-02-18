@@ -189,6 +189,7 @@
     </c:if>
     
     function insertNotificationSide(notification) {
+        if (notification.type != 0) return
         if (notification.classId !== classId) return
         const liElement = document.createElement('li')
         const contentElement = document.createElement('p')

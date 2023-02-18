@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS notification(
   account_id binary(16) NOT NULL,
   class_id binary(16),
   target binary(16),
+  type tinyint,
   title varchar(100) CHARACTER SET utf8mb4 NOT NULL,
   redirect_url varchar(100) CHARACTER SET utf8mb4,
   content varchar(200) CHARACTER SET utf8mb4 NOT NULL,
@@ -68,14 +69,6 @@ CREATE TABLE IF NOT EXISTS notification(
   FOREIGN KEY (account_id) REFERENCES account(account_id),
   FOREIGN KEY (class_id) REFERENCES class(class_id),
   FOREIGN KEY (target) REFERENCES account(account_id)
-);
-
-CREATE TABLE IF NOT EXISTS send_notification(
-  notification_id binary(16),
-  account_id binary(16),
-  PRIMARY KEY (notification_id, account_id),
-  FOREIGN KEY (notification_id) REFERENCES notification(notification_id),
-  FOREIGN KEY (account_id) REFERENCES account(account_id)
 );
 
 CREATE TABLE IF NOT EXISTS resource(
