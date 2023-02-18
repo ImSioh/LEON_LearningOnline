@@ -79,7 +79,7 @@
                     <%--<c:forEach var="account" items="${accountList}" >--%>
                     <tr>
                         <td>
-                            <a href="/profile?id=${account.getAccountId()}">Profile</a>
+                            <a href="user-account-profile?id=${account.getAccountId()}">Profile</a>
                         </td>
                         <td>${account.getName()}</td>
                         <td>
@@ -92,14 +92,25 @@
                         </td>
                         <td>${account.getEmail()}</td>
                         <td>${account.getAddress()}</td>
-                        <td>${account.getPhoneNumber()}</td>
+                        <td>
+                            <c:if test="${empty account.getPhoneNumber()}">
+                                ${account.getPhoneNumber()}
+                            </c:if>
+                            <c:if test="${not empty account.getPhoneNumber()}">
+                                ${account.getPhoneNumber().substring(0,4)}-XXX-${account.getPhoneNumber().substring(7,10)}
+                            </c:if>
+                        </td>
                         <td>${account.getCreateTime()}</td>
                         <td>
                             <c:if test="${account.isLocked()}">
-                                <a href="lock?id=${account.getAccountId()}&status=open" onclick="return lockAcc()"><i class="fa-solid fa-lock"></i></a>
+                                <a href="<c:url value="/admin/student-account-list/lock?id=${account.getAccountId()}"/>" 
+                                   onclick="return lockAcc('Do you want to unlock this account?')">
+                                    <i class="fa-solid fa-lock"></i></a>
                                 </c:if>
                                 <c:if test="${account.isLocked()!=true}">
-                                <a href="lock?id=${account.getAccountId()}&status=close" onclick="return lockAcc()"><i class="fa-solid fa-lock-open"></i></a>
+                                <a href="<c:url value="/admin/student-account-list/lock?id=${account.getAccountId()}"/>" 
+                                   onclick="return lockAcc('Do you want to lock this account?')">
+                                    <i class="fa-solid fa-lock-open"></i></a>
                                 </c:if>
                         </td>
                     </tr>
@@ -120,8 +131,8 @@
 </div>
 
 <script>
-    function lockAcc() {
-        if (confirm("Do you want to lock this account?")) {
+    function lockAcc(msg) {
+        if (confirm(msg)) {
             return true;
         } else {
             return false;

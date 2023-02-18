@@ -3,7 +3,7 @@
 
 <c:set scope="page" var="pageNumber" value="${param.page != null ? param.page : 1}"/>
 <c:if test="${!(pageNumber >= 1 && pageNumber <= feedbackDAO.totalPage)}">
-    <c:redirect url="${baseUrl}"/>
+    <c:redirect url="/admin/feedback-list"/>
 </c:if>
 
 <div id="content">
@@ -64,7 +64,7 @@
                 <c:forEach items="${feedbackDAO.getItemsInPage(pageNumber)}" var="fb">
                     <%--<c:forEach items="${feedbacks}" var="fb">--%>
                     <tr>
-                        <td> <a href="">${fb.getFeedbackId()}</a> </td>
+                        <td> <a href="response?Id=${fb.getFeedbackId()}">View feedback</a> </td>
 
                         <c:forEach items="${accounts}" var="acc">
                             <c:if test="${fb.getAccountId() == acc.getAccountId()}">
@@ -80,7 +80,7 @@
                         </c:forEach>
                         <td>${fb.getTitle()}</td>
                         <td>
-                            <a href="">Link</a>
+                            <a href="response?Id=${fb.getFeedbackId()}">${fb.getContent().substring(0, 10)}...</a>
                         </td>
                         <td>
                             <c:if test="${fb.getResponse()== ''}" >

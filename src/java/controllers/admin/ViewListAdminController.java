@@ -98,14 +98,14 @@ public class ViewListAdminController extends HttpServlet {
             } //student
             else if (request.getServletPath().contains("student-account-list")) {
                 try {
-//                    ArrayList<Account> students = accountDAO.getListAccountByRole(2);
-                    ArrayList<Account> students = accountDAO.getListAccountByRoleAndSort(2, criteria, sort);
-                    accountDAO.setItemList(students);
+//                    ArrayList<Account> accounts = accountDAO.getListAccountByRole(2);
+                    ArrayList<Account> accounts = accountDAO.getListAccountByRoleAndSort(2, criteria, sort);
+                    accountDAO.setItemList(accounts);
                     accountDAO.setMaxPageItem(element);
                     accountDAO.setMaxTotalPage(10);
 
                     request.setAttribute("accountDAO", accountDAO);
-                    request.setAttribute("accountList", students);
+                    request.setAttribute("accountList", accounts);
                 } catch (Exception ex) {
                     Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -113,13 +113,13 @@ public class ViewListAdminController extends HttpServlet {
             } //teacher
             else if (request.getServletPath().contains("teacher-account-list")) {
                 try {
-                    ArrayList<Account> teachers = accountDAO.getListAccountByRoleAndSort(1, criteria, sort);
-                    accountDAO.setItemList(teachers);
+                    ArrayList<Account> accounts = accountDAO.getListAccountByRoleAndSort(1, criteria, sort);
+                    accountDAO.setItemList(accounts);
                     accountDAO.setMaxPageItem(element);
                     accountDAO.setMaxTotalPage(10);
 
                     request.setAttribute("accountDAO", accountDAO);
-                    request.setAttribute("accountList", teachers);
+                    request.setAttribute("accountList", accounts);
                 } catch (Exception ex) {
                     Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -184,13 +184,13 @@ public class ViewListAdminController extends HttpServlet {
             } //student
             else if (request.getServletPath().contains("student-account-list")) {
                 try {
-                    ArrayList<Account> students = accountDAO.getListAccountByRoleAndSort(2, criteria, sort);
-                    accountDAO.setItemList(students);
+                    ArrayList<Account> accounts = accountDAO.getListAccountByRoleAndSort(2, criteria, sort);
+                    accountDAO.setItemList(accounts);
                     accountDAO.setMaxPageItem(element);
                     accountDAO.setMaxTotalPage(10);
 
                     request.setAttribute("accountDAO", accountDAO);
-                    request.setAttribute("accountList", students);
+                    request.setAttribute("accountList", accounts);
                 } catch (Exception ex) {
                     Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -198,13 +198,13 @@ public class ViewListAdminController extends HttpServlet {
             } //teacher
             else if (request.getServletPath().contains("teacher-account-list")) {
                 try {
-                    ArrayList<Account> teachers = accountDAO.getListAccountByRoleAndSort(1, criteria, sort);
-                    accountDAO.setItemList(teachers);
+                    ArrayList<Account> accounts = accountDAO.getListAccountByRoleAndSort(1, criteria, sort);
+                    accountDAO.setItemList(accounts);
                     accountDAO.setMaxPageItem(element);
                     accountDAO.setMaxTotalPage(10);
 
                     request.setAttribute("accountDAO", accountDAO);
-                    request.setAttribute("accountList", teachers);
+                    request.setAttribute("accountList", accounts);
                 } catch (Exception ex) {
                     Logger.getLogger(ViewListAdminController.class.getName()).log(Level.SEVERE, null, ex);
                 }
