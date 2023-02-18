@@ -15,6 +15,10 @@
         box-sizing: border-box;
     }
 
+    textarea {
+        resize: none;
+    }
+
     .post {
         padding: 1rem;
         background-color: white;
@@ -58,6 +62,7 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
+        flex-shrink: 0;
     }
 
     .post-header .post-owner {
@@ -83,9 +88,7 @@
     .post-body > textarea[name=content] {
         outline: none;
         border: none;
-        resize: none;
         width: 100%;
-        height: fit-content;
         padding-top: 1rem;
         display: flex;
         flex-direction: column;
@@ -117,7 +120,7 @@
         text-transform: capitalize;
     }
 
-    #new-post-modal .message {
+    #choose-resource-modal .message {
         margin: 0.5rem 1rem 0;
     }
 
@@ -190,6 +193,8 @@
         align-items: center;
         display: none;
         cursor: pointer;
+        pointer-events: none;
+        z-index: 100;
     }
 
     .image-box.more .image-more {
@@ -238,27 +243,73 @@
         border: none;
     }
 
-    .comment-item {
-        padding-top: 0.5rem;
+    .comment-list {
         display: flex;
-        align-items: center;
+        flex-direction: column;
+    }
+
+    .comment-item {
+        padding-top: 1rem;
+        display: flex;
+        align-items: flex-start;
         gap: 1rem;
     }
 
-    .comment-item > .comment-input {
+    .comment-item > .comment-input-wrapper {
         flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .comment-item .comment-input {
+        width: 100%;
+        height: 40px;
         border-radius: 20px;
         padding: 6px 1rem;
         outline: none;
-        border: 2px solid #bdbdbd;
+        border: 1px solid #bdbdbd;
+        overflow-y: hidden;
     }
 
-    .comment-item > .comment-input::placeholder {
+    .comment-item .comment-input::placeholder {
         opacity: 0.5;
     }
 
-    .comment-item > .comment-input:focus {
-        border: 2px solid #3b71ca;
+    .comment-item .comment-input:focus {
+        border: 1px solid #3b71ca;
+    }
+
+    .comment-item > .comment-btn {
+        height: 40px;
+        width: 54px;
+        font-size: 1.2rem;
+        display: flex;
+        justify-content: center;
+        border-radius: 20px;
+        cursor: pointer;
+        padding: 0;
+        align-items: center;
+    }
+
+    .comment-image {
+        margin-top: 1rem;
+        padding-top: 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: left;
+        position: relative;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .comment-document {
+        margin-top: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        border: 2px solid rgb(216, 220, 240);
     }
 
     #image-carousel {
@@ -335,7 +386,7 @@
         background-color: white;
     }
 
-    #new-post-modal .modal-dialog {
+    #choose-resource-modal .modal-dialog {
         padding: 1rem;
         width: 60vw;
     }
@@ -471,7 +522,7 @@
         color: #0d6efdp;
     }
 
-    #new-post-modal .post-footer {
+    #choose-resource-modal .post-footer {
         justify-content: space-between;
     }
 
@@ -535,6 +586,40 @@
         border-radius: 50%;
         font-size: 2rem;
     }
+
+    .comment-owner {
+        font-weight: 500;
+    }
+
+    .comment-owner > span {
+        user-select: none;
+        font-size: 0.85rem;
+        opacity: 0.5;
+        padding-left: 1rem;
+    }
+
+    .comment-content {
+        padding: 0.5rem 1rem;
+        background-color: #eeeeee;
+        border-radius: 20px;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    .view-comment {
+        border-top-left-radius: 99px;
+        border-top-right-radius: 99px;
+        border-bottom-left-radius: 99px;
+        border-bottom-right-radius: 99px;
+        margin: 1rem auto 0;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .view-comment > i {
+        font-size: 1.5rem;
+    }
 </style>
 <div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 56px;">
     <div class="swiper" id="image-swipper">
@@ -548,7 +633,7 @@
     </div>
     <%@include file="/template/sidebar.jsp" %>
     <div class="content-main  d-flex justify-content-center container position-relative">
-        <div class="modal fade" id="new-post-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" id="choose-resource-modal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-content">
                 <div class="resource-list-wrapper">
                     <div id="resource-list"></div>
@@ -562,7 +647,7 @@
                         <button class="btn btn-outline-secondary delete-btn">Detele</button>
                     </div>
                     <button class="btn btn-danger btn-sm active comfirm-delete-btn" style="margin-right: auto">Confirm delete</button>
-                    <button data-mdb-dismiss="modal" class="btn btn-primary main-btn">Close</button>
+                    <button data-bs-dismiss="modal" class="btn btn-primary main-btn">Close</button>
                 </div>
                 <p class="message alert-danger"></p>
             </div>
@@ -579,7 +664,7 @@
                 <div id="post-image-slot"></div>
             </div>
             <div class="post-footer">
-                <button id="add-resource" class="btn main-btn no-bg-btn" data-mdb-target="#new-post-modal" data-mdb-toggle="modal">Add image, video, document...</button>
+                <button id="add-resource" class="btn main-btn no-bg-btn" >Add image, video, document...</button>
                 <button id="post-btn" class="btn btn-primary">Post</button>
             </div>
         </div>
@@ -607,6 +692,10 @@
     const postBtn = document.getElementById('post-btn')
     const postImageSlot = document.getElementById('post-image-slot')
     const createPostBody = document.querySelector("#create-post > div.post-body")
+    const resourceModal = document.querySelector('#choose-resource-modal')
+    const resourceModalBootstrap = new bootstrap.Modal(resourceModal, {
+        keyboard: false
+    })
 
     function createElement(element) {
         const parent = document.createElement(element.tagName)
@@ -657,6 +746,7 @@
     document.querySelector('.swiper-close-btn').addEventListener('click', () => imageSwiper.classList.remove('open'))
 
     function addPost(post) {
+        newfeedPosts.push(post)
         const bindList = {}
         const postElement = createElement({
             tagName: 'div',
@@ -764,15 +854,53 @@
                                     style: 'background-image: url("<c:url value="${account.profilePicture == null ? '/assets/img/ava.png' : account.profilePicture}"/>");'
                                 },
                                 {
-                                    tagName: 'input',
-                                    className: 'comment-input',
-                                    placeholder: 'Enter your comment here'
+                                    tagName: 'div',
+                                    className: 'comment-input-wrapper',
+                                    bind: [bindList, 'commentInputWrapper'],
+                                    children: [
+                                        {
+                                            tagName: 'textarea',
+                                            className: 'comment-input',
+                                            placeholder: 'Enter your comment here',
+                                            rows: 1,
+                                            bind: [bindList, 'commentInput'],
+                                        },
+                                    ]
+                                },
+                                {
+                                    tagName: 'button',
+                                    className: 'comment-btn btn btn-outline-secondary',
+                                    bind: [bindList, 'addResourceBtn'],
+                                    children: [{
+                                            tagName: 'i',
+                                            className: 'fa-solid fa-file'
+                                        }]
+                                },
+                                {
+                                    tagName: 'button',
+                                    className: 'comment-btn btn btn-outline-secondary',
+                                    bind: [bindList, 'commentSendBtn'],
+                                    children: [{
+                                            tagName: 'i',
+                                            className: 'fa-solid fa-paper-plane'
+                                        }]
                                 }
                             ]
                         },
                         {
                             tagName: 'div',
-                            className: 'comment-list'
+                            className: 'comment-list',
+                            bind: [bindList, 'commentList'],
+                            children: [{
+                                    tagName: 'button',
+                                    className: 'view-comment btn btn-outline-secondary',
+                                    bind: [bindList, 'viewComment'],
+                                    textContent: 'View comments',
+                                    children: [{
+                                            tagName: 'i',
+                                            className: 'fa-sharp fa-solid fa-caret-down'
+                                        }]
+                                }]
                         }
                     ]
                 }
@@ -856,16 +984,168 @@
             })
             bindList.postBody.append(documentBox)
         }
+        let initHeight
+        bindList.commentInput.addEventListener('input', () => {
+            bindList.commentSendBtn.disabled = !bindList.commentInput.value.trim() && rsList.length === 0
+            bindList.commentInput.style.height = '0'
+            if (bindList.commentInput.scrollHeight > initHeight) {
+                bindList.commentInput.style.height = bindList.commentInput.scrollHeight + 'px'
+            } else {
+                bindList.commentInput.style.height = initHeight + 'px'
+            }
+        })
+        const rsList = []
+        const commentImageBox = createElement({
+            tagName: 'div',
+            className: 'comment-image'
+        })
+        const commentDocumentBox = createElement({
+            tagName: 'div',
+            className: 'comment-document'
+        })
+        bindList.commentSendBtn.disabled = true
+        bindList.commentSendBtn.addEventListener('click', () => {
+            sendComment(post, bindList.commentInput, rsList[0])
+            rsList.length = 0
+            commentImageBox.remove()
+            commentDocumentBox.remove()
+            bindList.commentInput.value = null
+        })
+        bindList.addResourceBtn.addEventListener('click', () => {
+            resourceManage.selected = rsList
+            resourceManage.resetup = () => {
+                rsList.forEach((r, i) => {
+                    r.order.innerHTML = '<i class="fa-solid fa-check"></i>'
+                })
+                deleteBtn.disabled = rsList.length > 0
+            }
+            resourceManage.callback = resource => {
+                if (rsList[0] !== resource) {
+                    const rel = rsList.pop()
+                    if (rel) {
+                        rel.element.classList.remove('selected')
+                        rsList.length = 0
+                    }
+                    if (rasterType.includes(resource.mimeType)) {
+                        commentDocumentBox.remove()
+                        if (!commentImageBox.isConnected)
+                            bindList.commentInputWrapper.append(commentImageBox)
+                        commentImageBox.style.backgroundImage = 'url("<c:url value="/"/>' + resource.url.substring(1) + '")'
+                    } else {
+                        commentImageBox.remove()
+                        if (!commentDocumentBox.isConnected)
+                            bindList.commentInputWrapper.append(commentDocumentBox)
+                        commentDocumentBox.textContent = resource.url.split('/').pop()
+                    }
+                    resource.order.innerHTML = '<i class="fa-solid fa-check"></i>'
+                    resource.element.classList.add('selected')
+                    rsList.push(resource)
+                    console.log(rsList)
+                } else {
+                    commentImageBox.remove()
+                    commentDocumentBox.remove()
+                    resource.element.classList.remove('selected')
+                    rsList.length = 0
+                }
+                bindList.commentSendBtn.disabled = !bindList.commentInput.value.trim() && rsList.length === 0
+            }
+            resourceModalBootstrap.show()
+        })
+        post.addComment = comment => {
+            const commentBind = {}
+            bindList.commentList.insertBefore(createElement({
+                tagName: 'div',
+                className: 'comment-item',
+                children: [
+                    {
+                        tagName: 'div',
+                        className: 'post-profile-picture',
+                        style: 'background-image: url("' + <c:url value="/"/> + (comment.account.profilePicture ? comment.account.profilePicture : '/assets/img/ava.png').substring(1) + '");'
+                    },
+                    {
+                        tagName: 'div',
+                        className: 'comment-input-wrapper',
+                        bind: [commentBind, 'commentResource'],
+                        children: [
+                            {
+                                tagName: 'p',
+                                className: 'comment-owner',
+                                textContent: comment.account.name,
+                                children: [{
+                                        tagName: 'span',
+                                        textContent: comment.createTime
+                                    }]
+                            },
+                            {
+                                tagName: 'p',
+                                className: 'comment-content',
+                                textContent: comment.content
+                            }
+                        ]
+                    }
+                ]
+            }), bindList.commentList.children[0])
+            const commentCount = bindList.commentList.children.length
+            bindList.commentNumber.textContent = commentCount + (commentCount > 1 ? ' comments' : 'comment')
+            if (!comment.resource)
+                return
+            if (rasterType.includes(comment.resource.mimeType)) {
+                commentBind.commentResource.append(createElement({
+                    tagName: 'div',
+                    className: 'comment-image',
+                    style: 'background-image: url("<c:url value="/"/>' + comment.resource.url.substring(1) + '")'
+                }))
+            } else {
+                commentBind.commentResource.append(createElement({
+                    tagName: 'div',
+                    className: 'comment-document',
+                    textContent: comment.resource.url.split('/').pop()
+                }))
+            }
+        }
+        bindList.commentNumber.textContent = post.commentCount + (post.commentCount > 1 ? ' comments' : ' comment')
+        bindList.viewComment.addEventListener('click', async () => {
+            bindList.viewComment.disabled = true
+            const response = await fetch('<c:url value="/${account.role == 1 ? 'teacher' : 'student'}/class/comment"/>?postId=' + post.postId)
+            if (response.ok) {
+                bindList.commentList.textContent = ''
+                const json = await response.json()
+                json.forEach(cmt => post.addComment(cmt))
+            } else {
+                bindList.viewComment.disabled = false
+            }
+        })
         postList.insertBefore(postElement, postList.children[0])
+        initHeight = bindList.commentInput.scrollHeight + 2
         return postElement
     }
 
+    async function sendComment(post, input, resource) {
+        if (!input.value.trim() && !resource)
+            return
+        const formData = new FormData()
+        formData.append('classId', classId)
+        formData.append('postId', post.postId)
+        formData.append('content', input.value.trim())
+        if (resource)
+            formData.append('resourceId', resource.resourceId)
+        const response = await fetch('<c:url value="/${account.role == 1 ? 'teacher' : 'student'}/class/comment"/>', {
+            method: 'POST',
+            body: formData
+        })
+        console.log(response)
+    }
+
     generalWS.on('new-post', newPost => addPost(newPost))
+    generalWS.on('new-comment', newComment => {
+        const p = newfeedPosts.find(post => post.postId === newComment.postId)
+        p.addComment(newComment)
+    })
 
     let planToScroll = null
     const urlHash = location.hash ? location.hash.substring(1) : null
-    const newfeedPosts = JSON.parse('${postObject}')
-    newfeedPosts.forEach(post => {
+    const newfeedPosts = []
+    JSON.parse(`${postObject}`).forEach(post => {
         const el = addPost(post)
         if (post.postId === urlHash) {
             planToScroll = el.getBoundingClientRect().top - document.querySelector('#header > nav').clientHeight - 16 + window.scrollY
@@ -911,115 +1191,37 @@
         }
     }
 
-    const uploadBtn = document.querySelector('#new-post-modal .upload-btn')
+    const uploadBtn = document.querySelector('#choose-resource-modal .upload-btn')
     uploadBtn.disabled = true
-    const deleteBtn = document.querySelector('#new-post-modal .delete-btn')
+    const deleteBtn = document.querySelector('#choose-resource-modal .delete-btn')
     deleteBtn.disabled = true
-    const confirmDeleteBtn = document.querySelector('#new-post-modal .comfirm-delete-btn')
+    const confirmDeleteBtn = document.querySelector('#choose-resource-modal .comfirm-delete-btn')
     confirmDeleteBtn.disabled = true
     confirmDeleteBtn.style.display = 'none'
     const resourceList = document.getElementById('resource-list')
     const allResources = []
-    const selectedResources = []
+    const resourceManage = {
+        selected: [],
+        callback: null,
+        resetup: null
+    }
     const deletingResources = []
     const xhrQueue = []
     let requesting = false
     let deletingMode = false
 
-    function setSelectable(resource) {
-        resource.element.addEventListener('click', () => {
-            if (deletingMode) {
-                if (!resource.deleting) {
-                    resource.order.innerHTML = '<i class="fa-solid fa-trash"></i>'
-                    resource.element.classList.add('deleting')
-                    resource.deleting = true
-                    deletingResources.push(resource)
-                } else {
-                    resource.element.classList.remove('deleting')
-                    resource.deleting = false
-                    resource.order.textContent = ''
-                    const index = deletingResources.indexOf(resource)
-                    deletingResources.splice(index, 1)
-                }
-                confirmDeleteBtn.disabled = deletingResources.length === 0
-            } else {
-                if (!resource.selected) {
-                    selectedResources.push(resource)
-                    resource.order.textContent = selectedResources.length
-                    resource.element.classList.add('selected')
-                    resource.selected = true
-                    if (!resource.preview) {
-                        if (rasterType.includes(resource.mimeType)) {
-                            resource.preview = createElement({
-                                tagName: 'div',
-                                classList: {
-                                    add: ['carousel-img-item']
-                                },
-                                children: [
-                                    {
-                                        tagName: 'img',
-                                        draggable: false,
-                                        src: '<c:url value="/"/>' + resource.url.substring(1)
-                                    },
-                                    {
-                                        tagName: 'i',
-                                        onclick: () => resource.element.click(),
-                                        classList: {
-                                            add: ['fa-solid', 'fa-xmark']
-                                        }
-                                    }
-                                ]
-                            })
-                        } else {
-                            resource.preview = createElement({
-                                tagName: 'div',
-                                classList: {
-                                    add: ['document-item']
-                                },
-                                textContent: resource.url.split('/').pop(),
-                                onclick: null,
-                                children: [{
-                                        tagName: 'i',
-                                        onclick: () => resource.element.click(),
-                                        classList: {
-                                            add: ['fa-solid', 'fa-xmark']
-                                        }
-                                    }]
-                            })
-                        }
-                    }
-                    if (rasterType.includes(resource.mimeType)) {
-                        carouselWrapper.append(resource.preview)
-                        if (!imageCarousel.isConnected)
-                            postImageSlot.append(imageCarousel);
-                    } else {
-                        documentBox.append(resource.preview)
-                        if (!documentBox.isConnected)
-                            createPostBody.append(documentBox)
-                    }
-                } else {
-                    const index = selectedResources.indexOf(resource)
-                    selectedResources.splice(index, 1)
-                    resource.element.classList.remove('selected')
-                    resource.selected = false
-                    selectedResources.forEach((r, i) => {
-                        r.order.textContent = i + 1
-                    })
-                    resource.preview.remove()
-                    if (carouselWrapper.children.length == 0) {
-                        imageCarousel.remove()
-                    }
-                    if (documentBox.children.length == 0) {
-                        documentBox.remove()
-                    }
-                }
-                deleteBtn.disabled = selectedResources.length !== 0
+    async function loadResource() {
+        resourceModal.removeEventListener('show.bs.modal', loadResource)
+        resourceModal.addEventListener('show.bs.modal', () => {
+            resourceManage.selected.forEach(r => {
+                r.element.classList.add('selected')
+            })
+            if (resourceManage.resetup)
+                resourceManage.resetup()
+            if (resourceManage.selected.length > 0) {
+                deleteBtn.disabled = true
             }
         })
-    }
-
-    addResourceBtn.onclick = async () => {
-        addResourceBtn.onclick = null
         const response = await fetch('<c:url value="/resource"/>')
         const json = await response.json()
         json.forEach(r => {
@@ -1066,6 +1268,131 @@
         deleteBtn.disabled = false
     }
 
+    function deselectAllSelected() {
+        resourceManage.selected.forEach(r => {
+            r.element.classList.remove('selected')
+        })
+        resourceManage.selected = null
+        deleteBtn.disabled = false
+    }
+
+    resourceModal.addEventListener('show.bs.modal', loadResource)
+    resourceModal.addEventListener('hidden.bs.modal', () => {
+        resourceManage.callback = null
+        resourceManage.resetup = null
+        deselectAllSelected()
+        if (deletingMode) {
+            deleteBtn.click()
+        }
+    })
+
+    const selectedResources = []
+    addResourceBtn.addEventListener('click', () => {
+        resourceManage.selected = selectedResources
+        resourceManage.resetup = () => {
+            selectedResources.forEach((r, i) => {
+                r.order.textContent = i + 1
+            })
+        }
+        resourceManage.callback = resource => {
+            if (!selectedResources.includes(resource)) {
+                selectedResources.push(resource)
+                resource.order.textContent = selectedResources.length
+                resource.element.classList.add('selected')
+//                resource.selected = true
+                if (!resource.preview) {
+                    if (rasterType.includes(resource.mimeType)) {
+                        resource.preview = createElement({
+                            tagName: 'div',
+                            classList: {
+                                add: ['carousel-img-item']
+                            },
+                            children: [
+                                {
+                                    tagName: 'img',
+                                    draggable: false,
+                                    src: '<c:url value="/"/>' + resource.url.substring(1)
+                                },
+                                {
+                                    tagName: 'i',
+                                    onclick: () => resource.element.click(),
+                                    classList: {
+                                        add: ['fa-solid', 'fa-xmark']
+                                    }
+                                }
+                            ]
+                        })
+                    } else {
+                        resource.preview = createElement({
+                            tagName: 'div',
+                            classList: {
+                                add: ['document-item']
+                            },
+                            textContent: resource.url.split('/').pop(),
+                            onclick: null,
+                            children: [{
+                                    tagName: 'i',
+                                    onclick: () => resource.element.click(),
+                                    classList: {
+                                        add: ['fa-solid', 'fa-xmark']
+                                    }
+                                }]
+                        })
+                    }
+                }
+                if (rasterType.includes(resource.mimeType)) {
+                    carouselWrapper.append(resource.preview)
+                    if (!imageCarousel.isConnected)
+                        postImageSlot.append(imageCarousel);
+                } else {
+                    documentBox.append(resource.preview)
+                    if (!documentBox.isConnected)
+                        createPostBody.append(documentBox)
+                }
+            } else {
+                const index = selectedResources.indexOf(resource)
+                selectedResources.splice(index, 1)
+                resource.element.classList.remove('selected')
+//                resource.selected = false
+                selectedResources.forEach((r, i) => {
+                    r.order.textContent = i + 1
+                })
+                resource.preview.remove()
+                if (carouselWrapper.children.length == 0) {
+                    imageCarousel.remove()
+                }
+                if (documentBox.children.length == 0) {
+                    documentBox.remove()
+                }
+            }
+        }
+        resourceModalBootstrap.show()
+    })
+
+    function setSelectable(resource) {
+        resource.element.addEventListener('click', () => {
+            if (deletingMode) {
+                if (!deletingResources.includes(resource)) {
+                    resource.order.innerHTML = '<i class="fa-solid fa-trash"></i>'
+                    resource.element.classList.add('deleting')
+//                    resource.deleting = true
+                    deletingResources.push(resource)
+                } else {
+                    resource.element.classList.remove('deleting')
+//                    resource.deleting = false
+                    resource.order.textContent = ''
+                    const index = deletingResources.indexOf(resource)
+                    deletingResources.splice(index, 1)
+                }
+                confirmDeleteBtn.disabled = deletingResources.length === 0
+            } else {
+                if (resourceManage.callback)
+                    resourceManage.callback(resource)
+                deleteBtn.disabled = selectedResources.length !== 0
+            }
+        })
+    }
+
     deleteBtn.addEventListener('click', () => {
         deletingMode = !deletingMode
         confirmDeleteBtn.style.display = deletingMode ? 'block' : 'none'
@@ -1073,7 +1400,7 @@
         deleteBtn.classList.toggle('btn-danger', deletingMode)
         if (!deletingMode) {
             deletingResources.forEach(rs => {
-                rs.deleting = false
+//                rs.deleting = false
                 rs.element.classList.remove('deleting')
                 rs.order.textContent = '0'
             })
@@ -1106,8 +1433,9 @@
                 allResources.push(...tmp)
             }
             if (json.failed.length > 0) {
-                const messageEl = document.querySelector('#new-post-modal .message')
-                if (deleteTimer) clearTimeout(deleteTimer)
+                const messageEl = document.querySelector('#choose-resource-modal .message')
+                if (deleteTimer)
+                    clearTimeout(deleteTimer)
                 deleteTimer = setTimeout(() => messageEl.textContent = '', 5000)
                 messageEl.textContent = 'Cannot delete ' + allResources.filter(rs => json.failed.includes(rs.resourceId)).map(rs => rs.url.split('/').pop()).join(', ') + ' because it was used in other post'
             }
@@ -1116,15 +1444,6 @@
 
     uploadBtn.addEventListener('click', async () => {
         const inputElement = document.createElement('input')
-        const rasterType = [
-            'image/png',
-            'image/jpeg',
-            'image/bmp',
-            'image/gif',
-            'image/tiff',
-            'image/webp',
-            'image/avif'
-        ]
         inputElement.type = 'file'
         inputElement.multiple = true
         inputElement.addEventListener('change', () => {
@@ -1253,7 +1572,7 @@
             createPostInput.value = ''
             selectedResources.forEach(r => {
                 r.element.classList.remove('selected')
-                r.selected = false
+//                r.selected = false
                 r.preview.remove()
             })
             selectedResources.length = 0

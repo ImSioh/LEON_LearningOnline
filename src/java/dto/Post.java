@@ -18,9 +18,13 @@ public class Post {
     @Expose
     private Timestamp createTime;
     @Expose
-    public ArrayList<Resource> resources = null;
+    public ArrayList<Resource> resources = new ArrayList<>();
     @Expose
     public Account account = null;
+    @Expose
+    public ArrayList<Comment> comments = new ArrayList<>();
+    @Expose
+    public int commentCount = 0;
 
     public Post(UUID postId, UUID accountId, UUID classId, boolean pin, String content, Timestamp createTime) {
         this.postId = postId;

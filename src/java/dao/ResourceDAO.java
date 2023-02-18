@@ -36,6 +36,11 @@ public class ResourceDAO extends AbstractDAO<Resource> {
         return selectMany(query, Util.UUIDToByteArray(postId));
     }
 
+    public Resource getResourcesById(UUID resourceId) throws Exception {
+        String query = "SELECT resource_id, account_id, url, thumbnail, mime_type FROM resource r WHERE r.resource_id = ?";
+        return selectOne(query, Util.UUIDToByteArray(resourceId));
+    }
+
     @Override
     protected Resource propMapping(ResultSet rs) throws Exception {
         return new Resource(
