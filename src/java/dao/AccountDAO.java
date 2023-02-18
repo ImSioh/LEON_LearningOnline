@@ -76,6 +76,16 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, classCode, accepted);
     }
 
+    public ArrayList<Account> getStudentsByClassCodeAndStudentName(String classCode, String search) throws Exception {
+        String query = "select a.*  from account as a , enrollment as e , class as c where e.account_id= a.account_id and  c.class_id =  e.class_id and c.code = ? and e.accepted = 1 and a.name like ?";
+        return selectMany(query, classCode, "%" + search + "%");
+    }
+
+    public ArrayList<Account> getStudentsRequestByClassCodeAndStudentName(String classCode, String search) throws Exception {
+        String query = "select a.*  from account as a , enrollment as e , class as c where e.account_id= a.account_id and  c.class_id =  e.class_id and c.code = ? and e.accepted = 0 and a.name like ?";
+        return selectMany(query, classCode, "%" + search + "%");
+    }
+
     public int setVerifyCodeNull(UUID id) throws Exception {
         String query = "UPDATE account set verification_code = NULL WHERE account_id = ?";
         return update(query, Util.UUIDToByteArray(id));
@@ -141,7 +151,7 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
 
     public static void main(String[] args) throws Exception {
-
+        System.out.println(new AccountDAO().getStudentsRequestByClassCodeAndStudentName("BIYLQ", "Lê"));
     }
 
     @Override
