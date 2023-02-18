@@ -4,7 +4,6 @@ package controllers;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 import controllers.student.*;
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 @WebServlet(name = "LeaveClass", urlPatterns = {"/student/class/leave", "/teacher/class/remove-student", "/teacher/class/reject-student"})
 public class OutOfClassController extends HttpServlet {
@@ -48,8 +46,6 @@ public class OutOfClassController extends HttpServlet {
                 Logger.getLogger(OutOfClassController.class.getName()).log(Level.SEVERE, null, ex);
             }
             ArrayList<Account> listStudent = new ArrayList<>();
-            listStudent = new AccountDAO().getListAllStudentByClassCode(classCode, "1");
-            req.setAttribute("listStudent", listStudent);
         } catch (Exception ex) {
             Logger.getLogger(OutOfClassController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,10 +53,10 @@ public class OutOfClassController extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/student/class");
         }
         if (req.getServletPath().contains("/teacher/class/remove-student")) {
-            req.getRequestDispatcher("/teacher/member.jsp").forward(req, resp);
+            req.getRequestDispatcher("/student/class/member-list").forward(req, resp);
         }
         if (req.getServletPath().contains("/teacher/class/reject-student")) {
-            req.getRequestDispatcher("/teacher/request.jsp").forward(req, resp);
+            req.getRequestDispatcher("/teacher/class/member-request-list").forward(req, resp);
         }
 
     }
