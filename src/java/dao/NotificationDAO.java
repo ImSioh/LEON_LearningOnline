@@ -24,12 +24,14 @@ public class NotificationDAO extends AbstractDAO<Notification> {
     }
     
     public int insertNotification(Notification notification) throws Exception {
-        String query = "INSERT INTO notification (notification_id, account_id, class_id, title, redirect_url, content, create_time) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO notification (notification_id, account_id, class_id, target, type, title, redirect_url, content, create_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return update(
                 query,
                 Util.UUIDToByteArray(notification.getNotificationId()),
                 Util.UUIDToByteArray(notification.getAccountId()),
                 Util.UUIDToByteArray(notification.getClassId()),
+                Util.UUIDToByteArray(notification.getTarget()),
+                notification.getType(),
                 notification.getTitle(),
                 notification.getRedirectUrl(),
                 notification.getContent(),
@@ -44,6 +46,7 @@ public class NotificationDAO extends AbstractDAO<Notification> {
                 Util.ByteArrayToUUID(rs.getBytes("account_id")),
                 Util.ByteArrayToUUID(rs.getBytes("class_id")),
                 Util.ByteArrayToUUID(rs.getBytes("target")),
+                rs.getInt("type"),
                 rs.getNString("title"),
                 rs.getString("redirect_url"),
                 rs.getNString("content"),

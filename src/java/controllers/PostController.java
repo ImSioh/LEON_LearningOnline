@@ -3,11 +3,15 @@ package controllers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.AccountDAO;
+import dao.ClassObjectDAO;
 import dao.CommentDAO;
+import dao.NotificationDAO;
 import dao.PostDAO;
 import dao.PostResourceDAO;
 import dao.ResourceDAO;
 import dto.Account;
+import dto.ClassObject;
+import dto.Notification;
 import dto.Post;
 import dto.PostResource;
 import helpers.Constant;
@@ -65,8 +69,6 @@ public class PostController extends HttpServlet {
             UUID classId = UUID.fromString(req.getParameter("classId"));
             String content = req.getParameter("content");
             String resources = req.getParameter("resources");
-            System.out.println(classId);
-            System.out.println(content);
             Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(Constant.FORMAT_DATETIME).create();
             String[] resourceArr = gson.fromJson(resources, String[].class);
 
@@ -79,6 +81,18 @@ public class PostController extends HttpServlet {
                     postResourceDAO.insertPostResouce(postResource);
                 }
                 post.resources = new ResourceDAO().getResourcesByPost(post.getPostId());
+                
+                ClassObject classObject = new ClassObjectDAO().getClassById(classId);
+                String title = account.getName() + " posted in class " + classObject.getName();
+                String redirectUrl = "/class/newfeed?code=" + classObject.getCode() + "#" + post.getPostId();
+                String subContent = content.substring(0, Math.min(200, content.length()));
+                Notification notification = new Notification(UUID.randomUUID(), account.getAccountId(), classId, null, 1, title, redirectUrl, subContent, new Timestamp(System.currentTimeMillis()));
+                result = new NotificationDAO().insertNotification(notification);
+                if (result > 0) {
+                    JsonWrapper<Notification> jsonWrapper = new JsonWrapper<>("notification", notification);
+                    String json = gson.toJson(jsonWrapper);
+                    WebSocketController.sendToClass(classId, json);
+                }
             }
             post.account = account;
             JsonWrapper<Post> jsonWrapper = new JsonWrapper<>("new-post", post);

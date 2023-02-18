@@ -751,6 +751,7 @@
         const postElement = createElement({
             tagName: 'div',
             className: 'mt-4 post',
+            id: post.postId,
             children: [
                 {
                     tagName: 'div',
@@ -1177,26 +1178,25 @@
         }).join(''));
     }
 
-    let planToScroll = null
     const urlHash = location.hash ? location.hash.substring(1) : null
     const newfeedPosts = []
     fetch('<c:url value="/${account.role == 1 ? 'teacher' : 'student'}/class/post"/>?classId=' + classId)
             .then(response => response.json())
             .then(json => {
+                let planToScroll = null
                 json.forEach(post => {
                     const el = addPost(post)
                     if (post.postId === urlHash) {
                         planToScroll = el.getBoundingClientRect().top - document.querySelector('#header > nav').clientHeight - 16 + window.scrollY
                     }
                 })
+                if (planToScroll) {
+                    window.scroll({
+                        top: planToScroll,
+                        behavior: 'smooth'
+                    });
+                }
             })
-            
-    if (planToScroll) {
-        window.scroll({
-            top: planToScroll,
-            behavior: 'smooth'
-        });
-    }
 
     const imageCarousel = createElement({
         tagName: 'div',
