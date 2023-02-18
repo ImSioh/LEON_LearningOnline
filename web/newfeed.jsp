@@ -117,6 +117,10 @@
         text-transform: capitalize;
     }
 
+    #new-post-modal .message {
+        margin: 0.5rem 1rem 0;
+    }
+
     .no-bg-btn {
         color: #1e88e5;
         box-shadow: none !important;
@@ -406,12 +410,19 @@
         max-height: 100%;
         transform: translate(-50%, -50%);
         border-radius: 4px;
-        border: 0 solid #0d6efd;
-        transition: border linear 0.1s;
+        border-style: solid;
+        border-width: 0;
+        transition: all linear 0.1s;
     }
 
     .resource-item.selected img {
         border-width: 3px;
+        border-color: #0d6efd;
+    }
+
+    .resource-item.deleting img {
+        border-width: 3px;
+        border-color: #dc3545;
     }
 
     .resource-item .order {
@@ -422,10 +433,10 @@
         top: 0;
         right: 0;
         background-color: white;
-        border: 3px solid #0d6efd;
+        border-style: solid;
+        border-width: 3px;
         padding: 0 5px;
         margin: 4px;
-        color: #0d6efd;
         min-width: 30px;
         text-align: center;
         font-weight: 800;
@@ -436,6 +447,14 @@
     }
 
     .resource-item.selected .order {
+        color: #0d6efd;
+        border-color: #0d6efd;
+        opacity: 1;
+    }
+
+    .resource-item.deleting .order {
+        color: #dc3545;
+        border-color: #dc3545;
         opacity: 1;
     }
 
@@ -538,12 +557,14 @@
                     </div>
                 </div>
                 <div class="post-footer">
-                    <div class="btn-group me-2">
+                    <div class="btn-group me-3">
                         <button class="btn btn-outline-secondary upload-btn">Upload image, video, document...</button>
                         <button class="btn btn-outline-secondary delete-btn">Detele</button>
                     </div>
+                    <button class="btn btn-danger btn-sm active comfirm-delete-btn" style="margin-right: auto">Confirm delete</button>
                     <button data-mdb-dismiss="modal" class="btn btn-primary main-btn">Close</button>
                 </div>
+                <p class="message alert-danger"></p>
             </div>
         </div>
         <div class="col-md-7 mt-4 post" id="create-post">
@@ -814,7 +835,6 @@
                 bindList.imageBox.classList.add('more')
                 bindList.extraCount.textContent = '+' + (imageL.length - 4)
             }
-//            bindList.imageList
         }
         if (otherL.length > 0) {
             const documentBox = createElement({
@@ -837,12 +857,26 @@
             bindList.postBody.append(documentBox)
         }
         postList.insertBefore(postElement, postList.children[0])
+        return postElement
     }
 
     generalWS.on('new-post', newPost => addPost(newPost))
 
+    let planToScroll = null
+    const urlHash = location.hash ? location.hash.substring(1) : null
     const newfeedPosts = JSON.parse('${postObject}')
-    newfeedPosts.forEach(post => addPost(post))
+    newfeedPosts.forEach(post => {
+        const el = addPost(post)
+        if (post.postId === urlHash) {
+            planToScroll = el.getBoundingClientRect().top - document.querySelector('#header > nav').clientHeight - 16 + window.scrollY
+        }
+    })
+    if (planToScroll) {
+        window.scroll({
+            top: planToScroll,
+            behavior: 'smooth'
+        });
+    }
 
     const imageCarousel = createElement({
         tagName: 'div',
@@ -881,83 +915,105 @@
     uploadBtn.disabled = true
     const deleteBtn = document.querySelector('#new-post-modal .delete-btn')
     deleteBtn.disabled = true
+    const confirmDeleteBtn = document.querySelector('#new-post-modal .comfirm-delete-btn')
+    confirmDeleteBtn.disabled = true
+    confirmDeleteBtn.style.display = 'none'
     const resourceList = document.getElementById('resource-list')
     const allResources = []
     const selectedResources = []
+    const deletingResources = []
     const xhrQueue = []
     let requesting = false
+    let deletingMode = false
 
     function setSelectable(resource) {
         resource.element.addEventListener('click', () => {
-            if (!resource.selected) {
-                selectedResources.push(resource)
-                resource.order.textContent = selectedResources.length
-                resource.element.classList.add('selected')
-                resource.selected = true
-                if (!resource.preview) {
-                    if (rasterType.includes(resource.mimeType)) {
-                        resource.preview = createElement({
-                            tagName: 'div',
-                            classList: {
-                                add: ['carousel-img-item']
-                            },
-                            children: [
-                                {
-                                    tagName: 'img',
-                                    draggable: false,
-                                    src: '<c:url value="/"/>' + resource.url.substring(1)
+            if (deletingMode) {
+                if (!resource.deleting) {
+                    resource.order.innerHTML = '<i class="fa-solid fa-trash"></i>'
+                    resource.element.classList.add('deleting')
+                    resource.deleting = true
+                    deletingResources.push(resource)
+                } else {
+                    resource.element.classList.remove('deleting')
+                    resource.deleting = false
+                    resource.order.textContent = ''
+                    const index = deletingResources.indexOf(resource)
+                    deletingResources.splice(index, 1)
+                }
+                confirmDeleteBtn.disabled = deletingResources.length === 0
+            } else {
+                if (!resource.selected) {
+                    selectedResources.push(resource)
+                    resource.order.textContent = selectedResources.length
+                    resource.element.classList.add('selected')
+                    resource.selected = true
+                    if (!resource.preview) {
+                        if (rasterType.includes(resource.mimeType)) {
+                            resource.preview = createElement({
+                                tagName: 'div',
+                                classList: {
+                                    add: ['carousel-img-item']
                                 },
-                                {
-                                    tagName: 'i',
-                                    onclick: () => resource.element.click(),
-                                    classList: {
-                                        add: ['fa-solid', 'fa-xmark']
+                                children: [
+                                    {
+                                        tagName: 'img',
+                                        draggable: false,
+                                        src: '<c:url value="/"/>' + resource.url.substring(1)
+                                    },
+                                    {
+                                        tagName: 'i',
+                                        onclick: () => resource.element.click(),
+                                        classList: {
+                                            add: ['fa-solid', 'fa-xmark']
+                                        }
                                     }
-                                }
-                            ]
-                        })
+                                ]
+                            })
+                        } else {
+                            resource.preview = createElement({
+                                tagName: 'div',
+                                classList: {
+                                    add: ['document-item']
+                                },
+                                textContent: resource.url.split('/').pop(),
+                                onclick: null,
+                                children: [{
+                                        tagName: 'i',
+                                        onclick: () => resource.element.click(),
+                                        classList: {
+                                            add: ['fa-solid', 'fa-xmark']
+                                        }
+                                    }]
+                            })
+                        }
+                    }
+                    if (rasterType.includes(resource.mimeType)) {
+                        carouselWrapper.append(resource.preview)
+                        if (!imageCarousel.isConnected)
+                            postImageSlot.append(imageCarousel);
                     } else {
-                        resource.preview = createElement({
-                            tagName: 'div',
-                            classList: {
-                                add: ['document-item']
-                            },
-                            textContent: resource.url.split('/').pop(),
-                            onclick: null,
-                            children: [{
-                                    tagName: 'i',
-                                    onclick: () => resource.element.click(),
-                                    classList: {
-                                        add: ['fa-solid', 'fa-xmark']
-                                    }
-                                }]
-                        })
+                        documentBox.append(resource.preview)
+                        if (!documentBox.isConnected)
+                            createPostBody.append(documentBox)
+                    }
+                } else {
+                    const index = selectedResources.indexOf(resource)
+                    selectedResources.splice(index, 1)
+                    resource.element.classList.remove('selected')
+                    resource.selected = false
+                    selectedResources.forEach((r, i) => {
+                        r.order.textContent = i + 1
+                    })
+                    resource.preview.remove()
+                    if (carouselWrapper.children.length == 0) {
+                        imageCarousel.remove()
+                    }
+                    if (documentBox.children.length == 0) {
+                        documentBox.remove()
                     }
                 }
-                if (rasterType.includes(resource.mimeType)) {
-                    carouselWrapper.append(resource.preview)
-                    if (!imageCarousel.isConnected)
-                        postImageSlot.append(imageCarousel);
-                } else {
-                    documentBox.append(resource.preview)
-                    if (!documentBox.isConnected)
-                        createPostBody.append(documentBox)
-                }
-            } else {
-                const index = selectedResources.indexOf(resource)
-                selectedResources.splice(index, 1)
-                resource.element.classList.remove('selected')
-                resource.selected = false
-                selectedResources.forEach((r, i) => {
-                    r.order.textContent = i + 1
-                })
-                resource.preview.remove()
-                if (carouselWrapper.children.length == 0) {
-                    imageCarousel.remove()
-                }
-                if (documentBox.children.length == 0) {
-                    documentBox.remove()
-                }
+                deleteBtn.disabled = selectedResources.length !== 0
             }
         })
     }
@@ -1009,6 +1065,54 @@
         uploadBtn.disabled = false
         deleteBtn.disabled = false
     }
+
+    deleteBtn.addEventListener('click', () => {
+        deletingMode = !deletingMode
+        confirmDeleteBtn.style.display = deletingMode ? 'block' : 'none'
+        deleteBtn.classList.toggle('btn-outline-secondary', !deletingMode)
+        deleteBtn.classList.toggle('btn-danger', deletingMode)
+        if (!deletingMode) {
+            deletingResources.forEach(rs => {
+                rs.deleting = false
+                rs.element.classList.remove('deleting')
+                rs.order.textContent = '0'
+            })
+            deletingResources.length = 0
+            confirmDeleteBtn.disabled = true
+        }
+        uploadBtn.disabled = deletingMode
+    })
+
+    let deleteTimer
+    confirmDeleteBtn.addEventListener('click', async () => {
+        const rsList = deletingResources.map(rs => 'rId=' + rs.resourceId)
+        const url = '<c:url value="/resource"/>' + '?' + rsList.join('&')
+        const response = await fetch(url, {
+            method: 'DELETE'
+        })
+        if (response.ok) {
+            const json = await response.json()
+            if (json.succeed.length > 0) {
+                const tmp = []
+                allResources.forEach(rs => {
+                    if (json.succeed.includes(rs.resourceId)) {
+                        rs.order.remove()
+                        rs.element.remove()
+                    } else {
+                        tmp.push(rs)
+                    }
+                })
+                allResources.length = 0
+                allResources.push(...tmp)
+            }
+            if (json.failed.length > 0) {
+                const messageEl = document.querySelector('#new-post-modal .message')
+                if (deleteTimer) clearTimeout(deleteTimer)
+                deleteTimer = setTimeout(() => messageEl.textContent = '', 5000)
+                messageEl.textContent = 'Cannot delete ' + allResources.filter(rs => json.failed.includes(rs.resourceId)).map(rs => rs.url.split('/').pop()).join(', ') + ' because it was used in other post'
+            }
+        }
+    })
 
     uploadBtn.addEventListener('click', async () => {
         const inputElement = document.createElement('input')
@@ -1082,20 +1186,17 @@
                 xhr.open('POST', '<c:url value="/files"/>', true)
 
                 xhr.upload.addEventListener('progress', e => {
-                    console.log(e)
                     const percent = Math.round(e.loaded * 100 / e.total) + '%'
                     progressPercent.textContent = percent
                     progressBar.style.width = percent
                 })
 
                 xhr.upload.addEventListener('loadstart', e => {
-                    console.log('START UPLOAD', file.name)
                     resourceElement.classList.add('loading')
                     resourceList.append(resourceElement)
                 })
 
                 xhr.upload.addEventListener('loadend', e => {
-                    console.log('END UPLOAD', file.name, xhr.readyState)
                     resourceElement.classList.remove('loading')
                     loadingIcon.remove()
                     if (xhrQueue.length !== 0) {
@@ -1107,7 +1208,6 @@
 
                 xhr.addEventListener('load', e => {
                     const json = JSON.parse(xhr.responseText)
-                    console.log(json)
 
                     const rs = {
                         element: resourceElement,
@@ -1159,6 +1259,7 @@
             selectedResources.length = 0
             imageCarousel.remove()
             documentBox.remove()
+            deleteBtn.disabled = false
         }
     })
 </script>
