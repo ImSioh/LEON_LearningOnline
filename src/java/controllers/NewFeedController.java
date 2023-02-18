@@ -22,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
@@ -60,6 +61,9 @@ public class NewFeedController extends HttpServlet {
             AccountDAO accountDAO = new AccountDAO();
             CommentDAO commentDAO = new CommentDAO();
             for (Post post : posts) {
+                String content = post.getContent();
+                content = new String(Base64.getEncoder().encode(content.getBytes()));
+                post.setContent(content);
                 post.resources = resourceDAO.getResourcesByPost(post.getPostId());
                 Account postOwner = otherAccount.get(post.getAccountId());
                 if (postOwner == null) {
@@ -76,7 +80,6 @@ public class NewFeedController extends HttpServlet {
             req.setAttribute("postObject", postArr);
             req.setAttribute("classObject", classObject);
             req.setAttribute("activeNF", "active");
-//            req.setAttribute("formater", new SimpleDateFormat(Constant.FORMAT_DATETIME));
             if (account.getRole() == 1) {
                 req.setAttribute("teacher", account);
             } else {

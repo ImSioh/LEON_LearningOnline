@@ -1051,6 +1051,7 @@
             }
             resourceModalBootstrap.show()
         })
+        let commentListExpanded = false
         post.addComment = comment => {
             const commentBind = {}
             bindList.commentList.insertBefore(createElement({
@@ -1085,21 +1086,48 @@
                     }
                 ]
             }), bindList.commentList.children[0])
-            const commentCount = bindList.commentList.children.length
-            bindList.commentNumber.textContent = commentCount + (commentCount > 1 ? ' comments' : 'comment')
+            const commentCount = bindList.commentList.children.length - !commentListExpanded
+            bindList.commentNumber.textContent = commentCount + (commentCount > 1 ? ' comments' : ' comment')
             if (!comment.resource)
                 return
             if (rasterType.includes(comment.resource.mimeType)) {
-                commentBind.commentResource.append(createElement({
+                let imgCarousel = null
+                const cmtImg = createElement({
                     tagName: 'div',
                     className: 'comment-image',
                     style: 'background-image: url("<c:url value="/"/>' + comment.resource.url.substring(1) + '")'
-                }))
+                })
+                cmtImg.addEventListener('click', () => {
+                    if (!imgCarousel) {
+                        imgCarousel = createElement({
+                            tagName: 'div',
+                            className: 'swiper-slide',
+                            children: [{
+                                    tagName: 'img',
+                                    src: '<c:url value="/"/>' + comment.resource.url.substring(1)
+                                }]
+                        })
+                    }
+                    swiper.removeAllSlides()
+                    swiper.appendSlide(imgCarousel)
+                    imageSwiper.classList.add('open')
+                })
+                commentBind.commentResource.append(cmtImg)
             } else {
                 commentBind.commentResource.append(createElement({
                     tagName: 'div',
-                    className: 'comment-document',
-                    textContent: comment.resource.url.split('/').pop()
+                    className: 'document-box',
+                    children: [{
+                            tagName: 'a',
+                            className: 'text-decoration-none text-black text-truncate',
+                            href: '<c:url value="/"/>' + comment.resource.url.substring(1),
+                            target: '_blank',
+                            children: [{
+                                    tagName: 'div',
+                                    className: 'document-item text-truncate',
+                                    textContent: comment.resource.url.split('/').pop()
+                                }]
+                        }]
                 }))
             }
         }
@@ -1108,6 +1136,7 @@
             bindList.viewComment.disabled = true
             const response = await fetch('<c:url value="/${account.role == 1 ? 'teacher' : 'student'}/class/comment"/>?postId=' + post.postId)
             if (response.ok) {
+                commentListExpanded = true
                 bindList.commentList.textContent = ''
                 const json = await response.json()
                 json.forEach(cmt => post.addComment(cmt))
@@ -1142,15 +1171,26 @@
         p.addComment(newComment)
     })
 
+    function b64DecodeUnicode(str) {
+        return decodeURIComponent(atob(str).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+    }
+
     let planToScroll = null
     const urlHash = location.hash ? location.hash.substring(1) : null
     const newfeedPosts = []
-    JSON.parse(`${postObject}`).forEach(post => {
-        const el = addPost(post)
-        if (post.postId === urlHash) {
-            planToScroll = el.getBoundingClientRect().top - document.querySelector('#header > nav').clientHeight - 16 + window.scrollY
-        }
-    })
+    fetch('<c:url value="/${account.role == 1 ? 'teacher' : 'student'}/class/post"/>?classId=' + classId)
+            .then(response => response.json())
+            .then(json => {
+                json.forEach(post => {
+                    const el = addPost(post)
+                    if (post.postId === urlHash) {
+                        planToScroll = el.getBoundingClientRect().top - document.querySelector('#header > nav').clientHeight - 16 + window.scrollY
+                    }
+                })
+            })
+            
     if (planToScroll) {
         window.scroll({
             top: planToScroll,
@@ -1299,7 +1339,6 @@
                 selectedResources.push(resource)
                 resource.order.textContent = selectedResources.length
                 resource.element.classList.add('selected')
-//                resource.selected = true
                 if (!resource.preview) {
                     if (rasterType.includes(resource.mimeType)) {
                         resource.preview = createElement({
@@ -1353,7 +1392,6 @@
                 const index = selectedResources.indexOf(resource)
                 selectedResources.splice(index, 1)
                 resource.element.classList.remove('selected')
-//                resource.selected = false
                 selectedResources.forEach((r, i) => {
                     r.order.textContent = i + 1
                 })
@@ -1375,11 +1413,9 @@
                 if (!deletingResources.includes(resource)) {
                     resource.order.innerHTML = '<i class="fa-solid fa-trash"></i>'
                     resource.element.classList.add('deleting')
-//                    resource.deleting = true
                     deletingResources.push(resource)
                 } else {
                     resource.element.classList.remove('deleting')
-//                    resource.deleting = false
                     resource.order.textContent = ''
                     const index = deletingResources.indexOf(resource)
                     deletingResources.splice(index, 1)
@@ -1400,7 +1436,6 @@
         deleteBtn.classList.toggle('btn-danger', deletingMode)
         if (!deletingMode) {
             deletingResources.forEach(rs => {
-//                rs.deleting = false
                 rs.element.classList.remove('deleting')
                 rs.order.textContent = '0'
             })

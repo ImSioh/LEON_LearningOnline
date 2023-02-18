@@ -2,6 +2,8 @@ package controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dao.AccountDAO;
+import dao.CommentDAO;
 import dao.PostDAO;
 import dao.PostResourceDAO;
 import dao.ResourceDAO;
@@ -18,11 +20,43 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.UUID;
 
 @WebServlet(name = "CreatePostController", urlPatterns = {"/teacher/class/post", "/student/class/post"})
 @MultipartConfig
-public class CreatePostController extends HttpServlet {
+public class PostController extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            UUID classId = UUID.fromString(req.getParameter("classId"));
+
+            ArrayList<Post> posts = new PostDAO().getPostsInClass(classId);
+            HashMap<UUID, Account> otherAccount = new HashMap<>();
+            ResourceDAO resourceDAO = new ResourceDAO();
+            AccountDAO accountDAO = new AccountDAO();
+            CommentDAO commentDAO = new CommentDAO();
+            for (Post post : posts) {
+                post.resources = resourceDAO.getResourcesByPost(post.getPostId());
+                Account postOwner = otherAccount.get(post.getAccountId());
+                if (postOwner == null) {
+                    postOwner = accountDAO.getAccountById(post.getAccountId());
+                    otherAccount.put(postOwner.getAccountId(), postOwner);
+                }
+                post.account = postOwner;
+                post.commentCount = commentDAO.countCommentInPost(post.getPostId());
+            }
+
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(Constant.FORMAT_DATETIME).create();
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("utf-8");
+            resp.getWriter().print(gson.toJson(posts));
+        } catch (Exception e) {
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
