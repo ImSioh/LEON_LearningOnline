@@ -145,11 +145,6 @@ public class AccountDAO extends AbstractDAO<Account> {
         );
     }
 
-    public int lockAccount(Account account, boolean status, UUID id) throws Exception {
-        String query = "UPDATE account SET locked = ? WHERE account_id = ?;";
-        return update(query, status, id);
-    }
-
     public static void main(String[] args) throws Exception {
         System.out.println(new AccountDAO().getStudentsRequestByClassCodeAndStudentName("BIYLQ", "Lê"));
     }
