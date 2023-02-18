@@ -31,18 +31,14 @@ public class AcceptStudentController extends HttpServlet {
             ClassObjectDAO co = new ClassObjectDAO();
             EnrollmentDAO ed = new EnrollmentDAO();
             ed.updateAccepted(1, UUID.fromString(AccountId), co.getClassByCode(classCode).getClassId());
-            ArrayList<Account> listStudent = new ArrayList<>();
-            ArrayList<Account> listRequest = new ArrayList<>();
             ClassObject classObject = new ClassObjectDAO().getClassByCode(classCode);
             request.setAttribute("classObject", classObject);
-
         } catch (Exception ex) {
             Logger.getLogger(AcceptStudentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (request.getServletPath().contains("/teacher/class/accept-student")) {
             request.getRequestDispatcher("/teacher/class/member-request-list").forward(request, response);
         }
-
     }
 
     @Override
