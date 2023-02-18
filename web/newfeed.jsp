@@ -540,7 +540,7 @@
                 <div class="post-footer">
                     <div class="btn-group me-2">
                         <button class="btn btn-outline-secondary upload-btn">Upload image, video, document...</button>
-                        <button class="btn btn-outline-secondary delete-btn">Detele</button>
+                        <button class="btn btn-outline-secondary delete-btn">Delete</button>
                     </div>
                     <button data-mdb-dismiss="modal" class="btn btn-primary main-btn">Close</button>
                 </div>

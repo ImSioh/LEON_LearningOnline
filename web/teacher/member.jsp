@@ -49,7 +49,7 @@
                                                  ">;
                                             </div>
                                         </div>
-                                        <div class="ms-3">
+                                        <div class="ms-3" style="cursor: pointer;">
                                             <p class="fw-bold mb-1">${listS.getName()}</p>
                                             <c:if test="${account.getRole() ==1}"><p class="text-muted mb-0">${listS.getEmail()}</p></c:if> 
                                             </div>

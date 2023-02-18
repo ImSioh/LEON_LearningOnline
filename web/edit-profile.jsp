@@ -37,7 +37,7 @@
                                  background-position: center;
                                  background-repeat: no-repeat;
                                  background-size: cover;
-                                 ">;
+                                 ">
                             </div>
                             <div class="position-absolute" style=" top:0; left: 0; background-color: rgba(0, 0, 0, 0.3); display: none; width: 100%; height: 100%;">
                                 <p class="text-light text-center" style=" overflow-wrap: break-word; font-weight: bold;">Click here to <br> change image</p>
