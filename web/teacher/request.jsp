@@ -6,16 +6,18 @@
     <div class="content-main d-flex justify-content-center container" style="margin-left: 250px;">
         <div class="card col-md-9 mt-4 row" style="height: fit-content;" >
             <!--<div class="card-header">Create Post</div>-->
-            <div class="d-flex mt-4 gap-1 justify-content-end"  style=""> 
-                <div class="form-outline col-md-5 ">
-                    <input id="myInput" onkeyup="searchTable()" type="text" class="form-control" id="datatable-search-input">
-                    <label class="form-label" for="datatable-search-input">Search</label>
-                </div>
-                <div id="datatable">
-                </div>
-<!--                <button type="button" class="btn btn-primary">
-                    <i class="fas fa-print"></i>
-                </button>-->
+            <div class=" d-flex mt-4 gap-1 justify-content-end row input-group"  style=""> 
+                <form action="member-request-list" method="post" class="row col-md-7 d-flex row">
+                    <input type="hidden" name="code" value="${classObject.getCode()}" style="border-radius: 6px;">
+                    <div class="form-outline col-md-10">
+                        <input type="text" class="form-control" name="search" value="${search}">
+                        <label  class="form-label" for="datatable-search-input">Search</label>
+                    </div>
+                    <button type="submit" class="btn btn-info col-md-1">
+                        <i class="fas fa-search text-light"></i>
+                    </button>
+                </form>
+
             </div>
             <div class="card-body m-3" >
                 <table id="myTable" class="table align-middle mb-0 bg-white" style="padding: -10px;">
@@ -122,27 +124,7 @@
     }
 
 
-    function searchTable() {
-        var input, filter, table, tr, td, i, j, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("myTable");
-        tr = table.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-            for (j = 0; j < tr[i].cells.length; j++) {
-                td = tr[i].getElementsByTagName("td")[j];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                        break;
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-    }
+   
 
 
 
