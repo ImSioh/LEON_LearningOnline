@@ -72,6 +72,7 @@ public class ViewUserProfileController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(ViewUserProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        account.setRole(3);
         request.setAttribute("account", account);
         request.getRequestDispatcher("/profile.jsp").forward(request, response);
     }

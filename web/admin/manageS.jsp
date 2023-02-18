@@ -103,12 +103,12 @@
                         <td>${account.getCreateTime()}</td>
                         <td>
                             <c:if test="${account.isLocked()}">
-                                <a href="<c:url value="/admin/student-account-list/lock?id=${account.getAccountId()}"/>" 
+                                <a href="<c:url value="/admin/lock?id=${account.getAccountId()}"/>" 
                                    onclick="return lockAcc('Do you want to unlock this account?')">
                                     <i class="fa-solid fa-lock"></i></a>
                                 </c:if>
                                 <c:if test="${account.isLocked()!=true}">
-                                <a href="<c:url value="/admin/student-account-list/lock?id=${account.getAccountId()}"/>" 
+                                <a href="<c:url value="/admin/lock?id=${account.getAccountId()}"/>" 
                                    onclick="return lockAcc('Do you want to lock this account?')">
                                     <i class="fa-solid fa-lock-open"></i></a>
                                 </c:if>
@@ -130,14 +130,6 @@
 
 </div>
 
-<script>
-    function lockAcc(msg) {
-        if (confirm(msg)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-</script>
+<script src="<c:url value="assets/js/lock.js"/>"></script>
 
 <%@include file="template/footer.jsp" %>

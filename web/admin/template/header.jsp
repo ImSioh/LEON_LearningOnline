@@ -41,7 +41,7 @@
 
                         <!-- Collapsible wrapper -->
 
-                        <a href="" class="navbar-brand mt-2 mt-lg-0">LE.ON - Admin</a>
+                        <a href="feedback-list" class="navbar-brand mt-2 mt-lg-0">LE.ON - Admin</a>
 
                         <!-- Left links -->
                         <ul class="navbar-nav mx-auto mb-2 mb-lg-0">

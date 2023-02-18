@@ -19,7 +19,7 @@ import java.util.UUID;
  *
  * @author Asus
  */
-@WebServlet(name = "LockAccountServlet", urlPatterns = {"/admin/student-account-list/lock", "/admin/teacher-account-list/lock"})
+@WebServlet(name = "LockAccountServlet", urlPatterns = {"/admin/lock"})
 public class LockAccountController extends HttpServlet {
 
     @Override
@@ -35,6 +35,7 @@ public class LockAccountController extends HttpServlet {
             boolean lock = account.isLocked();
             account.setLocked(!lock);
 
+            int role = account.getRole();
             int check = accountDAO.editAccount(account);
 
             String to = account.getEmail();
@@ -43,9 +44,9 @@ public class LockAccountController extends HttpServlet {
             String content = "Your account at \"LE.ON - Learning Online\" has been " + (lock ? "locked!" : "unlocked!");
             Util.sendEmail(to, title, content);
 
-            if (request.getServletPath().contains("teacher-account-list")) {
+            if (role == 1) {
                 response.sendRedirect(request.getContextPath() + "/admin/teacher-account-list");
-            } else if (request.getServletPath().contains("student-account-list")) {
+            } else if (role == 2) {
                 response.sendRedirect(request.getContextPath() + "/admin/student-account-list");
             }
 
