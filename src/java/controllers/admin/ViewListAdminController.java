@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controllers.admin;
 
 import dao.AccountDAO;
@@ -9,7 +5,6 @@ import dao.FeedbackDAO;
 import dto.Account;
 import dto.Feedback;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,29 +14,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Asus
- */
 @WebServlet(name = "ViewListAdminController", urlPatterns = {"/admin/feedback-list", "/admin/student-account-list", "/admin/teacher-account-list"})
 public class ViewListAdminController extends HttpServlet {
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewListAdminController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewListAdminController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -50,7 +24,7 @@ public class ViewListAdminController extends HttpServlet {
 //            Account account = (Account) request.getAttribute("account");
             AccountDAO accountDAO = new AccountDAO();
             FeedbackDAO feedbackDAO = new FeedbackDAO();
-            
+
             int element;
             try {
                 element = Integer.parseInt(request.getParameter("element"));
@@ -136,7 +110,7 @@ public class ViewListAdminController extends HttpServlet {
 //            Account account = (Account) request.getAttribute("account");
             AccountDAO accountDAO = new AccountDAO();
             FeedbackDAO feedbackDAO = new FeedbackDAO();
-            
+
             int element;
             try {
                 element = Integer.parseInt(request.getParameter("element"));
@@ -213,10 +187,4 @@ public class ViewListAdminController extends HttpServlet {
         } catch (Exception e) {
         }
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
