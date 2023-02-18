@@ -30,22 +30,12 @@ public class OutOfClassController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        String classCode = req.getParameter("code");
+        req.setAttribute("classCode", classCode);
+        String AccountId = req.getParameter("accountId");
         try {
-            String classCode = req.getParameter("code");
-            req.setAttribute("classCode", classCode);
-            ClassObjectDAO co = new ClassObjectDAO();
-            ClassObject classObject = co.getClassByCode(classCode);
-            req.setAttribute("classObject", classObject);
-            String AccountId = req.getParameter("accountId");
-            req.setAttribute("teacher", new AccountDAO().getAccountById(classObject.getAccountId()));
-            try {
-                ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
-                int leaveClass = new EnrollmentDAO().leaveClass(classobj.getClassId(), UUID.fromString(AccountId));
-
-            } catch (Exception ex) {
-                Logger.getLogger(OutOfClassController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            ArrayList<Account> listStudent = new ArrayList<>();
+            ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
+            int leaveClass = new EnrollmentDAO().leaveClass(classobj.getClassId(), UUID.fromString(AccountId));
         } catch (Exception ex) {
             Logger.getLogger(OutOfClassController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -58,7 +48,6 @@ public class OutOfClassController extends HttpServlet {
         if (req.getServletPath().contains("/teacher/class/reject-student")) {
             req.getRequestDispatcher("/teacher/class/member-request-list").forward(req, resp);
         }
-
     }
 
     @Override
