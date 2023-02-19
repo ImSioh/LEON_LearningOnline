@@ -31,6 +31,7 @@ public class userViewResponseController extends HttpServlet {
             request.setAttribute("titleFeedback", feedback.getTitle());
             request.setAttribute("contentFeedback", feedback.getContent());
             request.setAttribute("responseFeedback", feedback.getResponse());
+            request.setAttribute("account", account);
             request.getRequestDispatcher("/view-ResponseByUser.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(userViewResponseController.class.getName()).log(Level.SEVERE, null, ex);
