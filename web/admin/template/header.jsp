@@ -67,17 +67,16 @@
 
 
                         <!-- Notifications -->
-                        <div class="dropdown">
+<!--                        <div class="dropdown">
                             <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink"
                                role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                                 <i class="far fa-bell" style="font-size: 24px; "></i>
                                 <span class="badge rounded-pill badge-notification bg-danger">5</span>
                             </a>
-
-                        </div>
+                        </div>-->
                         <!-- Avatar -->
                         <div class="dropdown">
-                            <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="<c:url value="/logout"/>"
+                            <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="<c:url value="/admin"/>"
                                id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown"
                                aria-expanded="false" style="text-decoration: none;">
                                 <i class="far fa-user-circle"

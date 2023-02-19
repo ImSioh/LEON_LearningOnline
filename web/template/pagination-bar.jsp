@@ -1,72 +1,59 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<c:if test="${empty pageNumber}">
-    <c:set scope="page" var="pageNumber" value="${param.page != null ? param.page : 1}"/>
-</c:if>
-<c:if test="${empty modelDAO}">
-    <c:set scope="page" var="modelDAO" value="${requestScope[param.modelDAOName]}"/>
-</c:if>
-<c:set scope="page" var="pageRange" value="${modelDAO.getPageRange(pageNumber)}"/>
+<c:set scope="page" var="page" value="${param.page}"/>
+<c:set scope="page" var="numberOfPage" value="${param.numberOfPage}"/>
+<%--<c:set scope="page" var="pageRange" value="${modelDAO.getPageRange(page)}"/>--%>
 
+<c:url value="${basePath}" var="paging_url">
+    <c:param name="search" value="${search}"/>
+    <c:param name="keyword" value="${keyword}"/> 
+</c:url>
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end">
-        <c:if test="${modelDAO.totalPage > 1}">
-            <li class="page-item">
-                <c:if test="${pageNumber != 1}">
-                    <a class="page-link" href="
-                       <c:url value="${param.basePath}">
-                           <%--<c:param name="optionSearch" value="${optionSearch}"/>--%>
-                           <%--<c:param name="searchFor" value="${searchFor}"/>--%>
-                           <%--<c:param name="keyword" value="${keyword}"/>--%> 
-                           <c:param name="page" value="${pageNumber - 1}"/>
-                       </c:url> ">
+        <c:if test="${numberOfPage > 1 && page > 0
+              && numberOfPage >= page}">
+            <c:if test="${page != 1}">
+                <li class="page-item">
+                    <input type="hidden" name="page" value="${page-1}">
+                    <a class="page-link" 
+                       href="${paging_url}">
                         Previous
                     </a>
-                </c:if>
-            </li>
+                </li>
+            </c:if>
 
-            <li class="page-item">
-                <c:if test="${pageRange[0] != 1}">
-                    <span>...</span>
-                </c:if>
-            </li>
+            <!--            <li class="page-item">
+            <c:if test="${pageRange[0] != 1}">
+                <span>...</span>
+            </c:if>
+        </li>-->
 
-            <c:forEach begin="${pageRange[0]}" end="${pageRange[1]}" var="page">
-                <li class="page-item <c:if test="${pageNumber == page}"> active</c:if>
-                    <c:if test="${pageNumber == page}"></c:if>
+            <c:forEach begin="1" end="${numberOfPage}" var="i">
+                <li class="page-item <c:if test="${page == i}"> active</c:if>
+                    <c:if test="${page == i}"></c:if>
                         "> 
-                        <a class="page-link" href="
-                        <c:url value="${param.basePath}">
-                            <%--<c:param name="optionSearch" value="${optionSearch}"/>--%>
-                            <%--<c:param name="searchFor" value="${searchFor}"/>--%>
-                            <%--<c:param name="keyword" value="${keyword}"/>--%>
-                            <c:param name="page" value="${page}"/>
-                        </c:url> "> 
-                        ${page}
+                        <a class="page-link" 
+                           href="${paging_url}&page=${i}"> 
+                        ${i}
                     </a>
                 </li>
             </c:forEach>
 
-            <li class="page-item">
-                <c:if test="${pageRange[1] != modelDAO.totalPage}">
-                    <span>...</span>
-                </c:if>
-            </li>
+            <!--            <li class="page-item">
+            <c:if test="${pageRange[1] != modelDAO.totalPage}">
+                <span>...</span>
+            </c:if>
+        </li>-->
 
-            <li class="page-item">
-                <c:if test="${pageNumber != modelDAO.totalPage}">
-                    <a class="page-link" href="
-                       <c:url value="${param.basePath}">
-                           <%--<c:param name="optionSearch" value="${optionSearch}"/>--%>
-                           <%--<c:param name="searchFor" value="${searchFor}"/>--%>
-                           <%--<c:param name="keyword" value="${keyword}"/>--%>
-                           <c:param name="page" value="${pageNumber + 1}"/>
-                       </c:url> ">
+            <c:if test="${page != numberOfPage}">
+                <li class="page-item">
+                    <a class="page-link" 
+                       href="${paging_url}&page=${page+1}">
                         Next
                     </a>
-                </c:if>
-            </li>
+                </li>
+            </c:if>
         </c:if>
     </ul>
 </nav>

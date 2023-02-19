@@ -1,8 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="template/header.jsp" %>
 
-<c:set scope="page" var="pageNumber" value="${param.page != null ? param.page : 1}"/>
-<c:if test="${!(pageNumber >= 1 && pageNumber <= accountDAO.totalPage)}">
+<c:set scope="page" var="page" value="${page}"/>
+<c:set scope="page" var="numberOfPage" value="${numberOfPage}"/>
+<c:if test="${!(page >= 1 && page <= numberOfPage)}">
     <c:redirect url="/admin/student-account-list"/>
 </c:if>
 
@@ -13,19 +14,20 @@
     <!-- <img src="assets/img/welcome_admin.jpg" alt="Welcome to Admin Homepage" width="100%" height="100%" style="margin: 0;"/> -->
 
     <!--Search-->
-    <!-- <form action="<c:url value="/admin/student-account-list/search"/>" method="get" style="">
+    <form action="" method="get" style="">
         <span class="button-action" style="display: flex;">
-            <select name="optionSearch" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
-                <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
-                <option value="email" ${optionSearch eq "email"?"selected":""}>Email</option>
-                <option value="phoneNumber" ${optionSearch eq "phoneNumber"?"selected":""}>PhoneNumber</option>
+            <select name="search" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
+                <option value="name" ${search eq "name"?"selected":""}>Name</option>
+                <option value="email" ${search eq "email"?"selected":""}>Email</option>
+                <option value="address" ${search eq "address"?"selected":""}>Address</option>
+                <option value="phoneNumber" ${search eq "phoneNumber"?"selected":""}>Phone Number</option>
             </select>
-            <input type="hidden" name="searchFor" value="Student">
+
             <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; height: 10%; margin: 0"> 
             <input type="submit" value="SEARCH" id="search" class="btn-info" 
                    style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
-    </form> -->
+    </form>
 
     <!--Sort-->
     <form action="" method="post" style="margin-top: 10px;">
@@ -75,8 +77,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="account" items="${accountDAO.getItemsInPage(pageNumber)}" >
-                    <%--<c:forEach var="account" items="${accountList}" >--%>
+                    <c:forEach var="account" items="${accountList}" >
                     <tr>
                         <td>
                             <a href="user-account-profile?id=${account.getAccountId()}">Profile</a>
@@ -119,12 +120,10 @@
         </table>
     </div>
 
-    <c:url value="admin/student-account-list" var="baseUrl">
-
-    </c:url>
+    <c:url value="admin/student-account-list" var="baseUrl"/>
     <c:import url="/template/pagination-bar.jsp">
-        <c:param name="page" value="${pageNumber}"/>
-        <c:param name="modelDAOName" value="accountDAO"/>
+        <c:param name="page" value="${page}"/>
+        <c:param name="numberOfPage" value="${numberOfPage}"/>
         <c:param name="basePath" value="/${baseUrl}"/>
     </c:import>
 

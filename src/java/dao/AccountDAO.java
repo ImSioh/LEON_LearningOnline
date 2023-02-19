@@ -76,6 +76,25 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, classCode, accepted);
     }
 
+    public ArrayList<Account> getListAccountByRoleSearch(int role, String criteria, String keyword) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\';";
+        return selectMany(query, role);
+    }
+
+    public ArrayList<Account> getListAccountByRoleAndPaging(int role, int elements, int page) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, role, elements, page);
+    }
+
+    public ArrayList<Account> getListAccountByRoleSearchAndPaging(int role, String criteria, String keyword, int elements, int page) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, role, elements, page);
+    }
+
     public int setVerifyCodeNull(UUID id) throws Exception {
         String query = "UPDATE account set verification_code = NULL WHERE account_id = ?";
         return update(query, Util.UUIDToByteArray(id));
@@ -136,7 +155,20 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
 
     public static void main(String[] args) throws Exception {
+        ArrayList<Account> accounts = new ArrayList<>();
+        AccountDAO accountDAO = new AccountDAO();
+        String criteriaSearch = "name";
+        String keyword = "hi";
+        int element = 10;
+        int page = 1;
+        int role = 1;
+        int size = accountDAO.getListAccountByRole(role).size();
+        int numberOfPage;
+        accounts = accountDAO.getListAccountByRoleSearchAndPaging(role, criteriaSearch, keyword, element, page);
+        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRoleSearch(role, criteriaSearch, keyword).size() / (float) element);
 
+        System.out.println("size=" + size);
+        System.out.println("numberofpage=" + numberOfPage);
     }
 
     @Override
