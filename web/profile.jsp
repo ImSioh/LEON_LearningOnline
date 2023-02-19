@@ -1,4 +1,12 @@
-<%@include file= "/template/header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:choose>
+    <c:when test="${account.getRole() != 3 }">
+        <%@include file= "/template/header.jsp" %>
+    </c:when>
+    <c:when test="${account.getRole() == 3 }">
+        <%@include file="admin/template/header.jsp" %>
+    </c:when>
+</c:choose>
 <div class="content" style="margin-top: 50px;">
     <section style="background-color: rgba(209, 209, 209, 0.5); height: 100vh;">
         <div class="container py-5">
@@ -10,8 +18,11 @@
                                 <c:when test="${account.getRole() == 1 }">
                                     <li class="breadcrumb-item"><a href="<c:url value="/teacher/class"/>" style="text-decoration: none;">Home</a></li>
                                     </c:when>    
+                                    <c:when test="${account.getRole() == 2 }">
+                                    <li class="breadcrumb-item"><a href="<c:url value="/student/class"/>" style="text-decoration: none;">Home</a></li>
+                                    </c:when>    
                                     <c:otherwise>
-                                    <li class="breadcrumb-item"><a href="<c:url value="/student/overview"/>" style="text-decoration: none;">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="<c:url value="/admin/feedback-list"/>" style="text-decoration: none;">Home</a></li>
                                     </c:otherwise>
                                 </c:choose>
 
@@ -51,10 +62,28 @@
                                         <a type="button" class="btn btn-outline-primary ms-1" href="<c:url value="/teacher/profile/edit"/>">Edit Profile</a>
                                     </div>
                                 </c:when>    
-                                <c:otherwise>
+                                <c:when test="${account.getRole() == 2 }">
                                     <div class="d-flex justify-content-center mb-2">
                                         <a type="button" class="btn btn-primary" href="<c:url value="/student/profile/change-password"/>">Change Password</a>
                                         <a type="button" class="btn btn-outline-primary ms-1" href="<c:url value="/student/profile/edit"/>">Edit Profile</a>
+                                    </div>
+                                </c:when>    
+                                <c:otherwise>
+                                    <div class="d-flex justify-content-center mb-2">
+                                        <c:if test="${account.isLocked()}">
+                                            <a type="button" class="btn btn-primary" 
+                                               href="<c:url value="/admin/lock?id=${account.getAccountId()}"/>"
+                                               onclick="return lockAcc('Do you want to unlock this account?')">
+                                                Unlock Account
+                                            </a>
+                                        </c:if>
+                                        <c:if test="${account.isLocked()!=true}">
+                                            <a type="button" class="btn btn-primary" 
+                                               href="<c:url value="/admin/lock?id=${account.getAccountId()}"/>"
+                                               onclick="return lockAcc('Do you want to lock this account?')">
+                                                Lock Account
+                                            </a>
+                                        </c:if>
                                     </div>
                                 </c:otherwise>
                             </c:choose>
@@ -136,4 +165,7 @@
         </div>
     </section>
 </div>
+
+<script src="<c:url value="assets/js/lock.js"/>"></script>
+
 <c:import url="/template/footer.jsp"/>

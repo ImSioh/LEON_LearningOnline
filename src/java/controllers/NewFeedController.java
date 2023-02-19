@@ -4,12 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
+import dao.CommentDAO;
 import dao.EnrollmentDAO;
 import dao.PostDAO;
 import dao.ResourceDAO;
 import dto.Account;
 import dto.ClassObject;
+import dto.Comment;
 import dto.Post;
+import dto.Resource;
 import helpers.Constant;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -19,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
@@ -39,39 +43,43 @@ public class NewFeedController extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Class with code " + classCode + " is not exist");
                 return;
             }
-            
+
             ClassObject classObject = new ClassObjectDAO().getClassByCode(classCode);
             if (classObject == null) {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Class with code " + classCode + " is not exist");
                 return;
             }
-            
+
             if (account.getRole() == 2 && !new EnrollmentDAO().isJoined(account.getAccountId(), classObject.getClassId())) {
                 resp.sendRedirect(req.getContextPath() + "/student/class");
                 return;
             }
-            
+
             ArrayList<Post> posts = new PostDAO().getPostsInClass(classObject.getClassId());
-            HashMap<UUID, Account> postOwners = new HashMap<>();
+            HashMap<UUID, Account> otherAccount = new HashMap<>();
             ResourceDAO resourceDAO = new ResourceDAO();
             AccountDAO accountDAO = new AccountDAO();
+            CommentDAO commentDAO = new CommentDAO();
             for (Post post : posts) {
+                String content = post.getContent();
+                content = new String(Base64.getEncoder().encode(content.getBytes()));
+                post.setContent(content);
                 post.resources = resourceDAO.getResourcesByPost(post.getPostId());
-                Account postOwner = postOwners.get(post.getAccountId());
+                Account postOwner = otherAccount.get(post.getAccountId());
                 if (postOwner == null) {
                     postOwner = accountDAO.getAccountById(post.getAccountId());
-                    postOwners.put(post.getAccountId(), postOwner);
+                    otherAccount.put(postOwner.getAccountId(), postOwner);
                 }
                 post.account = postOwner;
+                post.commentCount = commentDAO.countCommentInPost(post.getPostId());
             }
-            
+
             Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(Constant.FORMAT_DATETIME).create();
             String postArr = gson.toJson(posts);
-            
+
             req.setAttribute("postObject", postArr);
             req.setAttribute("classObject", classObject);
             req.setAttribute("activeNF", "active");
-            req.setAttribute("formater", new SimpleDateFormat(Constant.FORMAT_DATETIME));
             if (account.getRole() == 1) {
                 req.setAttribute("teacher", account);
             } else {

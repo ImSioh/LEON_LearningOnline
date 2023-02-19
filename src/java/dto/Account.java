@@ -172,7 +172,7 @@ public class Account {
             verificationCode,
             createTime.toString(),
             String.valueOf(locked)
-        }) + ")";
+        }) + ") \n";
     }
 
     @Override

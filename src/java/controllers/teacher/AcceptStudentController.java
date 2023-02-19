@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "AcceptStudentController", urlPatterns = {"/teacher/class/accept-student"})
+@WebServlet(name = "AcceptStudentController", urlPatterns = {"/teacher/class/accept-studentt"})
 public class AcceptStudentController extends HttpServlet {
 
     @Override
@@ -31,23 +31,10 @@ public class AcceptStudentController extends HttpServlet {
             ClassObjectDAO co = new ClassObjectDAO();
             EnrollmentDAO ed = new EnrollmentDAO();
             ed.updateAccepted(1, UUID.fromString(AccountId), co.getClassByCode(classCode).getClassId());
-            ArrayList<Account> listStudent = new ArrayList<>();
-            ArrayList<Account> listRequest = new ArrayList<>();
-            ClassObject classObject = new ClassObjectDAO().getClassByCode(classCode);
-            listStudent = new AccountDAO().getListAllStudentByClassCode(classCode, "1");
-            listRequest = new AccountDAO().getListAllStudentByClassCode(classCode, "0");
-            request.setAttribute("listStudent", listStudent);
-            request.setAttribute("listRequest", listRequest);
-            request.setAttribute("classObject", classObject);
-            
-
         } catch (Exception ex) {
             Logger.getLogger(AcceptStudentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (request.getServletPath().contains("/teacher/class/accept-student")) {
-            request.getRequestDispatcher("/teacher/request.jsp").forward(request, response);
-        }
-
+        request.getRequestDispatcher("/teacher/class/member-request-list").forward(request, response);
     }
 
     @Override

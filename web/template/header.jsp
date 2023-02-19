@@ -308,6 +308,7 @@
             </div>
             <script>
                 function insertNotificationHeader(n) {
+                    if (n.accountId === '${account.accountId}') return
                     const nList = document.getElementById('header-notification')
                     const divWrap = document.createElement('div')
                     divWrap.classList.add('d-flex', 'dropdown-item')

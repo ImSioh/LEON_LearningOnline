@@ -9,20 +9,20 @@
 <div id="content">
     <h1>Teachers Management</h1>
 
-        <!--Search-->
-    <!-- <form action="<c:url value="/admin/teacher-account-list/search"/>" method="get" style="">
-        <span class="button-action" style="display: flex;">
-            <select name="optionSearch" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
-                <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
-                <option value="email" ${optionSearch eq "email"?"selected":""}>Email</option>
-                <option value="phoneNumber" ${optionSearch eq "phoneNumber"?"selected":""}>PhoneNumber</option>
-            </select>
-            
-            <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; height: 10%; margin: 0"> 
-            <input type="submit" value="SEARCH" id="search" class="btn-info" 
-                   style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
-        </span>
-    </form> -->
+    <!--Search-->
+<!-- <form action="<c:url value="/admin/teacher-account-list/search"/>" method="get" style="">
+    <span class="button-action" style="display: flex;">
+        <select name="optionSearch" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
+            <option value="name" ${optionSearch eq "name"?"selected":""}>Name</option>
+            <option value="email" ${optionSearch eq "email"?"selected":""}>Email</option>
+            <option value="phoneNumber" ${optionSearch eq "phoneNumber"?"selected":""}>PhoneNumber</option>
+        </select>
+        
+        <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; height: 10%; margin: 0"> 
+        <input type="submit" value="SEARCH" id="search" class="btn-info" 
+               style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
+    </span>
+</form> -->
 
     <!--Sort-->
     <form action="<c:url value="${baseURL}"/>" method="post" style="margin-top: 10px;">
@@ -73,29 +73,49 @@
             </thead>
             <tbody>
                 <c:forEach var="account" items="${accountDAO.getItemsInPage(pageNumber)}" >
-                <%--<c:forEach var="account" items="${accountList}" >--%>
+                    <%--<c:forEach var="account" items="${accountList}" >--%>
                     <tr>
                         <td>
-                            <a href="/profile?id=${account.getAccountId()}">Profile</a>
+                            <a href="user-account-profile?id=${account.getAccountId()}">Profile</a>
                         </td>
                         <td>${account.getName()}</td>
-                        <td>account.getGender()</td>
+                        <td>
+                            <c:if test="${account.isGender()}">
+                                Male
+                            </c:if>
+                            <c:if test="${!account.isGender()}">
+                                Female
+                            </c:if>
+                        </td>
                         <td>${account.getEmail()}</td>
                         <td>${account.getAddress()}</td>
-                        <td>${account.getPhoneNumber()}</td>
+                        <td>
+                            <c:if test="${empty account.getPhoneNumber()}">
+                                ${account.getPhoneNumber()}
+                            </c:if>
+                            <c:if test="${not empty account.getPhoneNumber()}">
+                                ${account.getPhoneNumber().substring(0,4)}-XXX-${account.getPhoneNumber().substring(7,10)}
+                            </c:if>
+                        </td>
                         <td>${account.getCreateTime()}</td>
-                        <c:if test="${account.isLocked()}">
-                            <td><a href="#"><i class="fa-solid fa-lock"></i></a></td>
+                        <td>
+                            <c:if test="${account.isLocked()}">
+                                <a href="<c:url value="/admin/lock?id=${account.getAccountId()}"/>" 
+                                   onclick="return lockAcc('Do you want to unlock this account?')">
+                                    <i class="fa-solid fa-lock"></i></a>
                                 </c:if>
                                 <c:if test="${account.isLocked()!=true}">
-                            <td><a href="#"><i class="fa-solid fa-lock-open"></i></a></td>
+                                <a href="<c:url value="/admin/lock?id=${account.getAccountId()}"/>" 
+                                   onclick="return lockAcc('Do you want to lock this account?')">
+                                    <i class="fa-solid fa-lock-open"></i></a>
                                 </c:if>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
     </div>
-                 
+
     <c:url value="admin/teacher-account-list" var="baseUrl">
 
     </c:url>
@@ -106,5 +126,7 @@
     </c:import>
 
 </div>
+
+<script src="<c:url value="assets/js/lock.js"/>"></script>
 
 <%@include file="template/footer.jsp" %>
