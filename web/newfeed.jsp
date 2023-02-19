@@ -214,7 +214,7 @@
     }
 
     .document-box > a:hover {
-        color: #0d6efd;
+        color: #0d6efd !important;
     }
 
     .document-item {
@@ -599,6 +599,7 @@
     }
 
     .comment-content {
+        margin-top: 0.5rem;
         padding: 0.5rem 1rem;
         background-color: #eeeeee;
         border-radius: 20px;
@@ -632,7 +633,7 @@
         <div class="swiper-button-prev"></div>
     </div>
     <%@include file="/template/sidebar.jsp" %>
-    <div class="content-main  d-flex justify-content-center container position-relative">
+    <div class="content-main align-content-start d-flex justify-content-center container position-relative">
         <div class="modal fade" id="choose-resource-modal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-content">
                 <div class="resource-list-wrapper">
@@ -990,7 +991,6 @@
                 documentBox.append(createElement({
                     tagName: 'a',
                     href: '<c:url value="/"/>' + d.url.substring(1),
-                    target: '_blank',
                     download: d.url.split('/').pop(),
                     children: [{
                             tagName: 'div',
@@ -1027,6 +1027,8 @@
             commentImageBox.remove()
             commentDocumentBox.remove()
             bindList.commentInput.value = null
+            bindList.commentInput.style.height = '0'
+            bindList.commentInput.style.height = (bindList.commentInput.scrollHeight + 2) + 'px'
         })
         bindList.addResourceBtn.addEventListener('click', () => {
             resourceManage.selected = rsList
@@ -1083,7 +1085,7 @@
                     {
                         tagName: 'div',
                         className: 'comment-input-wrapper',
-                        bind: [commentBind, 'commentResource'],
+                        bind: [commentBind, 'commentWrapper'],
                         children: [
                             {
                                 tagName: 'p',
@@ -1094,17 +1096,19 @@
                                         textContent: comment.createTime
                                     }]
                             },
-                            {
-                                tagName: 'p',
-                                className: 'comment-content',
-                                textContent: comment.content
-                            }
                         ]
                     }
                 ]
             }), bindList.commentList.children[0])
-            const commentCount = bindList.commentList.children.length - !commentListExpanded
-            bindList.commentNumber.textContent = commentCount + (commentCount > 1 ? ' comments' : ' comment')
+            if (comment.content.trim()) {
+                commentBind.commentWrapper.append(createElement({
+                    tagName: 'p',
+                    className: 'comment-content',
+                    textContent: comment.content
+                }))
+            }
+            post.commentCount += 1
+            bindList.commentNumber.textContent = post.commentCount + (post.commentCount > 1 ? ' comments' : ' comment')
             if (!comment.resource)
                 return
             if (rasterType.includes(comment.resource.mimeType)) {
@@ -1129,16 +1133,16 @@
                     swiper.appendSlide(imgCarousel)
                     imageSwiper.classList.add('open')
                 })
-                commentBind.commentResource.append(cmtImg)
+                commentBind.commentWrapper.append(cmtImg)
             } else {
-                commentBind.commentResource.append(createElement({
+                commentBind.commentWrapper.append(createElement({
                     tagName: 'div',
                     className: 'document-box',
                     children: [{
                             tagName: 'a',
                             className: 'text-decoration-none text-black text-truncate',
                             href: '<c:url value="/"/>' + comment.resource.url.substring(1),
-                            target: '_blank',
+                            download: comment.resource.url.split('/').pop(),
                             children: [{
                                     tagName: 'div',
                                     className: 'document-item text-truncate',
@@ -1230,22 +1234,6 @@
             add: ['document-box']
         }
     })
-
-    function removeImage(element) {
-        imageList = imageList.filter(img => img.element !== element)
-        element.remove()
-        if (imageList.length === 0) {
-            imageCarousel.remove()
-        }
-    }
-
-    function removeOther(element) {
-        others = others.filter(f => f.element !== element)
-        element.remove()
-        if (others.length === 0) {
-            documentBox.remove()
-        }
-    }
 
     const uploadBtn = document.querySelector('#choose-resource-modal .upload-btn')
     uploadBtn.disabled = true
@@ -1370,10 +1358,16 @@
                                 },
                                 {
                                     tagName: 'i',
-                                    onclick: () => resource.element.click(),
-                                    classList: {
-                                        add: ['fa-solid', 'fa-xmark']
-                                    }
+                                    onclick: () => {
+                                        const index = selectedResources.indexOf(resource)
+                                        selectedResources.splice(index, 1)
+                                        resource.element.classList.remove('selected')
+                                        resource.preview.remove()
+                                        if (carouselWrapper.children.length == 0) {
+                                            imageCarousel.remove()
+                                        }
+                                    },
+                                    className: 'fa-solid fa-xmark'
                                 }
                             ]
                         })
@@ -1387,10 +1381,16 @@
                             onclick: null,
                             children: [{
                                     tagName: 'i',
-                                    onclick: () => resource.element.click(),
-                                    classList: {
-                                        add: ['fa-solid', 'fa-xmark']
-                                    }
+                                    onclick: () => {
+                                        const index = selectedResources.indexOf(resource)
+                                        selectedResources.splice(index, 1)
+                                        resource.element.classList.remove('selected')
+                                        resource.preview.remove()
+                                        if (documentBox.children.length == 0) {
+                                            documentBox.remove()
+                                        }
+                                    },
+                                    className: 'fa-solid fa-xmark'
                                 }]
                         })
                     }
@@ -1621,9 +1621,10 @@
         })
         if (response.ok) {
             createPostInput.value = ''
+            createPostInput.style.height = '0'
+            createPostInput.style.height = createPostInput.scrollHeight + 'px'
             selectedResources.forEach(r => {
                 r.element.classList.remove('selected')
-//                r.selected = false
                 r.preview.remove()
             })
             selectedResources.length = 0
