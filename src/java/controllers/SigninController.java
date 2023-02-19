@@ -45,6 +45,12 @@ public class SigninController extends HttpServlet {
                 request.setAttribute("msg", msg);
                 request.getRequestDispatcher("signin.jsp").forward(request, response);
             } else {
+                if (account.isLocked()) {
+                    msg = "Account have been locked by admin.Contact admin to unlock";
+                    request.setAttribute("msg", msg);
+                    request.getRequestDispatcher("signin.jsp").forward(request, response);
+                    return ;
+                }
                 if (account.getVerificationCode() != null) {
                     request.setAttribute("accountId", account.getAccountId().toString());
                     request.setAttribute("email", account.getEmail());

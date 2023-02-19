@@ -26,7 +26,7 @@ public class AuthorizationFilter implements Filter {
         Cookie[] cookies = req.getCookies();
         String email = "";
         String password = "";
-        
+
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equalsIgnoreCase("cookEmail")) {
@@ -59,6 +59,10 @@ public class AuthorizationFilter implements Filter {
         }
 
         if (account != null) {
+            if (account.isLocked() && !path.startsWith("/logout")) {              
+                resp.sendRedirect(req.getContextPath() + "/logout");
+                return;
+            }
             if ("/index.jsp".equals(path)) {
                 if (account.getRole() == 1) {
                     resp.sendRedirect(req.getContextPath() + "/teacher/class");
