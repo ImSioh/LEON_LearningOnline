@@ -54,31 +54,33 @@ public class SettingClassController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String classCode = req.getParameter("code");
+        // 
+        Account account = (Account) req.getAttribute("account");
         
-        Part profilePicture = req.getPart("txtImg2");
-        
+        String classCode = req.getParameter("code");      
+        Part classPicture = req.getPart("txtImg2");       
         boolean txtStudentApprove = "on".equalsIgnoreCase(req.getParameter("txtStudentApprove"));
         boolean txtHideClass = "on".equalsIgnoreCase(req.getParameter("txtHideClass"));
         String name = req.getParameter("txtName");
         // picture
         FormValidator formValidator = new FormValidator(req);
         boolean validForm = formValidator.isValid();
-        if (profilePicture.getSize() > 5 * 1024 * 1024) {
+        if (classPicture.getSize() > 5 * 1024 * 1024) {
             validForm = false;
+            req.setAttribute("class_picture-error", "File size must be less than 5 Mb");
         }
         
         try {
             ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
             ClassObject clob = new ClassObject();
-            Account account = (Account) req.getAttribute("account");
+            
             
             String urlToDB = null;
-            if (profilePicture.getSize() > 0) {
-                String fileName = profilePicture.getSubmittedFileName();
+            if (classPicture.getSize() > 0) {
+                String fileName = classPicture.getSubmittedFileName();
                 String fileExtension = fileName.substring(fileName.lastIndexOf("."));
                 String urlImg = "/class/" + classobj.getClassId().toString() + fileExtension;
-                profilePicture.write(System.getProperty("leon.updir") + urlImg);
+                classPicture.write(System.getProperty("leon.updir") + urlImg);
                 urlToDB = "/files" + urlImg;
                 clob.setClassPicture(urlToDB);
             } else {
