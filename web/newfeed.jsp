@@ -730,6 +730,9 @@
         pagination: {
             el: '.swiper-pagination',
         },
+        keyboard: {
+            enabled: true
+        }
     })
 
     const rasterType = [
@@ -917,6 +920,21 @@
                 otherL.push(r)
             }
         })
+        function getPreview(index) {
+            if (!post.imgCarousel[index]) {
+                post.imgCarousel[index] = createElement({
+                    tagName: 'div',
+                    className: 'swiper-slide',
+                    children: [{
+                            tagName: 'img',
+                            loading: 'lazy',
+                            className: 'swiper-lazy',
+                            src: '<c:url value="/"/>' + imageL[index].url.substring(1)
+                        }]
+                })
+            }
+            return post.imgCarousel[index]
+        }
         if (imageL.length == 0)
             bindList.imageBox.remove()
         else {
@@ -939,23 +957,21 @@
                     })
                     imageColumn.append(imgEl)
                     imgEl.addEventListener('click', () => {
-                        if (!post.imgCarousel) {
-                            post.imgCarousel = []
-                            imageL.forEach(img => {
-                                post.imgCarousel.push(createElement({
-                                    tagName: 'div',
-                                    className: 'swiper-slide',
-                                    children: [{
-                                            tagName: 'img',
-                                            src: '<c:url value="/"/>' + img.url.substring(1)
-                                        }]
-                                }))
-                            })
-                        }
                         swiper.removeAllSlides()
-                        swiper.appendSlide(post.imgCarousel)
-                        swiper.slideTo(tmpPos, false, false)
+                        if (!post.imgCarousel) {
+                            post.imgCarousel = Array(imageL.length)
+                        }
+                        swiper.appendSlide(getPreview(tmpPos))
                         imageSwiper.classList.add('open')
+                        setTimeout(() => {
+                            let i = tmpPos - 1, j = tmpPos + 1
+                            while (i >= 0 || j < imageL.length) {
+                                if (i >= 0)
+                                    swiper.prependSlide(getPreview(i--))
+                                if (j < imageL.length)
+                                    swiper.appendSlide(getPreview(j++))
+                            }
+                        }, 200)
                     })
                 }
                 bindList.imageList.append(imageColumn)
