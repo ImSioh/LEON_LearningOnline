@@ -9,17 +9,14 @@
     <c:param name="search" value="${search}"/>
     <c:param name="keyword" value="${keyword}"/> 
 </c:url>
+
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end">
         <c:if test="${numberOfPage > 1 && page > 0
-              && numberOfPage >= page}">
+                      && numberOfPage >= page}">
             <c:if test="${page != 1}">
                 <li class="page-item">
-                    <input type="hidden" name="page" value="${page-1}">
-                    <a class="page-link" 
-                       href="${paging_url}">
-                        Previous
-                    </a>
+                    <button name="page" value="${page-1}" class="page-link">Previous</button>
                 </li>
             </c:if>
 
@@ -33,10 +30,7 @@
                 <li class="page-item <c:if test="${page == i}"> active</c:if>
                     <c:if test="${page == i}"></c:if>
                         "> 
-                        <a class="page-link" 
-                           href="${paging_url}&page=${i}"> 
-                        ${i}
-                    </a>
+                        <button name="page" value="${i}" class="page-link">${i}</button>
                 </li>
             </c:forEach>
 
@@ -48,12 +42,10 @@
 
             <c:if test="${page != numberOfPage}">
                 <li class="page-item">
-                    <a class="page-link" 
-                       href="${paging_url}&page=${page+1}">
-                        Next
-                    </a>
+                    <button name="page" value="${page+1}" class="page-link">Next</button>
                 </li>
             </c:if>
         </c:if>
     </ul>
 </nav>
+</form>

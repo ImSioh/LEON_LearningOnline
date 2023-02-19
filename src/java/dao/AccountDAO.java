@@ -88,9 +88,24 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, role, elements, page);
     }
 
+    public ArrayList<Account> getListAccountByRoleSortAndPaging(int role, String criteria, String sort, int elements, int page) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "ORDER BY " + criteria + " " + sort + "\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, role, elements, page);
+    }
+
     public ArrayList<Account> getListAccountByRoleSearchAndPaging(int role, String criteria, String keyword, int elements, int page) throws Exception {
         String query = "SELECT * FROM account WHERE role = ?\n"
                 + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, role, elements, page);
+    }
+
+    public ArrayList<Account> getListAccountByRoleSearchSortAndPaging(int role, String criteriaSearch, String keyword, String criteriaSort, String sort, int elements, int page) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "AND " + criteriaSearch + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "ORDER BY " + criteriaSort + " " + sort + "\n"
                 + "LIMIT ? OFFSET ?;";
         return selectMany(query, role, elements, page);
     }
@@ -159,16 +174,21 @@ public class AccountDAO extends AbstractDAO<Account> {
         AccountDAO accountDAO = new AccountDAO();
         String criteriaSearch = "name";
         String keyword = "hi";
+        String criteriaSort = "name";
+        String sort = "desc";
         int element = 10;
         int page = 1;
         int role = 1;
         int size = accountDAO.getListAccountByRole(role).size();
         int numberOfPage;
-        accounts = accountDAO.getListAccountByRoleSearchAndPaging(role, criteriaSearch, keyword, element, page);
+        accounts = accountDAO.getListAccountByRoleSortAndPaging(role, criteriaSort, sort, element, page);
         numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRoleSearch(role, criteriaSearch, keyword).size() / (float) element);
 
         System.out.println("size=" + size);
         System.out.println("numberofpage=" + numberOfPage);
+        for (Account account : accounts) {
+            System.out.println(account);
+        }
     }
 
     @Override

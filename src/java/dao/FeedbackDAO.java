@@ -65,21 +65,31 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
         return selectMany(query, elements, page);
     }
 
+    public ArrayList<Feedback> getAllFeedbacksSortAndPaging(String criteria, String sort, int elements, int page) throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "ORDER BY " + criteria + " " + sort + "\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, elements, page);
+    }
+
     public ArrayList<Feedback> getAllFeedbacksSearchAndPaging(String criteria, String keyword, int elements, int page) throws Exception {
         String query = "SELECT fb.*, acc.role\n"
                 + "FROM feedback as fb, account as acc\n"
                 + "WHERE fb.account_id = acc.account_id\n"
                 + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\'\n"
                 + "LIMIT ? OFFSET ?;";
-        return selectMany(query, elements, page);
+        return selectMany(query);
     }
 
-    public ArrayList<Feedback> getAllFeedbacksSortSearchAndPaging(String criteriaSort, String sort, String criteriaSearch, String keyword, int elements, int page) throws Exception {
+    public ArrayList<Feedback> getAllFeedbacksSearchSortAndPaging(String criteriaSearch, String keyword,
+            String criteriaSort, String sort, int elements, int page) throws Exception {
         String query = "SELECT fb.*, acc.role\n"
                 + "FROM feedback as fb, account as acc\n"
                 + "WHERE fb.account_id = acc.account_id\n"
-                + "ORDER BY " + criteriaSort + " " + sort + "\n"
                 + "AND " + criteriaSearch + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "ORDER BY " + criteriaSort + " " + sort + "\n"
                 + "LIMIT ? OFFSET ?;";
         return selectMany(query, elements, page);
     }
@@ -87,10 +97,14 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
     public static void main(String[] args) throws Exception {
         ArrayList<Feedback> feedbacks = new ArrayList<>();
         FeedbackDAO feedbackDAO = new FeedbackDAO();
-        String criteriaSearch = "name";
-        String keyword = "mn";
-        
-        feedbacks = feedbackDAO.getAllFeedbacksSearch(criteriaSearch, keyword);
+        String criteriaSearch = "email";
+        String keyword = "p";
+        String criteriaSort = "";
+        String sort = "desc";
+        int element = 5;
+        int page = 1;
+        feedbacks = feedbackDAO.getAllFeedbacksSearchSortAndPaging(criteriaSearch, keyword, criteriaSort, sort, element, page);
+//        feedbacks = feedbackDAO.getAllFeedbacksSearchAndPaging(criteriaSearch, keyword, element, page);
         for (Feedback feedback : feedbacks) {
             System.out.println(feedback);
         }
