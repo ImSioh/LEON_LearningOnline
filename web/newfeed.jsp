@@ -1070,7 +1070,6 @@
             }
             resourceModalBootstrap.show()
         })
-        let commentListExpanded = false
         post.addComment = comment => {
             const commentBind = {}
             bindList.commentList.insertBefore(createElement({
@@ -1157,9 +1156,9 @@
             bindList.viewComment.disabled = true
             const response = await fetch('<c:url value="/${account.role == 1 ? 'teacher' : 'student'}/class/comment"/>?postId=' + post.postId)
             if (response.ok) {
-                commentListExpanded = true
                 bindList.commentList.textContent = ''
                 const json = await response.json()
+                post.commentCount = 0
                 json.forEach(cmt => post.addComment(cmt))
             } else {
                 bindList.viewComment.disabled = false
