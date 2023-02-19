@@ -35,14 +35,17 @@ public class OutOfClassController extends HttpServlet {
         try {
             String classCode = req.getParameter("code");
             req.setAttribute("classCode", classCode);
+            
             ClassObjectDAO co = new ClassObjectDAO();
             ClassObject classObject = co.getClassByCode(classCode);
+            
             req.setAttribute("classObject", classObject);
             String AccountId = req.getParameter("accountId");
+            
             req.setAttribute("teacher", new AccountDAO().getAccountById(classObject.getAccountId()));
             try {
-                ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
-                int leaveClass = new EnrollmentDAO().leaveClass(classobj.getClassId(), UUID.fromString(AccountId));
+                
+                int leaveClass = new EnrollmentDAO().leaveClass(classObject.getClassId(), UUID.fromString(AccountId));
 
             } catch (Exception ex) {
                 Logger.getLogger(OutOfClassController.class.getName()).log(Level.SEVERE, null, ex);
