@@ -18,10 +18,10 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
                 feedback.getCreateTime()
         );
     }
-    
-     public int updateFeedback(String response, UUID feebackId) throws Exception {
+
+    public int updateFeedback(String response, UUID feebackId) throws Exception {
         String query = "update feedback set response = ? where feedback_id = ?";
-        return update(query, response , Util.UUIDToByteArray(feebackId));
+        return update(query, response, Util.UUIDToByteArray(feebackId));
     }
 
     public ArrayList<Feedback> getAllFeedbacks() throws Exception {
@@ -30,17 +30,16 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
                 + "WHERE fb.account_id = acc.account_id;";
         return selectMany(query);
     }
-    
-     public Feedback getFeedbackByFeedbackId(UUID feedbackId) throws Exception {
-         String query = "SELECT * FROM feedback f WHERE f.feedback_id = ?";
+
+    public Feedback getFeedbackByFeedbackId(UUID feedbackId) throws Exception {
+        String query = "SELECT * FROM feedback f WHERE f.feedback_id = ?";
         return selectOne(query, Util.UUIDToByteArray(feedbackId));
     }
-     
-      public ArrayList<Feedback> getFeedbackByAccountId(UUID accountId) throws Exception {
-         String query = "SELECT * FROM feedback f WHERE f.account_id = ?";
+
+    public ArrayList<Feedback> getFeedbackByAccountId(UUID accountId) throws Exception {
+        String query = "SELECT * FROM feedback f WHERE f.account_id = ?";
         return selectMany(query, Util.UUIDToByteArray(accountId));
     }
-    
 
     public ArrayList<Feedback> getAllFeedbacksSort(String criteria, String sort) throws Exception {
         String query = "SELECT fb.*, acc.role\n"
@@ -50,18 +49,74 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
         return selectMany(query);
     }
 
+    public ArrayList<Feedback> getAllFeedbacksSearch(String criteria, String keyword) throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\';";
+        return selectMany(query);
+    }
+
     public ArrayList<Feedback> getAllFeedbacksAndPaging(int elements, int page) throws Exception {
         String query = "SELECT fb.*, acc.role\n"
                 + "FROM feedback as fb, account as acc\n"
                 + "WHERE fb.account_id = acc.account_id\n"
-                + "limit ? offset ?;";
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, elements, page);
+    }
+
+    public ArrayList<Feedback> getAllFeedbacksSortAndPaging(String criteria, String sort, int elements, int page) throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "ORDER BY " + criteria + " " + sort + "\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, elements, page);
+    }
+
+    public ArrayList<Feedback> getAllFeedbacksSearchAndPaging(String criteria, String keyword, int elements, int page) throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query);
+    }
+
+    public ArrayList<Feedback> getAllFeedbacksSearchSortAndPaging(String criteriaSearch, String keyword,
+            String criteriaSort, String sort, int elements, int page) throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "AND " + criteriaSearch + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "ORDER BY " + criteriaSort + " " + sort + "\n"
+                + "LIMIT ? OFFSET ?;";
         return selectMany(query, elements, page);
     }
 
     public static void main(String[] args) throws Exception {
-//        ArrayList<Feedback> feedbacks = new FeedbackDAO().getAllFeedbacksAndPaging(3, 0);
-       
-        System.out.println(new FeedbackDAO().getFeedbackByFeedbackId(UUID.fromString("31000000-0000-0000-0000-000000000000")));
+        ArrayList<Feedback> feedbacks = new ArrayList<>();
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        String criteriaSearch = "email";
+        String keyword = "p";
+        String criteriaSort = "";
+        String sort = "desc";
+        int element = 5;
+        int page = 1;
+        feedbacks = feedbackDAO.getAllFeedbacksSearchSortAndPaging(criteriaSearch, keyword, criteriaSort, sort, element, page);
+//        feedbacks = feedbackDAO.getAllFeedbacksSearchAndPaging(criteriaSearch, keyword, element, page);
+        for (Feedback feedback : feedbacks) {
+            System.out.println(feedback);
+        }
+//        int element = 10;
+//        int page = 1;
+//        int size = feedbackDAO.getAllFeedbacks().size();
+//        int numberOfPage;
+//        feedbacks = feedbackDAO.getAllFeedbacksSearchAndPaging(criteriaSearch, keyword, element, page);
+//        numberOfPage = (int) Math.ceil(feedbackDAO.getAllFeedbacksSearch(criteriaSearch, keyword).size() / (float) element);
+//
+//        System.out.println("size=" + size);
+//        System.out.println("numberofpage=" + numberOfPage);
     }
 
     @Override

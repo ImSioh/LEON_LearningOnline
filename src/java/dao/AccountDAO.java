@@ -86,6 +86,40 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, classCode, "%" + search + "%");
     }
 
+    public ArrayList<Account> getListAccountByRoleSearch(int role, String criteria, String keyword) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\';";
+        return selectMany(query, role);
+    }
+
+    public ArrayList<Account> getListAccountByRoleAndPaging(int role, int elements, int page) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, role, elements, page);
+    }
+
+    public ArrayList<Account> getListAccountByRoleSortAndPaging(int role, String criteria, String sort, int elements, int page) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "ORDER BY " + criteria + " " + sort + "\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, role, elements, page);
+    }
+
+    public ArrayList<Account> getListAccountByRoleSearchAndPaging(int role, String criteria, String keyword, int elements, int page) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, role, elements, page);
+    }
+
+    public ArrayList<Account> getListAccountByRoleSearchSortAndPaging(int role, String criteriaSearch, String keyword, String criteriaSort, String sort, int elements, int page) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "AND " + criteriaSearch + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "ORDER BY " + criteriaSort + " " + sort + "\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, role, elements, page);
+    }
+
     public int setVerifyCodeNull(UUID id) throws Exception {
         String query = "UPDATE account set verification_code = NULL WHERE account_id = ?";
         return update(query, Util.UUIDToByteArray(id));
