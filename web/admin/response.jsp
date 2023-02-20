@@ -46,7 +46,7 @@
                         </div>
                         <div class="contact__content">
                             <label for="" class="contact__label">Response</label>
-                            <textarea name="feedbackResponse" id="contact-message" class="contact__input" id="" cols="0" rows="5"></textarea>
+                            <textarea name="feedbackResponse" id="contact-message" class="contact__input" id="" cols="0" rows="5">${responseFeedback}</textarea>
                         </div>
                         <input hidden="" value="${feedbackId}" name="Id">
                         <p class="contact__mess" id="contact-mess"></p>

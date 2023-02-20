@@ -19,7 +19,7 @@
                 <option value="email" ${search eq "email"?"selected":""}>Email</option>
                 <option value="title" ${search eq "title"?"selected":""}>Title</option>
             </select>
-            <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="What do you want to find?..." style="width: 45%; height: 10%; margin: 0"> 
+            <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Search something..." style="width: 45%; height: 10%; margin: 0"> 
             <input type="submit" value="SEARCH" id="search" class="btn-info" 
                    style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
@@ -57,7 +57,7 @@
             <table class="table table-light table-hover">
                 <thead>
                     <tr>
-                        <th>FeedbackID</th>
+                        <th>Details</th>
                         <th>Email</th>
                         <th>Name</th>
                         <th>Role</th>
@@ -90,7 +90,7 @@
                             </td>
                             <td>
                                 <%--<c:if test="${fb.getResponse()== ''}" >--%>
-                                <a href="<c:url value="/admin/response?Id=${fb.getFeedbackId()}"/>">Link</a>
+                                <a href="<c:url value="/admin/response?Id=${fb.getFeedbackId()}"/>">View Response</a>
                                 <%--</c:if>--%>
                             </td>
                             <td>${fb.getCreateTime()}</td>

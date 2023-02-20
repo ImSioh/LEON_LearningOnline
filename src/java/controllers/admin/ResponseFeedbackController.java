@@ -33,6 +33,7 @@ public class ResponseFeedbackController extends HttpServlet {
             request.setAttribute("emailResponse", new AccountDAO().getAccountById(feedback.getAccountId()).getEmail());
             request.setAttribute("titleFeedback", feedback.getTitle());
             request.setAttribute("contentFeedback", feedback.getContent());
+            request.setAttribute("responseFeedback", feedback.getResponse());
             request.getRequestDispatcher("response.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ResponseFeedbackController.class.getName()).log(Level.SEVERE, null, ex);
