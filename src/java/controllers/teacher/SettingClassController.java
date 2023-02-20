@@ -9,7 +9,6 @@ import dao.ClassObjectDAO;
 import dao.EnrollmentDAO;
 import dto.Account;
 import dto.ClassObject;
-import dto.Enrollment;
 import helpers.FormValidator;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -29,7 +28,7 @@ import java.util.logging.Logger;
         maxRequestSize = 1024 * 1024 * 15
 )
 public class SettingClassController extends HttpServlet {
-    
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -48,17 +47,17 @@ public class SettingClassController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(SettingClassController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         // 
         Account account = (Account) req.getAttribute("account");
-        
-        String classCode = req.getParameter("code");      
-        Part classPicture = req.getPart("txtImg2");       
+
+        String classCode = req.getParameter("code");
+        Part classPicture = req.getPart("txtImg2");
         boolean txtStudentApprove = "on".equalsIgnoreCase(req.getParameter("txtStudentApprove"));
         boolean txtHideClass = "on".equalsIgnoreCase(req.getParameter("txtHideClass"));
         String name = req.getParameter("txtName");
@@ -69,12 +68,11 @@ public class SettingClassController extends HttpServlet {
             validForm = false;
             req.setAttribute("class_picture-error", "File size must be less than 5 Mb");
         }
-        
+
         try {
             ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
             ClassObject clob = new ClassObject();
-            
-            
+
             String urlToDB = null;
             if (classPicture.getSize() > 0) {
                 String fileName = classPicture.getSubmittedFileName();
@@ -82,11 +80,17 @@ public class SettingClassController extends HttpServlet {
                 String urlImg = "/class/" + classobj.getClassId().toString() + fileExtension;
                 classPicture.write(System.getProperty("leon.updir") + urlImg);
                 urlToDB = "/files" + urlImg;
-                clob.setClassPicture(urlToDB);
+                if (fileExtension != null
+                        && (fileExtension.equalsIgnoreCase(".jpg")
+                        || fileExtension.equalsIgnoreCase(".jpeg")
+                        || fileExtension.equalsIgnoreCase(".png"))) {
+                    clob.setClassPicture(urlToDB);
+                }
+
             } else {
                 clob.setClassPicture(classobj.getClassPicture());
             }
-            
+
             clob.setAccountId(account.getAccountId());
             clob.setClassId(classobj.getClassId());
             clob.setCode(classCode);
@@ -97,13 +101,13 @@ public class SettingClassController extends HttpServlet {
                 clob.setEnrollApprove(false);
                 int updateErm = new EnrollmentDAO().updateEnrollment(classobj.getClassId());
             }
-            
+
             if (txtHideClass == true) {
                 clob.setHidden(true);
             } else {
                 clob.setHidden(false);
             }
-            
+
             if ((name.trim().equals(""))) {
                 clob.setName(classobj.getName());
             } else {
@@ -124,5 +128,5 @@ public class SettingClassController extends HttpServlet {
         // checkbox 
 
     }
-    
+
 }
