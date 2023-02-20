@@ -1,0 +1,49 @@
+
+#side-nav{
+    background: white;
+    min-width: 250px;
+    max-width: 250px;
+    height: calc(100vh - 56px);
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.content-main{
+    min-height: 100vh;
+    width: 100%;
+}
+
+hr.h-color{
+    background-color: black;
+    ;
+}
+
+.sidebar li.active{
+    background: #e3ebf7;
+    border-radius: 8px;
+}
+
+.sidebar li.active a,
+.sidebar li.active a:hover{
+    color: #1e88e5;
+}
+
+.sidebar li a {
+    color: #332d2d;
+    text-transform: uppercase;
+    margin-left: 20px;
+    font-weight: 500;
+}
+
+#change-img-profile:hover div{
+    display: flex!important;
+    align-items: center;
+    justify-content: center;
+}
+
+.card{
+    /*    border-radius: 15px; overflow: hidden;*/
+}
+

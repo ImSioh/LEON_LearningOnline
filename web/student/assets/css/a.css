@@ -1,0 +1,13 @@
+.content-main{
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.class-content{   
+    width: calc(100%/6);
+    border: 1px solid saddlebrown;
+    margin: 12px 18px;
+}
+
