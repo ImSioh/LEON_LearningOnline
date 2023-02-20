@@ -5,7 +5,6 @@ import dao.ClassObjectDAO;
 import dto.Account;
 import dto.ClassObject;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,6 +26,10 @@ public class ViewMemberController extends HttpServlet {
             ArrayList<Account> listStudent = new ArrayList<>();
             ArrayList<Account> listRequest = new ArrayList<>();
             ClassObject classObject = new ClassObjectDAO().getClassByCode(classCode);
+            if (account.getRole() == 1 && !account.getAccountId().equals(classObject.getAccountId())) {
+                response.sendRedirect(request.getContextPath() );
+                return;
+            }
             listStudent = new AccountDAO().getListAllStudentByClassCode(classCode, "1");
             listRequest = new AccountDAO().getListAllStudentByClassCode(classCode, "0");
             request.setAttribute("listStudent", listStudent);
@@ -65,6 +68,7 @@ public class ViewMemberController extends HttpServlet {
             }
 
             ClassObject classObject = new ClassObjectDAO().getClassByCode(classCode);
+
             listStudent = new AccountDAO().getStudentsByClassCodeAndStudentName(classCode, search);
             listRequest = new AccountDAO().getStudentsRequestByClassCodeAndStudentName(classCode, search);
             request.setAttribute("listStudent", listStudent);
@@ -73,6 +77,10 @@ public class ViewMemberController extends HttpServlet {
             request.setAttribute("search", search);
 
             if (account.getRole() == 1) {
+                if (!account.getAccountId().equals(classObject.getAccountId())) {
+                    response.sendRedirect(request.getContextPath() + "/teacher/class");
+                    return;
+                }
                 request.setAttribute("teacher", account);
             } else {
                 request.setAttribute("teacher", new AccountDAO().getAccountById(classObject.getAccountId()));

@@ -36,6 +36,10 @@ public class SettingClassController extends HttpServlet {
         try {
             Account account = (Account) req.getAttribute("account");
             ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
+            if (!account.getAccountId().equals(classobj.getAccountId())) {
+                resp.sendRedirect(req.getContextPath());
+                return;
+            }
             req.setAttribute("classObject", classobj);
             req.setAttribute("activeST", "active");
             if (account.getRole() == 1) {
@@ -57,6 +61,7 @@ public class SettingClassController extends HttpServlet {
         Account account = (Account) req.getAttribute("account");
 
         String classCode = req.getParameter("code");
+
         Part classPicture = req.getPart("txtImg2");
         boolean txtStudentApprove = "on".equalsIgnoreCase(req.getParameter("txtStudentApprove"));
         boolean txtHideClass = "on".equalsIgnoreCase(req.getParameter("txtHideClass"));
@@ -71,6 +76,7 @@ public class SettingClassController extends HttpServlet {
 
         try {
             ClassObject classobj = new ClassObjectDAO().getClassByCode(classCode);
+
             ClassObject clob = new ClassObject();
 
             String urlToDB = null;
