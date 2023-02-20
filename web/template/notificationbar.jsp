@@ -74,6 +74,7 @@
     
     #notification-box .notification-content {
         white-space: pre-wrap;
+        word-break: break-word;
     }
 
     #notification-box .notification-time {
@@ -188,6 +189,7 @@
     </c:if>
     
     function insertNotificationSide(notification) {
+        if (notification.type != 0) return
         if (notification.classId !== classId) return
         const liElement = document.createElement('li')
         const contentElement = document.createElement('p')

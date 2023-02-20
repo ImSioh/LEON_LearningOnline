@@ -7,11 +7,14 @@ import java.util.UUID;
 public class Notification {
 
     private UUID notificationId;
+    @Expose
     private UUID accountId;
     @Expose
     private UUID classId;
     @Expose
     private UUID target;
+    @Expose
+    private int type;
     @Expose
     private String title;
     @Expose
@@ -21,11 +24,12 @@ public class Notification {
     @Expose
     private Timestamp createTime;
 
-    public Notification(UUID notificationId, UUID accountId, UUID classId, UUID target, String title, String redirectUrl, String content, Timestamp createTime) {
+    public Notification(UUID notificationId, UUID accountId, UUID classId, UUID target, int type, String title, String redirectUrl, String content, Timestamp createTime) {
         this.notificationId = notificationId;
         this.accountId = accountId;
         this.classId = classId;
         this.target = target;
+        this.type = type;
         this.title = title;
         this.redirectUrl = redirectUrl;
         this.content = content;
@@ -62,6 +66,14 @@ public class Notification {
 
     public void setTarget(UUID target) {
         this.target = target;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getTitle() {
@@ -103,6 +115,7 @@ public class Notification {
             accountId.toString(),
             classId.toString(),
             target.toString(),
+            String.valueOf(target),
             title,
             redirectUrl,
             content,

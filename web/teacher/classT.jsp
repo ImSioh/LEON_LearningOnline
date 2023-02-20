@@ -3,11 +3,11 @@
     <ul class="nav nav-tabs mb-3" id="ex-with-icons" role="tablist">
         <li class="nav-item" role="presentation">
             <a class="nav-link active" id="ex-with-icons-tab-1" data-mdb-toggle="tab" href="#ex-with-icons-tabs-1" role="tab"
-               aria-controls="ex-with-icons-tabs-1" aria-selected="true"><i class="fas fa-chart-pie fa-fw me-2"></i>Class approved</a>
+               aria-controls="ex-with-icons-tabs-1" aria-selected="true"><i class="fas fa-chart-pie fa-fw me-2"></i>Approved Class</a>
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link" id="ex-with-icons-tab-2" data-mdb-toggle="tab" href="#ex-with-icons-tabs-2" role="tab"
-               aria-controls="ex-with-icons-tabs-2" aria-selected="false"><i class="fas fa-chart-line fa-fw me-2"></i>Class hidden</a>
+               aria-controls="ex-with-icons-tabs-2" aria-selected="false"><i class="fas fa-chart-line fa-fw me-2"></i>Hidden Class</a>
         </li>
 
     </ul>
@@ -28,9 +28,9 @@
                             </div>
                             <div class="right position-absolute col-md-6" style="top:0; bottom: 0;right: 0;">
                                 <div class="input-group rounded row" style="">
-                                    <form action="<%=path%>/teacher/search" method="post">
+                                   
                                         <input type="search" class="form-control rounded" id="searchBar" name="searchName" value="${searchName}" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                                    </form>
+                                    
                                 </div>
                             </div>
                         </ol>

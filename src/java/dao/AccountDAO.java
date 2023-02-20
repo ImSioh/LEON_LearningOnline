@@ -76,6 +76,16 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, classCode, accepted);
     }
 
+    public ArrayList<Account> getStudentsByClassCodeAndStudentName(String classCode, String search) throws Exception {
+        String query = "select a.*  from account as a , enrollment as e , class as c where e.account_id= a.account_id and  c.class_id =  e.class_id and c.code = ? and e.accepted = 1 and a.name like ?";
+        return selectMany(query, classCode, "%" + search + "%");
+    }
+
+    public ArrayList<Account> getStudentsRequestByClassCodeAndStudentName(String classCode, String search) throws Exception {
+        String query = "select a.*  from account as a , enrollment as e , class as c where e.account_id= a.account_id and  c.class_id =  e.class_id and c.code = ? and e.accepted = 0 and a.name like ?";
+        return selectMany(query, classCode, "%" + search + "%");
+    }
+
     public ArrayList<Account> getListAccountByRoleSearch(int role, String criteria, String keyword) throws Exception {
         String query = "SELECT * FROM account WHERE role = ?\n"
                 + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\';";
@@ -170,25 +180,7 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
 
     public static void main(String[] args) throws Exception {
-        ArrayList<Account> accounts = new ArrayList<>();
-        AccountDAO accountDAO = new AccountDAO();
-        String criteriaSearch = "name";
-        String keyword = "hi";
-        String criteriaSort = "name";
-        String sort = "desc";
-        int element = 10;
-        int page = 1;
-        int role = 1;
-        int size = accountDAO.getListAccountByRole(role).size();
-        int numberOfPage;
-        accounts = accountDAO.getListAccountByRoleSortAndPaging(role, criteriaSort, sort, element, page);
-        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRoleSearch(role, criteriaSearch, keyword).size() / (float) element);
-
-        System.out.println("size=" + size);
-        System.out.println("numberofpage=" + numberOfPage);
-        for (Account account : accounts) {
-            System.out.println(account);
-        }
+        System.out.println(new AccountDAO().getStudentsRequestByClassCodeAndStudentName("BIYLQ", "Lê"));
     }
 
     @Override

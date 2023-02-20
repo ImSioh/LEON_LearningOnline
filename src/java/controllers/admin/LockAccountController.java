@@ -1,3 +1,4 @@
+
 package controllers.admin;
 
 import dao.AccountDAO;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.UUID;
+
 
 @WebServlet(name = "LockAccountServlet", urlPatterns = {"/admin/lock"})
 public class LockAccountController extends HttpServlet {
@@ -54,5 +56,5 @@ public class LockAccountController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-    }
+
 }

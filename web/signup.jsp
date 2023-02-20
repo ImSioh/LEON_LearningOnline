@@ -50,7 +50,7 @@
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" id="gender-female" type="radio" name="gender" value="male" checked>
+                            <input class="form-check-input" id="gender-female" type="radio" name="gender" value="female">
                             <label class="form-check-label" for="gender-female">
                                 Female
                             </label>

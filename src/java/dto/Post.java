@@ -1,16 +1,30 @@
 package dto;
 
+import com.google.gson.annotations.Expose;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Post {
 
+    @Expose
     private UUID postId;
     private UUID accountId;
     private UUID classId;
+    @Expose
     private boolean pin;
+    @Expose
     private String content;
+    @Expose
     private Timestamp createTime;
+    @Expose
+    public ArrayList<Resource> resources = new ArrayList<>();
+    @Expose
+    public Account account = null;
+    @Expose
+    public ArrayList<Comment> comments = new ArrayList<>();
+    @Expose
+    public int commentCount = 0;
 
     public Post(UUID postId, UUID accountId, UUID classId, boolean pin, String content, Timestamp createTime) {
         this.postId = postId;

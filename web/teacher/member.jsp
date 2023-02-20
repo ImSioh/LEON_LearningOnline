@@ -6,29 +6,35 @@
     <div class="content-main d-flex justify-content-center container" style="margin-left: 250px;">
         <div class="card col-md-9 mt-4 row" style="height: fit-content;" >
             <!--<div class="card-header">Create Post</div>-->
-            <div class=""  style="margin-left: 31%;"> 
-                <div class="form-outline mt-4 col-md-8 ">
-                    <input type="search" class="form-control" id="datatable-search-input">
-                    <label class="form-label" for="datatable-search-input">Search</label>
-                </div>
-                <div id="datatable">
-                </div>
+            <div class=" d-flex mt-4 gap-1 justify-content-end row input-group"  style=""> 
+                <form action="member-list" method="post" class="row col-md-7 d-flex row">
+                    <input type="hidden" name="code" value="${classObject.getCode()}" style="border-radius: 6px;">
+                    <div class="form-outline col-md-10">
+                        <input type="text" class="form-control" name="search" value="${search}">
+                        <label  class="form-label" for="datatable-search-input">Search</label>
+                    </div>
+                    <button type="submit" class="btn btn-info col-md-1">
+                        <i class="fas fa-search text-light"></i>
+                    </button>
+                </form>
+
             </div>
             <div class="card-body m-3" >
-                <table class="table align-middle mb-0 bg-white" style="padding: -10px;">
+                <table id="myTable" class="table align-middle mb-0 bg-white" style="padding: -10px;">
                     <thead class="bg-light">               
                         <tr>
-                            <th> 
-                                <i class="fas fa-sort fa-sm m-2" style="cursor: pointer;"></i> 
+                            <th>
+                                <a onclick="sortTable(0)" class="fas fa-sort fa-sm m-2" style="cursor: pointer; text-decoration: none"></a>   
                                 Name 
                             </th>
-                            <th>School</th>
-                            <th>Phone Number</th>
-                            <th><i class="fas fa-sort fa-sm"></i>Exercise</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                            <th><a onclick="sortTable(1)" class="fas fa-sort fa-sm m-2" style="cursor: pointer;text-decoration: none"></a>School</th>
+                            <c:if test="${account.getRole() ==1}"><th>Phone Number</th></c:if>
+                            <c:if test="${account.getRole() ==1}"> <th><a onclick="sortTable(3)" class="fas fa-sort fa-sm m-2" style="cursor: pointer;text-decoration: none"></a>  
+                                    Exercise  </th></c:if>
+                            <c:if test="${account.getRole() ==1}"> <th>Actions</th></c:if>
+                            </tr>
+                        </thead>
+                        <tbody>
                         <c:forEach items="${listStudent}" var="listS" >
                             <tr>                          
                                 <td>
@@ -45,33 +51,99 @@
                                                  ">;
                                             </div>
                                         </div>
-                                        <div class="ms-3">
+                                        <div class="ms-3" style="cursor: pointer;">
                                             <p class="fw-bold mb-1">${listS.getName()}</p>
-                                            <p class="text-muted mb-0">${listS.getEmail()}</p>
+                                            <c:if test="${account.getRole() ==1}"><p class="text-muted mb-0">${listS.getEmail()}</p></c:if> 
+                                            </div>
                                         </div>
-                                    </div>
+                                    </td>
+                                    <td>
+                                        <p class="fw-normal mb-1">${listS.getSchool()}</p>
                                 </td>
-                                <td>
-                                    <p class="fw-normal mb-1">${listS.getSchool()}</p>
-                                </td>
-                                <td>
-                                    <span class="">${listS.getPhoneNumber()}</span>
-                                </td>
-                                <td>10/12</td>
-                                <td>
-                                    <a onclick="return confirm('Do you want to remove this student?')" eq true ? href="<c:url value="/teacher/class/remove-student?code=${param.code}&accountId=${listS.getAccountId()}" />" : href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-danger text-light">
-                                        Remove
-                                    </a>
-                                </td>              
-                            </tr>
+                                <c:if test="${account.getRole() ==1}"> <td>
+                                        <span class="">${listS.getPhoneNumber()}</span>
+                                    </td></c:if>
+                                <c:if test="${account.getRole() ==1}">  <td>10/12</td></c:if>
+                                <c:if test="${account.getRole() ==1}"> <td>
+                                        <a onclick="return confirm('Do you want to remove this student?')" eq true ? href="<c:url value="/teacher/class/remove-student?code=${param.code}&accountId=${listS.getAccountId()}" />" : href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-danger text-light">
+                                            Remove
+                                        </a>
+                                    </td>    </c:if>          
+                                </tr>
                         </c:forEach>
                     </tbody>
                 </table>
-                
-                
             </div>
         </div>
     </div>
 </div>
 <!--</div>-->
 <c:import url="../template/footer.jsp" />
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        dir = "asc";
+
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
+
+    function searchTable() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            for (j = 0; j < tr[i].cells.length; j++) {
+                td = tr[i].getElementsByTagName("td")[j];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                        break;
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+</script>
+
+

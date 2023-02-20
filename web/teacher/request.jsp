@@ -6,22 +6,27 @@
     <div class="content-main d-flex justify-content-center container" style="margin-left: 250px;">
         <div class="card col-md-9 mt-4 row" style="height: fit-content;" >
             <!--<div class="card-header">Create Post</div>-->
-            <div class=""  style="margin-left: 31%;"> 
-                <div class="form-outline mt-4 col-md-8 ">
-                    <input type="search" class="form-control" id="datatable-search-input">
-                    <label class="form-label" for="datatable-search-input">Search</label>
-                </div>
-                <div id="datatable">
-                </div>
+            <div class=" d-flex mt-4 gap-1 justify-content-end row input-group"  style=""> 
+                <form action="member-request-list" method="post" class="row col-md-7 d-flex row">
+                    <input type="hidden" name="code" value="${classObject.getCode()}" style="border-radius: 6px;">
+                    <div class="form-outline col-md-10">
+                        <input type="text" class="form-control" name="search" value="${search}">
+                        <label  class="form-label" for="datatable-search-input">Search</label>
+                    </div>
+                    <button type="submit" class="btn btn-info col-md-1">
+                        <i class="fas fa-search text-light"></i>
+                    </button>
+                </form>
+
             </div>
             <div class="card-body m-3" >
-                <table class="table align-middle mb-0 bg-white" style="padding: -10px;">
+                <table id="myTable" class="table align-middle mb-0 bg-white" style="padding: -10px;">
                     <thead class="bg-light">
 
                         <tr>
                             <th>
-                                <i class="fas fa-sort fa-sm m-2" style="cursor: pointer;"></i> 
-                                Name 
+                                <a onclick="sortTable(0)" class="fas fa-sort fa-sm m-2" style="cursor: pointer; text-decoration: none"></a>   
+                                Name
                             </th>
                             <th>School</th>
                             <th>Phone Number</th>                         
@@ -80,7 +85,48 @@
 <!--</div>-->
 <c:import url="../template/footer.jsp" />
 <script>
-    function confirmFunction() {
-        alert("Accept student successfully"");
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        dir = "asc";
+
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
     }
+
+
+   
+
+
+
+
 </script>

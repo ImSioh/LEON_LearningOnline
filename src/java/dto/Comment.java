@@ -1,16 +1,25 @@
 package dto;
 
+import com.google.gson.annotations.Expose;
 import java.sql.Timestamp;
 import java.util.UUID;
 
 public class Comment {
 
+    @Expose
     private UUID commentId;
     private UUID accountId;
+    @Expose
     private UUID postId;
     private UUID resourceId;
+    @Expose
     private String content;
+    @Expose
     private Timestamp createTime;
+    @Expose
+    public Account account;
+    @Expose
+    public Resource resource;
 
     public Comment(UUID commentId, UUID accountId, UUID postId, UUID resourceId, String content, Timestamp createTime) {
         this.commentId = commentId;
@@ -75,7 +84,7 @@ public class Comment {
             commentId.toString(),
             accountId.toString(),
             postId.toString(),
-            resourceId.toString(),
+            resourceId == null ? null : resourceId.toString(),
             content,
             createTime.toString()
         }) + ")";
