@@ -10,9 +10,7 @@ import dao.PostDAO;
 import dao.ResourceDAO;
 import dto.Account;
 import dto.ClassObject;
-import dto.Comment;
 import dto.Post;
-import dto.Resource;
 import helpers.Constant;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -20,11 +18,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.UUID;
 
 @WebServlet(name = "NewFeedController", urlPatterns = {"/teacher/class/newfeed", "/student/class/newfeed"})
@@ -52,6 +48,11 @@ public class NewFeedController extends HttpServlet {
 
             if (account.getRole() == 2 && !new EnrollmentDAO().isJoined(account.getAccountId(), classObject.getClassId())) {
                 resp.sendRedirect(req.getContextPath() + "/student/class");
+                return;
+            }
+
+            if (account.getRole() == 1 && !account.getAccountId().equals(classObject.getAccountId())) {
+                resp.sendRedirect(req.getContextPath() + "/teacher/class");
                 return;
             }
 
