@@ -40,7 +40,7 @@
                             </div>
                         </div>
 
-                        <input type="file" class="form-control d-none" id="uploadImgProfile2" name="txtImg2" />
+                        <input type="file" class="form-control d-none" id="uploadImgProfile2" name="txtImg2" accept="image/png, image/jpeg" />
                         <div class="form-group form-button d-flex justify-content-center mt-4 row m-5">
                             <button class="btn btn-primary" type="submit">Save</button>
                         </div>
@@ -64,6 +64,9 @@
             if (fileupload.size > 5 * 1024 * 1024) {
                 msg.style.display = 'block';
                 return;
+            }
+            if (!fileupload.type.startsWith("image/")) {
+                return 
             }
             msg.style.display = 'none';
             var tmp = URL.createObjectURL(fileupload);

@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 @WebServlet(name = "EditProfileController", urlPatterns = {"/student/profile/edit", "/teacher/profile/edit"})
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 1,
@@ -63,7 +62,7 @@ public class EditProfileController extends HttpServlet {
             formValidator.setCheckParam("txtAddress", false, String.class);
 
             formValidator.setCheckParam("txtSchool", false, String.class);
-            
+
             formValidator.setCheckParam(
                     "txtPhone",
                     false,
@@ -119,8 +118,16 @@ public class EditProfileController extends HttpServlet {
                     String urlImg = "/profile/" + account.getAccountId().toString() + fileExtension;
                     profilePicture.write(System.getProperty("leon.updir") + urlImg);
                     urlToDB = "/files" + urlImg;
-                    account.setProfilePicture(urlToDB);
+
+                    if (fileExtension != null
+                            && (fileExtension.equalsIgnoreCase(".jpg")
+                            || fileExtension.equalsIgnoreCase(".jpeg")
+                            || fileExtension.equalsIgnoreCase(".png"))) {
+                        account.setProfilePicture(urlToDB);
+                    }
+
                 }
+                System.out.println(profilePicture.getSize());
 
                 int status = new AccountDAO().editAccount(account);
 
