@@ -1,7 +1,9 @@
 package controllers.admin;
 
 import dao.AccountDAO;
+import dao.ClassObjectDAO;
 import dto.Account;
+import dto.ClassObject;
 import helpers.Util;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -9,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @WebServlet(name = "LockAccountServlet", urlPatterns = {"/admin/lock"})
@@ -23,7 +26,10 @@ public class LockAccountController extends HttpServlet {
 
             //connect db
             AccountDAO accountDAO = new AccountDAO();
-            Account account = accountDAO.getAccountById(UUID.fromString(id));
+            ClassObjectDAO coDAO = new ClassObjectDAO();
+            UUID uuid = UUID.fromString(id);
+
+            Account account = accountDAO.getAccountById(uuid);
 
             //set acc user
             boolean lock = account.isLocked();
@@ -39,9 +45,18 @@ public class LockAccountController extends HttpServlet {
             Util.sendEmail(to, title, content);
 
             //lock acc user
-            int check = accountDAO.editAccount(account);
+            int checkLock = 0;
+            checkLock = accountDAO.editAccount(account);
+
+            int checkHidden = 0;
 
             if (role == 1) {
+                ArrayList<ClassObject> clazz = new ArrayList<>();
+                clazz = coDAO.getClassByAccId(uuid);
+                for (ClassObject classObject : clazz) {
+                    classObject.setHidden(!lock);
+                    checkHidden = coDAO.updateClass(classObject);
+                }
                 response.sendRedirect(request.getContextPath() + "/admin/teacher-account-list");
             } else if (role == 2) {
                 response.sendRedirect(request.getContextPath() + "/admin/student-account-list");
