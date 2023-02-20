@@ -20,7 +20,7 @@
                 <option value="phoneNumber" ${search eq "phoneNumber"?"selected":""}>Phone Number</option>
             </select>
 
-            <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Input something..." style="width: 45%; height: 10%; margin: 0"> 
+            <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Search something..." style="width: 45%; height: 10%; margin: 0"> 
             <input type="submit" value="SEARCH" id="search" class="btn-info" 
                    style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
@@ -58,7 +58,7 @@
             <table class="table table-light table-hover">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Details</th>
                         <th>Name</th>
                         <th>Gender</th>
                         <th>Email</th>
@@ -72,7 +72,7 @@
                     <c:forEach var="account" items="${accountList}" >
                         <tr>
                             <td>
-                                <a href="user-account-profile?id=${account.getAccountId()}">Profile</a>
+                                <a href="user-account-profile?id=${account.getAccountId()}">View Profile</a>
                             </td>
                             <td>${account.getName()}</td>
                             <td>
