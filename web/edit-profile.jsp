@@ -93,7 +93,7 @@
 
                                 </div>
                                 <div class="d-none">
-                                    <input type="file" class="form-control" id="uploadImgProfile" name="txtImg" />
+                                    <input type="file" class="form-control" id="uploadImgProfile" name="txtImg" accept="image/png, image/jpeg" />
                                 </div>
 
                             </div>
@@ -127,6 +127,9 @@
             if (fileupload.size > 5 * 1024 * 1024) {
                 msg.style.display = 'block';
                 return;
+            }
+            if (!fileupload.type.startsWith("image/")) {
+                return 
             }
             msg.style.display = 'none';
             var tmp = URL.createObjectURL(fileupload);
