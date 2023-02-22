@@ -20,7 +20,7 @@
                 <option value="title" ${search eq "title"?"selected":""}>Title</option>
             </select>
             <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Search something..." style="width: 45%; height: 10%; margin: 0"> 
-            <input type="submit" value="SEARCH" id="search" class="btn-info" 
+            <input type="submit" value="SEARCH" id="search" class="btn-info"  name="search_button"
                    style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
 

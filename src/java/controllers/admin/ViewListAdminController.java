@@ -15,9 +15,12 @@ import java.util.logging.Logger;
 @WebServlet(name = "ViewListAdminController", urlPatterns = {"/admin/feedback-list", "/admin/student-account-list", "/admin/teacher-account-list"})
 public class ViewListAdminController extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(ViewListAdminController.class.getName());
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        logger.info("===============log logger=============");
         try {
             //init param
             int role = 0;

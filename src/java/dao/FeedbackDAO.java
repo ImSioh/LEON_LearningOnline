@@ -5,8 +5,10 @@ import helpers.Util;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public class FeedbackDAO extends AbstractDAO<Feedback> {
+private static final Logger logger = Logger.getLogger(FeedbackDAO.class.getName());
 
     public int insertFeedback(Feedback feedback) throws Exception {
         String query = "Insert into feedback values(?,?,?,?,'',?)";
