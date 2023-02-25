@@ -68,6 +68,9 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
     }
 
     public ClassObject getClassByCode(String code) throws Exception {
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         String query = "SELECT * FROM class c where c.code = ?;";
         return selectOne(query, code);
     }
