@@ -173,7 +173,7 @@ public class AccountDAO extends AbstractDAO<Account> {
                 account.getAddress(),
                 account.getPhoneNumber(),
                 account.getPassword(),
-                account.getProfilePicture(),
+                account.getDefaultProfilePicture(),
                 account.isLocked(),
                 Util.UUIDToByteArray(account.getAccountId())
         );

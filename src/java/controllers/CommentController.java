@@ -44,6 +44,7 @@ public class CommentController extends HttpServlet {
                     commentOwner = accountDAO.getAccountById(comment.getAccountId());
                     otherAccount.put(commentOwner.getAccountId(), commentOwner);
                 }
+                commentOwner.setProfilePicture(commentOwner.getProfilePicture());
                 comment.account = commentOwner;
                 if (comment.getResourceId() != null) {
                     Resource commentResource = resourceMap.get(comment.getResourceId());
@@ -54,7 +55,7 @@ public class CommentController extends HttpServlet {
                     comment.resource = commentResource;
                 }
             }
-
+            
             Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(Constant.FORMAT_DATETIME).create();
             resp.setContentType("application/json");
             resp.setCharacterEncoding("utf-8");
@@ -81,6 +82,7 @@ public class CommentController extends HttpServlet {
             new CommentDAO().insertComment(comment);
             JsonWrapper<Comment> jsonWrapper = new JsonWrapper<Comment>("new-comment", comment);
             Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(Constant.FORMAT_DATETIME).create();
+            account.setProfilePicture(account.getProfilePicture());
             WebSocketController.sendToClass(classId, gson.toJson(jsonWrapper));
         } catch (Exception e) {
             e.printStackTrace();

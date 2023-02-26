@@ -50,8 +50,10 @@ public class PostController extends HttpServlet {
                     postOwner = accountDAO.getAccountById(post.getAccountId());
                     otherAccount.put(postOwner.getAccountId(), postOwner);
                 }
+                postOwner.setProfilePicture(postOwner.getProfilePicture());
                 post.account = postOwner;
                 post.commentCount = commentDAO.countCommentInPost(post.getPostId());
+
             }
 
             Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(Constant.FORMAT_DATETIME).create();
@@ -81,7 +83,7 @@ public class PostController extends HttpServlet {
                     postResourceDAO.insertPostResouce(postResource);
                 }
                 post.resources = new ResourceDAO().getResourcesByPost(post.getPostId());
-                
+
                 ClassObject classObject = new ClassObjectDAO().getClassById(classId);
                 String title = account.getName() + " posted in class " + classObject.getName();
                 String redirectUrl = "/class/newfeed?code=" + classObject.getCode() + "#" + post.getPostId();
@@ -90,6 +92,7 @@ public class PostController extends HttpServlet {
                 result = new NotificationDAO().insertNotification(notification);
                 if (result > 0) {
                     JsonWrapper<Notification> jsonWrapper = new JsonWrapper<>("notification", notification);
+                    account.setProfilePicture(account.getProfilePicture());
                     String json = gson.toJson(jsonWrapper);
                     WebSocketController.sendToClass(classId, json);
                 }
