@@ -1,6 +1,7 @@
 package dto;
 
 import com.google.gson.annotations.Expose;
+import helpers.Constant;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -124,6 +125,17 @@ public class Account {
     }
 
     public String getProfilePicture() {
+        if (profilePicture == null || profilePicture.trim().isEmpty()) {
+            if (gender) {
+                return Constant.IMG_FOR_MALE_DEFAULT;
+            }else{
+                return Constant.IMG_FOR_FEMALE_DEFAULT;
+            }
+        }
+        return profilePicture;
+    }
+    
+    public String getDefaultProfilePicture(){
         return profilePicture;
     }
 

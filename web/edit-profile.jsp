@@ -1,3 +1,4 @@
+
 <%@include file= "/template/header.jsp" %>
 <div class="content"style="margin-top: 50px;">
     <section style="background-color: rgba(209, 209, 209, 0.5); min-height: 100vh; max-height: fit-content;">

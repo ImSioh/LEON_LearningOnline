@@ -655,7 +655,7 @@
         </div>
         <div class="col-md-7 mt-4 post" id="create-post">
             <div class="post-header">
-                <div class="post-profile-picture" style="background-image: url(<c:url value="${account.profilePicture == null ? '/assets/img/ava.png' : account.profilePicture}"/>);"></div>
+                <div class="post-profile-picture" style="background-image: url(<c:url value="${account.profilePicture}"/>);"></div>
                 <div>
                     <p class="post-owner">${account.name}</p>
                 </div>
@@ -764,7 +764,7 @@
                         {
                             tagName: 'div',
                             className: 'post-profile-picture',
-                            style: 'background-image: url("' + <c:url value="/"/> + (post.account.profilePicture ? post.account.profilePicture : '/assets/img/ava.png').substring(1) + '");'
+                            style: 'background-image: url("' + <c:url value="/"/> + (post.account.profilePicture != null ? post.account.profilePicture : '/assets/img/ava.png').substring(1) + '");'
                         },
                         {
                             tagName: 'div',
@@ -856,7 +856,7 @@
                                 {
                                     tagName: 'div',
                                     className: 'post-profile-picture',
-                                    style: 'background-image: url("<c:url value="${account.profilePicture == null ? '/assets/img/ava.png' : account.profilePicture}"/>");'
+                                    style: 'background-image: url("<c:url value="${account.profilePicture}"/>");'
                                 },
                                 {
                                     tagName: 'div',
