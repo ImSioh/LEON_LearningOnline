@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name="CreateExerciseController", urlPatterns={"/teacher/create-exercise"})
+@WebServlet(name="CreateExerciseController", urlPatterns={"/teacher/exercise/create"})
 public class CreateExerciseController extends HttpServlet {
 
     @Override
