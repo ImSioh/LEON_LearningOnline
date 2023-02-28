@@ -116,57 +116,35 @@ CREATE TABLE IF NOT EXISTS comment(
 
 CREATE TABLE IF NOT EXISTS test(
   test_id binary(16),
-  title varchar(100) CHARACTER SET utf8mb4 NOT NULL,
+  class_id binary(16) NOT NULL,
+  title varchar(300) CHARACTER SET utf8mb4 NOT NULL,
   description text CHARACTER set utf8mb4,
+  start_at datetime NOT NULL,
+  end_at datetime,
+  duration time,
+  create_time datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (test_id)
 );
 
-CREATE TABLE IF NOT EXISTS assign_test(
-  assign_test_id binary(16),
-  test_id binary(16) NOT NULL,
-  account_id binary(16) NOT NULL,
-  class_id binary(16) NOT NULL,
-  duration time,
-  start_at datetime NOT NULL,
-  end_at datetime,
-  create_time datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (assign_test_id),
-  FOREIGN KEY (test_id) REFERENCES test(test_id),
-  FOREIGN KEY (account_id) REFERENCES account(account_id),
-  FOREIGN KEY (class_id) REFERENCES class(class_id)
-);
-
 CREATE TABLE IF NOT EXISTS do_test(
-  assign_test_id binary(16),
+  test_id binary(16),
   account_id binary(16),
   start_time datetime DEFAULT CURRENT_TIMESTAMP,
   finish_time datetime,
   score float,
-  PRIMARY KEY (assign_test_id, account_id),
-  FOREIGN KEY (assign_test_id) REFERENCES assign_test(assign_test_id),
+  PRIMARY KEY (test_id, account_id),
+  FOREIGN KEY (test_id) REFERENCES test(test_id),
   FOREIGN KEY (account_id) REFERENCES account(account_id)
 );
 
 CREATE TABLE IF NOT EXISTS question(
   question_id binary(16),
+  test_id binary(16) NOT NULL,
+  resource_id binary(16),
   title varchar(100) CHARACTER SET utf8mb4,
   content text,
-  PRIMARY KEY (question_id)
-);
-
-CREATE TABLE IF NOT EXISTS question_in_test(
-  question_id binary(16),
-  test_id binary(16),
-  PRIMARY KEY (question_id, test_id),
-  FOREIGN KEY (question_id) REFERENCES question(question_id),
-  FOREIGN KEY (test_id) REFERENCES test(test_id)
-);
-
-CREATE TABLE IF NOT EXISTS question_resource(
-  question_id binary(16),
-  resource_id binary(16),
-  PRIMARY KEY (question_id, resource_id),
-  FOREIGN KEY (question_id) REFERENCES question(question_id),
+  PRIMARY KEY (question_id),
+  FOREIGN KEY (test_id) REFERENCES test(test_id),
   FOREIGN KEY (resource_id) REFERENCES resource(resource_id)
 );
 
@@ -183,11 +161,11 @@ CREATE TABLE IF NOT EXISTS answer(
 
 CREATE TABLE IF NOT EXISTS student_answer(
   account_id binary(16),
-  assign_test_id binary(16),
+  question_id binary(16),
   answer_id binary(16),
-  PRIMARY KEY (account_id, assign_test_id, answer_id),
+  PRIMARY KEY (account_id, question_id, answer_id),
   FOREIGN KEY (account_id) REFERENCES account(account_id),
-  FOREIGN KEY (assign_test_id) REFERENCES assign_test(assign_test_id),
+  FOREIGN KEY (question_id) REFERENCES question(question_id),
   FOREIGN KEY (answer_id) REFERENCES answer(answer_id)
 );
 

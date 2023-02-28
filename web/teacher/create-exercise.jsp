@@ -131,6 +131,34 @@
         border-radius: .25rem;
         position: relative;
         height: fit-content;
+        transition: all ease 0.2s;
+    }
+
+    .question-answer.true {
+        background-color: #a8e4de;
+        border: 2px solid #056766;
+    }
+
+    .correct-badge {
+        opacity: 0;
+        margin: 0;
+        position: absolute;
+        background-color: #056766;
+        color: white;
+        padding: 0.2rem 0.8rem;
+        font-size: 0.8rem;
+        border-top-left-radius: 99px;
+        border-top-right-radius: 99px;
+        border-bottom-left-radius: 99px;
+        border-bottom-right-radius: 99px;
+        top: -0.7rem;
+        left: -0.5rem;
+        pointer-events: none;
+        transition: all ease 0.2s;
+    }
+
+    .question-answer.true > .correct-badge {
+        opacity: 1;
     }
 
     .answer-order {
@@ -145,6 +173,14 @@
         top: -1.25rem;
         left: 50%;
         transform: translateX(-50%);
+        cursor: pointer;
+        transition: all ease 0.2s;
+        border: 2px solid transparent;
+        box-sizing: content-box;
+    }
+
+    .question-answer.true > .answer-order {
+        border: 2px solid #056766;
     }
 
     .question-answer > .img-resource {
@@ -401,6 +437,9 @@
         <div class="test-detail mt-4 border rounded-3 bg-light" id="question-list">
             <button class="btn btn-primary" id="add-question">Add question</button>
         </div>
+        <button class="btn btn-primary w-100 mt-3 mb-5" id="create-exercise">
+            Create test
+        </button>
     </div>
 </div>
 <script src="<c:url value="/assets/js/pdf.min.js"/>"></script>
@@ -783,6 +822,47 @@
         });
     }
 
+    function openResourceSelector(wrapper, rsList, imageBox, documentBox) {
+        resourceManage.selected = rsList
+        resourceManage.resetup = () => {
+            rsList.forEach((r, i) => {
+                r.order.innerHTML = '<i class="fa-solid fa-check"></i>'
+            })
+            deleteBtn.disabled = rsList.length > 0
+        }
+        resourceManage.callback = resource => {
+            if (rsList[0] !== resource) {
+                const rel = rsList.pop()
+                if (rel) {
+                    rel.element.classList.remove('selected')
+                    rsList.length = 0
+                }
+                if (rasterType.includes(resource.mimeType)) {
+                    documentBox.remove()
+                    if (!imageBox.isConnected)
+                        wrapper.append(imageBox)
+                    imageBox.style.backgroundImage = 'url("<c:url value="/"/>' + resource.url.substring(1) + '")'
+                } else {
+                    imageBox.remove()
+                    if (!documentBox.isConnected)
+                        wrapper.append(documentBox)
+                    documentBox.textContent = resource.url.split('/').pop()
+                }
+                wrapper.dataset.id = resource.resourceId
+                resource.order.innerHTML = '<i class="fa-solid fa-check"></i>'
+                resource.element.classList.add('selected')
+                rsList.push(resource)
+            } else {
+                delete wrapper.dataset.id
+                imageBox.remove()
+                documentBox.remove()
+                resource.element.classList.remove('selected')
+                rsList.length = 0
+            }
+        }
+    }
+
+    const createExerciseButton = document.getElementById('create-exercise')
     const testTimeToggle = document.getElementById('test-time-toggle')
     const startTimeToggle = document.getElementById('start-time-toggle')
     const endTimeToggle = document.getElementById('end-time-toggle')
@@ -868,6 +948,15 @@
 
     addQuestionBtn.addEventListener('click', () => {
         const bindList = {}
+        const rsList = []
+        const imageBox = createElement({
+            tagName: 'div',
+            className: 'img-resource',
+        })
+        const documentBox = createElement({
+            tagName: 'div',
+            className: 'document-resource text-truncate'
+        })
         const order = questionList.children.length
         const newQuestion = createElement({
             tagName: 'div',
@@ -903,7 +992,11 @@
                                         {
                                             tagName: 'button',
                                             className: 'btn flex-shrink-0 btn-primary ms-2',
-                                            innerHTML: '<i class="fa-sharp fa-solid fa-file"></i>'
+                                            innerHTML: '<i class="fa-sharp fa-solid fa-file"></i>',
+                                            addEventListener: ['click', () => {
+                                                    openResourceSelector(bindList.questionTerm, rsList, imageBox, documentBox)
+                                                    resourceModalBootstrap.show()
+                                                }]
                                         }
                                     ]
                                 }
@@ -959,6 +1052,15 @@
         }
         function addAnswer() {
             const answerBindList = {}
+            const answerImageBox = createElement({
+                tagName: 'div',
+                className: 'img-resource',
+            })
+            const answerDocumentBox = createElement({
+                tagName: 'div',
+                className: 'document-resource text-truncate'
+            })
+            const answerRsList = []
             const newAnswer = createElement({
                 tagName: 'div',
                 className: 'question-answer p-3 pt-4',
@@ -966,11 +1068,17 @@
                     {
                         tagName: 'p',
                         className: 'answer-order user-select-none',
-                        textContent: String.fromCharCode(answerObjectList.length + 65)
+                        textContent: String.fromCharCode(answerObjectList.length + 65),
+                        bind: [answerBindList, 'changeState']
+                    },
+                    {
+                        tagName: 'p',
+                        className: 'user-select-none correct-badge',
+                        textContent: 'Marked as correct'
                     },
                     {
                         tagName: 'div',
-                        className: 'pb-2',
+                        className: 'pb-2 answer-resource',
                         bind: [answerBindList, 'resource']
                     },
                     {
@@ -988,43 +1096,24 @@
                             {
                                 tagName: 'button',
                                 className: 'btn flex-shrink-0 btn-primary ms-2',
-                                innerHTML: '<i class="fa-sharp fa-solid fa-file"></i>'
+                                innerHTML: '<i class="fa-sharp fa-solid fa-file"></i>',
+                                addEventListener: ['click', () => {
+                                        openResourceSelector(answerBindList.resource, answerRsList, answerImageBox, answerDocumentBox)
+                                        resourceModalBootstrap.show()
+                                    }]
                             }
                         ]
                     }
                 ]
             })
-            const answerImageBox = createElement({
-                tagName: 'div',
-                className: 'img-resource',
-            })
-            const answerDocumentBox = createElement({
-                tagName: 'div',
-                className: 'document-resource text-truncate'
-            })
-            const answerRsList = []
-            newAnswer.addEventListener('click', e => {
-                e.stopPropagation()
-                let element = null
-                if (element = e.target.closest('.question-answer button')) {
-                    openResourceSelector(answerBindList.resource, answerRsList, answerImageBox, answerDocumentBox)
-                    resourceModalBootstrap.show()
-                }
+            answerBindList.changeState.addEventListener('click', () => {
+                newAnswer.classList.toggle('true')
             })
             answerObjectList.push({
                 element: newAnswer
             })
             bindList.answerList.append(newAnswer)
         }
-        const rsList = []
-        const imageBox = createElement({
-            tagName: 'div',
-            className: 'img-resource',
-        })
-        const documentBox = createElement({
-            tagName: 'div',
-            className: 'document-resource text-truncate'
-        })
         bindList.answerCounter.value = answerCount
         bindList.answerCounter.addEventListener('change', () => {
             if (!bindList.answerCounter.value.match(/^\d+$/g)) {
@@ -1049,54 +1138,30 @@
                 })
             }
         })
-        newQuestion.addEventListener('click', e => {
-            e.stopPropagation()
-            let element = null
-            if (element = e.target.closest('.question-term button')) {
-                openResourceSelector(bindList.questionTerm, rsList, imageBox, documentBox)
-                resourceModalBootstrap.show()
-            }
-        })
         questionList.append(newQuestion)
     })
 
-    function openResourceSelector(wrapper, rsList, imageBox, documentBox) {
-        resourceManage.selected = rsList
-        resourceManage.resetup = () => {
-            rsList.forEach((r, i) => {
-                r.order.innerHTML = '<i class="fa-solid fa-check"></i>'
-            })
-            deleteBtn.disabled = rsList.length > 0
+    createExerciseButton.addEventListener('click', e => {
+        const testObject = {
+            title: document.getElementById('title').value.trim(),
+            description: document.getElementById('description').value.trim(),
+            questions: [...questionList.getElementsByClassName('question')].reduce((qs, q) => {
+                qs.push({
+                    content: q.querySelector('.question-term .content').value,
+                    resourceId: q.querySelector('.question-term').dataset.id || null,
+                    answers: [...q.querySelector('.question-answer-list').children].reduce((as, a) => {
+                        as.push({
+                            true: a.classList.contains('true'),
+                            content: a.querySelector('.content').value,
+                            resourceId: a.querySelector('.answer-resource').dataset.id || null
+                        })
+                        return as
+                    }, [])
+                })
+                return qs
+            }, [])
         }
-        resourceManage.callback = resource => {
-            if (rsList[0] !== resource) {
-                const rel = rsList.pop()
-                if (rel) {
-                    rel.element.classList.remove('selected')
-                    rsList.length = 0
-                }
-                if (rasterType.includes(resource.mimeType)) {
-                    documentBox.remove()
-                    if (!imageBox.isConnected)
-                        wrapper.append(imageBox)
-                    imageBox.style.backgroundImage = 'url("<c:url value="/"/>' + resource.url.substring(1) + '")'
-                } else {
-                    imageBox.remove()
-                    if (!documentBox.isConnected)
-                        wrapper.append(documentBox)
-                    documentBox.textContent = resource.url.split('/').pop()
-                }
-                resource.order.innerHTML = '<i class="fa-solid fa-check"></i>'
-                resource.element.classList.add('selected')
-                rsList.push(resource)
-                console.log(rsList)
-            } else {
-                imageBox.remove()
-                documentBox.remove()
-                resource.element.classList.remove('selected')
-                rsList.length = 0
-            }
-        }
-    }
+        console.log(testObject)
+    })
 </script>
 <c:import url="../template/footer.jsp"/>

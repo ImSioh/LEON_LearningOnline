@@ -10,6 +10,8 @@ public class QuestionDAO extends AbstractDAO<Question> {
     protected Question propMapping(ResultSet rs) throws Exception {
         return new Question(
                 Util.ByteArrayToUUID(rs.getBytes("question_id")),
+                Util.ByteArrayToUUID(rs.getBytes("test_id")),
+                Util.ByteArrayToUUID(rs.getBytes("resource_id")),
                 rs.getNString("title"),
                 rs.getNString("content")
         );

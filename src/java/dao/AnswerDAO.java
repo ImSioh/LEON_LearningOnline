@@ -12,6 +12,7 @@ public class AnswerDAO extends AbstractDAO<Answer> {
         return new Answer(
                 Util.ByteArrayToUUID(rs.getBytes("answer_id")),
                 Util.ByteArrayToUUID(rs.getBytes("question_id")),
+                Util.ByteArrayToUUID(rs.getBytes("resource_id")),
                 rs.getNString("content"),
                 rs.getBoolean("correct")
         );
