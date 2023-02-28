@@ -1,6 +1,6 @@
 <%@include file= "/template/header.jsp" %>
 
-<div class="content" style="margin-top: 50px;">
+<div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 56px;">
     <%@include file="/template/sidebar.jsp" %>
 </div>
 
