@@ -35,7 +35,7 @@
                 <c:otherwise>
                 <li class="${activeNF}"><a href="<c:url value="/student/class/newfeed?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block ml-3"> New Feed</a> </li> 
                 <li class="${activeEX}"><a href="<c:url value="/student/class/exercise?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block ml-3">Exercise</a> </li>
-                <li class="${activeRK}"><a href="<c:url value="/teacher/class/rank?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block">  Rank</a> </li> 
+                <li class="${activeRK}"><a href="<c:url value="/student/class/rank?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block">  Rank</a> </li> 
                 <li class="${activeMB}"><a href="<c:url value="/student/class/member-list?code=${param.code}"/>" class="text-decoration-none px-3 py-2 d-block ml-3">Members</a> </li>      
                 <hr class="h-color mx-2">
                 <li class="btn btn-danger d-flex justify-content-center" style="margin-top: auto;">
