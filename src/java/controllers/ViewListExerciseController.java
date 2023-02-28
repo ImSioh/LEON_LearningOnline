@@ -4,8 +4,10 @@
  */
 package controllers;
 
+import dao.ClassObjectDAO;
+import dto.Account;
+import dto.ClassObject;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,26 +17,29 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "ViewListExerciseController", urlPatterns = {"/teacher/class/exercise", "/student/class/exercise"})
 public class ViewListExerciseController extends HttpServlet {
 
+    ClassObjectDAO COD = new ClassObjectDAO();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("activeEX", "active");
-        request.getRequestDispatcher("/view-list-exercise.jsp").forward(request, response);
+        try {
+            Account account = (Account) request.getAttribute("account");
+            String classCode = request.getParameter("code");
+            String search = request.getParameter("search");
+
+            ClassObject classObject = COD.getClassByCode(classCode);
+
+            request.setAttribute("classObject", classObject);
+            request.setAttribute("search", search);
+            request.setAttribute("activeEX", "active");
+
+            request.getRequestDispatcher("/view-list-exercise.jsp").forward(request, response);
+        } catch (Exception e) {
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
