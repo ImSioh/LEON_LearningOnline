@@ -440,7 +440,7 @@
         <div class="test-detail mt-4 border rounded-3 bg-light" id="question-list">
             <button class="btn btn-primary" id="add-question">Add question</button>
         </div>
-        <button class="btn btn-primary w-100 mt-3 mb-5" id="create-exercise">
+        <button  class="btn btn-primary w-100 mt-3 mb-5" id="create-exercise">
             Create test
         </button>
     </div>
