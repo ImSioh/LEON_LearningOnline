@@ -1175,12 +1175,14 @@
             }, [])
         }
         isValid = !!(isValid && testObject.title && testObject.questions.length > 0)
-        console.log(isValid)
         if (isValid) {
             const response = await fetch('<c:url value="/teacher/class/exercise/create"/>', {
                 method: 'POST',
                 body: JSON.stringify(testObject)
             })
+            if (response.ok) {
+                window.location.replace('<c:url value="/teacher/class/exercise"/>')
+            }
         }
     })
 </script>
