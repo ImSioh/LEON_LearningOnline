@@ -61,9 +61,9 @@ public class Answer {
     @Override
     public String toString() {
         return "Answer(" + String.join(", ", new String[]{
-            answerId.toString(),
-            questionId.toString(),
-            resourceId.toString(),
+            String.valueOf(answerId),
+            String.valueOf(questionId),
+            String.valueOf(resourceId),
             content,
             String.valueOf(correct)
         }) + ")";

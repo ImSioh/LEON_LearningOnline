@@ -127,16 +127,19 @@
     }
 
     .question-answer {
-        border: 0.125rem solid #edeff4;
+        /*border: 0.125rem solid #edeff4;*/
         border-radius: .25rem;
         position: relative;
         height: fit-content;
         transition: all ease 0.2s;
+        box-shadow: inset 0 0 0.5rem 0 #00000040;
+        background-color: #f8f9fa;
     }
 
     .question-answer.true {
-        background-color: #a8e4de;
-        border: 2px solid #056766;
+        background-color: #a8e4deaa;
+        box-shadow: inset 0 0 0.5rem 0 #05676640;
+        /*        border: 2px solid #056766;*/
     }
 
     .correct-badge {
@@ -955,7 +958,7 @@
         })
         const documentBox = createElement({
             tagName: 'div',
-            className: 'document-resource text-truncate'
+            className: 'document-resource text-truncate bg-white'
         })
         const order = questionList.children.length
         const newQuestion = createElement({
@@ -1058,12 +1061,12 @@
             })
             const answerDocumentBox = createElement({
                 tagName: 'div',
-                className: 'document-resource text-truncate'
+                className: 'document-resource text-truncate bg-white'
             })
             const answerRsList = []
             const newAnswer = createElement({
                 tagName: 'div',
-                className: 'question-answer p-3 pt-4',
+                className: 'question-answer p-3 pt-4 mt-3',
                 children: [
                     {
                         tagName: 'p',
@@ -1141,27 +1144,44 @@
         questionList.append(newQuestion)
     })
 
-    createExerciseButton.addEventListener('click', e => {
+    createExerciseButton.addEventListener('click', async e => {
+        let isValid = true
         const testObject = {
-            title: document.getElementById('title').value.trim(),
-            description: document.getElementById('description').value.trim(),
+            classId: '${classObject.classId}',
+            title: document.getElementById('title').value.trim() || null,
+            description: document.getElementById('description').value.trim() || null,
+            startAt: startTimeInput.value || null,
+            endAt: endTimeInput.value || null,
+            duration: testTimeInput.value || null,
+            allowReview: !reviewToggle.checked,
             questions: [...questionList.getElementsByClassName('question')].reduce((qs, q) => {
-                qs.push({
-                    content: q.querySelector('.question-term .content').value,
+                const question = {
+                    content: q.querySelector('.question-term .content').value || null,
                     resourceId: q.querySelector('.question-term').dataset.id || null,
                     answers: [...q.querySelector('.question-answer-list').children].reduce((as, a) => {
-                        as.push({
-                            true: a.classList.contains('true'),
+                        const answer = {
+                            correct: a.classList.contains('true'),
                             content: a.querySelector('.content').value,
                             resourceId: a.querySelector('.answer-resource').dataset.id || null
-                        })
+                        }
+                        isValid = !!(isValid && (answer.content || answer.resourceId))
+                        as.push(answer)
                         return as
                     }, [])
-                })
+                }
+                isValid = !!(isValid && (question.content || question.resourceId) && question.answers.length > 0)
+                qs.push(question)
                 return qs
             }, [])
         }
-        console.log(testObject)
+        isValid = !!(isValid && testObject.title && testObject.questions.length > 0)
+        console.log(isValid)
+        if (isValid) {
+            const response = await fetch('<c:url value="/teacher/class/exercise/create"/>', {
+                method: 'POST',
+                body: JSON.stringify(testObject)
+            })
+        }
     })
 </script>
 <c:import url="../template/footer.jsp"/>

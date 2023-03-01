@@ -1,7 +1,7 @@
 package dto;
 
-import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Test {
@@ -12,10 +12,12 @@ public class Test {
     private String description;
     private Timestamp startAt;
     private Timestamp endAt;
-    private Time duration;
+    private Double duration;
+    private boolean allowReview;
     private Timestamp createTime;
+    public ArrayList<Question> questions;
 
-    public Test(UUID testId, UUID classId, String title, String description, Timestamp startAt, Timestamp endAt, Time duration, Timestamp createTime) {
+    public Test(UUID testId, UUID classId, String title, String description, Timestamp startAt, Timestamp endAt, Double duration, boolean allowReview, Timestamp createTime) {
         this.testId = testId;
         this.classId = classId;
         this.title = title;
@@ -23,6 +25,7 @@ public class Test {
         this.startAt = startAt;
         this.endAt = endAt;
         this.duration = duration;
+        this.allowReview = allowReview;
         this.createTime = createTime;
     }
 
@@ -74,12 +77,20 @@ public class Test {
         this.endAt = endAt;
     }
 
-    public Time getDuration() {
+    public Double getDuration() {
         return duration;
     }
 
-    public void setDuration(Time duration) {
+    public void setDuration(Double duration) {
         this.duration = duration;
+    }
+
+    public boolean isAllowReview() {
+        return allowReview;
+    }
+
+    public void setAllowReview(boolean allowReview) {
+        this.allowReview = allowReview;
     }
 
     public Timestamp getCreateTime() {
@@ -93,14 +104,15 @@ public class Test {
     @Override
     public String toString() {
         return "Test(" + String.join(", ", new String[]{
-            testId.toString(),
-            classId.toString(),
+            String.valueOf(testId),
+            String.valueOf(classId),
             title,
             description,
-            startAt.toString(),
-            endAt.toString(),
-            duration.toString(),
-            createTime.toString()
+            String.valueOf(startAt),
+            String.valueOf(endAt),
+            String.valueOf(duration),
+            String.valueOf(allowReview),
+            String.valueOf(createTime)
         }) + ")";
     }
 

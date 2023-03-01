@@ -1,5 +1,6 @@
 package dto;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Question {
@@ -9,6 +10,7 @@ public class Question {
     private UUID resourceId;
     private String title;
     private String content;
+    public ArrayList<Answer> answers;
 
     public Question(UUID questionId, UUID testId, UUID resourceId, String title, String content) {
         this.questionId = questionId;
@@ -61,9 +63,9 @@ public class Question {
     @Override
     public String toString() {
         return "Question(" + String.join(", ", new String[]{
-            questionId.toString(),
-            testId.toString(),
-            resourceId.toString(),
+            String.valueOf(questionId),
+            String.valueOf(testId),
+            String.valueOf(resourceId),
             title,
             content
         }) + ")";

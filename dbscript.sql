@@ -121,7 +121,8 @@ CREATE TABLE IF NOT EXISTS test(
   description text CHARACTER set utf8mb4,
   start_at datetime NOT NULL,
   end_at datetime,
-  duration time,
+  duration int,
+  allow_review bit DEFAULT TRUE,
   create_time datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (test_id)
 );
@@ -171,6 +172,8 @@ CREATE TABLE IF NOT EXISTS student_answer(
 
 INSERT INTO account (account_id, name, birth_date, gender, school, address, phone_number, email, password, role, create_time) VALUES
 (0x044b56a0dbbb4a8e8fd890560af35134, 'ADMIN', NULL, TRUE, NULL, NULL, NULL, 'admin@gmail.com', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 3, '2022-01-01 00:00:00'),
+(0xeeb085adce7144558a5d48c74d9f6620, 'Teacher', NULL, FALSE, NULL, NULL, NULL, 'teacher@gmail.com', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 1, '2022-08-30 09:58:55'),
+(0x4aff1beb54ce46aea015e4614b1fdea2, 'Student', NULL, FALSE, NULL, NULL, NULL, 'student@gmail.com', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 2, '2022-08-30 09:58:55'),
 (0x8340734fab2b40f4a5b7644273f61032, 'Harlene Ashlin', NULL, FALSE, 'Skynoodle', NULL, NULL, 'hashlin0@angelfire.com', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 2, '2022-03-11 14:36:47'),
 (0x94162beeab4f47baa24039a26a0bb417, 'Magdalena Riccio', NULL, FALSE, NULL, NULL, '8048589705', 'mriccio1@github.com', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 1, '2022-08-30 09:58:55'),
 (0xe5bcaaf28a1c4a72b84d819b02b48629, 'Jackquelin Hasnney', '2010-03-24', FALSE, 'Avaveo', NULL, NULL, 'jhasnney2@toplist.cz', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', 2, '2022-11-23 10:02:34'),
