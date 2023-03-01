@@ -1181,7 +1181,7 @@
                 body: JSON.stringify(testObject)
             })
             if (response.ok) {
-                window.location.replace('<c:url value="/teacher/class/exercise"/>')
+                window.location.replace('<c:url value="/teacher/class/exercise?code=${classObject.code}"/>')
             }
         }
     })
