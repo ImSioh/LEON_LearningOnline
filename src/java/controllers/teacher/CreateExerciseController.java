@@ -82,9 +82,6 @@ public class CreateExerciseController extends HttpServlet {
             if (result > 0) {
                 result = new AnswerDAO().insertMultipleAnswers(allAnswers);
             }
-            if (result > 0) {
-                resp.sendRedirect(req.getContextPath() + "/teacher/class/exercise?code=" + classObject.getCode());
-            }
         } catch (Exception e) {
             throw new ServletException(e);
         }
