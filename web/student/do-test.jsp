@@ -184,13 +184,13 @@
     <div class="test-info-area p-4">
         <div>
             <p class="remain-time">30:00</p>
-            <p class="title">Title</p>
-            <p class="description border rounded-3 bg-light p-3">Nếu có giải “Hộp Cơm Vàng” cho làng ẩm thực Hoà Lạc thì ô anh này phải dc giải FairPlay, nói chuyện k thể nào uy tín hơn =))))</p>
+            <p class="title">${test.getTitle()}</p>
+            <p class="description border rounded-3 bg-light p-3">${test.getDescription()}</p>
         </div>
         <div class="question-nav border rounded-3 bg-light p-3 mb-3">
-            <c:forEach begin="1" end="18" var="x">
+            <c:forEach begin="1"  end="${test.questions.size()}" var="number" >
                 <div>
-                    <p class="rounded-3">${x}</p>
+                    <p class="rounded-3">${number}</p>
                 </div>
             </c:forEach>
         </div>
@@ -206,7 +206,7 @@
             <p class="question-order user-select-none">Question 1</p>
             <div class="question-body">
                 <div class="question-term">
-                    <p class="question-content">Chuyển thể từ tiểu thuyết Đức cùng tên của cựu chiến binh Erich Maria Remarque, ở Việt Nam chúng ta biết đến tiểu thuyết dưới cái tên “Phía tây không có gì lạ”. Câu chuyện phản chiến, lột trần sự khốc liệt của chiến tranh Thế Chiến thứ nhất, lấy bối cảnh năm 1914, chiến tuyến phía Bắc nước Pháp.</p>
+                    <p class="question-content">question id</p>
                     <div class="img-resource" style="background-image: url('<c:url value="/files/resource/b23cfaf3-856a-4c76-8890-f04f31bbbba2/page pic.png"/>');"></div>
                 </div>
                 <div class="question-answer-list">
@@ -216,7 +216,7 @@
                             <div class="pb-2 answer-resource">
                                 <div class="img-resource" style="background-image: url('<c:url value="/files/resource/b23cfaf3-856a-4c76-8890-f04f31bbbba2/page pic.png"/>');"></div>
                             </div>
-                            <p class="question-content">Trong AQOTWF, ngoại trừ những khía cạnh điển hình ta luôn thấy ở dòng phim ch.iến tr.anh như khắc hoạ sự khốn khổ lẫn tuyệt vọng của người lính, hành trình huỷ hoại một thiếu niên</p>
+                            <p class="question-content">Trong AQOTWF, ngoáº¡i trá»« nhá»¯ng khÃ­a cáº¡nh Äiá»n hÃ¬nh ta luÃ´n tháº¥y á» dÃ²ng phim ch.iáº¿n tr.anh nhÆ° kháº¯c hoáº¡ sá»± khá»n khá» láº«n tuyá»t vá»ng cá»§a ngÆ°á»i lÃ­nh, hÃ nh trÃ¬nh huá»· hoáº¡i má»t thiáº¿u niÃªn</p>
                         </div>
                     </c:forEach>
                 </div>

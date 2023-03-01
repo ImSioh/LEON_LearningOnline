@@ -1,11 +1,16 @@
 package controllers.student;
 
+import dao.TestDAO;
+import dto.Test;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @WebServlet(name="DoExerciseController", urlPatterns={"/student/class/exercise/do"})
@@ -14,8 +19,15 @@ public class DoExerciseController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
-        req.setAttribute("activeEX", "active");
-      req.getRequestDispatcher("../../do-test.jsp").forward(req, resp);
+        try {
+            String testid = req.getParameter("testid");
+            Test test = new TestDAO().getTestWithAllData(UUID.fromString(testid));
+            req.setAttribute("test", test);
+            req.setAttribute("activeEX", "active");
+            req.getRequestDispatcher("/student/do-test.jsp").forward(req, resp);
+        } catch (Exception ex) {
+            Logger.getLogger(DoExerciseController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     } 
 
     @Override

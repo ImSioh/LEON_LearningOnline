@@ -111,6 +111,14 @@ public class Test {
         this.createTime = createTime;
     }
 
+    public ArrayList<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(ArrayList<Question> questions) {
+        this.questions = questions;
+    }
+
     @Override
     public String toString() {
         return "Test(" + String.join(", ", new String[]{
