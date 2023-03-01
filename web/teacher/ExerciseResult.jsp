@@ -27,50 +27,55 @@
                                 Name 
                             </th>
                             <th><a onclick="sortTable(1)" class="fas fa-sort fa-sm m-2" style="cursor: pointer;text-decoration: none"></a>Score</th>
-                            <th><a onclick="onclick=sortTable(2)" style="cursor: pointer;text-decoration: none" class="fas fa-sort fa-sm m-2"></a>Time</th>
+                            <th><a onclick="onclick = sortTable(2)" style="cursor: pointer;text-decoration: none" class="fas fa-sort fa-sm m-2"></a>Time</th>
                             <th>Submit Time</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        <tr>                          
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div style="width: 45px; height: 45px; overflow: hidden;" class="rounded-circle" >
-                                        <div id="profile-img" style="
-                                             width: 100%;
-                                             height: 0;
-                                             padding-bottom: 100%;
-                                             background-image: url(<c:url value="${listS.getProfilePicture() ==null ? '/assets/img/ava.png' : listS.getProfilePicture()}"/>);
-                                             background-position: center;
-                                             background-repeat: no-repeat;
-                                             background-size: cover;
-                                             ">;
+                    
+                            <tr>                          
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div style="width: 45px; height: 45px; overflow: hidden;" class="rounded-circle" >
+                                            <div id="profile-img" style="
+                                                 width: 100%;
+                                                 height: 0;
+                                                 padding-bottom: 100%;
+                                                 background-image: url(<c:url value="${listS.getProfilePicture() ==null ? '/assets/img/ava.png' : listS.getProfilePicture()}"/>);
+                                                 background-position: center;
+                                                 background-repeat: no-repeat;
+                                                 background-size: cover;
+                                                 ">;
+                                            </div>
+                                        </div>
+                                        <div class="ms-3" style="cursor: pointer;">
+                                            <p class="fw-bold mb-1">${listS.getName()}</p>
+                                            <p class="text-muted mb-0">${listS.getEmail()}</p>
                                         </div>
                                     </div>
-                                    <div class="ms-3" style="cursor: pointer;">
-                                        <p class="fw-bold mb-1">Nguyen Van A</p>
-                                           <p class="text-muted mb-0">kate.hunington@gmail.com</p>                                 
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <p class="fw-normal mb-1">10.0</p>
-                            </td>
-                            <td>
-                                <span class="">10p39s</span>
-                            </td>
-                            <td>7 tháng 1 lúc 20:23</td>
-                            <td>
-                                <a style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-danger text-light">
-                                    Reset
-                                </a>
-                                <a style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-danger text-light">
-                                    Detail
-                                </a>
-                            </td>             
-                        </tr>
+                                </td>
+                                <td>
+                                 
+                                    <p class="fw-normal mb-1">0</p>
+
+                                </td>
+                                <td>
+                                    10/12
+                                </td>
+                                <td>10/12</td>
+
+                                <td>
+                                    <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
+                                        Reset
+                                    </a>
+                                    <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
+                                        View
+                                    </a>
+                                </td>            
+                            </tr>
+                        
 
                     </tbody>
                 </table>
