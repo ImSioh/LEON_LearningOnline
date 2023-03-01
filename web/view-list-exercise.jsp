@@ -13,7 +13,7 @@
                 <!--CREATE-->
                 <div style="width: 200px; margin-left: 20px;">
                     <c:if test="${account.getRole() == 1}">
-                        <a href="<c:url value="/teacher/exercise/create"/>"
+                        <a href="<c:url value="/teacher/class/exercise/create?code=${code}"/>"
                            class="btn btn-primary text-light">
                             <i class="fa-solid fa-plus"></i>
                             Create exercise
