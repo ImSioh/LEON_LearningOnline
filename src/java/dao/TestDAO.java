@@ -24,32 +24,10 @@ public class TestDAO extends AbstractDAO<Test> {
         );
     }
 
-    public ArrayList<Test> viewListTest(UUID classid, UUID accountid) throws Exception {
-        String query = "select * from test t, class c, account a \n"
-                + "where t.class_id = c.class_id\n"
-                + "and c.account_id = a.account_id\n"
-                + "and c.class_id = ?\n"
-                + "and a.account_id = ?\n";
-        return selectMany(query, Util.UUIDToByteArray(classid), Util.UUIDToByteArray(accountid));
-    }
-
     public ArrayList<Test> viewListTest(UUID classid) throws Exception {
-        String query = "select * from test t\n"
-                + "where t.class_id = ?\n";
+        String query = "select * from test\n"
+                + "where class_id = ?\n";
         return selectMany(query, Util.UUIDToByteArray(classid));
-    }
-
-    public static void main(String[] args) throws Exception {
-        TestDAO tDAO = new TestDAO();
-        ArrayList<Test> viewTest = new ArrayList<>();
-        String cid = "";
-        String aid = "agea";
-        UUID classid = UUID.fromString(cid);
-        UUID accountid = UUID.fromString(aid);
-        viewTest = tDAO.viewListTest(classid, accountid);
-        for (Test test : viewTest) {
-            System.out.println(test);
-        }
     }
 
     @Override

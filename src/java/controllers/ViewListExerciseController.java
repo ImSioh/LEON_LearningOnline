@@ -22,7 +22,7 @@ import java.util.UUID;
 public class ViewListExerciseController extends HttpServlet {
 
     ClassObjectDAO COD = new ClassObjectDAO();
-    TestDAO tDAO = new TestDAO();
+    TestDAO TD = new TestDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -33,19 +33,20 @@ public class ViewListExerciseController extends HttpServlet {
             String search = request.getParameter("search");
 
             ClassObject classObject = COD.getClassByCode(classCode);
-            UUID aid = account.getAccountId();
             UUID cid = classObject.getClassId();
 
             ArrayList<Test> viewTest = new ArrayList<>();
-            viewTest = tDAO.viewListTest(cid);
+            viewTest = TD.viewListTest(cid);
 
             request.setAttribute("classObject", classObject);
             request.setAttribute("search", search);
             request.setAttribute("activeEX", "active");
             request.setAttribute("listExercise", viewTest);
+            
             if (account.getRole() == 1) {
                 request.setAttribute("teacher", account);
             }
+            
             request.getRequestDispatcher("/view-list-exercise.jsp").forward(request, response);
         } catch (Exception e) {
         }
