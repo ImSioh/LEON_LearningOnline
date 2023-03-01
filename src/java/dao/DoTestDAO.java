@@ -3,6 +3,8 @@ package dao;
 import dto.DoTest;
 import helpers.Util;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.UUID;
 
 public class DoTestDAO extends AbstractDAO<DoTest> {
 
@@ -16,5 +18,7 @@ public class DoTestDAO extends AbstractDAO<DoTest> {
                 rs.getObject("score", Double.class)
         );
     }
-    
+
+   
+
 }
