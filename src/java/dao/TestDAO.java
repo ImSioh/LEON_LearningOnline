@@ -3,9 +3,11 @@ package dao;
 import dto.Test;
 import helpers.Util;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.UUID;
 
 public class TestDAO extends AbstractDAO<Test> {
-    
+
     public int insertTest(Test test) throws Exception {
         String query = "INSERT INTO test (test_id, class_id, title, description, start_at, end_at, duration, allow_review, create_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return update(
@@ -20,6 +22,12 @@ public class TestDAO extends AbstractDAO<Test> {
                 test.isAllowReview(),
                 test.getCreateTime()
         );
+    }
+
+    public ArrayList<Test> viewListTest(UUID classid) throws Exception {
+        String query = "select * from test\n"
+                + "where class_id = ?\n";
+        return selectMany(query, Util.UUIDToByteArray(classid));
     }
 
     @Override

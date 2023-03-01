@@ -1,7 +1,6 @@
 <%@include file= "/template/header.jsp" %>
 
 <c:set var="code" value="${classObject.getCode()}"></c:set>
-<c:set var="testid" value="123"></c:set>
 
     <div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 56px;">
 
@@ -20,17 +19,18 @@
                         </a>
                     </c:if>
                 </div>
-                <!-- SEARCH -->
-                <form action="member-list" method="post" class="" style="display: flex; margin-left: 21em; margin-right: 0">
+                <!--SEARCH--> 
+                <div style="display: flex; margin-left: 21em; margin-right: 0">
                     <div class="form-outline" style="width: 300px;">
                         <input type="hidden" name="code" value="${code}">
-                        <input type="text" class="form-control" name="search" value="${search}">
-                        <label  class="form-label" for="datatable-search-input">Search</label>
+                        <input type="text" class="form-control" id="myInput" name="search" value="${search}"
+                               onkeyup="searchTable()">
+                        <label class="form-label" for="datatable-search-input">Search</label>
                     </div>
                     <button type="submit" class="btn btn-info col-md-2" style="width: 50px">
                         <i class="fas fa-search text-light"></i>
                     </button>
-                </form>
+                </div>
             </div>
 
             <div class="card-body m-3" >
@@ -43,14 +43,14 @@
                                 Title 
                             </th>
                             <th>Duration</th>
-                            <th><a onclick="sortTable(1)" class="fas fa-sort fa-sm m-2" 
+                            <th><a onclick="sortTable(2)" class="fas fa-sort fa-sm m-2" 
                                    style="cursor: pointer;text-decoration: none"></a>
                                 Start Time</th>
                             <th><a onclick="sortTable(3)" class="fas fa-sort fa-sm m-2" 
                                    style="cursor: pointer;text-decoration: none"></a>  
                                 Finish Time  
                             </th>
-                            <th><a onclick="sortTable(1)" class="fas fa-sort fa-sm m-2" 
+                            <th><a onclick="sortTable(4)" class="fas fa-sort fa-sm m-2" 
                                    style="cursor: pointer;text-decoration: none"></a>
                                 Create Time
                             </th>
@@ -60,42 +60,39 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%--<c:forEach items="${listStudent}" var="listS" >--%>
-                        <tr>                          
-                            <td>
-                                <!--<div class="ms-3">-->
-                                <a href="/teacher/exercise?code=${code}&testid=${testid}">
-                                    <p class="fw-bold mb-1">Progress Test 1</p>
-                                </a>
-                                <p class="text-muted mb-0">PT1 of SWT301 for class SE1641</p> 
-                                <!--</div>-->
-                            </td>
-                            <td>30min</td>
-                            <td>01/03/2023 17:00</td>
-                            <td>01/03/2023 17:30</td>
-                            <td>01/03/2023 16:00</td>
-                            <c:if test="${account.getRole() == 1}">
-                                <td>
-                                    <div class="d-flex justify-content-center gap-2">
-                                        <a  onclick="return confirm('Do you want accept student?')" eq true 
-                                            ? href="<c:url value="/teacher/class/exercise/edit?code=${code}&testid=${testid}"/>"
-                                            :href="" 
-                                            style="text-decoration: none"
-                                            class="btn btn-link btn-sm btn-rounded bg-success text-light">
-                                            Edit
-                                        </a>
-                                        <a onclick="return confirm('Do you want reject student?')" eq true 
-                                           ? href="<c:url value="/teacher/class/exercise/delete?code=${code}&testid=${testid}"/>"
-                                           :href="" 
-                                           style="text-decoration: none"
-                                           class="btn btn-link btn-sm btn-rounded bg-danger text-light">
-                                            Delete
-                                        </a>
-                                    </div>
-                                </td>     
-                            </c:if>
-                        </tr>
-                        <%--</c:forEach>--%>
+                        <c:forEach items="${listExercise}" var="listEX" >
+                            <c:set var="testid" value="${listEX.getTestId()}"/>
+                                <tr>                          
+                                    <td>
+                                        <a href="/teacher/exercise?code=${code}&testid=${testid}">
+                                        <p class="fw-bold mb-1">${listEX.getTitle()}</p>
+                                    </a>
+                                    <p class="text-muted mb-0">${listEX.getDescription()}</p> 
+                                </td>
+                                <td>${listEX.getDuration()} minute(s)</td>
+                                <td>${listEX.getStartAt()}</td>
+                                <td>${listEX.getEndAt()}</td>
+                                <td>${listEX.getCreateTime()}</td>
+                                <c:if test="${account.getRole() == 1}">
+                                    <td>
+                                        <div class="d-flex justify-content-center gap-1">
+                                            <a href="<c:url value="/teacher/class/exercise/edit?code=${code}&testid=${testid}"/>" 
+                                               class="btn btn-link btn-sm btn-rounded bg-success text-light"
+                                               style="text-decoration: none">
+                                                Edit
+                                            </a>
+                                            <a onclick="return confirm('Do you want to delete this exercise?')" eq true 
+                                               ? href="<c:url value="/teacher/class/exercise/delete?code=${code}&testid=${testid}"/>"
+                                               :href="" 
+                                               class="btn btn-link btn-sm btn-rounded bg-danger text-light"
+                                               style="text-decoration: none">
+                                                Delete
+                                            </a>
+                                        </div>
+                                    </td>     
+                                </c:if>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -143,7 +140,6 @@
             }
         }
     }
-
 
     function searchTable() {
         var input, filter, table, tr, td, i, j, txtValue;
