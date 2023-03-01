@@ -1,17 +1,32 @@
 package dto;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Test {
 
     private UUID testId;
+    private UUID classId;
     private String title;
     private String description;
+    private Timestamp startAt;
+    private Timestamp endAt;
+    private Double duration;
+    private boolean allowReview;
+    private Timestamp createTime;
+    public ArrayList<Question> questions;
 
-    public Test(UUID testId, String title, String description) {
+    public Test(UUID testId, UUID classId, String title, String description, Timestamp startAt, Timestamp endAt, Double duration, boolean allowReview, Timestamp createTime) {
         this.testId = testId;
+        this.classId = classId;
         this.title = title;
         this.description = description;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.duration = duration;
+        this.allowReview = allowReview;
+        this.createTime = createTime;
     }
 
     public UUID getTestId() {
@@ -20,6 +35,14 @@ public class Test {
 
     public void setTestId(UUID testId) {
         this.testId = testId;
+    }
+
+    public UUID getClassId() {
+        return classId;
+    }
+
+    public void setClassId(UUID classId) {
+        this.classId = classId;
     }
 
     public String getTitle() {
@@ -38,12 +61,58 @@ public class Test {
         this.description = description;
     }
 
+    public Timestamp getStartAt() {
+        return startAt;
+    }
+
+    public void setStartAt(Timestamp startAt) {
+        this.startAt = startAt;
+    }
+
+    public Timestamp getEndAt() {
+        return endAt;
+    }
+
+    public void setEndAt(Timestamp endAt) {
+        this.endAt = endAt;
+    }
+
+    public Double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Double duration) {
+        this.duration = duration;
+    }
+
+    public boolean isAllowReview() {
+        return allowReview;
+    }
+
+    public void setAllowReview(boolean allowReview) {
+        this.allowReview = allowReview;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
     @Override
     public String toString() {
         return "Test(" + String.join(", ", new String[]{
-            testId.toString(),
+            String.valueOf(testId),
+            String.valueOf(classId),
             title,
-            description
+            description,
+            String.valueOf(startAt),
+            String.valueOf(endAt),
+            String.valueOf(duration),
+            String.valueOf(allowReview),
+            String.valueOf(createTime)
         }) + ")";
     }
 
