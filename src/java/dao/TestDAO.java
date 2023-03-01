@@ -26,7 +26,8 @@ public class TestDAO extends AbstractDAO<Test> {
 
     public ArrayList<Test> viewListTest(UUID classid) throws Exception {
         String query = "select * from test\n"
-                + "where class_id = ?\n";
+                + "where class_id = ?\n"
+                + "order by create_time";
         return selectMany(query, Util.UUIDToByteArray(classid));
     }
 
