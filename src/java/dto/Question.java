@@ -8,15 +8,15 @@ public class Question {
     private UUID questionId;
     private UUID testId;
     private UUID resourceId;
-    private String title;
+    private int questionOrder;
     private String content;
     public ArrayList<Answer> answers;
 
-    public Question(UUID questionId, UUID testId, UUID resourceId, String title, String content) {
+    public Question(UUID questionId, UUID testId, UUID resourceId, int questionOrder, String content) {
         this.questionId = questionId;
         this.testId = testId;
         this.resourceId = resourceId;
-        this.title = title;
+        this.questionOrder = questionOrder;
         this.content = content;
     }
 
@@ -44,12 +44,12 @@ public class Question {
         this.resourceId = resourceId;
     }
 
-    public String getTitle() {
-        return title;
+    public int getQuestionOrder() {
+        return questionOrder;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setQuestionOrder(int questionOrder) {
+        this.questionOrder = questionOrder;
     }
 
     public String getContent() {
@@ -66,7 +66,7 @@ public class Question {
             String.valueOf(questionId),
             String.valueOf(testId),
             String.valueOf(resourceId),
-            title,
+            String.valueOf(questionOrder),
             content
         }) + ")";
     }

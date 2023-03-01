@@ -63,12 +63,12 @@ public class CreateExerciseController extends HttpServlet {
                 test.setStartAt(test.getCreateTime());
             }
             ArrayList<Answer> allAnswers = new ArrayList<>();
-            
+
             for (Question question : test.questions) {
                 allAnswers.addAll(question.answers);
                 question.setQuestionId(UUID.randomUUID());
                 question.setTestId(test.getTestId());
-                
+
                 for (Answer answer : question.answers) {
                     answer.setAnswerId(UUID.randomUUID());
                     answer.setQuestionId(question.getQuestionId());
@@ -90,7 +90,7 @@ public class CreateExerciseController extends HttpServlet {
     private String getBodyString(HttpServletRequest req) throws IOException {
         ArrayList<String> lines = new ArrayList<>();
         InputStream inputStream = req.getInputStream();
-        Scanner scanner = new Scanner(inputStream);
+        Scanner scanner = new Scanner(inputStream, "UTF-8");
         while (scanner.hasNextLine()) {
             lines.add(scanner.nextLine());
         }
