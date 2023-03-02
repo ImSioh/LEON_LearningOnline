@@ -38,15 +38,21 @@ public class ViewListExerciseController extends HttpServlet {
             ArrayList<Test> viewTest = new ArrayList<>();
             viewTest = TD.viewListTest(cid);
 
+            for (Test test : viewTest) {
+                if (test.getDescription().length() > 30) {
+                    test.setDescription(test.getDescription().substring(0, 30) + "...");
+                }
+            }
+
             request.setAttribute("classObject", classObject);
             request.setAttribute("search", search);
             request.setAttribute("activeEX", "active");
             request.setAttribute("listExercise", viewTest);
-            
+
             if (account.getRole() == 1) {
                 request.setAttribute("teacher", account);
             }
-            
+
             request.getRequestDispatcher("/view-list-exercise.jsp").forward(request, response);
         } catch (Exception e) {
         }
