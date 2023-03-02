@@ -59,7 +59,7 @@
                                 <c:set var="testid" value="${listEX.getTestId()}"/>
                                 <tr>                          
                                     <td>
-                                        <a href="<c:url value="/teacher/class/exercise?testid=${testid}"/>">
+                                        <a href="<c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/>">
                                             <p class="fw-bold mb-1">${listEX.getTitle()}</p>
                                         </a>
                                         <p class="text-muted mb-0">${listEX.getDescription()}</p> 
@@ -78,7 +78,7 @@
                                     <c:if test="${account.getRole() == 1}">
                                         <td>
                                             <div class="justify-content-center gap-1">
-                                                <a href="<c:url value="/teacher/class/exercise?testid=${testid}"/>" 
+                                                <a href="<c:url value="/teacher/class/exercise/?testid=${testid}"/>" 
                                                    class="btn btn-link btn-sm btn-rounded bg-success text-light"
                                                    style="text-decoration: none">
                                                     Edit
