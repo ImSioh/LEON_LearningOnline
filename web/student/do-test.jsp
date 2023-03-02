@@ -179,7 +179,7 @@
         }
     }
 </style>
-<div class="main-container has-paper">
+<div class="main-container">
     <div id="question-paper"></div>
     <div class="test-info-area p-4">
         <div>
@@ -187,43 +187,16 @@
             <p class="title">${test.getTitle()}</p>
             <p class="description border rounded-3 bg-light p-3">${test.getDescription()}</p>
         </div>
-        <div class="question-nav border rounded-3 bg-light p-3 mb-3">
-            <c:forEach begin="1"  end="${test.questions.size()}" var="number" >
-                <div>
-                    <p class="rounded-3">${number}</p>
-                </div>
-            </c:forEach>
-        </div>
+        <div class="question-nav border rounded-3 bg-light p-3 mb-3" id="quesNav"> </div>
         <div class="prev-next-nav">
-            <div id="prev" class="btn btn-outline-secondary w-100 text-center">
+            <button id="prev" class="btn btn-outline-secondary w-100 text-center">
                 <i class="fa-solid fa-caret-left"></i>
-            </div>
-            <div id="next" class="btn btn-outline-secondary w-100 text-center">
+            </button>
+            <button id="next" class="btn btn-outline-secondary w-100 text-center">
                 <i class="fa-solid fa-caret-right"></i>
-            </div>
+            </button>
         </div>
-        <div class="question p-3 pt-4 rounded-3 bg-white mt-4">
-            <p class="question-order user-select-none">Question ${test.questions.get(0).getQuestionOrder()}</p>
-            <div class="question-body">
-                <div class="question-term">
-                    <p class="question-content">${test.questions.get(0).getContent()}</p>
-                    <c:if test="${rdao.getResourcesById(test.questions.get(0).getResourceId()).getUrl() ne null}">
-                        <div class="img-resource" style="background-image: url('<c:url value="${rdao.getResourcesById(test.questions.get(0).getResourceId()).getUrl()}"/>');"></div>
-                    </c:if>
-                </div>
-                <div class="question-answer-list">
-                    <c:forEach begin="1" end="${test.questions.get(0).getAnswers().size()}" var="x">
-                        <div class="question-answer p-3 pt-4 mt-3">
-                            <p class="answer-order user-select-none">${tdao.convertToAlphabet(test.questions.get(0).getAnswers().get(x-1).getAnswerOrder())}</p>
-                            <div class="pb-2 answer-resource">
-                                <!--<div class="img-resource" style="background-image: url('<c:url value="/files/resource/b23cfaf3-856a-4c76-8890-f04f31bbbba2/page pic.png"/>');"></div>-->
-                            </div>
-                            <p class="question-content">${test.questions.get(0).getAnswers().get(x-1).getContent()}</p>
-                        </div>
-                    </c:forEach>
-                </div>
-            </div>
-        </div>
+        <div id="quesDetail"></div>
         <button class="btn btn-primary w-100 mt-3 mb-5" id="create-exercise">
             Submit
         </button>
@@ -233,6 +206,7 @@
 <script src="<c:url value="/assets/js/jszip.min.js"/>"></script>
 <script src="<c:url value="/assets/js/docx-preview.min.js"/>"></script>
 <script>
+
     function createElement(element) {
         if (element instanceof HTMLElement) {
             return element
@@ -307,19 +281,6 @@
     const questionPaper = document.getElementById('question-paper')
 
     let mimeType = ''
-    fetch('<c:url value="/files/resource/Report3_Software-Requirement-Specification.docx"/>')
-            .then(response => {
-                mimeType = response.headers.get('Content-Type')
-                return response.arrayBuffer()
-            })
-            .then(data => {
-                console.log(data)
-                if (mimeType === 'application/pdf') {
-                    renderPdf(data)
-                } else if (mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                    renderDocx(data)
-                }
-            })
 
 
     var durationTime = ${test.getDuration()};
@@ -336,8 +297,175 @@
         }
     }, 1000);
 
+    function numberToLetter(num) {
+        if (num <= 26) {
+            return String.fromCharCode(64 + num);
+        } else {
+            let quotient = Math.floor((num - 1) / 26);
+            let remainder = (num - 1) % 26 + 1;
+            return numberToLetter(quotient) + numberToLetter(remainder);
+        }
+    }
+
     var testObj = "${json}";
     testObj = JSON.parse(testObj);
+    var quesDetail = document.getElementById("quesDetail");
+    var quesNav = document.getElementById("quesNav");
+    var hasPaper = document.querySelector(".main-container");
+    var questionElement = [];
+    var prev = document.getElementById("prev");
+    var next = document.getElementById("next");
+    var quesIndex = 0;
+
+
+
+    testObj.questions.forEach(function (x, indexX) {
+
+        var tmp = createElement({
+            tagName: "div",
+            className: "question p-3 pt-4 rounded-3 bg-white mt-4",
+            children: [
+                {
+                    tagName: "p",
+                    className: "question-order user-select-none",
+                    textContent: "Question " + (indexX + 1)
+                },
+                {
+                    tagName: "div",
+                    className: "question-body",
+                    children: [
+                        {
+                            tagName: "div",
+                            className: "question-term",
+                            children: (() => {
+                                var abc = [];
+                                if (x.content) {
+                                    abc.push({
+                                        tagName: "p",
+                                        className: "question-content",
+                                        textContent: x.content
+                                    })
+                                }
+                                if (x.resource) {
+                                    abc.push({
+                                        tagName: "div",
+                                        className: "img-resource",
+                                        style: "background-image: url('" + <c:url value="/"></c:url> + x.resource.url.substring(1) + "');"
+                                    })
+                                }
+                                return abc;
+                            })()
+                        },
+                        {
+                            tagName: "div",
+                            className: "question-answer-list",
+                            children: x.answers.map(function (answer, indexA) {
+                                return {
+                                    tagName: "div",
+                                    className: "question-answer p-3 pt-4 mt-3",
+                                    children: [
+                                        {
+                                            tagName: "p",
+                                            className: "answer-order user-select-none",
+                                            textContent: numberToLetter(indexA + 1)
+                                        },
+                                        {
+                                            tagName: "div",
+                                            className: "pb-2 answer-resource",
+                                            children: (() => {
+                                                var abc = [];
+                                                if (answer.resource) {
+                                                    abc.push({
+                                                        tagName: "div",
+                                                        className: "img-resource",
+                                                        style: "background-image: url('" + <c:url value="/"></c:url> + answer.resource.url.substring(1) + "');"
+                                                    })
+                                                }
+                                                return abc;
+                                            })()
+                                        },
+                                        {
+                                            tagName: "p",
+                                            className: "question-content",
+                                            textContent: answer.content
+                                        }
+                                    ]
+                                }
+                            })
+                        }
+                    ]
+                }
+            ]
+        })
+
+        var questionNav = createElement({
+            tagName: "div",
+            children: [
+                {
+                    tagName: "p",
+                    className: "rounded-3",
+                    textContent: (indexX + 1),
+                    onclick: () => {
+                        quesDetail.innerHTML = null;
+                        quesDetail.append(tmp)
+                    }
+
+                }
+            ]
+        });
+
+        quesNav.append(questionNav);
+        questionElement.push(tmp);
+    });
+
+    quesNav.children[0].children[0].click()
+
+
+
+    if (testObj.resource) {
+        hasPaper.classList.add("has-paper");
+        fetch('<c:url value="/"/>' + testObj.resource.url.substring(1))
+                .then(response => {
+                    mimeType = response.headers.get('Content-Type')
+                    return response.arrayBuffer()
+                })
+                .then(data => {
+                    console.log(data)
+                    if (mimeType === 'application/pdf') {
+                        renderPdf(data)
+                    } else if (mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                        renderDocx(data)
+                    }
+                })
+    }
+    
+    function quesbtn(){
+        if(quesIndex === 0){
+            prev.disabled = true;
+        }else{
+            prev.disabled = false;
+        }
+        if(quesIndex === questionElement.length-1){
+            next.disabled = true;
+        }else{
+            next.disabled = false;
+        }
+    }
+    
+    
+    prev.onclick = () => {
+        quesNav.children[--quesIndex].children[0].click();
+        quesbtn();
+    };
+    
+    next.onclick = () => {
+        quesNav.children[++quesIndex].children[0].click();
+        quesbtn();
+    };
+    
+    quesbtn()
+
+
 </script>
 <c:import url="../template/footer.jsp" />
 

@@ -951,6 +951,24 @@
         }
     }
 
+    async function loadFile() {
+        const file = rsTest[0]
+        if (!file || !(file.mimeType === 'application/pdf' || file.mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')) {
+            return
+        }
+        clearSelectedFile()
+        const response = await fetch('<c:url value="/"/>' + file.url.substring(1))
+        const data = await response.arrayBuffer()
+        if (file.mimeType === 'application/pdf') {
+            if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js'
+            }
+            renderPdf(data)
+        } else if (file.mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+            renderDocx(data)
+        }
+    }
+
     const createExerciseButton = document.getElementById('create-exercise')
     createExerciseButton.disabled = true
     const testTimeToggle = document.getElementById('test-time-toggle')
@@ -1262,7 +1280,7 @@
         questionList.append(newQuestion)
         createExerciseButton.disabled = questionList.children.length <= 1
     })
-    
+
     const messageModal = new bootstrap.Modal(document.getElementById('message-modal'))
 
     createExerciseButton.addEventListener('click', async e => {
