@@ -69,7 +69,9 @@ public class TestDAO extends AbstractDAO<Test> {
         Test test = getTestByTestID(testid);
         ResourceDAO rdao = new ResourceDAO();
         test.questions = new QuestionDAO().getQuestionByTestID(testid);
-        //
+        if (test.getResourceId() != null) {
+            test.resource = rdao.getResourcesById(test.getResourceId());
+        }
         for (Question q : test.questions) {
             q.answers = adao.getAnswerByQuestionID(q.getQuestionId());
             if (q.getResourceId() != null) {
@@ -84,13 +86,6 @@ public class TestDAO extends AbstractDAO<Test> {
         return test;
     }
 
-    public String convertToAlphabet(int n) {
-        if (n < 1 || n > 26) {
-            throw new IllegalArgumentException("Input value must be between 1 and 26 inclusive.");
-        }
-        char c = (char) (n + 64);
-        return Character.toString(c);
-    }
 
     public ArrayList<Test> getListTitleTest(UUID classId) throws Exception {
         String query = "select * from online_learning.test\n"
