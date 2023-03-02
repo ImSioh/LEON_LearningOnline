@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "ExerciseResultController", urlPatterns = {"/teacher/exerciseResult"})
+@WebServlet(name = "ExerciseResultController", urlPatterns = {"/teacher/class/exercise/detail"})
 public class ExerciseResultController extends HttpServlet {
 
     @Override
