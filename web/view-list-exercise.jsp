@@ -1,3 +1,4 @@
+
 <%@include file= "/template/header.jsp" %>
 
 <c:set var="code" value="${classObject.getCode()}"></c:set>
@@ -50,65 +51,65 @@
                                    style="cursor: pointer;text-decoration: none"></a>  
                                 Finish Time  
                             </th>
-                            <th><a onclick="sortTable(4)" class="fas fa-sort fa-sm m-2" 
-                                   style="cursor: pointer;text-decoration: none"></a>
-                                Create Time
-                            </th>
-                            <%--<c:if test="${account.getRole() == 1}">--%>
                             <th>Action</th>
-                                <%--</c:if>--%>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${listExercise}" var="listEX" >
-                            <c:set var="testid" value="${listEX.getTestId()}"/>
-                            <tr>                          
-                                <td>
-                                    <a href="<c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/>">
-                                        <p class="fw-bold mb-1">${listEX.getTitle()}</p>
-                                    </a>
-                                    <p class="text-muted mb-0">${listEX.getDescription()}</p> 
-                                </td>
-                                <td>${listEX.getDuration()} minute(s)</td>
-                                <td>${listEX.getStartAt()}</td>
-                                <td>${listEX.getEndAt()}</td>
-                                <td>${listEX.getCreateTime()}</td>
-
-                                <!--Action-->
-                                <!--Teacher: Edit & Delete exercise-->
-                                <c:if test="${account.getRole() == 1}">
+                        <c:forEach items="${listExercise}" var="listEX">
+                            <c:if test="${listEX.getCreateTime() != null}">
+                                <c:set var="testid" value="${listEX.getTestId()}"/>
+                                <tr>                          
                                     <td>
-                                        <div class="justify-content-center gap-1">
-                                            <a href="<c:url value="/teacher/class/exercise?testid=${testid}"/>" 
-                                               class="btn btn-link btn-sm btn-rounded bg-success text-light"
-                                               style="text-decoration: none">
-                                                Edit
-                                            </a>
-                                            <a onclick="return confirm('Do you want to delete this exercise?')" eq true 
-                                               ? href="<c:url value="/teacher/class/exercise/delete?testid=${testid}"/>"
-                                               :href="" 
-                                               class="btn btn-link btn-sm btn-rounded bg-danger text-light"
-                                               style="text-decoration: none">
-                                                Delete
-                                            </a>
-                                        </div>
-                                    </td>     
-                                </c:if>
-                                <!--Student: Do exercise-->
-                                <c:if test="${account.getRole() == 2}">
-                                    <td>
-                                        <div class="justify-content-center">
-                                            <c:set var="duration" value="${listEX.getDuration()}"/>
-                                            <a onclick="return startExercise()" 
-                                               href="<c:url value="/student/class/exercise/do?testid=${testid}"/>"
-                                               class="btn btn-link btn-sm btn-rounded bg-primary text-light"
-                                               style="text-decoration: none">
-                                                Start
-                                            </a>
-                                        </div>
+                                        <a href="<c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/>">
+                                            <p class="fw-bold mb-1">${listEX.getTitle()}</p>
+                                        </a>
+                                        <p class="text-muted mb-0">${listEX.getDescription()}</p> 
                                     </td>
-                                </c:if>
-                            </tr>
+                                    <td>${listEX.getDuration()} minute(s)</td>
+                                    <td>${sdf.format(listEX.getStartAt())}</td>
+                                    <c:if test="${listEX.getEndAt() == null}">
+                                        <td>${listEX.getEndAt()}</td>
+                                    </c:if>
+                                    <c:if test="${listEX.getEndAt() != null}">
+                                        <td>${sdf.format(listEX.getEndAt())}</td>
+                                    </c:if>
+
+                                    <!--Action-->
+                                    <!--Teacher: Edit & Delete exercise-->
+                                    <c:if test="${account.getRole() == 1}">
+                                        <td>
+                                            <div class="justify-content-center gap-1">
+                                                <a href="<c:url value="/teacher/class/exercise/?testid=${testid}"/>" 
+                                                   class="btn btn-link btn-sm btn-rounded bg-success text-light"
+                                                   style="text-decoration: none">
+                                                    Edit
+                                                </a>
+                                                <a onclick="return confirm('Do you want to delete this exercise?')" eq true 
+                                                   ? href="<c:url value="/teacher/class/exercise/delete?code=${code}&testid=${testid}"/>"
+                                                   :href="" 
+                                                   class="btn btn-link btn-sm btn-rounded bg-danger text-light"
+                                                   style="text-decoration: none">
+                                                    Delete
+                                                </a>
+                                            </div>
+                                        </td>     
+                                    </c:if>
+                                    <!--Student: Do exercise-->
+                                    <c:if test="${account.getRole() == 2}">
+                                        <td>
+                                            <div class="justify-content-center">
+                                                <c:set var="duration" value="${listEX.getDuration()}"/>
+                                                <a onclick="return startExercise()" 
+                                                   href="<c:url value="/student/class/exercise/do?testid=${testid}"/>"
+                                                   class="btn btn-link btn-sm btn-rounded bg-primary text-light"
+                                                   style="text-decoration: none">
+                                                    Start
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </c:if>
+                                </tr>
+                            </c:if>
                         </c:forEach>
                     </tbody>
                 </table>
