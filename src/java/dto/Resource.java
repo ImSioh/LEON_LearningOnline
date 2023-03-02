@@ -14,13 +14,15 @@ public class Resource {
     private String thumbnail;
     @Expose
     private String mimeType;
+    private boolean deleted;
 
-    public Resource(UUID resourceId, UUID accountId, String url, String thumbnail, String mimeType) {
+    public Resource(UUID resourceId, UUID accountId, String url, String thumbnail, String mimeType, boolean deleted) {
         this.resourceId = resourceId;
         this.accountId = accountId;
         this.url = url;
         this.thumbnail = thumbnail;
         this.mimeType = mimeType;
+        this.deleted = deleted;
     }
 
     public UUID getResourceId() {
@@ -63,14 +65,23 @@ public class Resource {
         this.mimeType = mimeType;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     @Override
     public String toString() {
         return "Resource(" + String.join(", ", new String[]{
-            resourceId.toString(),
-            accountId.toString(),
+            String.valueOf(resourceId),
+            String.valueOf(accountId),
             url,
             thumbnail,
-            mimeType
+            mimeType,
+            String.valueOf(deleted)
         }) + ")";
     }
 

@@ -9,11 +9,12 @@ import java.util.UUID;
 public class TestDAO extends AbstractDAO<Test> {
 
     public int insertTest(Test test) throws Exception {
-        String query = "INSERT INTO test (test_id, class_id, title, description, start_at, end_at, duration, allow_review, create_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO test (test_id, class_id, resource_id, title, description, start_at, end_at, duration, allow_review, create_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return update(
                 query,
                 Util.UUIDToByteArray(test.getTestId()),
                 Util.UUIDToByteArray(test.getClassId()),
+                Util.UUIDToByteArray(test.getResourceId()),
                 test.getTitle(),
                 test.getDescription(),
                 test.getStartAt(),
@@ -73,6 +74,7 @@ public class TestDAO extends AbstractDAO<Test> {
         return new Test(
                 Util.ByteArrayToUUID(rs.getBytes("test_id")),
                 Util.ByteArrayToUUID(rs.getBytes("class_id")),
+                Util.ByteArrayToUUID(rs.getBytes("resource_id")),
                 rs.getNString("title"),
                 rs.getNString("description"),
                 rs.getTimestamp("start_at"),
