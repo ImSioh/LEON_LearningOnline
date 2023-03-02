@@ -109,29 +109,33 @@
                                         </td>
                                         <c:set value="${DoTestDAO.getDoTestById(listS.getAccountId() , testId).getStartTime()}" var="start" ></c:set>
                                         <c:set value="${DoTestDAO.getDoTestById(listS.getAccountId() , testId).getFinishTime()}" var="finish" ></c:set>
-                                <fmt:formatDate value="${start}" pattern="yyyy-MM-dd HH:mm:ss" var="startDate" />
-                                <fmt:formatDate value="${finish}" pattern="yyyy-MM-dd HH:mm:ss" var="finishDate" />
-                                <c:set var="diffInMillis" value="${finish.time - start.time}" />
-                                <c:if test="${diffInMillis/60000 !=0.0}">
-                                    <td>
-                                        <fmt:formatNumber value="${diffInMillis/60000}" pattern="0.00" />
-                                    </td>
-                                </c:if> 
-                                <td>
-                                    ${finish}
-                                </td>
-                                <td>
-                                    <c:if test="${DoTestDAO.getDoTestById(listS.getAccountId(),testId).getFinishTime()!=null}">
-                                        <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
-                                            Reset
-                                        </a>
-                                        <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
-                                            View
-                                        </a>
-                                    </c:if>                                      
-                                </td> 
-                                </tr>
-                            </c:forEach>   
+                                        <fmt:formatDate value="${start}" pattern="yyyy-MM-dd HH:mm:ss" var="startDate" />
+                                        <fmt:formatDate value="${finish}" pattern="yyyy-MM-dd HH:mm:ss" var="finishDate" />
+                                        <c:set var="diffInMillis" value="${finish.time - start.time}" />
+                                        <c:if test="${diffInMillis/60000 !=0.0}">
+                                            <td>
+                                                <fmt:formatNumber value="${diffInMillis/60000}" pattern="0.00" />
+                                            </td>
+                                        </c:if> 
+
+                                        <c:if test="${finish!=null}" >
+                                            <td> ${sdf.format(finish)}
+                                            </td>
+                                        </c:if>
+
+
+                                        <td>
+                                            <c:if test="${DoTestDAO.getDoTestById(listS.getAccountId(),testId).getFinishTime()!=null}">
+                                                <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
+                                                    Reset
+                                                </a>
+                                                <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
+                                                    View
+                                                </a>
+                                            </c:if>                                      
+                                        </td> 
+                                    </tr>
+                                </c:forEach>   
 
                             </tbody>
                         </table>
@@ -189,30 +193,33 @@
                                             </td>
                                             <c:set value="${DoTestDAO.getDoTestById(listS.getAccountId() , testId).getStartTime()}" var="start" ></c:set>
                                             <c:set value="${DoTestDAO.getDoTestById(listS.getAccountId() , testId).getFinishTime()}" var="finish" ></c:set>
-                                    <fmt:formatDate value="${start}" pattern="yyyy-MM-dd HH:mm:ss" var="startDate" />
-                                    <fmt:formatDate value="${finish}" pattern="yyyy-MM-dd HH:mm:ss" var="finishDate" />
-                                    <c:set var="diffInMillis" value="${finish.time - start.time}" />
-                                    <c:if test="${diffInMillis/60000 !=0.0}">
-                                        <td>
-                                            ${diffInMillis/60000}
-                                        </td>
-                                    </c:if> 
-                                    <td>
-                                        ${start}
-                                    </td>
-                                    <td>
-                                        <c:if test="${DoTestDAO.getDoTestById(listS.getAccountId(),testId).getFinishTime()!=null}">
-                                            <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
-                                                Reset
-                                            </a>
-                                            <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
-                                                View
-                                            </a>
-                                        </c:if>
-                                    </td> 
-                                    </tr>
-                                </c:if>
-                            </c:forEach>   
+                                            <fmt:formatDate value="${start}" pattern="yyyy-MM-dd HH:mm:ss" var="startDate" />
+                                            <fmt:formatDate value="${finish}" pattern="yyyy-MM-dd HH:mm:ss" var="finishDate" />
+                                            <c:set var="diffInMillis" value="${finish.time - start.time}" />
+                                            <c:if test="${diffInMillis/60000 !=0.0}">
+                                                <td>
+                                                    <fmt:formatNumber value="${diffInMillis/60000}" pattern="0.00" />
+                                                </td>
+                                            </c:if> 
+
+                                            <c:if test="${finish!=null}" >
+                                                <td> ${sdf.format(finish)}
+
+                                                </c:if>
+                                            </td>
+                                            <td>
+                                                <c:if test="${DoTestDAO.getDoTestById(listS.getAccountId(),testId).getFinishTime()!=null}">
+                                                    <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
+                                                        Reset
+                                                    </a>
+                                                    <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
+                                                        View
+                                                    </a>
+                                                </c:if>
+                                            </td> 
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>   
 
                             </tbody>
                         </table>
@@ -270,30 +277,33 @@
                                             </td>
                                             <c:set value="${DoTestDAO.getDoTestById(listS.getAccountId() , testId).getStartTime()}" var="start" ></c:set>
                                             <c:set value="${DoTestDAO.getDoTestById(listS.getAccountId() , testId).getFinishTime()}" var="finish" ></c:set>
-                                    <fmt:formatDate value="${start}" pattern="yyyy-MM-dd HH:mm:ss" var="startDate" />
-                                    <fmt:formatDate value="${finish}" pattern="yyyy-MM-dd HH:mm:ss" var="finishDate" />
-                                    <c:set var="diffInMillis" value="${finish.time - start.time}" />
-                                    <c:if test="${diffInMillis/60000 !=0.0}">
-                                        <td>
-                                            ${diffInMillis/60000}
-                                        </td>
-                                    </c:if> 
-                                    <td>
-                                        ${start}
-                                    </td>
-                                    <td>
-                                        <c:if test="${DoTestDAO.getDoTestById(listS.getAccountId(),testId).getFinishTime()!=null}">
-                                            <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
-                                                Reset
-                                            </a>
-                                            <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
-                                                View
-                                            </a>
-                                        </c:if>
-                                    </td> 
-                                    </tr>
-                                </c:if>
-                            </c:forEach>   
+                                            <fmt:formatDate value="${start}" pattern="yyyy-MM-dd HH:mm:ss" var="startDate" />
+                                            <fmt:formatDate value="${finish}" pattern="yyyy-MM-dd HH:mm:ss" var="finishDate" />
+                                            <c:set var="diffInMillis" value="${finish.time - start.time}" />
+                                            <c:if test="${diffInMillis/60000 !=0.0}">
+                                                <td>
+                                                    <fmt:formatNumber value="${diffInMillis/60000}" pattern="0.00" />
+                                                </td>
+                                            </c:if> 
+
+                                            <c:if test="${finish!=null}" >
+                                                <td> ${sdf.format(finish)}
+                                                </td>
+                                            </c:if>
+
+                                            <td>
+                                                <c:if test="${DoTestDAO.getDoTestById(listS.getAccountId(),testId).getFinishTime()!=null}">
+                                                    <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
+                                                        Reset
+                                                    </a>
+                                                    <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
+                                                        View
+                                                    </a>
+                                                </c:if>
+                                            </td> 
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>   
 
                             </tbody>
                         </table>
