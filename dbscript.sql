@@ -1,4 +1,4 @@
-﻿/* USE mysql; */
+USE mysql;
 DROP DATABASE IF EXISTS online_learning;
 CREATE DATABASE IF NOT EXISTS online_learning CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE online_learning;
@@ -124,7 +124,8 @@ CREATE TABLE IF NOT EXISTS test(
   duration int,
   allow_review bit DEFAULT TRUE,
   create_time datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (test_id)
+  PRIMARY KEY (test_id),
+  FOREIGN KEY (class_id) REFERENCES class(class_id)
 );
 
 CREATE TABLE IF NOT EXISTS do_test(
@@ -142,7 +143,7 @@ CREATE TABLE IF NOT EXISTS question(
   question_id binary(16),
   test_id binary(16) NOT NULL,
   resource_id binary(16),
-  title varchar(100) CHARACTER SET utf8mb4,
+  question_order int,
   content text,
   PRIMARY KEY (question_id),
   FOREIGN KEY (test_id) REFERENCES test(test_id),
@@ -153,6 +154,7 @@ CREATE TABLE IF NOT EXISTS answer(
   answer_id binary(16),
   question_id binary(16) NOT NULL,
   resource_id binary(16),
+  answer_order int,
   content text,
   correct bit DEFAULT FALSE,
   PRIMARY KEY (answer_id),

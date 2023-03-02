@@ -440,7 +440,7 @@
         <div class="test-detail mt-4 border rounded-3 bg-light" id="question-list">
             <button class="btn btn-primary" id="add-question">Add question</button>
         </div>
-        <button class="btn btn-primary w-100 mt-3 mb-5" id="create-exercise">
+        <button  class="btn btn-primary w-100 mt-3 mb-5" id="create-exercise">
             Create test
         </button>
     </div>
@@ -1154,14 +1154,16 @@
             endAt: endTimeInput.value || null,
             duration: testTimeInput.value || null,
             allowReview: !reviewToggle.checked,
-            questions: [...questionList.getElementsByClassName('question')].reduce((qs, q) => {
+            questions: [...questionList.getElementsByClassName('question')].reduce((qs, q, qidx) => {
                 const question = {
                     content: q.querySelector('.question-term .content').value || null,
                     resourceId: q.querySelector('.question-term').dataset.id || null,
-                    answers: [...q.querySelector('.question-answer-list').children].reduce((as, a) => {
+                    questionOrder: qidx + 1,
+                    answers: [...q.querySelector('.question-answer-list').children].reduce((as, a, aidx) => {
                         const answer = {
                             correct: a.classList.contains('true'),
                             content: a.querySelector('.content').value,
+                            answerOrder: aidx + 1,
                             resourceId: a.querySelector('.answer-resource').dataset.id || null
                         }
                         isValid = !!(isValid && (answer.content || answer.resourceId))
@@ -1178,10 +1180,13 @@
         if (isValid) {
             const response = await fetch('<c:url value="/teacher/class/exercise/create"/>', {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
                 body: JSON.stringify(testObject)
             })
             if (response.ok) {
-                window.location.replace('<c:url value="/teacher/class/exercise"/>')
+                window.location.replace('<c:url value="/teacher/class/exercise?code=${classObject.code}"/>')
             }
         }
     })
