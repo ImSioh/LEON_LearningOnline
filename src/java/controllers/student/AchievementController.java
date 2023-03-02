@@ -2,8 +2,14 @@ package controllers.student;
 
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
+import dao.DoTestDAO;
+import dao.EnrollmentDAO;
+import dao.TestDAO;
 import dto.Account;
 import dto.ClassObject;
+import dto.DoTest;
+import dto.Enrollment;
+import dto.Test;
 import helpers.FormValidator;
 import helpers.Util;
 import java.io.IOException;
@@ -41,10 +47,34 @@ public class AchievementController extends HttpServlet {
             }
             // get data from database
             AccountDAO accountDAO = new AccountDAO();
+            ArrayList<ClassObject> co = new ArrayList<>();
             Account accL = accountDAO.getAccountByEmail(email);
+            ArrayList<Test> testD = new ArrayList<>();
+            ArrayList<DoTest> dotest = new ArrayList<>();
+            ArrayList<Enrollment> enrollment = new EnrollmentDAO().getListEnrollmentById(accL.getAccountId());
+            TestDAO td = new TestDAO();
+            DoTestDAO td2 = new DoTestDAO();
+            ArrayList<Test> testD2 = new ArrayList<>();
+            ArrayList<Double> db = new ArrayList<>();
+            
+            for (Enrollment e : enrollment) {
+                ClassObject clobj = new ClassObjectDAO().getClassById(e.getClassId());
+                co.add(clobj);
+            }
+                       
+            for (ClassObject c : co) {
+                Double fl = td2.getScoreTest(c.getClassId(), accL.getAccountId());
+                db.add(fl);
+            }
+
             if (accL.getRole() == 2) {
                 req.setAttribute("accL", accL);
+                req.setAttribute("db", db);
+                req.setAttribute("accID", accL.getAccountId());
+                req.setAttribute("testDAO", new TestDAO());
+                req.setAttribute("DoTestDAO", new DoTestDAO());
                 req.setAttribute("hglO", true);
+                req.setAttribute("co", co);
                 req.setAttribute("hglV", false);
                 req.getRequestDispatcher("achievementS.jsp").forward(req, resp);
             } else {
@@ -62,5 +92,7 @@ public class AchievementController extends HttpServlet {
             throws ServletException, IOException {
 
     }
+
+ 
 
 }
