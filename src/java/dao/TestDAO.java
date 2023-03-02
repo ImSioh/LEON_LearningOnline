@@ -57,13 +57,13 @@ public class TestDAO extends AbstractDAO<Test> {
                 + "order by create_time";
         return selectMany(query, Util.UUIDToByteArray(classid));
     }
-    
+
     public Test getTestByTestID(UUID id) throws Exception {
         String query = "select * from test where test_id = ?";
         return selectOne(query, Util.UUIDToByteArray(id));
     }
-    
-    public Test getTestWithAllData(UUID testid) throws Exception{
+
+    public Test getTestWithAllData(UUID testid) throws Exception {
         AnswerDAO adao = new AnswerDAO();
         Test test = getTestByTestID(testid);
         test.questions = new QuestionDAO().getQuestionByTestID(testid);
@@ -72,7 +72,14 @@ public class TestDAO extends AbstractDAO<Test> {
         }
         return test;
     }
-    
+
+    public String convertToAlphabet(int n) {
+        if (n < 1 || n > 26) {
+            throw new IllegalArgumentException("Input value must be between 1 and 26 inclusive.");
+        }
+        char c = (char) (n + 64); // 65 is the ASCII code for 'A'
+        return Character.toString(c);
+    }
 
     public ArrayList<Test> getListTitleTest(UUID classId) throws Exception {
         String query = "select * from online_learning.test\n"
@@ -101,10 +108,10 @@ public class TestDAO extends AbstractDAO<Test> {
                 rs.getTimestamp("create_time")
         );
     }
-    
-    
+
     public static void main(String[] args) throws Exception {
-        System.out.println(new TestDAO().getTestWithAllData(UUID.fromString("9f3fa1d9-a6c4-4682-b79e-4a73e1999711")).questions.size());
+//        System.out.println(new TestDAO().getTestWithAllData(UUID.fromString("9f3fa1d9-a6c4-4682-b79e-4a73e1999711")).questions.get(0).getResourceId());
+        System.out.println(new ResourceDAO().getResourcesById(new TestDAO().getTestWithAllData(UUID.fromString("fbb28035-34d0-49a3-b6d7-17462d08d2ab")).questions.get(0).getResourceId()).getUrl());
     }
 
 }

@@ -60,6 +60,14 @@ public class Question {
         this.content = content;
     }
 
+    public ArrayList<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(ArrayList<Answer> answers) {
+        this.answers = answers;
+    }
+
     @Override
     public String toString() {
         return "Question(" + String.join(", ", new String[]{

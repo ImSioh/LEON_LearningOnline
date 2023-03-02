@@ -183,7 +183,7 @@
     <div id="question-paper"></div>
     <div class="test-info-area p-4">
         <div>
-            <p class="remain-time">30:00</p>
+            <p class="remain-time text-danger" id="countdown"></p>
             <p class="title">${test.getTitle()}</p>
             <p class="description border rounded-3 bg-light p-3">${test.getDescription()}</p>
         </div>
@@ -203,20 +203,20 @@
             </div>
         </div>
         <div class="question p-3 pt-4 rounded-3 bg-white mt-4">
-            <p class="question-order user-select-none">Question 1</p>
+            <p class="question-order user-select-none">Question ${test.questions.get(0).getQuestionOrder()}</p>
             <div class="question-body">
                 <div class="question-term">
-                    <p class="question-content">question id</p>
-                    <div class="img-resource" style="background-image: url('<c:url value="/files/resource/b23cfaf3-856a-4c76-8890-f04f31bbbba2/page pic.png"/>');"></div>
+                    <p class="question-content">${test.questions.get(0).getContent()}</p>
+                    <div class="img-resource" style="background-image: url('<c:url value="${rdao.getResourcesById(test.questions.get(0).getResourceId()).getUrl()}"/>');"></div>
                 </div>
                 <div class="question-answer-list">
-                    <c:forEach begin="1" end="3" var="x">
+                    <c:forEach begin="1" end="${test.questions.get(0).getAnswers().size()}" var="x">
                         <div class="question-answer p-3 pt-4 mt-3">
-                            <p class="answer-order user-select-none">A</p>
+                            <p class="answer-order user-select-none">${tdao.convertToAlphabet(test.questions.get(0).getAnswers().get(x-1).getAnswerOrder())}</p>
                             <div class="pb-2 answer-resource">
-                                <div class="img-resource" style="background-image: url('<c:url value="/files/resource/b23cfaf3-856a-4c76-8890-f04f31bbbba2/page pic.png"/>');"></div>
+                                <!--<div class="img-resource" style="background-image: url('<c:url value="/files/resource/b23cfaf3-856a-4c76-8890-f04f31bbbba2/page pic.png"/>');"></div>-->
                             </div>
-                            <p class="question-content">Trong AQOTWF, ngoáº¡i trá»« nhá»¯ng khÃ­a cáº¡nh Äiá»n hÃ¬nh ta luÃ´n tháº¥y á» dÃ²ng phim ch.iáº¿n tr.anh nhÆ° kháº¯c hoáº¡ sá»± khá»n khá» láº«n tuyá»t vá»ng cá»§a ngÆ°á»i lÃ­nh, hÃ nh trÃ¬nh huá»· hoáº¡i má»t thiáº¿u niÃªn</p>
+                            <p class="question-content">${test.questions.get(0).getAnswers().get(x-1).getContent()}</p>
                         </div>
                     </c:forEach>
                 </div>
@@ -305,7 +305,7 @@
     const questionPaper = document.getElementById('question-paper')
 
     let mimeType = ''
-    fetch('<c:url value="/files/resource/Instructions-for-setting-up-the-environment-for-java-web-PRJ301.docx"/>')
+    fetch('<c:url value="/files/resource/Report3_Software-Requirement-Specification.docx"/>')
             .then(response => {
                 mimeType = response.headers.get('Content-Type')
                 return response.arrayBuffer()
@@ -318,6 +318,23 @@
                     renderDocx(data)
                 }
             })
+
+
+    var durationTime = ${test.getDuration()};
+    var countDownDate = new Date().getTime() + durationTime * 60 * 1000;
+    var x = setInterval(function () {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("countdown").innerHTML = "Time Up!";
+        }
+    }, 1000);
+
+
 </script>
 <c:import url="../template/footer.jsp" />
 

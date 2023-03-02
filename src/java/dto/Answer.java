@@ -77,7 +77,7 @@ public class Answer {
             String.valueOf(answerOrder),
             content,
             String.valueOf(correct)
-        }) + ")";
+        }) + ")\n";
     }
 
     @Override

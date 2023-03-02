@@ -1,5 +1,6 @@
 package controllers.student;
 
+import dao.ResourceDAO;
 import dao.TestDAO;
 import dto.Test;
 import java.io.IOException;
@@ -20,10 +21,12 @@ public class DoExerciseController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
         try {
+            TestDAO tdao = new TestDAO();
             String testid = req.getParameter("testid");
-            Test test = new TestDAO().getTestWithAllData(UUID.fromString(testid));
-            req.setAttribute("test", test);
-            req.setAttribute("activeEX", "active");
+            Test test = tdao.getTestWithAllData(UUID.fromString(testid));
+            req.setAttribute("tdao", tdao);
+            req.setAttribute("rdao", new ResourceDAO());
+            req.setAttribute("test", test); 
             req.getRequestDispatcher("/student/do-test.jsp").forward(req, resp);
         } catch (Exception ex) {
             Logger.getLogger(DoExerciseController.class.getName()).log(Level.SEVERE, null, ex);
