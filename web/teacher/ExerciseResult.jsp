@@ -1,4 +1,5 @@
 <%@include file="../template/header.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 56px;">
     <%@include file="../template/sidebar.jsp" %>
@@ -113,7 +114,7 @@
                                 <c:set var="diffInMillis" value="${finish.time - start.time}" />
                                 <c:if test="${diffInMillis/60000 !=0.0}">
                                     <td>
-                                        ${diffInMillis/60000}
+                                        <fmt:formatNumber value="${diffInMillis/60000}" pattern="0.00" />
                                     </td>
                                 </c:if> 
                                 <td>
@@ -153,7 +154,7 @@
                                         Name 
                                     </th>
                                     <th><a onclick="sortTable(1)" class="fas fa-sort fa-sm m-2" style="cursor: pointer;text-decoration: none"></a>Score</th>
-                                    <th><a onclick="onclick = sortTable(2)" style="cursor: pointer;text-decoration: none" class="fas fa-sort fa-sm m-2"></a>Time</th>
+                                    <th><a onclick = sortTable(2)" style="cursor: pointer;text-decoration: none" class="fas fa-sort fa-sm m-2"></a>Time</th>
                                     <th>Submit Time</th>
                                     <th>Actions</th>
                                 </tr>
