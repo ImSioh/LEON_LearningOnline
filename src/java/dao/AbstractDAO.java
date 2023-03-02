@@ -11,11 +11,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public abstract class AbstractDAO<T> {
-
-    private static final Logger logger = Logger.getLogger(AbstractDAO.class.getName());
 
     private int maxPageItem = 30;
     private int totalPage;
@@ -60,22 +57,10 @@ public abstract class AbstractDAO<T> {
         try {
             PreparedStatement ps = DBContext.getConnection().prepareStatement(sql);
             setParameter(ps, params);
-
-            //check log query
-            logger.info("sql: " + sql + "\n");
-
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(propMapping(rs));
             }
-
-            //check log size
-            if (!list.isEmpty()) {
-                logger.info("selectMany - Size: " + list.size());
-            } else {
-                logger.info("selectMany - NOT FOUND!");
-            }
-
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
