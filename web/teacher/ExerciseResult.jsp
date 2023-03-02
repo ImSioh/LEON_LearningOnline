@@ -2,7 +2,6 @@
 
 <div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 56px;">
     <%@include file="../template/sidebar.jsp" %>
-
     <div class="content-main d-flex justify-content-center container" style="margin-left: 250px;">
         <div class="card col-md-9 mt-4 row" style="height: fit-content;" >
             <!--<div class="card-header">Create Post</div>-->
@@ -118,7 +117,7 @@
                                     </td>
                                 </c:if> 
                                 <td>
-                                    ${start}
+                                    ${finish}
                                 </td>
                                 <td>
                                     <c:if test="${DoTestDAO.getDoTestById(listS.getAccountId(),testId).getFinishTime()!=null}">
@@ -128,7 +127,7 @@
                                         <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
                                             View
                                         </a>
-                                    </c:if>
+                                    </c:if>                                      
                                 </td> 
                                 </tr>
                             </c:forEach>   
@@ -226,7 +225,7 @@
                     role="tabpanel"
                     aria-labelledby="pills-contact-tab2"
                     >
-                     <div class="card-body m-3">
+                    <div class="card-body m-3">
                         <table id="myTable" class="table align-middle mb-0 bg-white" style="padding: -10px;">
                             <thead class="bg-light">               
                                 <tr>
