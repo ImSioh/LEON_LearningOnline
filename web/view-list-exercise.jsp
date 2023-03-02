@@ -54,17 +54,17 @@
                                    style="cursor: pointer;text-decoration: none"></a>
                                 Create Time
                             </th>
-                            <c:if test="${account.getRole() == 1}">
-                                <th>Action</th>
-                                </c:if>
+                            <%--<c:if test="${account.getRole() == 1}">--%>
+                            <th>Action</th>
+                                <%--</c:if>--%>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach items="${listExercise}" var="listEX" >
                             <c:set var="testid" value="${listEX.getTestId()}"/>
-                                <tr>                          
-                                    <td>
-                                        <a href="/teacher/exercise?code=${code}&testid=${testid}">
+                            <tr>                          
+                                <td>
+                                    <a href="<c:url value="/teacher/class/exercise?testid=${testid}"/>">
                                         <p class="fw-bold mb-1">${listEX.getTitle()}</p>
                                     </a>
                                     <p class="text-muted mb-0">${listEX.getDescription()}</p> 
@@ -73,16 +73,19 @@
                                 <td>${listEX.getStartAt()}</td>
                                 <td>${listEX.getEndAt()}</td>
                                 <td>${listEX.getCreateTime()}</td>
+
+                                <!--Action-->
+                                <!--Teacher: Edit & Delete exercise-->
                                 <c:if test="${account.getRole() == 1}">
                                     <td>
-                                        <div class="d-flex justify-content-center gap-1">
-                                            <a href="<c:url value="/teacher/class/exercise/edit?code=${code}&testid=${testid}"/>" 
+                                        <div class="justify-content-center gap-1">
+                                            <a href="<c:url value="/teacher/class/exercise?testid=${testid}"/>" 
                                                class="btn btn-link btn-sm btn-rounded bg-success text-light"
                                                style="text-decoration: none">
                                                 Edit
                                             </a>
                                             <a onclick="return confirm('Do you want to delete this exercise?')" eq true 
-                                               ? href="<c:url value="/teacher/class/exercise/delete?code=${code}&testid=${testid}"/>"
+                                               ? href="<c:url value="/teacher/class/exercise/delete?testid=${testid}"/>"
                                                :href="" 
                                                class="btn btn-link btn-sm btn-rounded bg-danger text-light"
                                                style="text-decoration: none">
@@ -90,6 +93,20 @@
                                             </a>
                                         </div>
                                     </td>     
+                                </c:if>
+                                <!--Student: Do exercise-->
+                                <c:if test="${account.getRole() == 2}">
+                                    <td>
+                                        <div class="justify-content-center">
+                                            <c:set var="duration" value="${listEX.getDuration()}"/>
+                                            <a onclick="return startExercise()" 
+                                               href="<c:url value="/student/class/exercise/do?testid=${testid}"/>"
+                                               class="btn btn-link btn-sm btn-rounded bg-primary text-light"
+                                               style="text-decoration: none">
+                                                Start
+                                            </a>
+                                        </div>
+                                    </td>
                                 </c:if>
                             </tr>
                         </c:forEach>
@@ -108,7 +125,6 @@
         table = document.getElementById("myTable");
         switching = true;
         dir = "asc";
-
         while (switching) {
             switching = false;
             rows = table.rows;
@@ -160,6 +176,17 @@
                     }
                 }
             }
+        }
+    }
+
+    function startExercise() {
+        msg = 'The test has a time limit of ' + ${duration} + ' minutes.\n\
+You must submit your exercise before time runs out..\n\
+Are you sure you want to get started now?'
+        if (confirm(msg)) {
+            return true;
+        } else {
+            return false;
         }
     }
 </script>
