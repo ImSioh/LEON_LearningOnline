@@ -6,12 +6,17 @@ public class Answer {
 
     private UUID answerId;
     private UUID questionId;
+    private UUID resourceId;
+    private int answerOrder;
     private String content;
     private boolean correct;
+    public Resource resource;
 
-    public Answer(UUID answerId, UUID questionId, String content, boolean correct) {
+    public Answer(UUID answerId, UUID questionId, UUID resourceId, int answerOrder, String content, boolean correct) {
         this.answerId = answerId;
         this.questionId = questionId;
+        this.resourceId = resourceId;
+        this.answerOrder = answerOrder;
         this.content = content;
         this.correct = correct;
     }
@@ -30,6 +35,22 @@ public class Answer {
 
     public void setQuestionId(UUID questionId) {
         this.questionId = questionId;
+    }
+
+    public UUID getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(UUID resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public int getAnswerOrder() {
+        return answerOrder;
+    }
+
+    public void setAnswerOrder(int answerOrder) {
+        this.answerOrder = answerOrder;
     }
 
     public String getContent() {
@@ -51,11 +72,13 @@ public class Answer {
     @Override
     public String toString() {
         return "Answer(" + String.join(", ", new String[]{
-            answerId.toString(),
-            questionId.toString(),
+            String.valueOf(answerId),
+            String.valueOf(questionId),
+            String.valueOf(resourceId),
+            String.valueOf(answerOrder),
             content,
             String.valueOf(correct)
-        }) + ")";
+        }) + ")\n";
     }
 
     @Override

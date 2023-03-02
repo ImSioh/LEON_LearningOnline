@@ -259,6 +259,7 @@
         flex-grow: 1;
         display: flex;
         flex-direction: column;
+        width: 0;
     }
 
     .comment-item .comment-input {
@@ -655,7 +656,7 @@
         </div>
         <div class="col-md-7 mt-4 post" id="create-post">
             <div class="post-header">
-                <div class="post-profile-picture" style="background-image: url(<c:url value="${account.profilePicture == null ? '/assets/img/ava.png' : account.profilePicture}"/>);"></div>
+                <div class="post-profile-picture" style="background-image: url(<c:url value="${account.profilePicture}"/>);"></div>
                 <div>
                     <p class="post-owner">${account.name}</p>
                 </div>
@@ -764,7 +765,7 @@
                         {
                             tagName: 'div',
                             className: 'post-profile-picture',
-                            style: 'background-image: url("' + <c:url value="/"/> + (post.account.profilePicture ? post.account.profilePicture : '/assets/img/ava.png').substring(1) + '");'
+                            style: 'background-image: url("' + <c:url value="/"/> + (post.account.profilePicture != null ? post.account.profilePicture : '/assets/img/ava.png').substring(1) + '");'
                         },
                         {
                             tagName: 'div',
@@ -856,7 +857,7 @@
                                 {
                                     tagName: 'div',
                                     className: 'post-profile-picture',
-                                    style: 'background-image: url("<c:url value="${account.profilePicture == null ? '/assets/img/ava.png' : account.profilePicture}"/>");'
+                                    style: 'background-image: url("<c:url value="${account.profilePicture}"/>");'
                                 },
                                 {
                                     tagName: 'div',
@@ -994,7 +995,7 @@
                     download: d.url.split('/').pop(),
                     children: [{
                             tagName: 'div',
-                            className: 'document-item text-truncate',
+                            className: 'document-item text-truncate d-block',
                             textContent: d.url.split('/').pop()
                         }]
                 }))
@@ -1018,7 +1019,7 @@
         })
         const commentDocumentBox = createElement({
             tagName: 'div',
-            className: 'comment-document'
+            className: 'comment-document text-truncate d-block'
         })
         bindList.commentSendBtn.disabled = true
         bindList.commentSendBtn.addEventListener('click', () => {
@@ -1144,7 +1145,7 @@
                             download: comment.resource.url.split('/').pop(),
                             children: [{
                                     tagName: 'div',
-                                    className: 'document-item text-truncate',
+                                    className: 'document-item text-truncate d-block',
                                     textContent: comment.resource.url.split('/').pop()
                                 }]
                         }]
@@ -1373,9 +1374,7 @@
                     } else {
                         resource.preview = createElement({
                             tagName: 'div',
-                            classList: {
-                                add: ['document-item']
-                            },
+                            className: 'document-item text-truncate d-block',
                             textContent: resource.url.split('/').pop(),
                             onclick: null,
                             children: [{
@@ -1487,7 +1486,7 @@
                 if (deleteTimer)
                     clearTimeout(deleteTimer)
                 deleteTimer = setTimeout(() => messageEl.textContent = '', 5000)
-                messageEl.textContent = 'Cannot delete ' + allResources.filter(rs => json.failed.includes(rs.resourceId)).map(rs => rs.url.split('/').pop()).join(', ') + ' because it was used in other post'
+                messageEl.textContent = 'Delete ' + allResources.filter(rs => json.failed.includes(rs.resourceId)).map(rs => rs.url.split('/').pop()).join(', ') + ' failed'
             }
         }
     })

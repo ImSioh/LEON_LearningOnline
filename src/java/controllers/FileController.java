@@ -62,7 +62,7 @@ public class FileController extends HttpServlet {
             if (mimeType == null) {
                 mimeType = "application/octet-stream";
             }
-            Resource resource = new Resource(resourceId, account.getAccountId(), fileUrl, null, mimeType);
+            Resource resource = new Resource(resourceId, account.getAccountId(), fileUrl, null, mimeType, false);
 
             if (rasterType.contains(part.getContentType())) {
                 BufferedImage resizedImg = resizeImage(new File(savePath));

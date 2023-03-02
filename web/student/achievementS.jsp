@@ -30,116 +30,30 @@
                             <thead class="bg-light">
                                 <tr>
                                     <th>Class Name</th>
-                                    <th>School</th>
-                                    <th>Phone Number</th>
-                                    <th>Exercise</th>
-                                    <th>Actions</th>
+                                    <th>Average</th>                                   
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img
-                                                src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                                                alt=""
-                                                style="width: 45px; height: 45px"
-                                                class="rounded-circle"
-                                                />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1">John Doe</p>
-                                                <p class="text-muted mb-0">john.doe@gmail.com</p>
+
+                                <c:forEach items="${co}" var="co">                                   
+                                    <tr>                                       
+                                        <td>
+                                            <a href="" style="text-decoration: none">
+                                            <p class="fw-normal mb-1" style="padding-right: 100px">${co.getName()}</p>
+                                            </a>
+                                        </td>                                      
+                                        <td>                                           
+                                            <div style="top :0px">
+                                                <span class="fw-normal mb-1">${DoTestDAO.getScoreTest(co.getClassId(), accID)}</span><br>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="fw-normal mb-1">Software engineer</p>
-                                        <p class="text-muted mb-0">IT department</p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Active</span>
-                                    </td>
-                                    <td>Senior</td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                            Edit
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img
-                                                src="https://mdbootstrap.com/img/new/avatars/6.jpg"
-                                                class="rounded-circle"
-                                                alt=""
-                                                style="width: 45px; height: 45px"
-                                                />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1">Alex Ray</p>
-                                                <p class="text-muted mb-0">alex.ray@gmail.com</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="fw-normal mb-1">Consultant</p>
-                                        <p class="text-muted mb-0">Finance</p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-primary rounded-pill d-inline"
-                                              >Onboarding</span
-                                        >
-                                    </td>
-                                    <td>Junior</td>
-                                    <td>
-                                        <button
-                                            type="button"
-                                            class="btn btn-link btn-rounded btn-sm fw-bold"
-                                            data-mdb-ripple-color="dark"
-                                            >
-                                            Edit
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img
-                                                src="https://mdbootstrap.com/img/new/avatars/7.jpg"
-                                                class="rounded-circle"
-                                                alt=""
-                                                style="width: 45px; height: 45px"
-                                                />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1">Kate Hunington</p>
-                                                <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="fw-normal mb-1">Designer</p>
-                                        <p class="text-muted mb-0">UI/UX</p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
-                                    </td>
-                                    <td>Senior</td>
-                                    <td>
-                                        <button
-                                            type="button"
-                                            class="btn btn-link btn-rounded btn-sm fw-bold"
-                                            data-mdb-ripple-color="dark"
-                                            >
-                                            Edit
-                                        </button>
-                                    </td>
-                                </tr>
+                                        </td>  
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

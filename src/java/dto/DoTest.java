@@ -5,26 +5,26 @@ import java.util.UUID;
 
 public class DoTest {
 
-    private UUID assignTestId;
+    private UUID testId;
     private UUID accountId;
     private Timestamp startTime;
     private Timestamp finishTime;
     private Double score;
 
-    public DoTest(UUID assignTestId, UUID accountId, Timestamp startTime, Timestamp finishTime, Double score) {
-        this.assignTestId = assignTestId;
+    public DoTest(UUID testId, UUID accountId, Timestamp startTime, Timestamp finishTime, Double score) {
+        this.testId = testId;
         this.accountId = accountId;
         this.startTime = startTime;
         this.finishTime = finishTime;
         this.score = score;
     }
 
-    public UUID getAssignTestId() {
-        return assignTestId;
+    public UUID getTestId() {
+        return testId;
     }
 
-    public void setAssignTestId(UUID assignTestId) {
-        this.assignTestId = assignTestId;
+    public void setTestId(UUID testId) {
+        this.testId = testId;
     }
 
     public UUID getAccountId() {
@@ -62,16 +62,18 @@ public class DoTest {
     @Override
     public String toString() {
         return "DoTest(" + String.join(", ", new String[]{
-            assignTestId.toString(),
+            testId.toString(),
             accountId.toString(),
             startTime.toString(),
-            finishTime.toString(),}) + ")";
+            finishTime.toString(),
+            score.toString()
+        }) + ")";
     }
 
     @Override
     public boolean equals(Object obj) {
         DoTest doTest = (DoTest) obj;
-        return doTest.assignTestId.equals(this.assignTestId) && doTest.accountId.equals(this.accountId);
+        return doTest.testId.equals(this.testId) && doTest.accountId.equals(this.accountId);
     }
 
 }
