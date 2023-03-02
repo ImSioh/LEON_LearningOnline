@@ -26,8 +26,10 @@ public class ViewUserProfileController extends HttpServlet {
             //connect db
             AccountDAO accountDAO = new AccountDAO();
             Account account = null;
+            Account user = null;
             try {
                 account = accountDAO.getAccountById(UUID.fromString(id));
+                user = accountDAO.getAccountById(UUID.fromString(id));
             } catch (Exception ex) {
                 Logger.getLogger(ViewUserProfileController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -35,6 +37,7 @@ public class ViewUserProfileController extends HttpServlet {
             //set acc
             account.setRole(3);
             request.setAttribute("account", account);
+            request.setAttribute("user", user);
             request.getRequestDispatcher("/profile.jsp").forward(request, response);
         } catch (Exception e) {
         }

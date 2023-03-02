@@ -20,7 +20,7 @@
                 <option value="title" ${search eq "title"?"selected":""}>Title</option>
             </select>
             <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Search something..." style="width: 45%; height: 10%; margin: 0"> 
-            <input type="submit" value="SEARCH" id="search" class="btn-info" 
+            <input type="submit" value="SEARCH" id="search" class="btn-info"  name="search_button"
                    style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
 
@@ -59,7 +59,7 @@
                     <tr>
                         <th>Details</th>
                         <th>Email</th>
-                        <th>Name</th>
+                        <th>Account</th>
                         <th>Role</th>
                         <th>Title</th>
                         <th>Content</th>
@@ -84,14 +84,29 @@
                                     </c:if>
                                 </c:if>
                             </c:forEach>
-                            <td>${fb.getTitle()}</td>
-                            <td>
-                                <a href="response?Id=${fb.getFeedbackId()}">${fb.getContent().substring(0, 10)}...</a>
+                            <td><c:if test="${fb.getTitle().length() > 20}">
+                                    ${fb.getTitle().substring(0, 20)}...
+                                </c:if>
+                                <c:if test="${fb.getTitle().length() <= 20}">
+                                    ${fb.getTitle()}
+                                </c:if>
                             </td>
                             <td>
-                                <%--<c:if test="${fb.getResponse()== ''}" >--%>
-                                <a href="<c:url value="/admin/response?Id=${fb.getFeedbackId()}"/>">View Response</a>
-                                <%--</c:if>--%>
+                                <c:if test="${fb.getContent().length() > 20}">
+                                    ${fb.getContent().substring(0, 20)}...
+                                </c:if>
+                                <c:if test="${fb.getContent().length() <= 20}">
+                                    ${fb.getContent()}
+                                </c:if>
+                            </td>
+                            <td>
+                                <c:if test="${fb.getResponse().length() > 20}">
+                                    ${fb.getResponse().substring(0, 20)}...
+                                </c:if>
+                                <c:if test="${fb.getResponse().length() <= 20}">
+                                    ${fb.getResponse()}
+                                </c:if>
+                                <!--<a href="<c:url value="/admin/response?Id=${fb.getFeedbackId()}"/>">View Response</a>-->
                             </td>
                             <td>${fb.getCreateTime()}</td>
                         </tr>
