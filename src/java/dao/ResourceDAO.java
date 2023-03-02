@@ -9,9 +9,8 @@ import java.util.UUID;
 public class ResourceDAO extends AbstractDAO<Resource> {
     
     public int deleteResource(UUID resourceId) throws Exception {
-        String query = "DELETE FROM resource WHERE resource_id = ? AND (SELECT COUNT(pr.resource_id) FROM post_resource pr WHERE pr.resource_id = ?) = 0";
-        byte[] id = Util.UUIDToByteArray(resourceId);
-        return update(query, id, id);
+        String query = "UPDATE resource r SET r.deleted = TRUE WHERE r.resource_id = ?";
+        return update(query, Util.UUIDToByteArray(resourceId));
     }
     
     public int setResource(Resource resource) throws Exception {
@@ -27,7 +26,7 @@ public class ResourceDAO extends AbstractDAO<Resource> {
     }
     
     public ArrayList<Resource> getResourcesByAccount(UUID accountId) throws Exception {
-        String query = "SELECT resource_id, account_id, url, thumbnail, mime_type FROM resource r WHERE r.account_id = ?";
+        String query = "SELECT resource_id, account_id, url, thumbnail, mime_type, deleted FROM resource r WHERE r.account_id = ? AND r.deleted = FALSE";
         return selectMany(query, Util.UUIDToByteArray(accountId));
     }
     
@@ -37,7 +36,7 @@ public class ResourceDAO extends AbstractDAO<Resource> {
     }
 
     public Resource getResourcesById(UUID resourceId) throws Exception {
-        String query = "SELECT resource_id, account_id, url, thumbnail, mime_type FROM resource r WHERE r.resource_id = ?";
+        String query = "SELECT resource_id, account_id, url, thumbnail, mime_type, deleted FROM resource r WHERE r.resource_id = ?";
         return selectOne(query, Util.UUIDToByteArray(resourceId));
     }
 
@@ -48,7 +47,8 @@ public class ResourceDAO extends AbstractDAO<Resource> {
                 Util.ByteArrayToUUID(rs.getBytes("account_id")),
                 rs.getString("url"),
                 rs.getString("thumbnail"),
-                rs.getString("mime_type")
+                rs.getString("mime_type"),
+                rs.getBoolean("deleted")
         );
     }
     

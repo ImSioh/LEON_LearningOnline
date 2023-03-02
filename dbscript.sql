@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS resource(
   url varchar(300) CHARACTER SET utf8mb4 NOT NULL,
   thumbnail varchar(300) CHARACTER set utf8mb4,
   mime_type varchar(100) CHARACTER set utf8mb4 NOT NULL,
+  deleted bit DEFAULT FALSE,
   PRIMARY KEY (resource_id),
   FOREIGN KEY (account_id) REFERENCES account(account_id)
 );
@@ -117,6 +118,7 @@ CREATE TABLE IF NOT EXISTS comment(
 CREATE TABLE IF NOT EXISTS test(
   test_id binary(16),
   class_id binary(16) NOT NULL,
+  resource_id binary(16),
   title varchar(300) CHARACTER SET utf8mb4 NOT NULL,
   description text CHARACTER set utf8mb4,
   start_at datetime NOT NULL,
@@ -125,6 +127,7 @@ CREATE TABLE IF NOT EXISTS test(
   allow_review bit DEFAULT TRUE,
   create_time datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (test_id),
+  FOREIGN KEY (resource_id) REFERENCES resource(resource_id),
   FOREIGN KEY (class_id) REFERENCES class(class_id)
 );
 

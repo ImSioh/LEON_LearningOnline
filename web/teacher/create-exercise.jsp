@@ -44,7 +44,7 @@
     }
 
     .main-container:not(.has-paper) #question-paper {
-        display: none;
+        width: 0;
     }
 
     #question-paper {
@@ -55,10 +55,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        transition: width ease 0.2s;
     }
 
     .test-time-info {
         display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 
     .main-container:not(.has-paper) .test-time-info {
@@ -74,6 +76,7 @@
     .test-info-area {
         max-width: 1200px;
         width: 80%;
+        transition: width ease 0.2s;
     }
 
     .btn {
@@ -99,13 +102,20 @@
         position: relative;
     }
 
+    .error {
+        outline: 4px solid #dc3545;
+        background-color: #dc354540 !important;
+    }
+
     .question-order {
         color: #939bb4;
         position: absolute;
         margin: 0;
         background-color: #3caea3;
         color: white;
-        padding: 0.15rem 0.75rem;
+        padding: 0.15rem 0;
+        width: 8rem;
+        text-align: center;
         border-radius: 0.375rem;
         top: -0.7rem;
         left: 1rem;
@@ -124,6 +134,7 @@
         display: grid;
         margin-top: 1rem;
         gap: 1rem;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 
     .question-answer {
@@ -211,6 +222,25 @@
         }
     }
 
+    .question-deleter {
+        position: absolute;
+        margin: 0;
+        background-color: #dc3545;
+        color: white;
+        padding: 0.15rem 0;
+        width: 3rem;
+        text-align: center;
+        border-radius: 0.375rem;
+        top: -0.7rem;
+        left: 9.5rem;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .question-deleter:hover {
+        background-color: #bb2d3b;
+    }
+
     @media only screen and (min-width: 1200px) {
         .test-time-info {
             gap: 1.5rem;
@@ -219,6 +249,15 @@
     }
 </style>
 <div class="main-container">
+    <div id="message-modal" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="choose-resource-modal" tabindex="-1" aria-hidden="true">
         <style>
             #choose-resource-modal .modal-dialog {
@@ -294,6 +333,10 @@
                 cursor: pointer;
             }
 
+            .resource-item.hide {
+                display: none;
+            }
+
             .resource-item.selected img {
                 border-width: 3px;
                 border-color: #0d6efd;
@@ -364,6 +407,10 @@
                 border-color: #0d6efd;
                 opacity: 1;
             }
+
+            .question-file-group-btn > .btn {
+                width: calc(50% - 0.5rem);
+            }
         </style>
         <div class="modal-dialog modal-content">
             <div class="resource-list-wrapper">
@@ -421,7 +468,15 @@
                         <input class="form-check-input" id="question-file-toggle" type="checkbox">
                     </div>
                     <label for="question-file" class="form-label">Question file</label>
-                    <input type="file" class="form-control" name="question-file" id="question-file" disabled accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                    <div class="w-100 question-file-group-btn d-flex justify-content-between">
+                        <button id="question-file-add" class="btn btn-primary">
+                            Add file
+                        </button>
+                        <button id="question-file-remove" class="btn btn-danger">
+                            Remove file
+                        </button>
+                    </div>
+                    <div id="rs-box" class="w-100"></div>
                 </div>
             </div>
         </div>
@@ -429,12 +484,10 @@
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input spellcheck="false" type="text" class="form-control" name="title" id="title">
-                <label id="title-error" class="error mt-1 d-block" for="title"></label>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <textarea class="d-block w-100 inputbox" spellcheck="false" rows="1" name="description" id="description"></textarea>
-                <label id="description-error" class="error mt-1 d-block" for="description"></label>
             </div>
         </div>
         <div class="test-detail mt-4 border rounded-3 bg-light" id="question-list">
@@ -451,16 +504,23 @@
 <script>
     async function loadResource() {
         resourceModal.removeEventListener('show.bs.modal', loadResource)
-        resourceModal.addEventListener('show.bs.modal', () => {
+        function setupNew() {
             resourceManage.selected.forEach(r => {
                 r.element.classList.add('selected')
             })
-            if (resourceManage.resetup)
+            if (resourceManage.resetup) {
                 resourceManage.resetup()
+            }
+            if (resourceManage.accept) {
+                allResources.forEach(rs => {
+                    rs.element.classList.toggle('hide', !resourceManage.accept(rs))
+                })
+            }
             if (resourceManage.selected.length > 0) {
                 deleteBtn.disabled = true
             }
-        })
+        }
+        resourceModal.addEventListener('show.bs.modal', setupNew)
         const response = await fetch('<c:url value="/resource"/>')
         const json = await response.json()
         json.forEach(r => {
@@ -505,6 +565,7 @@
         document.querySelector('.resource-list-wrapper > .resource-loading').remove()
         uploadBtn.disabled = false
         deleteBtn.disabled = false
+        setupNew()
     }
 
     function setSelectable(resource) {
@@ -533,6 +594,9 @@
         resourceManage.selected.forEach(r => {
             r.element.classList.remove('selected')
         })
+        allResources.forEach(r => {
+            r.element.classList.remove('hide')
+        })
         resourceManage.selected = null
         deleteBtn.disabled = false
     }
@@ -553,7 +617,9 @@
     const resourceManage = {
         selected: [],
         callback: null,
-        resetup: null
+        resetup: null,
+        accept: null,
+        fileAccept: null
     }
     const deletingResources = []
     const xhrQueue = []
@@ -564,6 +630,8 @@
     resourceModal.addEventListener('hidden.bs.modal', () => {
         resourceManage.callback = null
         resourceManage.resetup = null
+        resourceManage.accept = null
+        resourceManage.fileAccept = null
         deselectAllSelected()
         if (deletingMode) {
             deleteBtn.click()
@@ -621,6 +689,9 @@
     uploadBtn.addEventListener('click', async () => {
         const inputElement = document.createElement('input')
         inputElement.type = 'file'
+        if (resourceManage.fileAccept) {
+            inputElement.accept = resourceManage.fileAccept
+        }
         inputElement.multiple = true
         inputElement.addEventListener('change', () => {
             [...inputElement.files].forEach(async file => {
@@ -791,6 +862,7 @@
     }
 
     function renderPdf(data) {
+        rendering = true
         pdfjsLib.getDocument(data).promise.then(async pdf => {
             const totalPages = pdf.numPages
             const pdfWrapper = createElement({
@@ -802,26 +874,30 @@
             for (var i = 1; i <= totalPages; i++) {
                 await renderPage(await pdf.getPage(i), pdfWrapper)
             }
-            removeQuestionFileBtn.onclick = () => {
+            questionFileRemove.disabled = false
+            questionFileRemove.onclick = () => {
                 pdf.destroy()
                 clearSelectedFile()
             }
+            rendering = false
         }).catch(reason => {
             console.warn(reason)
+            rendering = false
         })
     }
 
     function clearSelectedFile() {
-        removeQuestionFileBtn.remove()
-        removeQuestionFileBtn.onclick = null
+        questionFileRemove.disabled = true
+        questionFileRemove.onclick = null
         questionPaper.innerHTML = null
     }
 
     function renderDocx(data) {
-        console.log(docx)
+        rendering = true
         docx.renderAsync(data, questionPaper).then(x => {
-            console.log(x)
-            removeQuestionFileBtn.onclick = clearSelectedFile
+            questionFileRemove.disabled = false
+            questionFileRemove.onclick = clearSelectedFile
+            rendering = false
         });
     }
 
@@ -865,7 +941,18 @@
         }
     }
 
+    function numberToLetter(num) {
+        if (num <= 26) {
+            return String.fromCharCode(64 + num);
+        } else {
+            let quotient = Math.floor((num - 1) / 26);
+            let remainder = (num - 1) % 26 + 1;
+            return numberToLetter(quotient) + numberToLetter(remainder);
+        }
+    }
+
     const createExerciseButton = document.getElementById('create-exercise')
+    createExerciseButton.disabled = true
     const testTimeToggle = document.getElementById('test-time-toggle')
     const startTimeToggle = document.getElementById('start-time-toggle')
     const endTimeToggle = document.getElementById('end-time-toggle')
@@ -874,17 +961,16 @@
     const testTimeInput = document.getElementById('test-time')
     const startTimeInput = document.getElementById('start-time')
     const endTimeInput = document.getElementById('end-time')
-    const questionFileInput = document.getElementById('question-file')
+    const questionFileAdd = document.getElementById('question-file-add')
+    questionFileAdd.disabled = true
+    const questionFileRemove = document.getElementById('question-file-remove')
+    questionFileRemove.disabled = true
     const descriptionInput = document.getElementById('description')
     const addQuestionBtn = document.getElementById('add-question')
     const questionPaper = document.getElementById('question-paper')
     const questionList = document.getElementById('question-list')
     const mainContainer = document.querySelector('.main-container')
-    const removeQuestionFileBtn = createElement({
-        tagName: 'button',
-        className: 'btn btn-danger mt-2',
-        textContent: 'Remove file',
-    })
+    const testRsBox = document.getElementById('rs-box')
     const rasterType = [
         'image/png',
         'image/jpeg',
@@ -894,10 +980,7 @@
         'image/webp',
         'image/avif'
     ]
-
-    removeQuestionFileBtn.addEventListener('click', () => {
-        questionFileInput.value = null
-    })
+    let rendering = false
 
     testTimeToggle.addEventListener('click', () => {
         testTimeInput.disabled = !testTimeToggle.checked
@@ -912,41 +995,56 @@
     })
 
     questionFileToggle.addEventListener('click', () => {
-        questionFileInput.disabled = !questionFileToggle.checked
+        questionFileAdd.disabled = !questionFileToggle.checked
         mainContainer.classList.toggle('has-paper', questionFileToggle.checked)
     })
 
     descriptionInput.addEventListener('input', textAreaResize(2))
-    questionFileInput.addEventListener('change', () => {
-        const file = questionFileInput.files[0]
-        if (!file) {
-            return
+    const rsTest = []
+    const testDocumentBox = createElement({
+        tagName: 'div',
+        className: 'document-resource text-truncate bg-white'
+    })
+    questionFileAdd.addEventListener('click', () => {
+        resourceManage.fileAccept = 'application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        resourceManage.accept = rs => ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf'].includes(rs.mimeType)
+        openResourceSelector(testRsBox, rsTest, null, testDocumentBox)
+
+        resourceManage.selected = rsTest
+        resourceManage.resetup = () => {
+            rsTest.forEach(r => {
+                r.order.innerHTML = '<i class="fa-solid fa-check"></i>'
+            })
+            deleteBtn.disabled = rsTest.length > 0
         }
-        if (file.type === 'application/pdf') {
-            if (removeQuestionFileBtn.onclick) {
-                removeQuestionFileBtn.onclick()
+        resourceManage.callback = resource => {
+            if (rsTest[0] !== resource) {
+                const rel = rsTest.pop()
+                if (rel) {
+                    rel.element.classList.remove('selected')
+                    rsTest.length = 0
+                }
+                if (!testDocumentBox.isConnected)
+                    testRsBox.append(testDocumentBox)
+                testDocumentBox.textContent = resource.url.split('/').pop()
+                testRsBox.dataset.id = resource.resourceId
+                resource.order.innerHTML = '<i class="fa-solid fa-check"></i>'
+                resource.element.classList.add('selected')
+                rsTest.push(resource)
+                loadFile()
+            } else {
+                questionFileRemove.click()
             }
-            if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js'
-            }
-            const fileReader = new FileReader()
-            fileReader.onload = async () => {
-                const typedarray = new Uint8Array(fileReader.result)
-                renderPdf(typedarray)
-            }
-            fileReader.readAsArrayBuffer(file);
-        } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-            if (removeQuestionFileBtn.onclick) {
-                removeQuestionFileBtn.onclick()
-            }
-            const fileReader = new FileReader()
-            fileReader.onload = async () => {
-                const typedarray = new Uint8Array(fileReader.result)
-                renderDocx(typedarray)
-            }
-            fileReader.readAsArrayBuffer(file);
         }
-        questionFileInput.parentElement.append(removeQuestionFileBtn)
+        resourceModalBootstrap.show()
+    })
+    questionFileRemove.addEventListener('click', () => {
+        delete testRsBox.dataset.id
+        if (testDocumentBox)
+            testDocumentBox.remove()
+        if (rsTest[0])
+            rsTest[0].element.classList.remove('selected')
+        rsTest.length = 0
     })
 
     addQuestionBtn.addEventListener('click', () => {
@@ -970,6 +1068,12 @@
                     tagName: 'p',
                     className: 'question-order user-select-none',
                     textContent: 'Question ' + order
+                },
+                {
+                    tagName: 'p',
+                    className: 'question-deleter user-select-none',
+                    bind: [bindList, 'removeQuestion'],
+                    innerHTML: '<i class="fa-solid fa-xmark"></i>'
                 },
                 {
                     tagName: 'div',
@@ -1038,7 +1142,7 @@
                 }
             ]
         })
-        let answerCount = 0
+        let answerCount = 2
         const answerObjectList = []
         function increaseAnswer() {
             answerCount++
@@ -1047,8 +1151,8 @@
         }
         function decreaseAnswer() {
             answerCount--
-            if (answerCount < 0) {
-                answerCount = 0
+            if (answerCount < 1) {
+                answerCount = 1
             }
             bindList.answerCounter.value = answerCount
             bindList.answerCounter.dispatchEvent(new Event('change'))
@@ -1071,7 +1175,7 @@
                     {
                         tagName: 'p',
                         className: 'answer-order user-select-none',
-                        textContent: String.fromCharCode(answerObjectList.length + 65),
+                        textContent: numberToLetter(answerObjectList.length + 1),
                         bind: [answerBindList, 'changeState']
                     },
                     {
@@ -1117,6 +1221,14 @@
             })
             bindList.answerList.append(newAnswer)
         }
+        bindList.removeQuestion.addEventListener('click', () => {
+            newQuestion.remove();
+            const qList = [...questionList.getElementsByClassName('question')]
+            createExerciseButton.disabled = qList.length <= 0
+            qList.forEach((q, i) => {
+                q.querySelector('.question-order').textContent = 'Question ' + (i + 1)
+            })
+        })
         bindList.answerCounter.value = answerCount
         bindList.answerCounter.addEventListener('change', () => {
             if (!bindList.answerCounter.value.match(/^\d+$/g)) {
@@ -1124,6 +1236,11 @@
                 return
             }
             const value = parseInt(bindList.answerCounter.value)
+            if (value < 1) {
+                bindList.answerCounter.value = 1
+                bindList.answerCounter.dispatchEvent(new Event('change'))
+                return;
+            }
             answerCount = value
             if (value !== bindList.answerList.children.length) {
                 for (var i = 0; i < value; i++) {
@@ -1141,13 +1258,19 @@
                 })
             }
         })
+        bindList.answerCounter.dispatchEvent(new Event('change'))
         questionList.append(newQuestion)
+        createExerciseButton.disabled = questionList.children.length <= 1
     })
+    
+    const messageModal = new bootstrap.Modal(document.getElementById('message-modal'))
 
     createExerciseButton.addEventListener('click', async e => {
         let isValid = true
+        let reason
         const testObject = {
             classId: '${classObject.classId}',
+            resourceId: rsTest[0] ? rsTest[0].resourceId : null,
             title: document.getElementById('title').value.trim() || null,
             description: document.getElementById('description').value.trim() || null,
             startAt: startTimeInput.value || null,
@@ -1171,7 +1294,7 @@
                         return as
                     }, [])
                 }
-                isValid = !!(isValid && (question.content || question.resourceId) && question.answers.length > 0)
+                isValid = !!(isValid && (question.content || question.resourceId) && question.answers.some(a => a.correct))
                 qs.push(question)
                 return qs
             }, [])

@@ -8,6 +8,7 @@ public class Test {
 
     private UUID testId;
     private UUID classId;
+    private UUID resourceId;
     private String title;
     private String description;
     private Timestamp startAt;
@@ -17,9 +18,10 @@ public class Test {
     private Timestamp createTime;
     public ArrayList<Question> questions;
 
-    public Test(UUID testId, UUID classId, String title, String description, Timestamp startAt, Timestamp endAt, Double duration, boolean allowReview, Timestamp createTime) {
+    public Test(UUID testId, UUID classId, UUID resourceId, String title, String description, Timestamp startAt, Timestamp endAt, Double duration, boolean allowReview, Timestamp createTime) {
         this.testId = testId;
         this.classId = classId;
+        this.resourceId = resourceId;
         this.title = title;
         this.description = description;
         this.startAt = startAt;
@@ -43,6 +45,14 @@ public class Test {
 
     public void setClassId(UUID classId) {
         this.classId = classId;
+    }
+
+    public UUID getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(UUID resourceId) {
+        this.resourceId = resourceId;
     }
 
     public String getTitle() {
@@ -106,6 +116,7 @@ public class Test {
         return "Test(" + String.join(", ", new String[]{
             String.valueOf(testId),
             String.valueOf(classId),
+            String.valueOf(resourceId),
             title,
             description,
             String.valueOf(startAt),
