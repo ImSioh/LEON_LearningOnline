@@ -15,10 +15,10 @@ public class QuestionDAO extends AbstractDAO<Question> {
             queryParams.add(Util.UUIDToByteArray(question.getQuestionId()));
             queryParams.add(Util.UUIDToByteArray(question.getTestId()));
             queryParams.add(Util.UUIDToByteArray(question.getResourceId()));
-            queryParams.add(question.getTitle());
+            queryParams.add(question.getQuestionOrder());
             queryParams.add(question.getContent());
         }
-        String query = "INSERT INTO question (question_id, test_id, resource_id, title, content) VALUES " + String.join(", ", queryParts);
+        String query = "INSERT INTO question (question_id, test_id, resource_id, question_order, content) VALUES " + String.join(", ", queryParts);
         return update(query, queryParams.toArray());
     }
 
@@ -28,7 +28,7 @@ public class QuestionDAO extends AbstractDAO<Question> {
                 Util.ByteArrayToUUID(rs.getBytes("question_id")),
                 Util.ByteArrayToUUID(rs.getBytes("test_id")),
                 Util.ByteArrayToUUID(rs.getBytes("resource_id")),
-                rs.getNString("title"),
+                rs.getInt("question_order"),
                 rs.getNString("content")
         );
     }

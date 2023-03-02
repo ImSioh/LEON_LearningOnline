@@ -18,7 +18,7 @@ public class TestDAO extends AbstractDAO<Test> {
                 test.getDescription(),
                 test.getStartAt(),
                 test.getEndAt(),
-                test.getDescription(),
+                test.getDuration(),
                 test.isAllowReview(),
                 test.getCreateTime()
         );
