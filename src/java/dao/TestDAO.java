@@ -1,5 +1,7 @@
 package dao;
 
+import dto.Answer;
+import dto.Question;
 import dto.Test;
 import helpers.Util;
 import java.sql.ResultSet;
@@ -57,6 +59,39 @@ public class TestDAO extends AbstractDAO<Test> {
         return selectMany(query, Util.UUIDToByteArray(classid));
     }
 
+    public Test getTestByTestID(UUID id) throws Exception {
+        String query = "select * from test where test_id = ?";
+        return selectOne(query, Util.UUIDToByteArray(id));
+    }
+
+    public Test getTestWithAllData(UUID testid) throws Exception {
+        AnswerDAO adao = new AnswerDAO();
+        Test test = getTestByTestID(testid);
+        ResourceDAO rdao = new ResourceDAO();
+        test.questions = new QuestionDAO().getQuestionByTestID(testid);
+        //
+        for (Question q : test.questions) {
+            q.answers = adao.getAnswerByQuestionID(q.getQuestionId());
+            if (q.getResourceId() != null) {
+                q.resource = rdao.getResourcesById(q.getResourceId());
+            }
+            for (Answer ans : q.answers) {
+                if (ans.getResourceId() != null) {
+                    ans.resource = rdao.getResourcesById(ans.getResourceId());
+                }
+            }
+        }
+        return test;
+    }
+
+    public String convertToAlphabet(int n) {
+        if (n < 1 || n > 26) {
+            throw new IllegalArgumentException("Input value must be between 1 and 26 inclusive.");
+        }
+        char c = (char) (n + 64);
+        return Character.toString(c);
+    }
+
     public ArrayList<Test> getListTitleTest(UUID classId) throws Exception {
         String query = "select * from online_learning.test\n"
                 + "where class_id = ?";
@@ -83,6 +118,10 @@ public class TestDAO extends AbstractDAO<Test> {
                 rs.getBoolean("allow_review"),
                 rs.getTimestamp("create_time")
         );
+    }
+
+    public static void main(String[] args) throws Exception {
+
     }
 
 }

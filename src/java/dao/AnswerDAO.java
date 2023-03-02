@@ -4,9 +4,10 @@ import dto.Answer;
 import helpers.Util;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class AnswerDAO extends AbstractDAO<Answer> {
-    
+
     public int insertMultipleAnswers(ArrayList<Answer> answers) throws Exception {
         ArrayList<String> queryParts = new ArrayList<>();
         ArrayList<Object> queryParams = new ArrayList<>();
@@ -23,6 +24,11 @@ public class AnswerDAO extends AbstractDAO<Answer> {
         return update(query, queryParams.toArray());
     }
 
+    public ArrayList<Answer> getAnswerByQuestionID(UUID id) throws Exception {
+        String query = "select * from answer where question_id = ? order by answer_order";
+        return selectMany(query, Util.UUIDToByteArray(id));
+    }
+
     @Override
     protected Answer propMapping(ResultSet rs) throws Exception {
         return new Answer(
@@ -35,4 +41,8 @@ public class AnswerDAO extends AbstractDAO<Answer> {
         );
     }
     
+    public static void main(String[] args) throws Exception {
+        System.out.println(new AnswerDAO().getAnswerByQuestionID(UUID.fromString("45bea119-ba30-4c64-b763-40293312c69f")));
+    }
+
 }
