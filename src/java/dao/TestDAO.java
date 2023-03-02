@@ -56,6 +56,18 @@ public class TestDAO extends AbstractDAO<Test> {
         return selectMany(query, Util.UUIDToByteArray(classid));
     }
 
+    public ArrayList<Test> getListTitleTest(UUID classId) throws Exception {
+        String query = "select * from online_learning.test\n"
+                + "where class_id = ?";
+        return selectMany(query, Util.UUIDToByteArray(classId));
+    }
+
+    public Test getTitleTest(UUID classId) throws Exception {
+        String query = "select * from online_learning.test\n"
+                + "where class_id = ?";
+        return selectOne(query, Util.UUIDToByteArray(classId));
+    }
+
     @Override
     protected Test propMapping(ResultSet rs) throws Exception {
         return new Test(
