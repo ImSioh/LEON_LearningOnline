@@ -24,6 +24,31 @@ public class TestDAO extends AbstractDAO<Test> {
         );
     }
 
+    public int editTest(Test test) throws Exception {
+        String query
+                = "UPDATE online_learning.test\n"
+                + "SET  title = ?, description = ?, start_at = ?, end_at = ?,"
+                + "duration = ?, allow_review = ?, create_time = ?\n"
+                + "WHERE test_id = ?;";
+        return update(
+                query,
+                test.getTitle(),
+                test.getDescription(),
+                test.getStartAt(),
+                test.getEndAt(),
+                test.getDuration(),
+                test.isAllowReview(),
+                test.getCreateTime(),
+                Util.UUIDToByteArray(test.getTestId())
+        );
+    }
+
+    public Test getTestById(UUID testid) throws Exception {
+        String query = "select * from test\n"
+                + "where test_id = ?";
+        return selectOne(query, Util.UUIDToByteArray(testid));
+    }
+
     public ArrayList<Test> viewListTest(UUID classid) throws Exception {
         String query = "select * from test\n"
                 + "where class_id = ?\n"
