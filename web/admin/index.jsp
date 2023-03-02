@@ -59,7 +59,7 @@
                     <tr>
                         <th>Details</th>
                         <th>Email</th>
-                        <th>Name</th>
+                        <th>Account</th>
                         <th>Role</th>
                         <th>Title</th>
                         <th>Content</th>
@@ -84,14 +84,29 @@
                                     </c:if>
                                 </c:if>
                             </c:forEach>
-                            <td>${fb.getTitle()}</td>
-                            <td>
-                                <a href="response?Id=${fb.getFeedbackId()}">${fb.getContent().substring(0, 10)}...</a>
+                            <td><c:if test="${fb.getTitle().length() > 20}">
+                                    ${fb.getTitle().substring(0, 20)}...
+                                </c:if>
+                                <c:if test="${fb.getTitle().length() <= 20}">
+                                    ${fb.getTitle()}
+                                </c:if>
                             </td>
                             <td>
-                                <%--<c:if test="${fb.getResponse()== ''}" >--%>
-                                <a href="<c:url value="/admin/response?Id=${fb.getFeedbackId()}"/>">View Response</a>
-                                <%--</c:if>--%>
+                                <c:if test="${fb.getContent().length() > 20}">
+                                    ${fb.getContent().substring(0, 20)}...
+                                </c:if>
+                                <c:if test="${fb.getContent().length() <= 20}">
+                                    ${fb.getContent()}
+                                </c:if>
+                            </td>
+                            <td>
+                                <c:if test="${fb.getResponse().length() > 20}">
+                                    ${fb.getResponse().substring(0, 20)}...
+                                </c:if>
+                                <c:if test="${fb.getResponse().length() <= 20}">
+                                    ${fb.getResponse()}
+                                </c:if>
+                                <!--<a href="<c:url value="/admin/response?Id=${fb.getFeedbackId()}"/>">View Response</a>-->
                             </td>
                             <td>${fb.getCreateTime()}</td>
                         </tr>

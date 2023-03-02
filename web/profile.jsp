@@ -48,12 +48,16 @@
                                      background-size: cover;
                                      ">
                                 </div>
-
                             </div>
-
-
                             <h5 class="my-3">${account.getName()}</h5>
-                            <p class="text-muted mb-1">${account.getRole() == 1 ? "Teacher" : "Student"}</p>
+                            <p class="text-muted mb-1">
+                                <c:if test="${user.getRole() == 1}">
+                                    Teacher
+                                </c:if>
+                                <c:if test="${user.getRole() == 2}">
+                                    Student
+                                </c:if>
+                            </p>
                             <p class="text-muted mb-4">${account.getAddress()}</p>
                             <c:choose>
                                 <c:when test="${account.getRole() == 1 }">
@@ -87,11 +91,10 @@
                                     </div>
                                 </c:otherwise>
                             </c:choose>
-
                         </div>
                     </div>
-
                 </div>
+
                 <div class="col-lg-8">
                     <div class="card mb-4" style=" border-radius: 15px; overflow: hidden;">
                         <div class="card-body">
