@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +25,7 @@ public class ExerciseResultController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-          
+            String testId = request.getParameter("testId");
             Account account = (Account) request.getAttribute("account");
             String classCode = request.getParameter("code");
             ArrayList<Account> listStudent = new ArrayList<>();
@@ -32,7 +33,8 @@ public class ExerciseResultController extends HttpServlet {
             listStudent = new AccountDAO().getListAllStudentByClassCode(classCode, "1");
             request.setAttribute("listStudent", listStudent);
             request.setAttribute("classObject", classObject);
-           
+            request.setAttribute("DoTestDAO",new DoTestDAO());
+            request.setAttribute("testId", UUID.fromString(testId));
      
             if (account.getRole() == 1) {
                 request.setAttribute("teacher", account);
