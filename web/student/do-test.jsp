@@ -207,7 +207,9 @@
             <div class="question-body">
                 <div class="question-term">
                     <p class="question-content">${test.questions.get(0).getContent()}</p>
-                    <div class="img-resource" style="background-image: url('<c:url value="${rdao.getResourcesById(test.questions.get(0).getResourceId()).getUrl()}"/>');"></div>
+                    <c:if test="${rdao.getResourcesById(test.questions.get(0).getResourceId()).getUrl() ne null}">
+                        <div class="img-resource" style="background-image: url('<c:url value="${rdao.getResourcesById(test.questions.get(0).getResourceId()).getUrl()}"/>');"></div>
+                    </c:if>
                 </div>
                 <div class="question-answer-list">
                     <c:forEach begin="1" end="${test.questions.get(0).getAnswers().size()}" var="x">
@@ -334,7 +336,8 @@
         }
     }, 1000);
 
-
+    var testObj = "${json}";
+    testObj = JSON.parse(testObj);
 </script>
 <c:import url="../template/footer.jsp" />
 

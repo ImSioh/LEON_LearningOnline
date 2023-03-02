@@ -1,5 +1,6 @@
 package dao;
 
+import dto.Answer;
 import dto.Question;
 import dto.Test;
 import helpers.Util;
@@ -66,9 +67,19 @@ public class TestDAO extends AbstractDAO<Test> {
     public Test getTestWithAllData(UUID testid) throws Exception {
         AnswerDAO adao = new AnswerDAO();
         Test test = getTestByTestID(testid);
+        ResourceDAO rdao = new ResourceDAO();
         test.questions = new QuestionDAO().getQuestionByTestID(testid);
+        //
         for (Question q : test.questions) {
             q.answers = adao.getAnswerByQuestionID(q.getQuestionId());
+            if (q.getResourceId() != null) {
+                q.resource = rdao.getResourcesById(q.getResourceId());
+            }
+            for (Answer ans : q.answers) {
+                if (ans.getResourceId() != null) {
+                    ans.resource = rdao.getResourcesById(ans.getResourceId());
+                }
+            }
         }
         return test;
     }
@@ -77,7 +88,7 @@ public class TestDAO extends AbstractDAO<Test> {
         if (n < 1 || n > 26) {
             throw new IllegalArgumentException("Input value must be between 1 and 26 inclusive.");
         }
-        char c = (char) (n + 64); // 65 is the ASCII code for 'A'
+        char c = (char) (n + 64);
         return Character.toString(c);
     }
 
@@ -110,8 +121,7 @@ public class TestDAO extends AbstractDAO<Test> {
     }
 
     public static void main(String[] args) throws Exception {
-//        System.out.println(new TestDAO().getTestWithAllData(UUID.fromString("9f3fa1d9-a6c4-4682-b79e-4a73e1999711")).questions.get(0).getResourceId());
-        System.out.println(new ResourceDAO().getResourcesById(new TestDAO().getTestWithAllData(UUID.fromString("fbb28035-34d0-49a3-b6d7-17462d08d2ab")).questions.get(0).getResourceId()).getUrl());
+
     }
 
 }

@@ -11,6 +11,7 @@ public class Question {
     private int questionOrder;
     private String content;
     public ArrayList<Answer> answers;
+    public Resource resource;
 
     public Question(UUID questionId, UUID testId, UUID resourceId, int questionOrder, String content) {
         this.questionId = questionId;

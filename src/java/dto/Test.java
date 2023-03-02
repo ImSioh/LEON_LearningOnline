@@ -17,6 +17,7 @@ public class Test {
     private boolean allowReview;
     private Timestamp createTime;
     public ArrayList<Question> questions;
+    public Resource resource;
 
     public Test(UUID testId, UUID classId, UUID resourceId, String title, String description, Timestamp startAt, Timestamp endAt, Double duration, boolean allowReview, Timestamp createTime) {
         this.testId = testId;

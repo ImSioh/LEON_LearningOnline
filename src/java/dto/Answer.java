@@ -10,6 +10,7 @@ public class Answer {
     private int answerOrder;
     private String content;
     private boolean correct;
+    public Resource resource;
 
     public Answer(UUID answerId, UUID questionId, UUID resourceId, int answerOrder, String content, boolean correct) {
         this.answerId = answerId;
