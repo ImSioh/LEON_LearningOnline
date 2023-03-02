@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controllers;
 
+import dao.AccountDAO;
 import dao.ClassObjectDAO;
 import dao.TestDAO;
 import dto.Account;
@@ -15,6 +12,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -30,7 +29,6 @@ public class ViewListExerciseController extends HttpServlet {
         try {
             Account account = (Account) request.getAttribute("account");
             String classCode = request.getParameter("code");
-            String search = request.getParameter("search");
 
             ClassObject classObject = COD.getClassByCode(classCode);
             UUID cid = classObject.getClassId();
@@ -39,18 +37,21 @@ public class ViewListExerciseController extends HttpServlet {
             viewTest = TD.viewListTest(cid);
 
             for (Test test : viewTest) {
-                if (test.getDescription().length() > 30) {
-                    test.setDescription(test.getDescription().substring(0, 30) + "...");
+                if (test.getDescription().length() > 50) {
+                    test.setDescription(test.getDescription().substring(0, 50) + "...");
                 }
             }
 
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            request.setAttribute("sdf", sdf);
             request.setAttribute("classObject", classObject);
-            request.setAttribute("search", search);
             request.setAttribute("activeEX", "active");
             request.setAttribute("listExercise", viewTest);
 
             if (account.getRole() == 1) {
                 request.setAttribute("teacher", account);
+            } else {
+                request.setAttribute("teacher", new AccountDAO().getAccountById(classObject.getAccountId()));
             }
 
             request.getRequestDispatcher("/view-list-exercise.jsp").forward(request, response);
