@@ -18,14 +18,14 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "ExerciseResultController", urlPatterns = {"/teacher/exerciseResult"})
+@WebServlet(name = "ExerciseResultController", urlPatterns = {"/teacher/class/exercise/detail"})
 public class ExerciseResultController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String testId = request.getParameter("testId");
+            String testId = request.getParameter("testid");
             Account account = (Account) request.getAttribute("account");
             String classCode = request.getParameter("code");
             ArrayList<Account> listStudent = new ArrayList<>();
@@ -33,14 +33,11 @@ public class ExerciseResultController extends HttpServlet {
             listStudent = new AccountDAO().getListAllStudentByClassCode(classCode, "1");
             request.setAttribute("listStudent", listStudent);
             request.setAttribute("classObject", classObject);
-            request.setAttribute("DoTestDAO",new DoTestDAO());
+            request.setAttribute("DoTestDAO", new DoTestDAO());
+            request.setAttribute("activeEX", "active");
+            request.setAttribute("teacher", account);
             request.setAttribute("testId", UUID.fromString(testId));
-     
-            if (account.getRole() == 1) {
-                request.setAttribute("teacher", account);
-            } else {
-                request.setAttribute("teacher", new AccountDAO().getAccountById(classObject.getAccountId()));
-            }
+
         } catch (Exception ex) {
             Logger.getLogger(ExerciseResultController.class.getName()).log(Level.SEVERE, null, ex);
         }
