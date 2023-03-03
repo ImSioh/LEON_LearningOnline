@@ -13,13 +13,13 @@ public class Test {
     private String description;
     private Timestamp startAt;
     private Timestamp endAt;
-    private Double duration;
+    private Integer duration;
     private boolean allowReview;
     private Timestamp createTime;
     public ArrayList<Question> questions;
     public Resource resource;
 
-    public Test(UUID testId, UUID classId, UUID resourceId, String title, String description, Timestamp startAt, Timestamp endAt, Double duration, boolean allowReview, Timestamp createTime) {
+    public Test(UUID testId, UUID classId, UUID resourceId, String title, String description, Timestamp startAt, Timestamp endAt, Integer duration, boolean allowReview, Timestamp createTime) {
         this.testId = testId;
         this.classId = classId;
         this.resourceId = resourceId;
@@ -88,11 +88,11 @@ public class Test {
         this.endAt = endAt;
     }
 
-    public Double getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Double duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

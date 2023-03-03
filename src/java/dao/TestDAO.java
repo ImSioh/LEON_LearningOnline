@@ -98,6 +98,9 @@ public class TestDAO extends AbstractDAO<Test> {
                 + "where class_id = ?";
         return selectOne(query, Util.UUIDToByteArray(classId));
     }
+    
+    
+    
 
     @Override
     protected Test propMapping(ResultSet rs) throws Exception {
@@ -109,7 +112,7 @@ public class TestDAO extends AbstractDAO<Test> {
                 rs.getNString("description"),
                 rs.getTimestamp("start_at"),
                 rs.getTimestamp("end_at"),
-                rs.getDouble("duration"),
+                rs.getInt("duration"),
                 rs.getBoolean("allow_review"),
                 rs.getTimestamp("create_time")
         );
