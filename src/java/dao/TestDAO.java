@@ -95,6 +95,9 @@ public ArrayList<Test> getListTitle(UUID classId) throws Exception {
                 + "where class_id = ?";
         return selectOne(query, Util.UUIDToByteArray(classId));
     }
+    
+    
+    
 
     @Override
     protected Test propMapping(ResultSet rs) throws Exception {
@@ -106,7 +109,7 @@ public ArrayList<Test> getListTitle(UUID classId) throws Exception {
                 rs.getNString("description"),
                 rs.getTimestamp("start_at"),
                 rs.getTimestamp("end_at"),
-                rs.getDouble("duration"),
+                rs.getInt("duration"),
                 rs.getBoolean("allow_review"),
                 rs.getTimestamp("create_time")
         );

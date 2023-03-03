@@ -40,7 +40,7 @@ public class QuestionDAO extends AbstractDAO<Question> {
     }
     
     public static void main(String[] args) throws Exception {
-        System.out.println(new QuestionDAO().getQuestionByTestID(UUID.fromString("9f3fa1d9-a6c4-4682-b79e-4a73e1999711")));
+        System.out.println(new QuestionDAO().getQuestionByTestID(UUID.fromString("0246b559-40e9-4c13-9b69-bea737810991")));
     }
     
 }
