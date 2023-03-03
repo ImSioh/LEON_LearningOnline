@@ -102,7 +102,7 @@
         position: relative;
     }
 
-    .error {
+    .validate-fail {
         outline: 4px solid #dc3545;
         background-color: #dc354540 !important;
     }
@@ -193,6 +193,10 @@
         box-sizing: content-box;
     }
 
+    .validate-fail > .answer-order {
+        outline: 4px solid #dc3545;
+    }
+
     .question-answer.true > .answer-order {
         border: 2px solid #056766;
     }
@@ -239,6 +243,19 @@
 
     .question-deleter:hover {
         background-color: #bb2d3b;
+    }
+
+    .sub-label {
+        color: crimson;
+        font-weight: 600;
+    }
+
+    .disable-input .form-control {
+        display: none;
+    }
+
+    .disable-sub-label .sub-label {
+        display: none;
     }
 
     @media only screen and (min-width: 1200px) {
@@ -432,36 +449,44 @@
     </div>
     <div id="question-paper"></div>
     <div class="test-info-area p-4">
+        <p style="font-size: 1.4rem;margin: 0;font-weight: 500;text-align: center;">
+            Create exercise for class ${classObject.name}
+        </p>
         <div class="test-time-info p-4 border rounded-3 bg-light">
             <div>
-                <div class="mb-3 d-flex flex-wrap">
+                <div class="mb-3 d-flex flex-wrap disable-sub-label">
                     <div class="form-check form-switch d-inline-block">
                         <input class="form-check-input" id="start-time-toggle" type="checkbox">
                     </div>
-                    <label for="start-time" class="form-label">Start time</label>
-                    <input type="datetime-local" class="form-control" disabled name="start-time" id="start-time">
+                    <label for="start-time" class="form-label">
+                        Start time
+                        <span class="sub-label">
+                            (Exercise will start now)
+                        </span>
+                    </label>
+                    <input type="datetime-local" class="form-control" name="start-time" id="start-time">
                 </div>
-                <div class="mb-3 d-flex flex-wrap">
+                <div class="mb-3 d-flex flex-wrap disable-input">
                     <div class="form-check form-switch d-inline-block">
                         <input class="form-check-input" id="end-time-toggle" type="checkbox">
                     </div>
                     <label for="end-time" class="form-label">End time</label>
-                    <input type="datetime-local" class="form-control" disabled name="end-time" id="end-time">
+                    <input type="datetime-local" class="form-control" name="end-time" id="end-time">
                 </div>
                 <div class="mb-3 d-flex flex-wrap">
                     <div class="form-check form-switch d-inline-block">
                         <input class="form-check-input" id="review-toggle" type="checkbox">
                     </div>
-                    <label class="form-label">Prevent student from viewing finished test</label>
+                    <label class="form-label">Prevent student from viewing finished exercise</label>
                 </div>
             </div>
             <div>
-                <div class="mb-3 d-flex flex-wrap">
+                <div class="mb-3 d-flex flex-wrap disable-input">
                     <div class="form-check form-switch d-inline-block">
                         <input class="form-check-input" id="test-time-toggle" type="checkbox">
                     </div>
-                    <label for="test-time" class="form-label">Test time (minute)</label>
-                    <input spellcheck="false" type="number" disabled class="form-control" name="test-time" id="test-time">
+                    <label for="test-time" class="form-label">Exercise duration (minute)</label>
+                    <input spellcheck="false" type="number" class="form-control" value="15" name="test-time" id="test-time">
                 </div>
                 <div class="mb-3 d-flex flex-wrap">
                     <div class="form-check form-switch d-inline-block">
@@ -494,7 +519,7 @@
             <button class="btn btn-primary" id="add-question">Add question</button>
         </div>
         <button  class="btn btn-primary w-100 mt-3 mb-5" id="create-exercise">
-            Create test
+            Create exercise
         </button>
     </div>
 </div>
@@ -973,6 +998,8 @@
     createExerciseButton.disabled = true
     const testTimeToggle = document.getElementById('test-time-toggle')
     const startTimeToggle = document.getElementById('start-time-toggle')
+    startTimeToggle.checked = true
+    const startTimeLabel = startTimeToggle.parentElement.nextElementSibling
     const endTimeToggle = document.getElementById('end-time-toggle')
     const reviewToggle = document.getElementById('review-toggle')
     const questionFileToggle = document.getElementById('question-file-toggle')
@@ -1001,15 +1028,34 @@
     let rendering = false
 
     testTimeToggle.addEventListener('click', () => {
-        testTimeInput.disabled = !testTimeToggle.checked
+        testTimeInput.parentElement.classList.toggle('disable-input', !testTimeToggle.checked)
     })
 
+    let testTime = 15
+    testTimeInput.addEventListener('change', () => {
+        if (!testTimeInput.value.match(/^\d+$/g)) {
+            testTimeInput.value = testTime
+            testTimeInput.dispatchEvent(new Event('change'))
+        }
+        testTime = testTimeInput.valueAsNumber
+        if (testTime <= 0) {
+            testTimeInput.value = 1
+            testTimeInput.dispatchEvent(new Event('change'))
+        }
+    })
+
+    const startTimeSubLabel = createElement({
+        tagName: 'span',
+        className: 'sub-label',
+        textContent: ' (Exercise will start now)'
+    })
     startTimeToggle.addEventListener('click', () => {
-        startTimeInput.disabled = !startTimeToggle.checked
+        startTimeInput.parentElement.classList.toggle('disable-sub-label', startTimeToggle.checked)
+        startTimeInput.parentElement.classList.toggle('disable-input', !startTimeToggle.checked)
     })
 
     endTimeToggle.addEventListener('click', () => {
-        endTimeInput.disabled = !endTimeToggle.checked
+        endTimeInput.parentElement.classList.toggle('disable-input', !endTimeToggle.checked)
     })
 
     questionFileToggle.addEventListener('click', () => {
@@ -1283,17 +1329,43 @@
 
     const messageModal = new bootstrap.Modal(document.getElementById('message-modal'))
 
+    function showError(element, msg, placeAction, extra, propagation) {
+        if (element.classList.contains('validate-fail'))
+            return
+        element.classList.add('validate-fail')
+        extra = extra || element
+        const msgLabel = createElement({
+            tagName: 'label',
+            style: 'color: #dc3545;margin-top: 4px 0;',
+            textContent: msg
+        })
+        if (placeAction) {
+            placeAction(msgLabel)
+        }
+        const listener = e => {
+            if (propagation) {
+                e.stopPropagation()
+            }
+            extra.removeEventListener('click', listener)
+            element.classList.remove('validate-fail')
+            msgLabel.remove()
+        }
+        extra.addEventListener('click', listener)
+    }
+
     createExerciseButton.addEventListener('click', async e => {
         let isValid = true
-        let reason
+        let lastFail
+        const now = new Date()
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset())
         const testObject = {
             classId: '${classObject.classId}',
-            resourceId: rsTest[0] ? rsTest[0].resourceId : null,
+            resourceId: rsTest[0] && questionFileToggle.checked ? rsTest[0].resourceId : null,
             title: document.getElementById('title').value.trim() || null,
             description: document.getElementById('description').value.trim() || null,
-            startAt: startTimeInput.value || null,
+            startAt: startTimeToggle.checked ? startTimeInput.value : now.toISOString().slice(0, 16),
             endAt: endTimeInput.value || null,
-            duration: testTimeInput.value || null,
+            duration: testTimeToggle.checked ? testTimeInput.valueAsNumber : null,
             allowReview: !reviewToggle.checked,
             questions: [...questionList.getElementsByClassName('question')].reduce((qs, q, qidx) => {
                 const question = {
@@ -1307,17 +1379,66 @@
                             answerOrder: aidx + 1,
                             resourceId: a.querySelector('.answer-resource').dataset.id || null
                         }
-                        isValid = !!(isValid && (answer.content || answer.resourceId))
+//                        isValid = !!(isValid && (answer.content || answer.resourceId))
+                        if (!answer.content && !answer.resourceId) {
+                            showError(a, "Answer content must be filled or attach a file", msgLabel => a.insertBefore(msgLabel, a.children[0]))
+                            lastFail = a
+                            isValid = false
+                        }
                         as.push(answer)
                         return as
                     }, [])
                 }
-                isValid = !!(isValid && (question.content || question.resourceId) && question.answers.some(a => a.correct))
+//                isValid = !!(isValid && (question.content || question.resourceId) && question.answers.some(a => a.correct))
+                if (!question.content && !question.resourceId) {
+                    showError(q, "Question content must be filled or attach a file", msgLabel => q.insertBefore(msgLabel, q.children[0]))
+                    lastFail = q
+                    isValid = false
+                }
+                if (!question.answers.some(a => a.correct)) {
+                    showError(q, "Question must has at least one correct answer", msgLabel => q.insertBefore(msgLabel, q.children[0]), null, true)
+                    lastFail = q
+                    isValid = false
+                }
                 qs.push(question)
                 return qs
             }, [])
         }
-        isValid = !!(isValid && testObject.title && testObject.questions.length > 0)
+//        isValid = !!(isValid && testObject.title && testObject.questions.length > 0)
+        if (!testObject.title) {
+            lastFail = document.getElementById('title')
+            showError(lastFail, "Title cannot be empty", msgLabel => lastFail.parentElement.append(msgLabel))
+            isValid = false
+        }
+        if (testObject.questions.length <= 0) {
+            showError(questionList, "A exercise must has at least one question", msgLabel => questionList.append(msgLabel))
+            lastFail = questionList
+            isValid = false
+        }
+        if (startTimeToggle.checked && !testObject.startAt) {
+            showError(startTimeInput, "Start time enable but not set", msgLabel => startTimeInput.parentElement.append(msgLabel), startTimeInput.parentElement)
+            lastFail = startTimeInput
+            isValid = false
+        }
+        if (endTimeToggle.checked && !testObject.endAt) {
+            showError(endTimeInput, "End time enable but not set", msgLabel => endTimeInput.parentElement.append(msgLabel), endTimeInput.parentElement)
+            lastFail = endTimeInput
+            isValid = false
+        }
+        const startDatetime = new Date(startTimeInput.value || Date.now())
+        if (isValid && testObject.endAt) {
+            const endDatetime = new Date(endTimeInput.value)
+            if (endDatetime <= startDatetime) {
+                showError(endTimeInput, "End time must after start time", msgLabel => endTimeInput.parentElement.append(msgLabel), endTimeInput.parentElement)
+                lastFail = endTimeInput
+                isValid = false
+            }
+            if (testObject.duration && (endDatetime.getTime() - startDatetime.getTime()) / 1000 / 60 < testObject.duration) {
+                showError(endTimeInput, "Start time to end time must equal or longer than duration", msgLabel => endTimeInput.parentElement.append(msgLabel), endTimeInput.parentElement)
+                lastFail = endTimeInput
+                isValid = false
+            }
+        }
         if (isValid) {
             const response = await fetch('<c:url value="/teacher/class/exercise/create"/>', {
                 method: 'POST',
@@ -1328,6 +1449,18 @@
             })
             if (response.ok) {
                 window.location.replace('<c:url value="/teacher/class/exercise?code=${classObject.code}"/>')
+            }
+        } else {
+            if (!mainContainer.classList.contains('has-paper')) {
+                window.scroll({
+                    top: lastFail.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            } else {
+                document.querySelector(".test-info-area").scroll({
+                    top: lastFail.offsetTop - 100,
+                    behavior: 'smooth'
+                });
             }
         }
     })
