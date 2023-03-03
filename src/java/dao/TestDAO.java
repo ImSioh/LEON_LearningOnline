@@ -86,10 +86,9 @@ public class TestDAO extends AbstractDAO<Test> {
     }
 
     public ArrayList<Test> getListTitleTest(UUID classId) throws Exception {
-        String query = "select * from online_learning.test t, online_learning.do_test dt\n"
-                + "where t.test_id = dt.test_id"
-                + " and (t.end_at - now()) > 0"
-                + " and dt.finish_time is null"
+        String query = "select distinct t.* from online_learning.test t\n"
+                + "where ((end_at - now()) > 0 OR end_at is null)"
+                
                 + " and class_id = ?";
         return selectMany(query, Util.UUIDToByteArray(classId));
     }
@@ -99,9 +98,6 @@ public class TestDAO extends AbstractDAO<Test> {
                 + "where class_id = ?";
         return selectOne(query, Util.UUIDToByteArray(classId));
     }
-    
-    
-    
 
     @Override
     protected Test propMapping(ResultSet rs) throws Exception {
