@@ -86,7 +86,6 @@ public class TestDAO extends AbstractDAO<Test> {
         return test;
     }
 
-
     public ArrayList<Test> getListTitleTest(UUID classId) throws Exception {
         String query = "select * from online_learning.test\n"
                 + "where class_id = ?";
@@ -118,5 +117,4 @@ public class TestDAO extends AbstractDAO<Test> {
     public static void main(String[] args) throws Exception {
 
     }
-
 }

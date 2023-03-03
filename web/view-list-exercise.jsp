@@ -65,7 +65,14 @@
                                         <a href="<c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/>">
                                             <p class="fw-bold mb-1">${listEX.getTitle()}</p>
                                         </a>
-                                        <p class="text-muted mb-0">${listEX.getDescription()}</p> 
+                                        <p class="text-muted mb-0">
+                                            <c:if test="${listEX.getDescription().length() > 30}">
+                                                ${listEX.getDescription().substring(0, 30)}...
+                                            </c:if>
+                                            <c:if test="${listEX.getDescription().length() < 30}">
+                                                ${listEX.getDescription()}
+                                            </c:if>
+                                        </p> 
                                     </td>
                                     <td>${listEX.getDuration()} minute(s)</td>
                                     <td>${sdf.format(listEX.getStartAt())}</td>
