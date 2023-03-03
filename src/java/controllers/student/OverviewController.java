@@ -6,6 +6,7 @@ package controllers.student;
 
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
+import dao.DoTestDAO;
 import dao.EnrollmentDAO;
 import dao.TestDAO;
 import dto.Account;
@@ -73,6 +74,7 @@ public class OverviewController extends HttpServlet {
                 req.setAttribute("testD", testD);
                 req.setAttribute("co", co);
                 req.setAttribute("testDAO", new TestDAO());
+                req.setAttribute("dotestDAO", new DoTestDAO());
                 req.setAttribute("hglO", true);
                 req.setAttribute("hglV", false);
                 req.getRequestDispatcher("homeS.jsp").forward(req, resp);

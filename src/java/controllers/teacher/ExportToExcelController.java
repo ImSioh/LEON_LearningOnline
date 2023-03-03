@@ -1,6 +1,5 @@
 package controllers.teacher;
 
-
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
 import dao.DoTestDAO;
@@ -30,25 +29,29 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 
-
-@WebServlet(name="ExportToExcelController", urlPatterns={"/teacher/class/export"})
+@WebServlet(name = "ExportToExcelController", urlPatterns = {"/teacher/class/export"})
 public class ExportToExcelController extends HttpServlet {
-   
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-    throws ServletException, IOException {
-    try {
+            throws ServletException, IOException {
+        try {
             String classCode = req.getParameter("code");
 
             ClassObject classobj2 = new ClassObjectDAO().getClassByCode(classCode);
             ArrayList<Test> t = new TestDAO().getListTitle(classobj2.getClassId());
             ArrayList<Account> aa = new AccountDAO().getListStudentByCode(classCode);
             ArrayList<DoTest> dtt = new ArrayList<>();
-            
+
+            // biểu thị sự hiện diện của Microsoft Excel
+            // vnd : câu trúc nhà cung câp -> sanpham duoc cong khai
+            // application : kieu chinh , sau dau / la kieu phu : ms-excel
             resp.setContentType("application/vnd.ms-excel");
+
+            //tieu de phan hoi - duoi dang tep tin dinh kem
             resp.setHeader("Content-Disposition", "attachment;filename=ListScoreInClass.xls");
-            
-            HSSFWorkbook workbook = new HSSFWorkbook();            
+
+            HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = workbook.createSheet("Score");
 
             int rowNo = 0;
@@ -59,7 +62,7 @@ public class ExportToExcelController extends HttpServlet {
             HSSFCell cell = rowhead.createCell(cellnum);
             cell.setCellValue("Name");
             cellnum++;
-            
+
             //name cell 2 ->
             for (Test tt : t) {
                 cell = rowhead.createCell(cellnum++);
@@ -72,10 +75,10 @@ public class ExportToExcelController extends HttpServlet {
                 rowhead = sheet.createRow(rowNo++);
                 cell = rowhead.createCell(cellnum++);
                 cell.setCellValue(a.getName());
-                
+
                 // data of cell 2 ->
-                dtt = new DoTestDAO().getListDoTest(classobj2.getClassId(), a.getAccountId());                
-                for (DoTest dttt : dtt) {                   
+                dtt = new DoTestDAO().getListDoTestByAIdAndCId(classobj2.getClassId(), a.getAccountId());
+                for (DoTest dttt : dtt) {
                     cell = rowhead.createCell(cellnum++);
                     cell.setCellValue(dttt.getScore());
                 }
@@ -86,13 +89,12 @@ public class ExportToExcelController extends HttpServlet {
             return;
         } catch (Exception e) {
         }
-    } 
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-    throws ServletException, IOException {
-        
-    }
+            throws ServletException, IOException {
 
+    }
 
 }
