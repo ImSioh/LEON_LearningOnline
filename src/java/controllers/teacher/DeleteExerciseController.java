@@ -27,7 +27,7 @@ public class DeleteExerciseController extends HttpServlet {
             String classCode = request.getParameter("code");
             String testid = request.getParameter("testid");
             UUID tid = UUID.fromString(testid);
-            Test test = TD.getTestById(tid);
+            Test test = TD.getTestByTestID(tid);
             test.setCreateTime(null);
 
             int check = 0;
