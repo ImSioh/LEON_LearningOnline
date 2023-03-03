@@ -1,9 +1,11 @@
 
 <%@include file= "/template/header.jsp" %>
 
-<c:set var="code" value="${classObject.getCode()}"></c:set>
+<c:set var="code" value="${classObject.getCode()}"/>
+<c:set var="role" value="${account.getRole() == 1 ? 'teacher' : 'student'}"/>
+<c:set var="baseURL" value="${role}/class/exercise"/>
 
-    <div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 56px;">
+<div class="content main-container d-flex" style="background-color: rgba(209, 209, 209, 0.5);  margin-top: 56px;">
 
     <%@include file="/template/sidebar.jsp" %>
 
@@ -63,29 +65,34 @@
                                         <a href="<c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/>">
                                             <p class="fw-bold mb-1">${listEX.getTitle()}</p>
                                         </a>
-                                        <p class="text-muted mb-0">${listEX.getDescription()}</p> 
+                                        <p class="text-muted mb-0">
+                                            <c:if test="${listEX.getDescription().length() > 30}">
+                                                ${listEX.getDescription().substring(0, 30)}...
+                                            </c:if>
+                                            <c:if test="${listEX.getDescription().length() < 30}">
+                                                ${listEX.getDescription()}
+                                            </c:if>
+                                        </p> 
                                     </td>
                                     <td>${listEX.getDuration()} minute(s)</td>
                                     <td>${sdf.format(listEX.getStartAt())}</td>
-                                    <c:if test="${listEX.getEndAt() == null}">
-                                        <td>${listEX.getEndAt()}</td>
-                                    </c:if>
-                                    <c:if test="${listEX.getEndAt() != null}">
-                                        <td>${sdf.format(listEX.getEndAt())}</td>
-                                    </c:if>
-
+                                    <td>
+                                        <c:if test="${listEX.getEndAt() != null}">
+                                            ${sdf.format(listEX.getEndAt())}
+                                        </c:if>
+                                    </td>
                                     <!--Action-->
                                     <!--Teacher: Edit & Delete exercise-->
                                     <c:if test="${account.getRole() == 1}">
                                         <td>
                                             <div class="justify-content-center gap-1">
-                                                <a href="<c:url value="/teacher/class/exercise/?testid=${testid}"/>" 
+                                                <a href="<c:url value="/${baseURL}/?testid=${testid}"/>" 
                                                    class="btn btn-link btn-sm btn-rounded bg-success text-light"
                                                    style="text-decoration: none">
                                                     Edit
                                                 </a>
                                                 <a onclick="return confirm('Do you want to delete this exercise?')" eq true 
-                                                   ? href="<c:url value="/teacher/class/exercise/delete?code=${code}&testid=${testid}"/>"
+                                                   ? href="<c:url value="/${baseURL}/delete?code=${code}&testid=${testid}"/>"
                                                    :href="" 
                                                    class="btn btn-link btn-sm btn-rounded bg-danger text-light"
                                                    style="text-decoration: none">
@@ -100,7 +107,7 @@
                                             <div class="justify-content-center">
                                                 <c:set var="duration" value="${listEX.getDuration()}"/>
                                                 <a onclick="return startExercise()" 
-                                                   href="<c:url value="/student/class/exercise/do?testid=${testid}"/>"
+                                                   href="<c:url value="/${baseURL}/do?testid=${testid}"/>"
                                                    class="btn btn-link btn-sm btn-rounded bg-primary text-light"
                                                    style="text-decoration: none">
                                                     Start
