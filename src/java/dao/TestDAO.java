@@ -50,12 +50,6 @@ public ArrayList<Test> getListTitle(UUID classId) throws Exception {
         );
     }
 
-    public Test getTestById(UUID testid) throws Exception {
-        String query = "select * from test\n"
-                + "where test_id = ?";
-        return selectOne(query, Util.UUIDToByteArray(testid));
-    }
-
     public ArrayList<Test> viewListTest(UUID classid) throws Exception {
         String query = "select * from test\n"
                 + "where class_id = ?\n"
@@ -90,7 +84,6 @@ public ArrayList<Test> getListTitle(UUID classId) throws Exception {
         return test;
     }
 
-
     public ArrayList<Test> getListTitleTest(UUID classId) throws Exception {
         String query = "select * from online_learning.test\n"
                 + "where class_id = ?";
@@ -122,5 +115,4 @@ public ArrayList<Test> getListTitle(UUID classId) throws Exception {
     public static void main(String[] args) throws Exception {
 
     }
-
 }
