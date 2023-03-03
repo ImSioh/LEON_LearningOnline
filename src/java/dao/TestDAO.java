@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class TestDAO extends AbstractDAO<Test> {
-
+public ArrayList<Test> getListTitle(UUID classId) throws Exception {
+         String query = "select * from test where class_id = ?";
+         return selectMany(query, Util.UUIDToByteArray(classId));
+    }
+    
     public int insertTest(Test test) throws Exception {
         String query = "INSERT INTO test (test_id, class_id, resource_id, title, description, start_at, end_at, duration, allow_review, create_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return update(
@@ -46,12 +50,6 @@ public class TestDAO extends AbstractDAO<Test> {
         );
     }
 
-    public Test getTestById(UUID testid) throws Exception {
-        String query = "select * from test\n"
-                + "where test_id = ?";
-        return selectOne(query, Util.UUIDToByteArray(testid));
-    }
-
     public ArrayList<Test> viewListTest(UUID classid) throws Exception {
         String query = "select * from test\n"
                 + "where class_id = ?\n"
@@ -85,7 +83,6 @@ public class TestDAO extends AbstractDAO<Test> {
         }
         return test;
     }
-
 
     public ArrayList<Test> getListTitleTest(UUID classId) throws Exception {
         String query = "select * from online_learning.test\n"
@@ -121,5 +118,4 @@ public class TestDAO extends AbstractDAO<Test> {
     public static void main(String[] args) throws Exception {
 
     }
-
 }

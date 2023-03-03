@@ -8,6 +8,12 @@ import java.util.UUID;
 
 public class AccountDAO extends AbstractDAO<Account> {
 
+    public ArrayList<Account> getListStudentByCode(String classCode) throws Exception {
+        String query = "select a.*  from account as a , enrollment as e , class as c\n"
+                + "where e.account_id= a.account_id and  c.class_id =  e.class_id\n"
+                + "and c.code = ?";
+        return selectMany(query, classCode);
+    }
     public ArrayList<Account> getAccountsInClass(UUID classId) throws Exception {
         String query = "SELECT a.* FROM account a LEFT JOIN enrollment e ON a.account_id = e.account_id WHERE (e.class_id = ? AND e.accepted = TRUE) OR a.account_id = (SELECT c.account_id FROM class c WHERE c.class_id = ?)";
         return selectMany(query, Util.UUIDToByteArray(classId), Util.UUIDToByteArray(classId));
