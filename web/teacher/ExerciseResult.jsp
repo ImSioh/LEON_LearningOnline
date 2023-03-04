@@ -129,9 +129,9 @@
                                                 <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
                                                     Reset
                                                 </a>
-                                                <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
-                                                    View
-                                                </a>
+                                               <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testId}&Sid=${listS.getAccountId()}"/>" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
+                                                        View
+                                                    </a>
                                             </c:if>                                      
                                         </td> 
                                     </tr>
@@ -212,7 +212,7 @@
                                                     <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
                                                         Reset
                                                     </a>
-                                                    <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
+                                                    <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testId}&Sid=${listS.getAccountId()}"/>" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
                                                         View
                                                     </a>
                                                 </c:if>
@@ -296,7 +296,7 @@
                                                     <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
                                                         Reset
                                                     </a>
-                                                    <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
+                                                    <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testId}&Sid=${listS.getAccountId()}"/>" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
                                                         View
                                                     </a>
                                                 </c:if>

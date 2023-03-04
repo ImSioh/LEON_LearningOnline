@@ -29,6 +29,20 @@ public class StudentAnswerDAO extends AbstractDAO<StudentAnswer> {
         return selectMany(query, Util.UUIDToByteArray(id));
     }
 
+    public ArrayList<UUID> getStudentAnswerByQuestionID(UUID TestId, UUID accountID) throws Exception {
+        String query = "SELECT * FROM test t, student_answer stan, question q, account acc\n"
+                + "WHERE stan.question_id = q.question_id \n"
+                + "AND q.test_id = t.test_id\n"
+                + "AND acc.account_id = stan.account_id\n"
+                +"and q.test_id = ? and acc.account_id = ?";
+        ArrayList<StudentAnswer> studentAnswers =  selectMany(query, Util.UUIDToByteArray(TestId), Util.UUIDToByteArray(accountID));
+        ArrayList<UUID> uuids = new ArrayList<>();
+        for (StudentAnswer studentAnswer : studentAnswers) {
+            uuids.add(studentAnswer.getAnswerId());
+        }
+        return uuids;
+    }
+
     @Override
     protected StudentAnswer propMapping(ResultSet rs) throws Exception {
         return new StudentAnswer(
@@ -37,10 +51,9 @@ public class StudentAnswerDAO extends AbstractDAO<StudentAnswer> {
                 Util.ByteArrayToUUID(rs.getBytes("answer_id"))
         );
     }
-    
-    
+
     public static void main(String[] args) throws Exception {
-        System.out.println(new StudentAnswerDAO().getStudentAnswerByQuestionID(UUID.fromString("c42f4ee4-1f4b-469c-a27d-e51f4266262a")));
+        System.out.println(new StudentAnswerDAO().getStudentAnswerByQuestionID(UUID.fromString("b49d77d5-7227-47ea-b6d6-455e6dcb7574"), UUID.fromString("4aff1beb-54ce-46ae-a015-e4614b1fdea2")));
     }
 
 }
