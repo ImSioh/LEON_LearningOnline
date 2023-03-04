@@ -173,6 +173,40 @@
         box-shadow: inset 0 0 0.5rem 0 #05676640;
     }
 
+    .document-resource {
+        margin-top: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        border: 2px solid rgb(216, 220, 240);
+    }
+
+    .document-box {
+        margin-top: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 2px solid rgb(216, 220, 240);
+    }
+
+    .document-item {
+        font-weight: 500;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        border-top: 1px solid rgb(216, 220, 240);
+        position: relative;
+    }
+
+    .document-box > a:first-child .document-item {
+        border: none;
+    }
+
+    .document-box > a {
+        text-decoration: none;
+        color: black;
+    }
+
     @media only screen and (min-width: 992px) {
         .main-container:not(.has-paper) .question-answer-list {
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -197,7 +231,7 @@
             </button>
         </div>
         <div id="quesDetail"></div>
-        <button class="btn btn-primary w-100 mt-3 mb-5" id="create-exercise">
+        <button class="btn btn-primary w-100 mt-3 mb-5" id="submit-test">
             Submit
         </button>
     </div>
@@ -209,94 +243,76 @@
 
     function createElement(element) {
         if (element instanceof HTMLElement) {
-            return element
+            return element;
         }
-        const parent = document.createElement(element.tagName)
-        mergeObject(element, parent)
+        const parent = document.createElement(element.tagName);
+        mergeObject(element, parent);
         if (Array.isArray(element.children))
-            element.children.forEach(child => parent.append(createElement(child)))
-        return parent
+            element.children.forEach(child => parent.append(createElement(child)));
+        return parent;
     }
 
     function mergeObject(source, target) {
         Object.entries(source).forEach(attr => {
             if (attr[0] === 'children' || attr[0] === 'tagName')
-                return
+                return;
             if (attr[0] === 'bind') {
-                attr[1][0][attr[1][1]] = target
+                attr[1][0][attr[1][1]] = target;
             }
             if (Object.prototype.toString.call(attr[1]) === '[object Object]') {
-                mergeObject(attr[1], target[attr[0]])
+                mergeObject(attr[1], target[attr[0]]);
             } else if (Array.isArray(attr[1]) && typeof target[attr[0]] === 'function') {
-                target[attr[0]](...attr[1])
+                target[attr[0]](...attr[1]);
             } else {
-                target[attr[0]] = attr[1]
+                target[attr[0]] = attr[1];
             }
-        })
+        });
     }
 
     async function renderPage(page, parent) {
-        const initWidth = Math.min(Math.max(720, parent.clientWidth - 60), questionPaper.clientHeight)
-        const scale = (initWidth * 1.5) / page.getViewport({scale: 1}).width
-        const viewport = page.getViewport({scale: scale})
-        const canvas = document.createElement('canvas')
-        canvas.height = viewport.height
-        canvas.width = viewport.width
-        canvas.style.width = initWidth + 'px'
+        const initWidth = Math.min(Math.max(720, parent.clientWidth - 60), questionPaper.clientHeight);
+        const scale = (initWidth * 1.5) / page.getViewport({scale: 1}).width;
+        const viewport = page.getViewport({scale: scale});
+        const canvas = document.createElement('canvas');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        canvas.style.width = initWidth + 'px';
         const renderContext = {
             canvasContext: canvas.getContext('2d'),
             viewport: viewport
-        }
-        const renderTask = await page.render(renderContext)
+        };
+        const renderTask = await page.render(renderContext);
         parent.append(createElement({
             tagName: 'div',
             className: 'd-flex',
             style: 'box-shadow: 0 0 10px rgb(0 0 0 / 50%); margin-top: ' + (page.pageNumber != 1 ? 30 : 0) + 'px;',
             children: [canvas]
-        }))
+        }));
     }
 
     function renderPdf(data) {
         pdfjsLib.getDocument(data).promise.then(async pdf => {
-            const totalPages = pdf.numPages
+            const totalPages = pdf.numPages;
             const pdfWrapper = createElement({
                 tagName: 'div',
                 className: 'd-flex flex-column align-items-center w-100',
                 style: 'padding: 30px;'
-            })
-            questionPaper.append(pdfWrapper)
+            });
+            questionPaper.append(pdfWrapper);
             for (var i = 1; i <= totalPages; i++) {
-                await renderPage(await pdf.getPage(i), pdfWrapper)
+                await renderPage(await pdf.getPage(i), pdfWrapper);
             }
         }).catch(reason => {
-            console.warn(reason)
-        })
+            console.warn(reason);
+        });
     }
 
     function renderDocx(data) {
-        console.log(docx)
-        docx.renderAsync(data, questionPaper)
+        console.log(docx);
+        docx.renderAsync(data, questionPaper);
     }
 
-    const questionPaper = document.getElementById('question-paper')
-
-    let mimeType = ''
-
-
-    var durationTime = ${test.getDuration()};
-    var countDownDate = new Date().getTime() + durationTime * 60 * 1000;
-    var x = setInterval(function () {
-        var now = new Date().getTime();
-        var distance = countDownDate - now;
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
-        if (distance < 0) {
-            clearInterval(x);
-            document.getElementById("countdown").innerHTML = "Time Up!";
-        }
-    }, 1000);
-
+    const questionPaper = document.getElementById('question-paper');
     function numberToLetter(num) {
         if (num <= 26) {
             return String.fromCharCode(64 + num);
@@ -307,6 +323,8 @@
         }
     }
 
+
+//-----------------------------------DISPLAY QUESTION ----------------------------------------
     var testObj = "${json}";
     testObj = JSON.parse(testObj);
     var quesDetail = document.getElementById("quesDetail");
@@ -316,14 +334,30 @@
     var prev = document.getElementById("prev");
     var next = document.getElementById("next");
     var quesIndex = 0;
+    const rasterType = [
+        'image/png',
+        'image/jpeg',
+        'image/bmp',
+        'image/gif',
+        'image/tiff',
+        'image/webp',
+        'image/avif'
+    ];
+
+    var endDate = new Date(${endTime});
+
+
 
 
 
     testObj.questions.forEach(function (x, indexX) {
 
-        var tmp = createElement({
+        var questionContent = createElement({
             tagName: "div",
             className: "question p-3 pt-4 rounded-3 bg-white mt-4",
+            dataset: {
+                id: x.questionId
+            },
             children: [
                 {
                     tagName: "p",
@@ -344,14 +378,37 @@
                                         tagName: "p",
                                         className: "question-content",
                                         textContent: x.content
-                                    })
+                                    });
+
                                 }
                                 if (x.resource) {
-                                    abc.push({
-                                        tagName: "div",
-                                        className: "img-resource",
-                                        style: "background-image: url('" + <c:url value="/"></c:url> + x.resource.url.substring(1) + "');"
-                                    })
+                                    if (rasterType.includes(x.resource.mimeType)) {
+                                        abc.push({
+                                            tagName: "div",
+                                            className: "img-resource",
+                                            style: "background-image: url('" + <c:url value="/"></c:url> + x.resource.url.substring(1) + "');"
+                                        });
+                                    } else {
+                                        abc.push({
+                                            tagName: "div",
+                                            className: "document-box",
+                                            children: [
+                                                {
+                                                    tagName: "a",
+                                                    className: "text-decoration-none text-black text-truncate",
+                                                    href: "<c:url value="/"></c:url>" + x.resource.url.substring(1),
+                                                    download: x.resource.url.split("/").pop(),
+                                                    children: [
+                                                        {
+                                                            tagName: "div",
+                                                            className: "document-item text-truncate d-block",
+                                                            textContent: x.resource.url.split("/").pop()
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        });
+                                    }
                                 }
                                 return abc;
                             })()
@@ -363,6 +420,9 @@
                                 return {
                                     tagName: "div",
                                     className: "question-answer p-3 pt-4 mt-3",
+                                    dataset: {
+                                        id: answer.answerId
+                                    },
                                     children: [
                                         {
                                             tagName: "p",
@@ -375,11 +435,33 @@
                                             children: (() => {
                                                 var abc = [];
                                                 if (answer.resource) {
-                                                    abc.push({
-                                                        tagName: "div",
-                                                        className: "img-resource",
-                                                        style: "background-image: url('" + <c:url value="/"></c:url> + answer.resource.url.substring(1) + "');"
-                                                    })
+                                                    if (rasterType.includes(answer.resource.mimeType)) {
+                                                        abc.push({
+                                                            tagName: "div",
+                                                            className: "img-resource",
+                                                            style: "background-image: url('" + <c:url value="/"></c:url> + answer.resource.url.substring(1) + "');"
+                                                        });
+                                                    } else {
+                                                        abc.push({
+                                                            tagName: "div",
+                                                            className: "document-box",
+                                                            children: [
+                                                                {
+                                                                    tagName: "a",
+                                                                    className: "text-decoration-none text-black text-truncate",
+                                                                    href: "<c:url value="/"></c:url>" + answer.resource.url.substring(1),
+                                                                    download: answer.resource.url.split("/").pop(),
+                                                                    children: [
+                                                                        {
+                                                                            tagName: "div",
+                                                                            className: "document-item text-truncate d-block",
+                                                                            textContent: answer.resource.url.split("/").pop()
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        });
+                                                    }
                                                 }
                                                 return abc;
                                             })()
@@ -390,14 +472,13 @@
                                             textContent: answer.content
                                         }
                                     ]
-                                }
+                                };
                             })
                         }
                     ]
                 }
             ]
-        })
-
+        });
         var questionNav = createElement({
             tagName: "div",
             children: [
@@ -407,64 +488,121 @@
                     textContent: (indexX + 1),
                     onclick: () => {
                         quesDetail.innerHTML = null;
-                        quesDetail.append(tmp)
+                        quesDetail.append(questionContent);
                     }
 
                 }
             ]
         });
-
         quesNav.append(questionNav);
-        questionElement.push(tmp);
+        questionElement.push(questionContent);
     });
-
-    quesNav.children[0].children[0].click()
-
-
-
+    quesNav.children[0].children[0].click();
+    let mimeType = '';
     if (testObj.resource) {
         hasPaper.classList.add("has-paper");
         fetch('<c:url value="/"/>' + testObj.resource.url.substring(1))
                 .then(response => {
-                    mimeType = response.headers.get('Content-Type')
-                    return response.arrayBuffer()
+                    mimeType = response.headers.get('Content-Type');
+                    return response.arrayBuffer();
                 })
                 .then(data => {
-                    console.log(data)
+                    console.log(data);
                     if (mimeType === 'application/pdf') {
-                        renderPdf(data)
+                        renderPdf(data);
                     } else if (mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                        renderDocx(data)
+                        renderDocx(data);
                     }
-                })
+                });
     }
-    
-    function quesbtn(){
-        if(quesIndex === 0){
+
+
+//    ------------------Manage BTN---------------------
+    function quesbtn() {
+        if (quesIndex === 0) {
             prev.disabled = true;
-        }else{
+        } else {
             prev.disabled = false;
         }
-        if(quesIndex === questionElement.length-1){
+        if (quesIndex === questionElement.length - 1) {
             next.disabled = true;
-        }else{
+        } else {
             next.disabled = false;
         }
     }
-    
-    
+
+
     prev.onclick = () => {
         quesNav.children[--quesIndex].children[0].click();
         quesbtn();
     };
-    
     next.onclick = () => {
         quesNav.children[++quesIndex].children[0].click();
         quesbtn();
     };
-    
-    quesbtn()
+    quesbtn();
 
+
+
+
+
+    questionElement.forEach(ques => {
+        ques.addEventListener('click', (e) => {
+            var ans = e.target.closest(".question-answer");
+            if (!ans)
+                return;
+            ans.classList.toggle('active');
+        });
+    });
+
+
+
+
+
+    var durationTime = testObj.duration;
+    const startTime = Date.now();
+    const countdownDuration = endDate.getTime() - startTime;
+    const countdownElement = document.getElementById('countdown');
+
+    if (durationTime !== 0) {
+        function timeCountdown() {
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = countdownDuration - elapsedTime;
+            if (remainingTime <= 0) {
+                countdownElement.innerHTML = 'Time is up!';
+            } else {
+                const remainingMinutes = Math.floor(remainingTime / 1000 / 60);
+                const remainingSeconds = Math.floor((remainingTime / 1000) % 60);
+                countdownElement.innerHTML = remainingMinutes + "m " + remainingSeconds + "s";
+                requestAnimationFrame(timeCountdown);
+            }
+        }
+        requestAnimationFrame(timeCountdown);
+    } else {
+        countdownElement.innerHTML = 'Time is not required!';
+    }
+
+
+    var btnSubmit = document.getElementById("submit-test");
+    btnSubmit.addEventListener('click', function () {
+        var studentAnswer = [];
+        questionElement.forEach(function (ques) {
+            var r = [...ques.querySelectorAll(".question-answer.active")];
+            studentAnswer.push(...r.map(ans => ({
+                    accountId: "${account.accountId}",
+                    questionId: ques.dataset.id,
+                    answerId: ans.dataset.id
+                })));
+        });
+        fetch("<c:url value="/student/class/exercise/do?testid=${param.testid}"/>", {
+            method: "POST",
+            body: JSON.stringify(studentAnswer)
+        }).then(resp => {
+            if (resp.ok) {
+                window.location.replace("<c:url value="/student/class/exercise?code=${code}"/>");
+            }
+        });
+    });
 
 </script>
 <c:import url="../template/footer.jsp" />

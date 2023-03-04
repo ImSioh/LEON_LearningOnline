@@ -130,7 +130,7 @@
                                             <div class="justify-content-center">
                                                 <c:set var="duration" value="${listEX.getDuration()}"/>
                                                 <a onclick="return startExercise()" 
-                                                   href="<c:url value="/${baseURL}/do?testid=${testid}"/>"
+                                                   href="<c:url value="/student/class/exercise/do?code=${code}&testid=${testid}"/>"
                                                    class="btn btn-link btn-sm btn-rounded bg-primary text-light"
                                                    style="text-decoration: none">
                                                     Start

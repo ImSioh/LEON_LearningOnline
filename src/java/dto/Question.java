@@ -77,7 +77,7 @@ public class Question {
             String.valueOf(resourceId),
             String.valueOf(questionOrder),
             content
-        }) + ")";
+        }) + ")\n";
     }
 
     @Override

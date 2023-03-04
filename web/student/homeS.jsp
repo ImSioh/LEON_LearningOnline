@@ -35,34 +35,30 @@
                             </thead>
                             <tbody>
                                 <c:forEach items="${co}" var="co">
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center"> 
-                                                <div >
-                                                    <c:forEach items="${testDAO.getListTitleTest(co.getClassId())}" var="testD">
-                                                        <a href="" style="padding-right: 280px; text-decoration: none">
-                                                            <p class="fw-bold mb-1">${testD.getTitle()}</p>
-                                                            <p class="text-muted mb-0">not done</p>
-                                                        </a>
-                                                    </c:forEach>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="fw-normal mb-1" style="padding-right: 100px">${co.getName()}</p>
-                                        </td>
-                                        <td>
-
-                                            <c:forEach items="${testDAO.getListTitleTest(co.getClassId())}" var="testD">
-                                                
-                                                <div  style="padding: 22px 0px">
-                                                    <span class="fw-normal mb-1">${testD.getEndAt()}</span><br>
-                                                </div>
-                                            </c:forEach>
-
-                                        </td>  
-
-                                    </tr>
+                                    <c:forEach items="${testDAO.getListTitleTest(co.getClassId())}" var="testD">
+                                        <c:if test="${dotestDAO.getDoTest(accL.getAccountId(), testD.getTestId()) == null || dotestDAO.getDoTest(accL.getAccountId(), testD.getTestId()).getFinishTime() == null}">
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center"> 
+                                                        <div >
+                                                            <a href="<c:url value="/student/class/exercise?code=${co.getCode()}"/>" style="padding-right: 280px; text-decoration: none">
+                                                                <p class="fw-bold mb-1">${testD.getTitle()}</p>
+                                                                <p class="text-muted mb-0">not done</p>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <p class="fw-normal mb-1" style="padding-right: 100px">${co.getName()}</p>
+                                                </td>
+                                                <td>
+                                                    <div  style="padding: 22px 0px">
+                                                        <span class="fw-normal mb-1">${testD.getEndAt()}</span><br>
+                                                    </div>
+                                                </td>  
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
                                 </c:forEach>
                             </tbody>
                         </table>

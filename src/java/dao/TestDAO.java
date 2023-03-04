@@ -10,6 +10,11 @@ import java.util.UUID;
 
 public class TestDAO extends AbstractDAO<Test> {
 
+    public ArrayList<Test> getListTitle(UUID classId) throws Exception {
+        String query = "select * from test where class_id = ?";
+        return selectMany(query, Util.UUIDToByteArray(classId));
+    }
+
     public int insertTest(Test test) throws Exception {
         String query = "INSERT INTO test (test_id, class_id, resource_id, title, description, start_at, end_at, duration, allow_review, create_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return update(
@@ -81,8 +86,10 @@ public class TestDAO extends AbstractDAO<Test> {
     }
 
     public ArrayList<Test> getListTitleTest(UUID classId) throws Exception {
-        String query = "select * from online_learning.test\n"
-                + "where class_id = ?";
+        String query = "select distinct t.* from online_learning.test t\n"
+                + "where ((end_at - now()) > 0 OR end_at is null)"
+                
+                + " and class_id = ?";
         return selectMany(query, Util.UUIDToByteArray(classId));
     }
 
@@ -102,7 +109,7 @@ public class TestDAO extends AbstractDAO<Test> {
                 rs.getNString("description"),
                 rs.getTimestamp("start_at"),
                 rs.getTimestamp("end_at"),
-                rs.getDouble("duration"),
+                rs.getInt("duration"),
                 rs.getBoolean("allow_review"),
                 rs.getTimestamp("create_time")
         );
