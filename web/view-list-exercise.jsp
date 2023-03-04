@@ -69,7 +69,8 @@
                                 <c:set var="testid" value="${listEX.getTestId()}"/>
                                 <tr>                          
                                     <td>
-                                        <a href="<c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/>">
+                                        <a href="  <c:if test="${account.getRole() == 1}"><c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/></c:if>
+                                           <c:if test="${account.getRole() == 2}"><c:url value="/student/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/></c:if>">
                                             <p class="fw-bold mb-1">
                                                 <c:if test="${listEX.getTitle().length() > 15}">
                                                     ${listEX.getTitle().substring(0, 15)}...
