@@ -68,7 +68,7 @@ public class DoTestDAO extends AbstractDAO<DoTest> {
                 rs.getObject("score", Double.class)
         );
     }
-
+    
     public ArrayList<DoTest> getListDoTestByAIdAndCId(UUID accId, UUID testId) throws Exception {
         String query = "select * from online_learning.do_test\n"
                 + "where account_id = ? and test_id = ?";
