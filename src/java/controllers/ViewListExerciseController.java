@@ -14,8 +14,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 @WebServlet(name = "ViewListExerciseController", urlPatterns = {"/teacher/class/exercise", "/student/class/exercise"})
@@ -40,6 +43,9 @@ public class ViewListExerciseController extends HttpServlet {
             listTest = TD.viewListTest(cid);
             ArrayList<DoTest> listDoTest = new ArrayList<>();
 
+//            Date date = new Date();
+            Timestamp now = Timestamp.from(Instant.now());
+            request.setAttribute("now", now);
             SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd HH:mm");
             request.setAttribute("sdf", sdf);
 

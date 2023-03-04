@@ -55,8 +55,7 @@
                                    style="cursor: pointer;text-decoration: none"></a>  
                                 Finish Time  
                             </th>
-                            <th>Time Remaining</th>
-                                <c:if test="${account.getRole() == 2}">
+                            <c:if test="${account.getRole() == 2}">
                                 <th>Submit Time</th>
                                 <th>Score</th>
                                 </c:if>
@@ -69,33 +68,40 @@
                                 <c:set var="testid" value="${listEX.getTestId()}"/>
                                 <tr>                          
                                     <td>
-                                        <a href="<c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/>">
+                                        <a href="<c:url value="/${role}/class/exercise/detail?code=${code}&testid=${testid}"/>">
                                             <p class="fw-bold mb-1">
-                                                <c:if test="${listEX.getTitle().length() > 15}">
-                                                    ${listEX.getTitle().substring(0, 15)}...
+                                                <c:set value="${listEX.getTitle()}" var="title"/>
+                                                <c:if test="${title.length() > 25}">
+                                                    ${title.substring(0, 25)}...
                                                 </c:if>
-                                                <c:if test="${listEX.getTitle().length() <= 15}">
-                                                    ${listEX.getTitle()}
+                                                <c:if test="${title.length() <= 25}">
+                                                    ${title}
                                                 </c:if>
                                             </p>
                                         </a>
                                         <p class="text-muted mb-0">
-                                            <c:if test="${listEX.getDescription().length() > 15}">
-                                                ${listEX.getDescription().substring(0, 15)}...
+                                            <c:set value="${listEX.getDescription()}" var="description"/>
+                                            <c:if test="${description.length() > 25}">
+                                                ${description.substring(0, 25)}...
                                             </c:if>
-                                            <c:if test="${listEX.getDescription().length() <= 15}">
-                                                ${listEX.getDescription()}
+                                            <c:if test="${description.length() <= 25}">
+                                                ${description}
                                             </c:if>
                                         </p> 
                                     </td>
-                                    <td><fmt:formatNumber value="${listEX.getDuration()}" pattern="0"/>m</td>
-                                    <td>${sdf.format(listEX.getStartAt())}</td>
                                     <td>
-                                        <c:if test="${listEX.getEndAt() != null}">
-                                            ${sdf.format(listEX.getEndAt())}
+                                        <c:set var="duration" value="${listEX.getDuration()}"/>
+                                        <fmt:formatNumber value="${duration}" pattern="0"/> min</td>
+                                    <td>
+                                        <c:set value="${listEX.getStartAt()}" var="start"/>
+                                        ${sdf.format(start)}
+                                    </td>
+                                    <td>
+                                        <c:set value="${listEX.getEndAt()}" var="end"/>
+                                        <c:if test="${end != null}">
+                                            ${sdf.format(end)}
                                         </c:if>
                                     </td>
-                                    <td>5m 0s</td>
                                     <c:if test="${account.getRole() == 2}">
                                         <td>
                                             <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() != null}">
@@ -104,12 +110,30 @@
                                         </td>
                                         <td><fmt:formatNumber value="${DoTestDAO.getDoTest(aid, testid).getScore()}" pattern="0.00"/></td>
                                     </c:if>
-                                    <!--Action-->
-                                    <!--Teacher: Edit & Delete exercise-->
+
+                                    <c:set value="${(now.time - start.time)/60000}" var="elapse"/>
+
+                                    <%--<c:choose>--%>
+                                        <%--<c:when test="${now < start}">--%>
+                                            <!--<td>chua bat dau = ${sdf.format(start)}</td>-->
+                                        <%--</c:when>--%>
+                                        <%--<c:when test="${start <= now && (elapse <= duration)}">--%>
+                                            <!--<td>dang lam = ${sdf.format(now)}</td>-->
+                                        <%--</c:when>--%>
+                                        <%--<c:when test="${elapse > duration}">--%>
+                                            <!--<td>da xong = ${sdf.format(elapse)}</td>-->
+                                        <%--</c:when>--%>
+                                    <%--</c:choose>--%>
+
                                     <c:if test="${account.getRole() == 1}">
                                         <td>
                                             <div class="justify-content-center gap-1">
-                                                <a href="<c:url value="/${baseURL}?testid=${testid}"/>" 
+                                                <a href="<c:url value="/${role}/class/exercise/detail?code=${code}&testid=${testid}"/>" 
+                                                   class="btn btn-link btn-sm btn-rounded bg-primary text-light"
+                                                   style="text-decoration: none">
+                                                    View
+                                                </a>
+                                                <a href="<c:url value="/${baseURL}/edit?code=${code}&testid=${testid}"/>" 
                                                    class="btn btn-link btn-sm btn-rounded bg-success text-light"
                                                    style="text-decoration: none">
                                                     Edit
@@ -128,8 +152,8 @@
                                     <c:if test="${account.getRole() == 2}">
                                         <td>
                                             <div class="justify-content-center">
-                                                <c:set var="duration" value="${listEX.getDuration()}"/>
-                                                <a onclick="return startExercise()" 
+
+                                                <a onclick="return startExercise(${duration})" 
                                                    href="<c:url value="/student/class/exercise/do?code=${code}&testid=${testid}"/>"
                                                    class="btn btn-link btn-sm btn-rounded bg-primary text-light"
                                                    style="text-decoration: none">
@@ -210,8 +234,8 @@
         }
     }
 
-    function startExercise() {
-        msg = 'The test has a time limit of ' + ${duration} + ' minutes.\n\
+    function startExercise(duration) {
+        msg = 'The test has a time limit of ' + duration + ' min.\n\
 You must submit your exercise before time runs out..\n\
 Are you sure you want to get started now?'
         if (confirm(msg)) {
