@@ -3,31 +3,25 @@ package controllers.teacher;
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
 import dao.DoTestDAO;
-import dao.EnrollmentDAO;
 import dao.TestDAO;
 import dto.Account;
 
 import dto.ClassObject;
 import dto.DoTest;
-import dto.Enrollment;
 import dto.Test;
-import helpers.FormValidator;
-import helpers.Util;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 @WebServlet(name = "ExportToExcelController", urlPatterns = {"/teacher/class/export"})
 public class ExportToExcelController extends HttpServlet {
@@ -47,19 +41,20 @@ public class ExportToExcelController extends HttpServlet {
             // vnd : câu trúc nhà cung câp -> sanpham duoc cong khai
             // application : kieu chinh , sau dau / la kieu phu : ms-excel
             resp.setContentType("application/vnd.ms-excel");
-
             //tieu de phan hoi - duoi dang tep tin dinh kem
-            resp.setHeader("Content-Disposition", "attachment;filename=ListScoreInClass.xls");
+            resp.setHeader("Content-Disposition", "attachment;filename=ListScore.xlsx");
+            Workbook workbook = new XSSFWorkbook();
 
-            HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet sheet = workbook.createSheet("Score");
+//            HSSFWorkbook workbook = new HSSFWorkbook();   
+            Sheet sheet = workbook.createSheet("Employee");
+//            HSSFSheet sheet = workbook.createSheet("Score");
 
             int rowNo = 0;
             int cellnum = 0;
 
             //name cell 1
-            HSSFRow rowhead = sheet.createRow(rowNo++);
-            HSSFCell cell = rowhead.createCell(cellnum);
+            Row rowhead = sheet.createRow(rowNo++);
+            Cell cell = rowhead.createCell(cellnum);
             cell.setCellValue("Name");
             cellnum++;
 
@@ -83,7 +78,7 @@ public class ExportToExcelController extends HttpServlet {
                     cell.setCellValue(dttt.getScore());
                 }
             }
-
+             
             workbook.write(resp.getOutputStream());
             workbook.close();
             return;

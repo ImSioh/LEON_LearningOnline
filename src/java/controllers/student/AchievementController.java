@@ -19,6 +19,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,7 +57,7 @@ public class AchievementController extends HttpServlet {
             DoTestDAO td2 = new DoTestDAO();
             ArrayList<Test> testD2 = new ArrayList<>();
             ArrayList<Double> db = new ArrayList<>();
-            
+            DecimalFormat formatter = new DecimalFormat("#0.0");
             for (Enrollment e : enrollment) {
                 ClassObject clobj = new ClassObjectDAO().getClassById(e.getClassId());
                 co.add(clobj);
@@ -70,6 +71,7 @@ public class AchievementController extends HttpServlet {
             if (accL.getRole() == 2) {
                 req.setAttribute("accL", accL);
                 req.setAttribute("db", db);
+                req.setAttribute("formatter", formatter);
                 req.setAttribute("accID", accL.getAccountId());
                 req.setAttribute("testDAO", new TestDAO());
                 req.setAttribute("DoTestDAO", new DoTestDAO());
