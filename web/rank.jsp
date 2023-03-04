@@ -1,4 +1,3 @@
-
 <%@include file= "/template/header.jsp" %>
 
 <c:set var="code" value="${classObject.getCode()}"/>
@@ -11,20 +10,19 @@
 
     <div class="content-main d-flex justify-content-center container" style="margin-left: 250px;">
         <div class="card col-md-9 mt-4 row" style="height: fit-content;">
-            <div class="" style="display: flex; margin-top: 30px; margin-bottom: 0px;">
+            <div style="display: flex; margin-top: 30px; margin-bottom: 0px;">
                 <!--CREATE-->
-                <div style="width: 200px; margin-left: 20px;">
+                <div style="margin-left: 20px;">
                     <c:if test="${account.getRole() == 1}">
-                        <a href="<c:url value="/teacher/class/exercise/create?code=${code}"/>"
-                           class="btn btn-primary text-light">
-                            <i class="fa-solid fa-plus"></i>
-                            Create exercise
+                        <a href="<c:url value="/teacher/class/export?code=${code}"/>"
+                           class="btn btn-primary text-light" style="width: max-content">
+                            Export Score
                         </a>
                     </c:if>
                 </div>
                 <!--SEARCH--> 
-                <div style="display: flex; margin-left: 21em; margin-right: 0">
-                    <div class="form-outline" style="width: 300px;">
+                <div style="display: flex; position: relative; right: 20px; left: 50%;">
+                    <div class="form-outline col-md-10"  style="width: 200px;">
                         <input type="hidden" name="code" value="${code}">
                         <input type="text" class="form-control" id="myInput" name="search" value="${search}"
                                onkeyup="searchTable()">
@@ -65,7 +63,14 @@
                                         <a href="<c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/>">
                                             <p class="fw-bold mb-1">${listEX.getTitle()}</p>
                                         </a>
-                                        <p class="text-muted mb-0">${listEX.getDescription()}</p> 
+                                        <p class="text-muted mb-0">
+                                            <c:if test="${listEX.getDescription().length() > 30}">
+                                                ${listEX.getDescription().substring(0, 30)}...
+                                            </c:if>
+                                            <c:if test="${listEX.getDescription().length() < 30}">
+                                                ${listEX.getDescription()}
+                                            </c:if>
+                                        </p> 
                                     </td>
                                     <td>${listEX.getDuration()} minute(s)</td>
                                     <td>${sdf.format(listEX.getStartAt())}</td>
@@ -79,7 +84,7 @@
                                     <c:if test="${account.getRole() == 1}">
                                         <td>
                                             <div class="justify-content-center gap-1">
-                                                <a href="<c:url value="/${baseURL}/?testid=${testid}"/>" 
+                                                <a href="<c:url value="/${baseURL}?testid=${testid}"/>" 
                                                    class="btn btn-link btn-sm btn-rounded bg-success text-light"
                                                    style="text-decoration: none">
                                                     Edit
@@ -177,17 +182,6 @@
                     }
                 }
             }
-        }
-    }
-
-    function startExercise() {
-        msg = 'The test has a time limit of ' + ${duration} + ' minutes.\n\
-You must submit your exercise before time runs out..\n\
-Are you sure you want to get started now?'
-        if (confirm(msg)) {
-            return true;
-        } else {
-            return false;
         }
     }
 </script>

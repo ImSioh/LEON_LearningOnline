@@ -5,6 +5,7 @@ import helpers.Util;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.ArrayList;
 
 public class DoTestDAO extends AbstractDAO<DoTest> {
 
@@ -68,11 +69,10 @@ public class DoTestDAO extends AbstractDAO<DoTest> {
                 rs.getObject("score", Double.class)
         );
     }
-
+    
     public ArrayList<DoTest> getListDoTestByAIdAndCId(UUID accId, UUID testId) throws Exception {
         String query = "select * from online_learning.do_test\n"
                 + "where account_id = ? and test_id = ?";
         return selectMany(query, Util.UUIDToByteArray(accId), Util.UUIDToByteArray(testId));
     }
-
 }

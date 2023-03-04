@@ -41,7 +41,7 @@
                                                 <td>
                                                     <div class="d-flex align-items-center"> 
                                                         <div >
-                                                            <a href="" style="padding-right: 280px; text-decoration: none">
+                                                            <a href="<c:url value="/student/class/exercise?code=${co.getCode()}"/>" style="padding-right: 280px; text-decoration: none">
                                                                 <p class="fw-bold mb-1">${testD.getTitle()}</p>
                                                                 <p class="text-muted mb-0">not done</p>
                                                             </a>

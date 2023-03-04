@@ -36,12 +36,6 @@ public class StatisticRankController extends HttpServlet {
             ArrayList<Test> viewTest = new ArrayList<>();
             viewTest = TD.viewListTest(cid);
 
-            for (Test test : viewTest) {
-                if (test.getDescription().length() > 50) {
-                    test.setDescription(test.getDescription().substring(0, 50) + "...");
-                }
-            }
-
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             request.setAttribute("sdf", sdf);
             request.setAttribute("classObject", classObject);
