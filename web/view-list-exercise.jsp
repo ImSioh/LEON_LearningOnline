@@ -68,7 +68,13 @@
                                 <c:set var="testid" value="${listEX.getTestId()}"/>
                                 <tr>                          
                                     <td>
-                                        <a href="<c:url value="/${role}/class/exercise/detail?code=${code}&testid=${testid}"/>">
+                                        <c:if test="${account.getRole() == 1}">
+                                            <a href="<c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/>"
+                                               style="text-decoration: none">
+                                            </c:if>
+                                            <c:if test="${account.getRole() == 2}">
+                                                <a href="" style="text-decoration: none">
+                                            </c:if>
                                             <p class="fw-bold mb-1">
                                                 <c:set value="${listEX.getTitle()}" var="title"/>
                                                 <c:if test="${title.length() > 25}">
@@ -108,59 +114,219 @@
                                                 ${sdf.format(DoTestDAO.getDoTest(aid, testid).getFinishTime())}
                                             </c:if>
                                         </td>
-                                        <td><fmt:formatNumber value="${DoTestDAO.getDoTest(aid, testid).getScore()}" pattern="0.00"/></td>
                                     </c:if>
 
+                                    <!--ACTION-->
                                     <c:set value="${(now.time - start.time)/60000}" var="elapse"/>
 
-                                    <%--<c:choose>--%>
-                                        <%--<c:when test="${now < start}">--%>
-                                            <!--<td>chua bat dau = ${sdf.format(start)}</td>-->
-                                        <%--</c:when>--%>
-                                        <%--<c:when test="${start <= now && (elapse <= duration)}">--%>
-                                            <!--<td>dang lam = ${sdf.format(now)}</td>-->
-                                        <%--</c:when>--%>
-                                        <%--<c:when test="${elapse > duration}">--%>
-                                            <!--<td>da xong = ${sdf.format(elapse)}</td>-->
-                                        <%--</c:when>--%>
-                                    <%--</c:choose>--%>
+                                    <!--NOT START-->
+                                    <c:if test="${now < start}">
+                                        <!--TEACHER: VIEW, EXIT, DELETE EXERCISE-->
+                                        <c:if test="${account.getRole() == 1}">
+                                            <td style="text-align: center">
+                                                <div class="justify-content-center gap-1">
+                                                    <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
+                                                       class="btn btn-link btn-sm btn-rounded bg-primary text-light"
+                                                       style="text-decoration: none">
+                                                        Detail
+                                                    </a>
+                                                    <a href="<c:url value="/${baseURL}/edit?code=${code}&testid=${testid}"/>" 
+                                                       class="btn btn-link btn-sm btn-rounded bg-secondary text-light"
+                                                       style="text-decoration: none">
+                                                        Edit
+                                                    </a>
+                                                    <a onclick="return confirm('Do you want to delete this exercise?')" eq true 
+                                                       ? href="<c:url value="/${baseURL}/delete?code=${code}&testid=${testid}"/>"
+                                                       :href="" 
+                                                       class="btn btn-link btn-sm btn-rounded bg-danger text-light"
+                                                       style="text-decoration: none">
+                                                        Delete
+                                                    </a>
+                                                </div>
+                                            </td>     
+                                        </c:if>
 
-                                    <c:if test="${account.getRole() == 1}">
-                                        <td>
-                                            <div class="justify-content-center gap-1">
-                                                <a href="<c:url value="/${role}/class/exercise/detail?code=${code}&testid=${testid}"/>" 
-                                                   class="btn btn-link btn-sm btn-rounded bg-primary text-light"
-                                                   style="text-decoration: none">
-                                                    View
-                                                </a>
-                                                <a href="<c:url value="/${baseURL}/edit?code=${code}&testid=${testid}"/>" 
-                                                   class="btn btn-link btn-sm btn-rounded bg-success text-light"
-                                                   style="text-decoration: none">
-                                                    Edit
-                                                </a>
-                                                <a onclick="return confirm('Do you want to delete this exercise?')" eq true 
-                                                   ? href="<c:url value="/${baseURL}/delete?code=${code}&testid=${testid}"/>"
-                                                   :href="" 
-                                                   class="btn btn-link btn-sm btn-rounded bg-danger text-light"
-                                                   style="text-decoration: none">
-                                                    Delete
-                                                </a>
-                                            </div>
-                                        </td>     
+                                        <!--STUDENT: NOTHING-->
+                                        <c:if test="${account.getRole() == 2}">
+                                            <td></td> <!--Score-->
+                                            <td></td> <!--Exercise-->
+                                        </c:if>
                                     </c:if>
-                                    <!--Student: Do exercise-->
-                                    <c:if test="${account.getRole() == 2}">
-                                        <td>
-                                            <div class="justify-content-center">
 
-                                                <a onclick="return startExercise(${duration})" 
-                                                   href="<c:url value="/student/class/exercise/do?code=${code}&testid=${testid}"/>"
-                                                   class="btn btn-link btn-sm btn-rounded bg-primary text-light"
-                                                   style="text-decoration: none">
-                                                    Start
-                                                </a>
-                                            </div>
-                                        </td>
+                                    <!--FINISH TIME # NULL-->
+                                    <c:if test="${end != null}">
+                                        <!--DOING-->
+                                        <c:if test="${start <= now && now <= end}">
+                                            <!--TEACHER: VIEW EXERCISE-->
+                                            <c:if test="${account.getRole() == 1}">
+                                                <td style="text-align: center">
+                                                    <div class="justify-content-center gap-1">
+                                                        <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
+                                                           class="btn btn-link btn-sm btn-rounded bg-primary text-light"
+                                                           style="text-decoration: none">
+                                                            Detail
+                                                        </a>
+                                                    </div>
+                                                </td>     
+                                            </c:if>
+
+                                            <!--STUDENT: DO EXERCISE-->
+                                            <c:if test="${account.getRole() == 2}">
+                                                <td></td> <!--Score-->
+                                                <!--Exercise-->
+                                                <td>
+                                                    <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() == null}">
+                                                        <div class="justify-content-center">
+                                                            <a onclick="return startExercise(${duration})" 
+                                                               href="<c:url value="/student/class/exercise/do?code=${code}&testid=${testid}"/>"
+                                                               class="btn btn-link btn-sm btn-rounded bg-primary text-light"
+                                                               style="text-decoration: none">
+                                                                Start
+                                                            </a>
+                                                        </div>
+                                                    </c:if>
+                                                </td>
+                                            </c:if>
+                                        </c:if>
+
+                                        <!--DONE--> 
+                                        <c:if test="${end < now}">
+                                            <!--TEACHER: VIEW, DELETE EXERCISE, VIEW RESULT-->
+                                            <c:if test="${account.getRole() == 1}">
+                                                <td style="text-align: center">
+                                                    <div class="justify-content-center gap-1">
+                                                        <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
+                                                           class="btn btn-link btn-sm btn-rounded bg-primary text-light"
+                                                           style="text-decoration: none">
+                                                            Detail
+                                                        </a>
+                                                        <a href="<c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/>" 
+                                                           class="btn btn-link btn-sm btn-rounded bg-success text-light"
+                                                           style="text-decoration: none">
+                                                            Result
+                                                        </a>
+                                                        <a onclick="return confirm('Do you want to delete this exercise?')" eq true 
+                                                           ? href="<c:url value="/${baseURL}/delete?code=${code}&testid=${testid}"/>"
+                                                           :href="" 
+                                                           class="btn btn-link btn-sm btn-rounded bg-danger text-light"
+                                                           style="text-decoration: none">
+                                                            Delete
+                                                        </a>
+                                                    </div>
+                                                </td>     
+                                            </c:if>
+
+                                            <!--STUDENT: RESULT-->
+                                            <c:if test="${account.getRole() == 2}">
+                                                <!--Score-->
+                                                <td>
+                                                    <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() == null}">
+                                                        N/A
+                                                    </c:if>
+                                                    <fmt:formatNumber value="${DoTestDAO.getDoTest(aid, testid).getScore()}" pattern="0.00"/>
+                                                </td>
+                                                <!--Exercise-->
+                                                <td>
+                                                    <c:if test="${listEX.isAllowReview()}">
+                                                        <div class="justify-content-center">
+                                                            <a href="<c:url value="/student/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>"
+                                                               class="btn btn-link btn-sm btn-rounded bg-success text-light"
+                                                               style="text-decoration: none">
+                                                                Result
+                                                            </a>
+                                                        </div>
+                                                    </c:if>
+                                                </td>
+                                            </c:if>
+                                        </c:if>
+                                    </c:if>
+
+                                    <!--FINISH TIME = NULL-->
+                                    <c:if test="${end == null}">
+                                        <!--DOING-->
+                                        <c:if test="${start <= now && (elapse <= duration)}">
+                                            <!--TEACHER: VIEW EXERCISE-->
+                                            <c:if test="${account.getRole() == 1}">
+                                                <td style="text-align: center">
+                                                    <div class="justify-content-center gap-1">
+                                                        <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
+                                                           class="btn btn-link btn-sm btn-rounded bg-primary text-light"
+                                                           style="text-decoration: none">
+                                                            Detail
+                                                        </a>
+                                                    </div>
+                                                </td>     
+                                            </c:if>
+
+                                            <!--STUDENT: DO EXERCISE-->
+                                            <c:if test="${account.getRole() == 2}">
+                                                <td></td> <!--Score-->
+                                                <!--Exercise-->
+                                                <td>
+                                                    <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() == null}">
+                                                        <div class="justify-content-center">
+                                                            <a onclick="return startExercise(${duration})" 
+                                                               href="<c:url value="/student/class/exercise/do?code=${code}&testid=${testid}"/>"
+                                                               class="btn btn-link btn-sm btn-rounded bg-primary text-light"
+                                                               style="text-decoration: none">
+                                                                Start
+                                                            </a>
+                                                        </div>
+                                                    </c:if>
+                                                </td>
+                                            </c:if>
+                                        </c:if>
+
+                                        <!--DONE--> 
+                                        <c:if test="${elapse > duration}">
+                                            <!--TEACHER: VIEW, DELETE EXERCISE, VIEW RESULT-->
+                                            <c:if test="${account.getRole() == 1}">
+                                                <td style="text-align: center">
+                                                    <div class="justify-content-center gap-1">
+                                                        <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
+                                                           class="btn btn-link btn-sm btn-rounded bg-primary text-light"
+                                                           style="text-decoration: none">
+                                                            Detail
+                                                        </a>
+                                                        <a href="<c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/>" 
+                                                           class="btn btn-link btn-sm btn-rounded bg-success text-light"
+                                                           style="text-decoration: none">
+                                                            Result
+                                                        </a>
+                                                        <a onclick="return confirm('Do you want to delete this exercise?')" eq true 
+                                                           ? href="<c:url value="/${baseURL}/delete?code=${code}&testid=${testid}"/>"
+                                                           :href="" 
+                                                           class="btn btn-link btn-sm btn-rounded bg-danger text-light"
+                                                           style="text-decoration: none">
+                                                            Delete
+                                                        </a>
+                                                    </div>
+                                                </td>     
+                                            </c:if>
+
+                                            <!--STUDENT: RESULT-->
+                                            <c:if test="${account.getRole() == 2}">
+                                                <!--Score-->
+                                                <td>
+                                                    <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() == null}">
+                                                        N/A
+                                                    </c:if>
+                                                    <fmt:formatNumber value="${DoTestDAO.getDoTest(aid, testid).getScore()}" pattern="0.00"/>
+                                                </td>
+                                                <!--Exercise-->
+                                                <td>
+                                                    <c:if test="${listEX.isAllowReview()}">
+                                                        <div class="justify-content-center">
+                                                            <a href="<c:url value="/student/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>"
+                                                               class="btn btn-link btn-sm btn-rounded bg-success text-light"
+                                                               style="text-decoration: none">
+                                                                Result
+                                                            </a>
+                                                        </div>
+                                                    </c:if>
+                                                </td>
+                                            </c:if>
+                                        </c:if>
                                     </c:if>
                                 </tr>
                             </c:if>

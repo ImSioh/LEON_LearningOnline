@@ -28,6 +28,8 @@ public class AnswerDAO extends AbstractDAO<Answer> {
         String query = "select * from answer where question_id = ? order by answer_order";
         return selectMany(query, Util.UUIDToByteArray(id));
     }
+    
+   
 
     @Override
     protected Answer propMapping(ResultSet rs) throws Exception {
