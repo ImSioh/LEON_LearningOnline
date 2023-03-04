@@ -556,33 +556,6 @@
     });
 
 
-
-
-
-    var durationTime = testObj.duration;
-    const startTime = Date.now();
-    const countdownDuration = endDate.getTime() - startTime;
-    const countdownElement = document.getElementById('countdown');
-
-    if (durationTime !== 0) {
-        function timeCountdown() {
-            const elapsedTime = Date.now() - startTime;
-            const remainingTime = countdownDuration - elapsedTime;
-            if (remainingTime <= 0) {
-                countdownElement.innerHTML = 'Time is up!';
-            } else {
-                const remainingMinutes = Math.floor(remainingTime / 1000 / 60);
-                const remainingSeconds = Math.floor((remainingTime / 1000) % 60);
-                countdownElement.innerHTML = remainingMinutes + "m " + remainingSeconds + "s";
-                requestAnimationFrame(timeCountdown);
-            }
-        }
-        requestAnimationFrame(timeCountdown);
-    } else {
-        countdownElement.innerHTML = 'Time is not required!';
-    }
-
-
     var btnSubmit = document.getElementById("submit-test");
     btnSubmit.addEventListener('click', function () {
         var studentAnswer = [];
@@ -604,6 +577,33 @@
         });
     });
 
+
+    var durationTime = testObj.duration;
+    const startTime = Date.now();
+    const countdownDuration = endDate.getTime() - startTime;
+    const countdownElement = document.getElementById('countdown');
+
+    if (durationTime !== 0) {
+        function timeCountdown() {
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = countdownDuration - elapsedTime;
+            if (remainingTime <= 0) {
+                btnSubmit.click();
+            } else {
+                const remainingMinutes = Math.floor(remainingTime / 1000 / 60);
+                const remainingSeconds = Math.floor((remainingTime / 1000) % 60);
+                countdownElement.innerHTML = remainingMinutes + "m " + remainingSeconds + "s";
+                requestAnimationFrame(timeCountdown);
+            }
+        }
+        requestAnimationFrame(timeCountdown);
+    } else {
+        countdownElement.innerHTML = 'Time is not required!';
+    }
+
+
 </script>
+
+
 <c:import url="../template/footer.jsp" />
 

@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import dao.DoTestDAO;
 import dao.QuestionDAO;
-import dao.ResourceDAO;
 import dao.StudentAnswerDAO;
 import dao.TestDAO;
 import dto.Account;
@@ -13,7 +12,6 @@ import dto.DoTest;
 import dto.Question;
 import dto.StudentAnswer;
 import dto.Test;
-import helpers.TimestampDeserializer;
 import helpers.UUIDDeserializer;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -50,42 +48,47 @@ public class DoExerciseController extends HttpServlet {
             int status;
             Timestamp now = new Timestamp(System.currentTimeMillis());
 
-            DoTest dotest = new DoTestDAO().getDoTestById(account.getAccountId(), UUID.fromString(testid));
-            if (dotest == null) {
-                dotest = new DoTest(UUID.fromString(testid), account.getAccountId(), new Timestamp(System.currentTimeMillis()), null, null);
-                status = new DoTestDAO().insertDoTest(dotest);
-            }
-            // xem dã hoàn thành bài tap chua
-            if (dotest.getFinishTime() != null) {
-                //neu lam roi
-                //dung lam phan nay
-                resp.sendRedirect(req.getContextPath() + "");
+            if (test == null || now.before(test.getStartAt()) || now.after(test.getEndAt())) {
+                resp.sendRedirect(req.getContextPath() + "/student/class/exercise?code=" + code);
+
+                //check xem den gio hay da qua han lam bai chua
             } else {
-                //neu chua nop
-                Timestamp endTime;
-                Timestamp startTime = dotest.getStartTime();
-                if (test.getDuration() != null) {
-                    long durationTime = test.getDuration() * 60 * 1000;
-                    endTime = new Timestamp(startTime.getTime() + durationTime);
+                DoTest dotest = new DoTestDAO().getDoTestById(account.getAccountId(), UUID.fromString(testid));
+                if (dotest == null) {
+                    dotest = new DoTest(UUID.fromString(testid), account.getAccountId(), new Timestamp(System.currentTimeMillis()), null, null);
+                    status = new DoTestDAO().insertDoTest(dotest);
+                }
+                // xem dã hoàn thành bài tap chua
+                if (dotest.getFinishTime() != null) {
+                    //neu lam roi
+                    //dung lam phan nay
+                    resp.sendRedirect(req.getContextPath() + "");
                 } else {
-                    endTime = test.getEndAt();
-                }
+                    //neu chua nop
+                    Timestamp endTime;
+                    Timestamp startTime = dotest.getStartTime();
+                    if (test.getDuration() != null) {
+                        long durationTime = test.getDuration() * 60 * 1000;
+                        endTime = new Timestamp(startTime.getTime() + durationTime);
+                    } else {
+                        endTime = test.getEndAt();
+                    }
 
-                //tu dong update end time khi het gio neu khong bam nop bai
-                if (endTime.before(now)) {
-                    dotest.setFinishTime(endTime);
-                    status = new DoTestDAO().updateDoTest(dotest);
+                    //tu dong update end time khi het gio neu khong bam nop bai
+                    if (endTime.before(now)) {
+                        dotest.setFinishTime(endTime);
+                        status = new DoTestDAO().updateDoTest(dotest);
+                    }
+
+                    req.setAttribute("endTime", endTime.getTime());
                 }
-                req.setAttribute("endTime", endTime.getTime());
+                req.setAttribute("test", test);
+                req.setAttribute("json", json);
+                req.setAttribute("code", code);
+
+                req.getRequestDispatcher("/student/do-test.jsp").forward(req, resp);
             }
-            System.out.println(dotest.getAccountId() + " acc id");
-            System.out.println(dotest.getTestId() + "test id");
 
-            req.setAttribute("test", test);
-            req.setAttribute("json", json);
-            req.setAttribute("code", code);
-
-            req.getRequestDispatcher("/student/do-test.jsp").forward(req, resp);
         } catch (Exception ex) {
             Logger.getLogger(DoExerciseController.class.getName()).log(Level.SEVERE, null, ex);
         }
