@@ -47,8 +47,9 @@ public class DoExerciseController extends HttpServlet {
             json = StringEscapeUtils.escapeEcmaScript(json);
             int status;
             Timestamp now = new Timestamp(System.currentTimeMillis());
-
-            if (test == null || now.before(test.getStartAt()) || now.after(test.getEndAt())) {
+            
+            
+            if (test == null || now.before(test.getStartAt())) {
                 resp.sendRedirect(req.getContextPath() + "/student/class/exercise?code=" + code);
 
                 //check xem den gio hay da qua han lam bai chua
