@@ -179,47 +179,143 @@
         }
     }
 </style>
-<div class="main-container">
+
+
+
+<div class="main-container ${ResourceId} ">
+    
     <div id="question-paper"></div>
     <div class="test-info-area p-4">
         <div>
             <p class="remain-time text-danger" id="countdown"></p>
-            <p class="title">Test Name</p>
-            <p class="description border rounded-3 bg-light p-3">Test Des</p>
+            <p class="title">${test.getTitle()}</p>
+            <p class="description border rounded-3 bg-light p-3">${test.getDescription()}</p>
         </div>
-        <div id="quesDetail">
-            <div class="question p-3 pt-4 rounded-3 bg-white mt-4">
-                <p class="question-order user-select-none">Question 1</p>
-                <div class="question-body">
-                    <div class="question-term">
-                        <p class="question-content">Dap an A</p>
-                    </div>
-                    <div class="question-answer-list">
-                        <div class="question-answer p-3 pt-4 mt-3">
-                            <p class="answer-order user-select-none">A</p>
-                            <div class="pb-2 answer-resource">
 
-                            </div>
-                            <p class="question-content">a</p>
+        <c:forEach items="${test.getQuestions()}" var="listQ">
+            <div id="quesDetail">
+                <div class="question p-3 pt-4 rounded-3 bg-white mt-4">
+                    <p class="question-order user-select-none">Question ${listQ.getQuestionOrder()}</p>
+                    <div class="question-body">
+                        <div class="question-term">
+                            <p class="question-content">${listQ.getContent()}</p>
                         </div>
-                        <div class="question-answer p-3 pt-4 mt-3">
-                            <p class="answer-order user-select-none">B</p>
-                            <div class="pb-2 answer-resource"></div>
-                            <p class="question-content">b</p>
-                        </div>
-                        <div class="question-answer p-3 pt-4 mt-3">
-                            <p class="answer-order user-select-none">C</p>
-                            <div class="pb-2 answer-resource"></div>
-                            <p class="question-content">c</p>
-                        </div>
-                        <div class="question-answer p-3 pt-4 mt-3">
-                            <p class="answer-order user-select-none">D</p>
-                            <div class="pb-2 answer-resource"></div>
-                            <p class="question-content">d</p>
+                        <div class="question-answer-list">
+
+
+
+                        
+                            <c:forEach items="${listQ.getAnswers()}" var="ansD"> 
+                                <div <c:if test="${ansD.isCorrect()}">style="background-color: #66FF99;"</c:if> 
+                                                                      <c:if test="${studentAnswers.contains(ansD.getAnswerId())}">
+                                                                          style="background-color: #FF6666;"
+                                                                      </c:if>
+                                                                      class="question-answer p-3 pt-4 mt-3">
+
+                                    <p class="answer-order user-select-none"></p>
+                                    <div class="pb-2 answer-resource">
+                                    </div>
+                                    <p class="question-content">${ansD.getContent()}</p>
+
+
+                                </div>  
+
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </c:forEach>
     </div
 </div>
+        
+</div>
+<script src="<c:url value="/assets/js/pdf.min.js"/>"></script>
+<script src="<c:url value="/assets/js/jszip.min.js"/>"></script>
+<script src="<c:url value="/assets/js/docx-preview.min.js"/>"></script>
+<script>
+    async function renderPage(page, parent) {
+        const initWidth = Math.min(Math.max(720, parent.clientWidth - 60), questionPaper.clientHeight);
+        const scale = (initWidth * 1.5) / page.getViewport({scale: 1}).width;
+        const viewport = page.getViewport({scale: scale});
+        const canvas = document.createElement('canvas');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        canvas.style.width = initWidth + 'px';
+        const renderContext = {
+            canvasContext: canvas.getContext('2d'),
+            viewport: viewport
+        };
+        const renderTask = await page.render(renderContext);
+        parent.append(createElement({
+            tagName: 'div',
+            className: 'd-flex',
+            style: 'box-shadow: 0 0 10px rgb(0 0 0 / 50%); margin-top: ' + (page.pageNumber != 1 ? 30 : 0) + 'px;',
+            children: [canvas]
+        }));
+    }
+
+    function renderPdf(data) {
+        pdfjsLib.getDocument(data).promise.then(async pdf => {
+            const totalPages = pdf.numPages;
+            const pdfWrapper = createElement({
+                tagName: 'div',
+                className: 'd-flex flex-column align-items-center w-100',
+                style: 'padding: 30px;'
+            });
+            questionPaper.append(pdfWrapper);
+            for (var i = 1; i <= totalPages; i++) {
+                await renderPage(await pdf.getPage(i), pdfWrapper);
+            }
+        }).catch(reason => {
+            console.warn(reason);
+        });
+    }
+
+    function renderDocx(data) {
+        console.log(docx);
+        docx.renderAsync(data, questionPaper);
+    }
+
+    const questionPaper = document.getElementById('question-paper');
+
+
+
+//-----------------------------------DISPLAY QUESTION ----------------------------------------
+    var testObj = "${json}";
+    testObj = JSON.parse(testObj);
+    var quesDetail = document.getElementById("quesDetail");
+    var quesNav = document.getElementById("quesNav");
+    var hasPaper = document.querySelector(".main-container");
+    var questionElement = [];
+    var prev = document.getElementById("prev");
+    var next = document.getElementById("next");
+    var quesIndex = 0;
+    const rasterType = [
+        'image/png',
+        'image/jpeg',
+        'image/bmp',
+        'image/gif',
+        'image/tiff',
+        'image/webp',
+        'image/avif'
+    ];
+
+    let mimeType = '';
+    if (testObj.resource) {
+        hasPaper.classList.add("has-paper");
+        fetch('<c:url value="/"/>' + testObj.resource.url.substring(1))
+                .then(response => {
+                    mimeType = response.headers.get('Content-Type');
+                    return response.arrayBuffer();
+                })
+                .then(data => {
+                    console.log(data);
+                    if (mimeType === 'application/pdf') {
+                        renderPdf(data);
+                    } else if (mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                        renderDocx(data);
+                    }
+                });
+    }
+</script>

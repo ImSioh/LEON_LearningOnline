@@ -29,6 +29,20 @@ public class StudentAnswerDAO extends AbstractDAO<StudentAnswer> {
         return selectMany(query, Util.UUIDToByteArray(id));
     }
 
+    public ArrayList<UUID> getStudentAnswerByQuestionID(UUID TestId, UUID accountID) throws Exception {
+        String query = "SELECT * FROM test t, student_answer stan, question q, account acc\n"
+                + "WHERE stan.question_id = q.question_id \n"
+                + "AND q.test_id = t.test_id\n"
+                + "AND acc.account_id = stan.account_id\n"
+                +"and q.test_id = ? and acc.account_id = ?";
+        ArrayList<StudentAnswer> studentAnswers =  selectMany(query, Util.UUIDToByteArray(TestId), Util.UUIDToByteArray(accountID));
+        ArrayList<UUID> uuids = new ArrayList<>();
+        for (StudentAnswer studentAnswer : studentAnswers) {
+            uuids.add(studentAnswer.getAnswerId());
+        }
+        return uuids;
+    }
+
     @Override
     protected StudentAnswer propMapping(ResultSet rs) throws Exception {
         return new StudentAnswer(
