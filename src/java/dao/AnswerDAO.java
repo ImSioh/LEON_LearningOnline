@@ -42,9 +42,6 @@ public class AnswerDAO extends AbstractDAO<Answer> {
                 rs.getBoolean("correct")
         );
     }
-    
-    public static void main(String[] args) throws Exception {
-        System.out.println(new AnswerDAO().getAnswerByQuestionID(UUID.fromString("45bea119-ba30-4c64-b763-40293312c69f")));
-    }
+   
 
 }

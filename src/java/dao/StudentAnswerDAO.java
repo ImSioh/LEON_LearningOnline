@@ -51,9 +51,8 @@ public class StudentAnswerDAO extends AbstractDAO<StudentAnswer> {
                 Util.ByteArrayToUUID(rs.getBytes("answer_id"))
         );
     }
-
-    public static void main(String[] args) throws Exception {
-        System.out.println(new StudentAnswerDAO().getStudentAnswerByQuestionID(UUID.fromString("b49d77d5-7227-47ea-b6d6-455e6dcb7574"), UUID.fromString("4aff1beb-54ce-46ae-a015-e4614b1fdea2")));
-    }
+    
+    
+   
 
 }

@@ -1,12 +1,11 @@
 package dao;
 
-import dto.Answer;
 import dto.DoTest;
-import dto.Question;
 import helpers.Util;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.ArrayList;
 
 public class DoTestDAO extends AbstractDAO<DoTest> {
 
@@ -70,23 +69,10 @@ public class DoTestDAO extends AbstractDAO<DoTest> {
                 rs.getObject("score", Double.class)
         );
     }
-
-    public static void main(String[] args) throws Exception {
-
-        UUID tid = UUID.fromString("0246b559-40e9-4c13-9b69-bea737810991");
-        ArrayList<Question> ques = new QuestionDAO().getQuestionByTestID(tid);
-        
-//        System.out.println(ques);
-        for (Question q : ques) {
-            ArrayList<Answer> anss = new AnswerDAO().getAnswerByQuestionID(q.getQuestionId());
-            for (Answer ans : anss) {
-                System.out.println(ans);
-            }
-            System.out.println("");
-        }
-        
-        
-        
+    
+    public ArrayList<DoTest> getListDoTestByAIdAndCId(UUID accId, UUID testId) throws Exception {
+        String query = "select * from online_learning.do_test\n"
+                + "where account_id = ? and test_id = ?";
+        return selectMany(query, Util.UUIDToByteArray(accId), Util.UUIDToByteArray(testId));
     }
-
 }
