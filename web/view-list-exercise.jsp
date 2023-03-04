@@ -1,7 +1,9 @@
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%@include file= "/template/header.jsp" %>
 
 <c:set var="code" value="${classObject.getCode()}"/>
+<c:set var="role" value="${account.getRole() == 1 ? 'teacher' : 'student'}"/>
 <c:set var="role" value="${account.getRole() == 1 ? 'teacher' : 'student'}"/>
 <c:set var="baseURL" value="${role}/class/exercise"/>
 
@@ -11,20 +13,20 @@
 
     <div class="content-main d-flex justify-content-center container" style="margin-left: 250px;">
         <div class="card col-md-9 mt-4 row" style="height: fit-content;">
-            <div class="" style="display: flex; margin-top: 30px; margin-bottom: 0px;">
+            <div style="display: flex; margin-top: 30px; margin-bottom: 0px;">
                 <!--CREATE-->
-                <div style="width: 200px; margin-left: 20px;">
+                <div style="margin-left: 20px;">
                     <c:if test="${account.getRole() == 1}">
                         <a href="<c:url value="/teacher/class/exercise/create?code=${code}"/>"
-                           class="btn btn-primary text-light">
+                           class="btn btn-primary text-light" style="width: max-content">
                             <i class="fa-solid fa-plus"></i>
                             Create exercise
                         </a>
                     </c:if>
                 </div>
                 <!--SEARCH--> 
-                <div style="display: flex; margin-left: 21em; margin-right: 0">
-                    <div class="form-outline" style="width: 300px;">
+                <div style="display: flex; position: relative; right: 20px; left: 50%;">
+                    <div class="form-outline col-md-10"  style="width: 200px;">
                         <input type="hidden" name="code" value="${code}">
                         <input type="text" class="form-control" id="myInput" name="search" value="${search}"
                                onkeyup="searchTable()">
@@ -53,6 +55,11 @@
                                    style="cursor: pointer;text-decoration: none"></a>  
                                 Finish Time  
                             </th>
+                            <th>Time Remaining</th>
+                                <c:if test="${account.getRole() == 2}">
+                                <th>Submit Time</th>
+                                <th>Score</th>
+                                </c:if>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -63,30 +70,46 @@
                                 <tr>                          
                                     <td>
                                         <a href="<c:url value="/teacher/class/exercise/detail?code=${code}&testid=${testid}"/>">
-                                            <p class="fw-bold mb-1">${listEX.getTitle()}</p>
+                                            <p class="fw-bold mb-1">
+                                                <c:if test="${listEX.getTitle().length() > 15}">
+                                                    ${listEX.getTitle().substring(0, 15)}...
+                                                </c:if>
+                                                <c:if test="${listEX.getTitle().length() <= 15}">
+                                                    ${listEX.getTitle()}
+                                                </c:if>
+                                            </p>
                                         </a>
                                         <p class="text-muted mb-0">
-                                            <c:if test="${listEX.getDescription().length() > 30}">
-                                                ${listEX.getDescription().substring(0, 30)}...
+                                            <c:if test="${listEX.getDescription().length() > 15}">
+                                                ${listEX.getDescription().substring(0, 15)}...
                                             </c:if>
-                                            <c:if test="${listEX.getDescription().length() < 30}">
+                                            <c:if test="${listEX.getDescription().length() <= 15}">
                                                 ${listEX.getDescription()}
                                             </c:if>
                                         </p> 
                                     </td>
-                                    <td>${listEX.getDuration()} minute(s)</td>
+                                    <td><fmt:formatNumber value="${listEX.getDuration()}" pattern="0"/>m</td>
                                     <td>${sdf.format(listEX.getStartAt())}</td>
                                     <td>
                                         <c:if test="${listEX.getEndAt() != null}">
                                             ${sdf.format(listEX.getEndAt())}
                                         </c:if>
                                     </td>
+                                    <td>5m 0s</td>
+                                    <c:if test="${account.getRole() == 2}">
+                                        <td>
+                                            <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() != null}">
+                                                ${sdf.format(DoTestDAO.getDoTest(aid, testid).getFinishTime())}
+                                            </c:if>
+                                        </td>
+                                        <td><fmt:formatNumber value="${DoTestDAO.getDoTest(aid, testid).getScore()}" pattern="0.00"/></td>
+                                    </c:if>
                                     <!--Action-->
                                     <!--Teacher: Edit & Delete exercise-->
                                     <c:if test="${account.getRole() == 1}">
                                         <td>
                                             <div class="justify-content-center gap-1">
-                                                <a href="<c:url value="/${baseURL}/?testid=${testid}"/>" 
+                                                <a href="<c:url value="/${baseURL}?testid=${testid}"/>" 
                                                    class="btn btn-link btn-sm btn-rounded bg-success text-light"
                                                    style="text-decoration: none">
                                                     Edit
