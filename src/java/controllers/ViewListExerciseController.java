@@ -2,9 +2,11 @@ package controllers;
 
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
+import dao.DoTestDAO;
 import dao.TestDAO;
 import dto.Account;
 import dto.ClassObject;
+import dto.DoTest;
 import dto.Test;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -21,6 +23,7 @@ public class ViewListExerciseController extends HttpServlet {
 
     ClassObjectDAO COD = new ClassObjectDAO();
     TestDAO TD = new TestDAO();
+    DoTestDAO DTD = new DoTestDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,15 +34,20 @@ public class ViewListExerciseController extends HttpServlet {
 
             ClassObject classObject = COD.getClassByCode(classCode);
             UUID cid = classObject.getClassId();
+            UUID aid = account.getAccountId();
 
-            ArrayList<Test> viewTest = new ArrayList<>();
-            viewTest = TD.viewListTest(cid);
+            ArrayList<Test> listTest = new ArrayList<>();
+            listTest = TD.viewListTest(cid);
+            ArrayList<DoTest> listDoTest = new ArrayList<>();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd HH:mm");
             request.setAttribute("sdf", sdf);
-            request.setAttribute("classObject", classObject);
+
             request.setAttribute("activeEX", "active");
-            request.setAttribute("listExercise", viewTest);
+            request.setAttribute("classObject", classObject);
+            request.setAttribute("aid", aid);
+            request.setAttribute("listExercise", listTest);
+            request.setAttribute("DoTestDAO", new DoTestDAO());
 
             if (account.getRole() == 1) {
                 request.setAttribute("teacher", account);

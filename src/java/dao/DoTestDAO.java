@@ -74,5 +74,4 @@ public class DoTestDAO extends AbstractDAO<DoTest> {
                 + "where account_id = ? and test_id = ?";
         return selectMany(query, Util.UUIDToByteArray(accId), Util.UUIDToByteArray(testId));
     }
-
 }
