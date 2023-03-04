@@ -4,6 +4,7 @@ import dto.DoTest;
 import helpers.Util;
 import java.sql.ResultSet;
 import java.util.UUID;
+import java.util.ArrayList;
 
 public class DoTestDAO extends AbstractDAO<DoTest> {
 
@@ -66,23 +67,6 @@ public class DoTestDAO extends AbstractDAO<DoTest> {
                 rs.getTimestamp("finish_time"),
                 rs.getObject("score", Double.class)
         );
-    }
-
-
-        UUID tid = UUID.fromString("0246b559-40e9-4c13-9b69-bea737810991");
-        ArrayList<Question> ques = new QuestionDAO().getQuestionByTestID(tid);
-        
-//        System.out.println(ques);
-        for (Question q : ques) {
-            ArrayList<Answer> anss = new AnswerDAO().getAnswerByQuestionID(q.getQuestionId());
-            for (Answer ans : anss) {
-                System.out.println(ans);
-            }
-            System.out.println("");
-        }
-        
-        
-        
     }
     
     public ArrayList<DoTest> getListDoTestByAIdAndCId(UUID accId, UUID testId) throws Exception {
