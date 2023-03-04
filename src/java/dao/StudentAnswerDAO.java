@@ -39,8 +39,6 @@ public class StudentAnswerDAO extends AbstractDAO<StudentAnswer> {
     }
     
     
-    public static void main(String[] args) throws Exception {
-        System.out.println(new StudentAnswerDAO().getStudentAnswerByQuestionID(UUID.fromString("c42f4ee4-1f4b-469c-a27d-e51f4266262a")));
-    }
+   
 
 }
