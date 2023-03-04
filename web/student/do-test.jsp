@@ -486,9 +486,15 @@
                     tagName: "p",
                     className: "rounded-3",
                     textContent: (indexX + 1),
-                    onclick: () => {
+                    onclick: function () {
                         quesDetail.innerHTML = null;
                         quesDetail.append(questionContent);
+                        var s = document.querySelector("#quesNav .active");
+                        if (s) {
+                            s.classList.remove("active");
+                        }
+                        this.classList.add("active");
+
                     }
 
                 }
