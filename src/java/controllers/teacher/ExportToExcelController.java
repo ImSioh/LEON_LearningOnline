@@ -42,12 +42,11 @@ public class ExportToExcelController extends HttpServlet {
             // application : kieu chinh , sau dau / la kieu phu : ms-excel
             resp.setContentType("application/vnd.ms-excel");
             //tieu de phan hoi - duoi dang tep tin dinh kem
-            resp.setHeader("Content-Disposition", "attachment;filename=ListScore.xlsx");
-            Workbook workbook = new XSSFWorkbook();
+            resp.setHeader("Content-Disposition", "attachment;filename=ListScore.xlsx");          
 
-//            HSSFWorkbook workbook = new HSSFWorkbook();   
-            Sheet sheet = workbook.createSheet("Employee");
-//            HSSFSheet sheet = workbook.createSheet("Score");
+            Workbook workbook = new XSSFWorkbook();           
+            //create sheet name
+            Sheet sheet = workbook.createSheet("Score");           
 
             int rowNo = 0;
             int cellnum = 0;
