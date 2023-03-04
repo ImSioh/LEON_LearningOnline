@@ -33,8 +33,6 @@ public class CreateExerciseController extends HttpServlet {
         try {
             Account account = (Account) req.getAttribute("account");
             ClassObject classObject = new ClassObjectDAO().getClassByCode(req.getParameter("code"));
-            System.out.println(classObject);
-            System.out.println(account);
             if (classObject == null || !account.getAccountId().equals(classObject.getAccountId())) {
                 resp.sendRedirect(req.getContextPath() + "/teacher/class");
                 return;
