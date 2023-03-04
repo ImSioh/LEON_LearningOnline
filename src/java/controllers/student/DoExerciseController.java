@@ -4,11 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import dao.DoTestDAO;
+import dao.QuestionDAO;
 import dao.ResourceDAO;
 import dao.StudentAnswerDAO;
 import dao.TestDAO;
 import dto.Account;
 import dto.DoTest;
+import dto.Question;
 import dto.StudentAnswer;
 import dto.Test;
 import helpers.TimestampDeserializer;
@@ -105,10 +107,16 @@ public class DoExerciseController extends HttpServlet {
             ArrayList<StudentAnswer> listStudentAnswer = gson.fromJson(json, listType);
 
             DoTest dotest = new DoTestDAO().getDoTestById(account.getAccountId(), UUID.fromString(testid));
-
             int status1 = new StudentAnswerDAO().insertStudentAnswer(listStudentAnswer);
 
+            ArrayList<Question> listWrongQuestion = new QuestionDAO().getWrongQuestionFromStudentAnswer(UUID.fromString(testid), listStudentAnswer);
+
+            double totalQuestion = new QuestionDAO().getQuestionByTestID(UUID.fromString(testid)).size();
+            double wrongAnswer = listWrongQuestion.size();
+            double score = (totalQuestion - wrongAnswer) / totalQuestion * 10;
+
             dotest.setFinishTime(now);
+            dotest.setScore(Math.round(score * 100.0) / 100.0);
             int status2 = new DoTestDAO().updateDoTest(dotest);
 
         } catch (Exception ex) {
