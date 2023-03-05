@@ -179,11 +179,7 @@
         }
     }
 </style>
-
-
-
 <div class="main-container ${ResourceId} ">
-    
     <div id="question-paper"></div>
     <div class="test-info-area p-4">
         <div>
@@ -191,7 +187,6 @@
             <p class="title">${test.getTitle()}</p>
             <p class="description border rounded-3 bg-light p-3">${test.getDescription()}</p>
         </div>
-
         <c:forEach items="${test.getQuestions()}" var="listQ">
             <div id="quesDetail">
                 <div class="question p-3 pt-4 rounded-3 bg-white mt-4">
@@ -204,15 +199,15 @@
 
 
 
-                        
+
                             <c:forEach items="${listQ.getAnswers()}" var="ansD"> 
                                 <div <c:if test="${ansD.isCorrect()}">style="background-color: #66FF99;"</c:if> 
                                                                       <c:if test="${studentAnswers.contains(ansD.getAnswerId())}">
                                                                           style="background-color: #FF6666;"
                                                                       </c:if>
                                                                       class="question-answer p-3 pt-4 mt-3">
-
-                                    <p class="answer-order user-select-none"></p>
+                                    
+                                    <p class="answer-order user-select-none">${Util.numberToLetter(ansD.getAnswerOrder())}</p>
                                     <div class="pb-2 answer-resource">
                                     </div>
                                     <p class="question-content">${ansD.getContent()}</p>
@@ -226,9 +221,10 @@
                 </div>
             </div>
         </c:forEach>
-    </div
+    </div>
+      
 </div>
-        
+          
 </div>
 <script src="<c:url value="/assets/js/pdf.min.js"/>"></script>
 <script src="<c:url value="/assets/js/jszip.min.js"/>"></script>
@@ -318,4 +314,7 @@
                     }
                 });
     }
+    
+    
+    
 </script>

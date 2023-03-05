@@ -103,4 +103,14 @@ public class Util {
         }
         return result.toString();
     }
+    
+    public static String numberToLetter(int num) {
+    if (num <= 26) {
+        return Character.toString((char) (64 + num));
+    } else {
+        int quotient = (num - 1) / 26;
+        int remainder = (num - 1) % 26 + 1;
+        return numberToLetter(quotient) + numberToLetter(remainder);
+    }
+}
 }

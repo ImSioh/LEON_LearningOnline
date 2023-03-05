@@ -8,6 +8,7 @@ import dao.TestDAO;
 import dto.Question;
 import dto.StudentAnswer;
 import dto.Test;
+import helpers.Util;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -38,8 +39,9 @@ public class ViewTestDetailController extends HttpServlet {
             if (new TestDAO().getTestWithAllData(UUID.fromString(Testid)).getResourceId() != null) {
                 request.setAttribute("ResourceId", "has-paper");
             } else {
-                request.setAttribute("ResourceId", 1);
+                request.setAttribute("ResourceId", "");
             }
+            request.setAttribute("Util", new Util());
             request.setAttribute("json", json);
             request.setAttribute("test", test);
             request.setAttribute("Sid", StudentId);
