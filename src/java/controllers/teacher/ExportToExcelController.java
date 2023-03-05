@@ -40,12 +40,13 @@ public class ExportToExcelController extends HttpServlet {
             // vnd : câu trúc nhà cung câp -> sanpham duoc cong khai
             // application : kieu chinh , sau dau / la kieu phu : ms-excel
             resp.setContentType("application/vnd.ms-excel");
+            
             //tieu de phan hoi - duoi dang tep tin dinh kem
-            resp.setHeader("Content-Disposition", "attachment;filename=ListScore.xlsx");          
+            resp.setHeader("Content-Disposition", "attachment;filename=ListScore.xlsx");
 
-            Workbook workbook = new XSSFWorkbook();           
+            Workbook workbook = new XSSFWorkbook();
             //create sheet name
-            Sheet sheet = workbook.createSheet("Score");           
+            Sheet sheet = workbook.createSheet("Score");
 
             int rowNo = 0;
             int cellnum = 0;
@@ -58,8 +59,10 @@ public class ExportToExcelController extends HttpServlet {
 
             //name cell 2 ->
             for (Test tt : t) {
-                cell = rowhead.createCell(cellnum++);
-                cell.setCellValue(tt.getTitle());
+                if (tt.getCreateTime() != null) {
+                    cell = rowhead.createCell(cellnum++);
+                    cell.setCellValue(tt.getTitle());
+                }
             }
 
             for (Account a : aa) {
@@ -72,11 +75,15 @@ public class ExportToExcelController extends HttpServlet {
                 // data of cell 2 ->
                 dtt = new DoTestDAO().getListDoTestByAIdAndCId(classobj2.getClassId(), a.getAccountId());
                 for (DoTest dttt : dtt) {
-                    cell = rowhead.createCell(cellnum++);
-                    cell.setCellValue(dttt.getScore());
+                    Test testtt = new TestDAO().getTestByTestID(dttt.getTestId());
+                    if (testtt.getCreateTime() != null) {
+                        cell = rowhead.createCell(cellnum++);
+                        cell.setCellValue(dttt.getScore());
+                    }
+
                 }
             }
-             
+
             workbook.write(resp.getOutputStream());
             workbook.close();
             return;

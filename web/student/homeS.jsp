@@ -29,6 +29,7 @@
                             <thead class="bg-light">
                                 <tr>
                                     <th>Exercise</th>
+                                    <th>Teacher</th>
                                     <th>Class</th>
                                     <th>Deadline</th> 
                                 </tr>
@@ -37,19 +38,23 @@
                                 <c:forEach items="${co}" var="co">
                                     <c:forEach items="${testDAO.getListTitleTest(co.getClassId())}" var="testD">
                                         <c:if test="${dotestDAO.getDoTest(accL.getAccountId(), testD.getTestId()) == null || dotestDAO.getDoTest(accL.getAccountId(), testD.getTestId()).getFinishTime() == null}">
+                                            <c:if test="${testD.getCreateTime() != null}">
                                             <tr>
                                                 <td>
                                                     <div class="d-flex align-items-center"> 
                                                         <div >
-                                                            <a href="<c:url value="/student/class/exercise?code=${co.getCode()}"/>" style="padding-right: 280px; text-decoration: none">
+                                                            <a href="<c:url value="/student/class/exercise?code=${co.getCode()}"/>" style="padding-right: 150px; text-decoration: none">
                                                                 <p class="fw-bold mb-1">${testD.getTitle()}</p>
                                                                 <p class="text-muted mb-0">not done</p>
                                                             </a>
                                                         </div>
                                                     </div>
                                                 </td>
+                                                 <td>
+                                                    <p class="fw-normal mb-1" style="padding-right: 100px" >${accDAO.getAccountById(co.getAccountId()).getName()}</p>
+                                                </td>
                                                 <td>
-                                                    <p class="fw-normal mb-1" style="padding-right: 100px">${co.getName()}</p>
+                                                    <p class="fw-normal mb-1" style="padding-right: 50px">${co.getName()}</p>
                                                 </td>
                                                 <td>
                                                     <div  style="padding: 22px 0px">
@@ -57,6 +62,7 @@
                                                     </div>
                                                 </td>  
                                             </tr>
+                                            </c:if>
                                         </c:if>
                                     </c:forEach>
                                 </c:forEach>
