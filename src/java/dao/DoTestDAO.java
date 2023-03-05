@@ -18,7 +18,8 @@ public class DoTestDAO extends AbstractDAO<DoTest> {
     public Double getScoreTest(UUID classId, UUID accId) throws Exception {
         String query = "SELECT AVG(dt.score) FROM do_test dt\n"
                 + "LEFT JOIN test t ON dt.test_id = t.test_id\n"
-                + "WHERE t.class_id = ? AND dt.account_id = ?";
+                + "WHERE t.class_id = ? AND dt.account_id = ?\n"
+                + "AND t.create_time IS NOT NULL";
         return selectScalar(query, Double.class, Util.UUIDToByteArray(classId), Util.UUIDToByteArray(accId));
     }
 

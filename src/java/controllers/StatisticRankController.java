@@ -2,12 +2,12 @@ package controllers;
 
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
+import dao.DoTestDAO;
 import dao.TestDAO;
 import dto.Account;
 import dto.ClassObject;
 import dto.Test;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,6 +20,7 @@ import java.util.UUID;
 @WebServlet(name = "StatisticRankController", urlPatterns = {"/teacher/class/rank", "/student/class/rank"})
 public class StatisticRankController extends HttpServlet {
 
+    AccountDAO AD = new AccountDAO();
     ClassObjectDAO COD = new ClassObjectDAO();
     TestDAO TD = new TestDAO();
 
@@ -36,11 +37,20 @@ public class StatisticRankController extends HttpServlet {
             ArrayList<Test> viewTest = new ArrayList<>();
             viewTest = TD.viewListTest(cid);
 
+            ArrayList<Account> listStudent = new ArrayList<>();
+            if (account.getRole() == 1) {
+                listStudent = AD.getListAllStudentByClassCode(classCode, "1");
+            } else {
+                listStudent.add(account);
+            }
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             request.setAttribute("sdf", sdf);
             request.setAttribute("classObject", classObject);
             request.setAttribute("activeRK", "active");
             request.setAttribute("listExercise", viewTest);
+            request.setAttribute("listStudent", listStudent);
+            request.setAttribute("DoTestDAO", new DoTestDAO());
 
             if (account.getRole() == 1) {
                 request.setAttribute("teacher", account);
