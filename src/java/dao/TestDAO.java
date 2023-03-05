@@ -14,6 +14,23 @@ public class TestDAO extends AbstractDAO<Test> {
         String query = "select * from test where class_id = ?";
         return selectMany(query, Util.UUIDToByteArray(classId));
     }
+    
+    public int updateTest(Test test) throws Exception {
+        String query = "UPDATE test t SET class_id = ?, resource_id = ?, title = ?, description = ?, start_at = ?, end_at = ?, duration = ?, allow_review = ?, create_time = ? WHERE test_id = ?;";
+        return update(
+                query,
+                Util.UUIDToByteArray(test.getClassId()),
+                Util.UUIDToByteArray(test.getResourceId()),
+                test.getTitle(),
+                test.getDescription(),
+                test.getStartAt(),
+                test.getEndAt(),
+                test.getDuration(),
+                test.isAllowReview(),
+                test.getCreateTime(),
+                Util.UUIDToByteArray(test.getTestId())
+        );
+    }
 
     public int insertTest(Test test) throws Exception {
         String query = "INSERT INTO test (test_id, class_id, resource_id, title, description, start_at, end_at, duration, allow_review, create_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

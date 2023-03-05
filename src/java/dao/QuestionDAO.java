@@ -5,11 +5,37 @@ import dto.StudentAnswer;
 import helpers.Util;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.UUID;
 
 public class QuestionDAO extends AbstractDAO<Question> {
-
+    
+    public int updateQuestion(Question question) throws Exception {
+        String query = "UPDATE question q SET test_id = ?, resource_id = ?, question_order = ?, content = ? WHERE question_id = ?";
+        return update(
+                query,
+                Util.UUIDToByteArray(question.getTestId()),
+                Util.UUIDToByteArray(question.getResourceId()),
+                question.getQuestionOrder(),
+                question.getContent(),
+                Util.UUIDToByteArray(question.getQuestionId())
+        );
+    }
+    
+    public int deleteMultipleQuestions(Collection<UUID> questionIds) throws Exception {
+        if (questionIds.isEmpty()) return 0;
+        ArrayList<String> queryParts = new ArrayList<>();
+        ArrayList<Object> queryParams = new ArrayList<>();
+        for (UUID questionId : questionIds) {
+            queryParts.add("?");
+            queryParams.add(Util.UUIDToByteArray(questionId));
+        }
+        String query = "DELETE FROM question WHERE question_id in (" + String.join(", ", queryParts) + ")";
+        return update(query, queryParams.toArray());
+    }
+    
     public int insertMultipleQuestions(ArrayList<Question> questions) throws Exception {
+        if (questions.isEmpty()) return 0;
         ArrayList<String> queryParts = new ArrayList<>();
         ArrayList<Object> queryParams = new ArrayList<>();
         for (Question question : questions) {

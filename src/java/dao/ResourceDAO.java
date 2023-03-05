@@ -34,6 +34,11 @@ public class ResourceDAO extends AbstractDAO<Resource> {
         String query = "SELECT r.* FROM post_resource pr LEFT JOIN resource r ON pr.resource_id = r.resource_id WHERE pr.post_id = ?";
         return selectMany(query, Util.UUIDToByteArray(postId));
     }
+    
+    public ArrayList<Resource> getResourcesByTest(UUID testId) throws Exception {
+        String query = "SELECT r.* FROM resource r WHERE r.resource_id IN (SELECT t.resource_id FROM test t WHERE t.test_id = ? AND t.resource_id IS NOT NULL UNION SELECT q.resource_id FROM question q WHERE q.resource_id IS NOT NULL UNION SELECT a.resource_id FROM answer a WHERE a.resource_id IS NOT NULL)";
+        return selectMany(query, Util.UUIDToByteArray(testId));
+    }
 
     public Resource getResourcesById(UUID resourceId) throws Exception {
         String query = "SELECT resource_id, account_id, url, thumbnail, mime_type, deleted FROM resource r WHERE r.resource_id = ?";
