@@ -13,6 +13,7 @@ import dto.Question;
 import dto.Test;
 import helpers.TimestampDeserializer;
 import helpers.UUIDDeserializer;
+import helpers.Util;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -48,13 +49,12 @@ public class CreateExerciseController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            String json = getBodyString(req);
+            String json = Util.getBodyString(req);
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(Timestamp.class, new TimestampDeserializer())
                     .registerTypeAdapter(UUID.class, new UUIDDeserializer())
                     .create();
             Test test = gson.fromJson(json, Test.class);
-            ClassObject classObject = new ClassObjectDAO().getClassById(test.getClassId());
             test.setTestId(UUID.randomUUID());
             test.setCreateTime(new Timestamp(System.currentTimeMillis()));
             if (test.getStartAt() == null) {
@@ -72,7 +72,7 @@ public class CreateExerciseController extends HttpServlet {
                     answer.setQuestionId(question.getQuestionId());
                 }
             }
-            
+
             int result = new TestDAO().insertTest(test);
             if (result > 0) {
                 result = new QuestionDAO().insertMultipleQuestions(test.questions);
@@ -83,16 +83,6 @@ public class CreateExerciseController extends HttpServlet {
         } catch (Exception e) {
             throw new ServletException(e);
         }
-    }
-
-    private String getBodyString(HttpServletRequest req) throws IOException {
-        ArrayList<String> lines = new ArrayList<>();
-        InputStream inputStream = req.getInputStream();
-        Scanner scanner = new Scanner(inputStream, "UTF-8");
-        while (scanner.hasNextLine()) {
-            lines.add(scanner.nextLine());
-        }
-        return String.join("\n", lines);
     }
 
 }

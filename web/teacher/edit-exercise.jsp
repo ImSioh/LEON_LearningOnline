@@ -451,9 +451,6 @@
     </div>
     <div id="question-paper"></div>
     <div class="test-info-area p-4">
-        <p style="font-size: 1.4rem;margin: 0;font-weight: 500;text-align: center;">
-            Create exercise for class ${classObject.name}
-        </p>
         <div class="test-time-info p-4 border rounded-3 bg-light">
             <div>
                 <div class="mb-3 d-flex flex-wrap disable-sub-label">
@@ -521,7 +518,7 @@
             <button class="btn btn-primary" id="add-question">Add question</button>
         </div>
         <button  class="btn btn-primary w-100 mt-3 mb-5" id="create-exercise">
-            Create exercise
+            Update exercise
         </button>
     </div>
 </div>
@@ -533,7 +530,8 @@
         resourceModal.removeEventListener('show.bs.modal', loadResource)
         function setupNew() {
             resourceManage.selected.forEach(r => {
-                r.element.classList.add('selected')
+                if (r.element)
+                    r.element.classList.add('selected')
             })
             if (resourceManage.resetup) {
                 resourceManage.resetup()
@@ -1104,6 +1102,7 @@
         }
         resourceModalBootstrap.show()
     })
+
     questionFileRemove.addEventListener('click', () => {
         delete testRsBox.dataset.id
         if (testDocumentBox)
@@ -1113,7 +1112,9 @@
         rsTest.length = 0
     })
 
-    addQuestionBtn.addEventListener('click', () => {
+    const removedQuestion = []
+    const removedAnswer = []
+    function addNewQuestion(data) {
         const bindList = {}
         const rsList = []
         const imageBox = createElement({
@@ -1160,16 +1161,17 @@
                                             rows: 1,
                                             spellcheck: false,
                                             placeholder: 'Enter question content here',
-                                            addEventListener: ['input', textAreaResize(2)]
+                                            addEventListener: ['input', textAreaResize(2)],
+                                                    value: data?.content || null
                                         },
                                         {
                                             tagName: 'button',
-                                            className: 'btn flex-shrink-0 btn-primary ms-2',
+                                                    className: 'btn flex-shrink-0 btn-primary ms-2',
                                             innerHTML: '<i class="fa-sharp fa-solid fa-file"></i>',
-                                            addEventListener: ['click', () => {
-                                                    openResourceSelector(bindList.questionTerm, rsList, imageBox, documentBox)
-                                                    resourceModalBootstrap.show()
-                                                }]
+                                                    addEventListener: ['click', () => {
+                                                            openResourceSelector(bindList.questionTerm, rsList, imageBox, documentBox)
+                                                            resourceModalBootstrap.show()
+                                                        }]
                                         }
                                     ]
                                 }
@@ -1208,7 +1210,24 @@
                 }
             ]
         })
-        let answerCount = 2
+        if (data) {
+            newQuestion.dataset.id = data.questionId
+            if (data.resourceId) {
+                const rs = allResources.find(r => r.resourceId === data.resource.resourceId)
+                if (rasterType.includes(data.resource.mimeType)) {
+                    bindList.questionTerm.append(imageBox)
+                    imageBox.style.backgroundImage = 'url("<c:url value="/"/>' + data.resource.url.substring(1) + '")'
+                } else {
+                    bindList.questionTerm.append(documentBox)
+                    documentBox.textContent = data.resource.url.split('/').pop()
+                }
+                bindList.questionTerm.dataset.id = data.resource.resourceId
+                if (rs) {
+                    rsList.push(rs)
+                }
+            }
+        }
+        let answerCount = data?.answers.length || 2
         const answerObjectList = []
         function increaseAnswer() {
             answerCount++
@@ -1229,11 +1248,14 @@
                 tagName: 'div',
                 className: 'img-resource',
             })
+            answerBindList.answerImageBox = answerImageBox
             const answerDocumentBox = createElement({
                 tagName: 'div',
                 className: 'document-resource text-truncate bg-white'
             })
+            answerBindList.answerDocumentBox = answerDocumentBox
             const answerRsList = []
+            answerBindList.answerRsList = answerRsList
             const newAnswer = createElement({
                 tagName: 'div',
                 className: 'question-answer p-3 pt-4 mt-3',
@@ -1264,7 +1286,8 @@
                                 rows: 1,
                                 spellcheck: false,
                                 placeholder: 'Enter answer content here',
-                                addEventListener: ['input', textAreaResize(2)]
+                                addEventListener: ['input', textAreaResize(2)],
+                                bind: [answerBindList, 'answerContent']
                             },
                             {
                                 tagName: 'button',
@@ -1279,6 +1302,7 @@
                     }
                 ]
             })
+            answerBindList.element = newAnswer
             answerBindList.changeState.addEventListener('click', () => {
                 newAnswer.classList.toggle('true')
             })
@@ -1286,11 +1310,22 @@
                 element: newAnswer
             })
             bindList.answerList.append(newAnswer)
+            return answerBindList
         }
         bindList.removeQuestion.addEventListener('click', () => {
             newQuestion.remove();
             const qList = [...questionList.getElementsByClassName('question')]
             createExerciseButton.disabled = qList.length <= 0
+            if (data) {
+                removedQuestion.push({
+                    questionId: data.questionId
+                })
+                removedAnswer.push(...data.answers.map(a => ({
+                        answerId: a.answerId
+                    })))
+                const index = test.questions.indexOf(data)
+                test.questions.splice(index, 1)
+            }
             qList.forEach((q, i) => {
                 q.querySelector('.question-order').textContent = 'Question ' + (i + 1)
             })
@@ -1314,7 +1349,27 @@
                     if (el && !el.element.isConnected) {
                         bindList.answerList.append(el.element)
                     } else if (!el) {
-                        addAnswer()
+                        const nA = addAnswer()
+                        if (data && i < data.answers.length) {
+                            const answerData = data.answers[i]
+                            nA.answerContent.value = answerData.content
+                            nA.element.classList.toggle('true', answerData.correct)
+                            nA.element.dataset.id = answerData.answerId
+                            if (answerData.resourceId) {
+                                const rs = allResources.find(r => r.resourceId === answerData.resource.resourceId)
+                                if (rasterType.includes(answerData.resource.mimeType)) {
+                                    nA.resource.append(nA.answerImageBox)
+                                    nA.answerImageBox.style.backgroundImage = 'url("<c:url value="/"/>' + answerData.resource.url.substring(1) + '")'
+                                } else {
+                                    nA.resource.append(nA.answerDocumentBox)
+                                    nA.answerDocumentBox.textContent = answerData.resource.url.split('/').pop()
+                                }
+                                nA.resource.dataset.id = answerData.resource.resourceId
+                                if (rs) {
+                                    nA.answerRsList.push(rs)
+                                }
+                            }
+                        }
                     }
                 }
                 [...bindList.answerList.children].forEach((as, idx) => {
@@ -1327,9 +1382,49 @@
         bindList.answerCounter.dispatchEvent(new Event('change'))
         questionList.append(newQuestion)
         createExerciseButton.disabled = questionList.children.length <= 1
-    })
+    }
+
+    addQuestionBtn.addEventListener('click', () => addNewQuestion())
 
     const messageModal = new bootstrap.Modal(document.getElementById('message-modal'))
+
+    const test = JSON.parse('${test}')
+
+    async function setupEdit() {
+        await loadResource()
+        if (test.resource) {
+            questionFileToggle.click()
+            const rs = allResources.find(r => r.resourceId === test.resource.resourceId)
+            if (rs)
+                test.resource = rs
+            const resource = test.resource
+            testRsBox.append(testDocumentBox)
+            testDocumentBox.textContent = resource.url.split('/').pop()
+            testRsBox.dataset.id = resource.resourceId
+            rsTest.push(resource)
+            loadFile()
+        }
+        test.questions.forEach(q => {
+            addNewQuestion(q)
+        })
+        document.getElementById('title').value = test.title || null
+        document.getElementById('description').value = test.description || null
+        if (test.startAt) {
+            startTimeInput.value = new Date(test.startAt).toISOString().slice(0, 16)
+        }
+        if (test.endAt) {
+            endTimeToggle.click()
+            endTimeInput.value = new Date(test.endAt).toISOString().slice(0, 16)
+        }
+        if (test.allowReview) {
+            reviewToggle.click()
+        }
+        if (test.duration) {
+            testTimeToggle.click()
+            testTimeInput.value = test.duration
+        }
+    }
+    setupEdit()
 
     function showError(element, msg, placeAction, extra, propagation) {
         if (element.classList.contains('validate-fail'))
@@ -1361,6 +1456,7 @@
         const now = new Date()
         now.setMinutes(now.getMinutes() - now.getTimezoneOffset())
         const testObject = {
+            testId: test.testId,
             classId: '${classObject.classId}',
             resourceId: rsTest[0] && questionFileToggle.checked ? rsTest[0].resourceId : null,
             title: document.getElementById('title').value.trim() || null,
@@ -1368,53 +1464,91 @@
             startAt: startTimeToggle.checked ? startTimeInput.value : now.toISOString().slice(0, 16),
             endAt: endTimeInput.value || null,
             duration: testTimeToggle.checked ? testTimeInput.valueAsNumber : null,
-            allowReview: !reviewToggle.checked,
-            questions: [...questionList.getElementsByClassName('question')].reduce((qs, q, qidx) => {
-                const question = {
-                    content: q.querySelector('.question-term .content').value || null,
-                    resourceId: q.querySelector('.question-term').dataset.id || null,
-                    questionOrder: qidx + 1,
-                    answers: [...q.querySelector('.question-answer-list').children].reduce((as, a, aidx) => {
-                        const answer = {
-                            correct: a.classList.contains('true'),
-                            content: a.querySelector('.content').value,
-                            answerOrder: aidx + 1,
-                            resourceId: a.querySelector('.answer-resource').dataset.id || null
-                        }
-//                        isValid = !!(isValid && (answer.content || answer.resourceId))
-                        if (!answer.content && !answer.resourceId) {
-                            showError(a, "Answer content must be filled or attach a file", msgLabel => a.insertBefore(msgLabel, a.children[0]))
-                            lastFail = a
-                            isValid = false
-                        }
-                        as.push(answer)
-                        return as
-                    }, [])
-                }
-//                isValid = !!(isValid && (question.content || question.resourceId) && question.answers.some(a => a.correct))
-                if (!question.content && !question.resourceId) {
-                    showError(q, "Question content must be filled or attach a file", msgLabel => q.insertBefore(msgLabel, q.children[0]))
-                    lastFail = q
-                    isValid = false
-                }
-                if (!question.answers.some(a => a.correct)) {
-                    showError(q, "Question must has at least one correct answer", msgLabel => q.insertBefore(msgLabel, q.children[0]), null, true)
-                    lastFail = q
-                    isValid = false
-                }
-                qs.push(question)
-                return qs
-            }, [])
+            allowReview: !reviewToggle.checked
         }
-//        isValid = !!(isValid && testObject.title && testObject.questions.length > 0)
+        const questionState = {
+            deleted: [...removedQuestion],
+            edit: [],
+            new : []
+        }
+        const answerState = {
+            deleted: [...removedAnswer],
+            edit: [],
+            new : []
+        }
+        questionState.new.push(...[...questionList.getElementsByClassName('question')].reduce((qs, q, qidx) => {
+            const oldQuestion = test.questions[qidx]
+            const allAnswer = []
+            const question = {
+                questionId: q.dataset.id || null,
+                content: q.querySelector('.question-term .content').value || null,
+                resourceId: q.querySelector('.question-term').dataset.id || null,
+                questionOrder: oldQuestion ? oldQuestion.questionOrder : test.questions.slice(-1).pop().questionOrder + qs.length + 1
+            }
+            const aList = [...q.querySelector('.question-answer-list').children]
+            if (oldQuestion) {
+                question.testId = testObject.testId
+                if (oldQuestion.answers.length > aList.length) {
+                    answerState.deleted.push(...oldQuestion.answers.slice(aList.length).map(a => ({answerId: a.answerId})))
+                }
+            } else {
+                question.answers = []
+            }
+            answerState.new.push(...aList.reduce((as, a, aidx) => {
+                const oldAnswer = oldQuestion ? oldQuestion.answers[aidx] : null
+                const answer = {
+                    answerId: a.dataset.id || null,
+                    correct: a.classList.contains('true'),
+                    content: a.querySelector('.content').value,
+                    answerOrder: aidx + 1,
+                    resourceId: a.querySelector('.answer-resource').dataset.id || null
+                }
+                if (oldQuestion) {
+                    answer.questionId = oldQuestion.questionId
+                }
+                if (!answer.content && !answer.resourceId) {
+                    showError(a, "Answer content must be filled or attach a file", msgLabel => a.insertBefore(msgLabel, a.children[0]))
+                    lastFail = a
+                    isValid = false
+                }
+                if (oldQuestion) {
+                    if (oldAnswer) {
+                        if (oldAnswer.correct !== answer.correct
+                                || oldAnswer.content != answer.content.trim()
+                                || oldAnswer.resourceId != answer.resourceId) {
+                            answerState.edit.push(answer)
+                        }
+                    } else {
+                        as.push(answer)
+                    }
+                } else {
+                    question.answers.push(answer)
+                }
+                allAnswer.push(answer)
+                return as
+            }, []))
+            if (!question.content && !question.resourceId) {
+                showError(q, "Question content must be filled or attach a file", msgLabel => q.insertBefore(msgLabel, q.children[0]))
+                lastFail = q
+                isValid = false
+            }
+            if (!allAnswer.some(a => a.correct)) {
+                showError(q, "Question must has at least one correct answer", msgLabel => q.insertBefore(msgLabel, q.children[0]), null, true)
+                lastFail = q
+                isValid = false
+            }
+            if (oldQuestion) {
+                if (oldQuestion.content != question.content.trim() || oldQuestion.resourceId != question.resourceId) {
+                    questionState.edit.push(question)
+                }
+            } else {
+                qs.push(question)
+            }
+            return qs
+        }, []))
         if (!testObject.title) {
             lastFail = document.getElementById('title')
             showError(lastFail, "Title cannot be empty", msgLabel => lastFail.parentElement.append(msgLabel))
-            isValid = false
-        }
-        if (testObject.questions.length <= 0) {
-            showError(questionList, "A exercise must has at least one question", msgLabel => questionList.append(msgLabel))
-            lastFail = questionList
             isValid = false
         }
         if (startTimeToggle.checked && !testObject.startAt) {
@@ -1442,12 +1576,18 @@
             }
         }
         if (isValid) {
-            const response = await fetch('<c:url value="/teacher/class/exercise/create"/>', {
+            const data = {
+                first: testObject,
+                second: questionState,
+                third: answerState
+            }
+            console.log(data)
+            const response = await fetch('<c:url value="/teacher/class/exercise/edit"/>', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=UTF-8'
                 },
-                body: JSON.stringify(testObject)
+                body: JSON.stringify(data)
             })
             if (response.ok) {
                 window.location.replace('<c:url value="/teacher/class/exercise?code=${classObject.code}"/>')
