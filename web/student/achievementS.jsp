@@ -38,13 +38,13 @@
                                 <c:forEach items="${co}" var="co">                                   
                                     <tr>                                       
                                         <td>
-                                            <a href="" style="text-decoration: none">
+                                            <a href="<c:url value="/student/class/rank?code=${co.getCode()}"/>" style="text-decoration: none">
                                             <p class="fw-normal mb-1" style="padding-right: 100px">${co.getName()}</p>
                                             </a>
                                         </td>                                      
                                         <td>                                           
                                             <div style="top :0px">
-                                                <span class="fw-normal mb-1">${formatter.format(DoTestDAO.getScoreTest(co.getClassId(), accID))}</span><br>
+                                                <span class="fw-normal mb-1">${DoTestDAO.getScoreTest(co.getClassId(), accID) == null ? '' : formatter.format(DoTestDAO.getScoreTest(co.getClassId(), accID))}</span><br>
                                             </div>
                                         </td>  
                                     </tr>
