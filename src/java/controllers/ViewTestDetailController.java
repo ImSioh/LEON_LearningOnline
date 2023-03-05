@@ -3,11 +3,13 @@ package controllers;
 import com.google.gson.Gson;
 import dao.AnswerDAO;
 import dao.QuestionDAO;
+import dao.ResourceDAO;
 import dao.StudentAnswerDAO;
 import dao.TestDAO;
 import dto.Question;
 import dto.StudentAnswer;
 import dto.Test;
+import helpers.Constant;
 import helpers.Util;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,6 +31,7 @@ public class ViewTestDetailController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            
             String StudentId = request.getParameter("Sid");
             String Testid = request.getParameter("Tid");
             Test test = new TestDAO().getTestWithAllData(UUID.fromString(Testid));
@@ -46,6 +49,7 @@ public class ViewTestDetailController extends HttpServlet {
             request.setAttribute("test", test);
             request.setAttribute("Sid", StudentId);
             request.setAttribute("studentAnswers", studentAnswers);
+            request.setAttribute("rasterType",  Constant.RASTERTYPE);
         } catch (Exception ex) {
             Logger.getLogger(ViewTestDetailController.class.getName()).log(Level.SEVERE, null, ex);
         }
