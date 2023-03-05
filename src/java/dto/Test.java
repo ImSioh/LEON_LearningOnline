@@ -120,6 +120,16 @@ public class Test {
         this.questions = questions;
     }
 
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+    
+    
+
     @Override
     public String toString() {
         return "Test(" + String.join(", ", new String[]{

@@ -87,7 +87,7 @@
     #question-list {
         position: relative;
         padding: 0 1.5rem 5.5rem !important;
-        box-shadow: inset 0 0 0.5rem 0 #05676640;
+        box-shadow: inset 0 0 0.5rem 0 #00000040;
         background-image: linear-gradient( -45deg, rgba(204, 204, 204, 0.3) 12.5%, #0000 12.5%, #0000 50%, rgba(204, 204, 204, 0.3) 50%, rgba(204, 204, 204, 0.3) 62.5%, #0000 62.5%, #0000 100% );
         background-size: 8px 8px;
     }
@@ -1417,7 +1417,7 @@
             endTimeToggle.click()
             endTimeInput.value = ISOStringFromDate(new Date(test.endAt))
         }
-        if (test.allowReview) {
+        if (!test.allowReview) {
             reviewToggle.click()
         }
         if (test.duration) {

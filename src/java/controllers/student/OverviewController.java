@@ -61,18 +61,13 @@ public class OverviewController extends HttpServlet {
             for (Enrollment e : enrollment) {
                 ClassObject clobj = new ClassObjectDAO().getClassById(e.getClassId());
                 co.add(clobj);
-                Test testt = new TestDAO().getTitleTest(e.getClassId());
-                testD.add(testt);
             }
-//            for (Test t : testD) {
-//                System.out.println(t);
-//            }
             if (accL.getRole() == 2) {
                 req.setAttribute("accL", accL);
                 req.setAttribute("formatterDate", formatterDate);
                 req.setAttribute("enrollment", enrollment);
-                req.setAttribute("testD", testD);
                 req.setAttribute("co", co);
+                req.setAttribute("accDAO", new AccountDAO());
                 req.setAttribute("testDAO", new TestDAO());
                 req.setAttribute("dotestDAO", new DoTestDAO());
                 req.setAttribute("hglO", true);
