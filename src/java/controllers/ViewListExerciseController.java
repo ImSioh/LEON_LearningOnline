@@ -6,7 +6,6 @@ import dao.DoTestDAO;
 import dao.TestDAO;
 import dto.Account;
 import dto.ClassObject;
-import dto.DoTest;
 import dto.Test;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -18,7 +17,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 
 @WebServlet(name = "ViewListExerciseController", urlPatterns = {"/teacher/class/exercise", "/student/class/exercise"})
@@ -41,9 +39,7 @@ public class ViewListExerciseController extends HttpServlet {
 
             ArrayList<Test> listTest = new ArrayList<>();
             listTest = TD.viewListTest(cid);
-            ArrayList<DoTest> listDoTest = new ArrayList<>();
 
-//            Date date = new Date();
             Timestamp now = Timestamp.from(Instant.now());
             request.setAttribute("now", now);
             SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd HH:mm");
