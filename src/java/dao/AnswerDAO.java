@@ -22,7 +22,7 @@ public class AnswerDAO extends AbstractDAO<Answer> {
         );
     }
     
-    public int deleteMultipleQuestions(Collection<UUID> answersIds) throws Exception {
+    public int deleteMultipleAnswers(Collection<UUID> answersIds) throws Exception {
         if (answersIds.isEmpty()) return 0;
         ArrayList<String> queryParts = new ArrayList<>();
         ArrayList<Object> queryParams = new ArrayList<>();

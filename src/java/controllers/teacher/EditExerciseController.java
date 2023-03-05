@@ -84,7 +84,7 @@ public class EditExerciseController extends HttpServlet {
             new TestDAO().updateTest(test);
 
 //            hanlde delete
-            answerDAO.deleteMultipleQuestions(answersState.get("deleted").stream().map(Answer::getAnswerId).collect(Collectors.toList()));
+            answerDAO.deleteMultipleAnswers(answersState.get("deleted").stream().map(Answer::getAnswerId).collect(Collectors.toList()));
             questionDAO.deleteMultipleQuestions(questionsState.get("deleted").stream().map(Question::getQuestionId).collect(Collectors.toList()));
             
 //            hanlde edit
