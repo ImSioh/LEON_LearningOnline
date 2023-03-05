@@ -56,10 +56,14 @@
                                 Finish Time  
                             </th>
                             <c:if test="${account.getRole() == 2}">
-                                <th>Submit Time</th>
-                                <th>Score</th>
+                                <th><a onclick="sortTable(4)" class="fas fa-sort fa-sm m-2" 
+                                       style="cursor: pointer;text-decoration: none"></a>
+                                    Submit Time</th>
+                                <th><a onclick="sortTable(5)" class="fas fa-sort fa-sm m-2" 
+                                       style="cursor: pointer;text-decoration: none"></a>
+                                    Score</th>
                                 </c:if>
-                            <th>Action</th>
+                            <th style="text-align: center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,26 +78,26 @@
                                             </c:if>
                                             <c:if test="${account.getRole() == 2}">
                                                 <a href="" style="text-decoration: none">
-                                            </c:if>
-                                            <p class="fw-bold mb-1">
-                                                <c:set value="${listEX.getTitle()}" var="title"/>
-                                                <c:if test="${title.length() > 25}">
-                                                    ${title.substring(0, 25)}...
                                                 </c:if>
-                                                <c:if test="${title.length() <= 25}">
-                                                    ${title}
+                                                <p class="fw-bold mb-1">
+                                                    <c:set value="${listEX.getTitle()}" var="title"/>
+                                                    <c:if test="${title.length() > 25}">
+                                                        ${title.substring(0, 25)}...
+                                                    </c:if>
+                                                    <c:if test="${title.length() <= 25}">
+                                                        ${title}
+                                                    </c:if>
+                                                </p>
+                                            </a>
+                                            <p class="text-muted mb-0">
+                                                <c:set value="${listEX.getDescription()}" var="description"/>
+                                                <c:if test="${description.length() > 25}">
+                                                    ${description.substring(0, 25)}...
                                                 </c:if>
-                                            </p>
-                                        </a>
-                                        <p class="text-muted mb-0">
-                                            <c:set value="${listEX.getDescription()}" var="description"/>
-                                            <c:if test="${description.length() > 25}">
-                                                ${description.substring(0, 25)}...
-                                            </c:if>
-                                            <c:if test="${description.length() <= 25}">
-                                                ${description}
-                                            </c:if>
-                                        </p> 
+                                                <c:if test="${description.length() <= 25}">
+                                                    ${description}
+                                                </c:if>
+                                            </p> 
                                     </td>
                                     <td>
                                         <c:set var="duration" value="${listEX.getDuration()}"/>
@@ -112,6 +116,42 @@
                                         <td>
                                             <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() != null}">
                                                 ${sdf.format(DoTestDAO.getDoTest(aid, testid).getFinishTime())}
+                                            </c:if>
+                                        </td>
+                                    </c:if>
+
+                                    <!--SCORE-->
+                                    <c:if test="${account.getRole() == 2}">
+                                        <td>
+                                            <!--end = null-->
+                                            <c:if test="${end == null}">
+                                                <!--submit = null--><!--N/A-->
+                                                <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() == null}">
+                                                    N/A
+                                                </c:if>
+                                                <!--submit != null--><!--score-->
+                                                <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() != null}">
+                                                    ${DoTestDAO.getDoTest(aid, testid).getScore()}
+                                                </c:if>
+                                            </c:if>
+
+                                            <!--end != null-->
+                                            <c:if test="${end != null}">
+                                                <!--now < end--><!--N/A-->
+                                                <c:if test="${now <= end}">
+                                                    N/A
+                                                </c:if>
+                                                <!--now > end-->
+                                                <c:if test="${now > end}">
+                                                    <!--submit = null--><!--N/A-->
+                                                    <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() == null}">
+                                                        N/A
+                                                    </c:if>
+                                                    <!--submit != null--><!--score-->
+                                                    <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() != null}">
+                                                        ${DoTestDAO.getDoTest(aid, testid).getScore()}
+                                                    </c:if>
+                                                </c:if>
                                             </c:if>
                                         </td>
                                     </c:if>
@@ -148,8 +188,6 @@
 
                                         <!--STUDENT: NOTHING-->
                                         <c:if test="${account.getRole() == 2}">
-                                            <td></td> <!--Score-->
-                                            <td></td> <!--Exercise-->
                                         </c:if>
                                     </c:if>
 
@@ -172,7 +210,6 @@
 
                                             <!--STUDENT: DO EXERCISE-->
                                             <c:if test="${account.getRole() == 2}">
-                                                <td></td> <!--Score-->
                                                 <!--Exercise-->
                                                 <td>
                                                     <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() == null}">
@@ -218,13 +255,6 @@
 
                                             <!--STUDENT: RESULT-->
                                             <c:if test="${account.getRole() == 2}">
-                                                <!--Score-->
-                                                <td>
-                                                    <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() == null}">
-                                                        N/A
-                                                    </c:if>
-                                                    <fmt:formatNumber value="${DoTestDAO.getDoTest(aid, testid).getScore()}" pattern="0.00"/>
-                                                </td>
                                                 <!--Exercise-->
                                                 <td>
                                                     <c:if test="${listEX.isAllowReview()}">
@@ -240,13 +270,16 @@
                                             </c:if>
                                         </c:if>
                                     </c:if>
+                                    <!--end: end time != null-->
 
                                     <!--FINISH TIME = NULL-->
                                     <c:if test="${end == null}">
-                                        <!--DOING-->
-                                        <c:if test="${start <= now && (elapse <= duration)}">
-                                            <!--TEACHER: VIEW EXERCISE-->
-                                            <c:if test="${account.getRole() == 1}">
+                                        <!--end = null-->
+                                        <!--teacher-->
+                                        <c:if test="${account.getRole() == 1}">
+                                            <!--doing-->
+                                            <!--elapse <= duration--><!--view-->
+                                            <c:if test="${elapse <= duration}">
                                                 <td style="text-align: center">
                                                     <div class="justify-content-center gap-1">
                                                         <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
@@ -257,30 +290,9 @@
                                                     </div>
                                                 </td>     
                                             </c:if>
-
-                                            <!--STUDENT: DO EXERCISE-->
-                                            <c:if test="${account.getRole() == 2}">
-                                                <td></td> <!--Score-->
-                                                <!--Exercise-->
-                                                <td>
-                                                    <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() == null}">
-                                                        <div class="justify-content-center">
-                                                            <a onclick="return startExercise(${duration})" 
-                                                               href="<c:url value="/student/class/exercise/do?code=${code}&testid=${testid}"/>"
-                                                               class="btn btn-link btn-sm btn-rounded bg-primary text-light"
-                                                               style="text-decoration: none">
-                                                                Start
-                                                            </a>
-                                                        </div>
-                                                    </c:if>
-                                                </td>
-                                            </c:if>
-                                        </c:if>
-
-                                        <!--DONE--> 
-                                        <c:if test="${elapse > duration}">
-                                            <!--TEACHER: VIEW, DELETE EXERCISE, VIEW RESULT-->
-                                            <c:if test="${account.getRole() == 1}">
+                                            <!--done-->
+                                            <!--elapse > duration--><!--view & delete & result-->
+                                            <c:if test="${elapse > duration}">
                                                 <td style="text-align: center">
                                                     <div class="justify-content-center gap-1">
                                                         <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
@@ -303,31 +315,51 @@
                                                     </div>
                                                 </td>     
                                             </c:if>
+                                        </c:if>
+                                        <!--end: teacher-->
 
-                                            <!--STUDENT: RESULT-->
-                                            <c:if test="${account.getRole() == 2}">
-                                                <!--Score-->
-                                                <td>
-                                                    <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() == null}">
-                                                        N/A
-                                                    </c:if>
-                                                    <fmt:formatNumber value="${DoTestDAO.getDoTest(aid, testid).getScore()}" pattern="0.00"/>
-                                                </td>
-                                                <!--Exercise-->
-                                                <td>
-                                                    <c:if test="${listEX.isAllowReview()}">
+                                        <!--student-->
+                                        <c:if test="${account.getRole() == 2}">
+                                            <c:if test="${now < start}">
+                                                <td></td>
+                                            </c:if>
+                                            <c:if test="${now >= start}">
+                                                <!--doing-->
+                                                <!--submit = null--><!--start-->
+                                                <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() == null}">
+                                                    <td>
                                                         <div class="justify-content-center">
-                                                            <a href="<c:url value="/student/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>"
-                                                               class="btn btn-link btn-sm btn-rounded bg-success text-light"
+                                                            <a onclick="return startExercise(${duration})" 
+                                                               href="<c:url value="/student/class/exercise/do?code=${code}&testid=${testid}"/>"
+                                                               class="btn btn-link btn-sm btn-rounded bg-primary text-light"
                                                                style="text-decoration: none">
-                                                                Result
+                                                                Start
                                                             </a>
                                                         </div>
-                                                    </c:if>
-                                                </td>
+                                                    </td>
+                                                </c:if>
+                                                <!--done-->
+                                                <!--submit != null-->
+                                                <c:if test="${DoTestDAO.getDoTest(aid, testid).getFinishTime() != null}">
+                                                    <td>
+                                                        <!--review = true--><!--result-->
+                                                        <c:if test="${listEX.isAllowReview()}">
+                                                            <div class="justify-content-center">
+                                                                <a href="<c:url value="/student/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>"
+                                                                   class="btn btn-link btn-sm btn-rounded bg-success text-light"
+                                                                   style="text-decoration: none">
+                                                                    Result
+                                                                </a>
+                                                            </div>
+                                                        </c:if>
+                                                        <!--review = false--><!--nothing-->
+                                                    </td>
+                                                </c:if>
                                             </c:if>
                                         </c:if>
+                                        <!--end: role-->
                                     </c:if>
+                                    <!--end: end time = null-->
                                 </tr>
                             </c:if>
                         </c:forEach>

@@ -1,9 +1,7 @@
 package controllers.teacher;
 
-import dao.ClassObjectDAO;
 import dao.TestDAO;
 import dto.Account;
-import dto.ClassObject;
 import dto.Test;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -11,7 +9,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.UUID;
 
 @WebServlet(name = "DeleteExerciseController", urlPatterns = {"/teacher/class/exercise/delete"})
