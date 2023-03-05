@@ -16,7 +16,7 @@ public class TestDAO extends AbstractDAO<Test> {
     }
     
     public int updateTest(Test test) throws Exception {
-        String query = "UPDATE test t SET class_id = ?, resource_id = ?, title = ?, description = ?, start_at = ?, end_at = ?, duration = ?, allow_review = ?, create_time = ? WHERE test_id = ?;";
+        String query = "UPDATE test t SET class_id = ?, resource_id = ?, title = ?, description = ?, start_at = ?, end_at = ?, duration = ?, allow_review = ? WHERE test_id = ?;";
         return update(
                 query,
                 Util.UUIDToByteArray(test.getClassId()),
@@ -27,7 +27,6 @@ public class TestDAO extends AbstractDAO<Test> {
                 test.getEndAt(),
                 test.getDuration(),
                 test.isAllowReview(),
-                test.getCreateTime(),
                 Util.UUIDToByteArray(test.getTestId())
         );
     }

@@ -20,10 +20,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.UUID;
 
 @WebServlet(name = "CreateExerciseController", urlPatterns = {"/teacher/class/exercise/create"})

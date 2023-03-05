@@ -46,6 +46,10 @@ public class EditExerciseController extends HttpServlet {
             req.setAttribute("classObject", classObject);
             UUID testId = UUID.fromString(req.getParameter("testid"));
             Test test = new TestDAO().getTestWithAllData(testId);
+            if (test.getStartAt().before(new Timestamp(System.currentTimeMillis()))) {
+                resp.sendRedirect(req.getContextPath() + "/teacher/class/exercise?code=" + classObject.getCode());
+                return;
+            }
             Gson gson = new Gson();
             String json = StringEscapeUtils.escapeEcmaScript(gson.toJson(test));
             req.setAttribute("test", json);
@@ -74,7 +78,6 @@ public class EditExerciseController extends HttpServlet {
 
             ArrayList<Question> questions = new ArrayList<>();
             ArrayList<Answer> answers = new ArrayList<>();
-            ArrayList<UUID> uuids = new ArrayList<>();
             QuestionDAO questionDAO = new QuestionDAO();
             AnswerDAO answerDAO = new AnswerDAO();
             
