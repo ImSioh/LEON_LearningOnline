@@ -47,7 +47,9 @@
                                    style="cursor: pointer; text-decoration: none"></a>   
                                 Title 
                             </th>
-                            <th>Duration</th>
+                            <th><a onclick="sortTableID(1, 'myTable')" class="fas fa-sort fa-sm m-2" 
+                                   style="cursor: pointer;text-decoration: none"></a>
+                                Duration</th>
                             <th><a onclick="sortTable(2)" class="fas fa-sort fa-sm m-2" 
                                    style="cursor: pointer;text-decoration: none"></a>
                                 Start Time</th>
@@ -59,7 +61,7 @@
                                 <th><a onclick="sortTable(4)" class="fas fa-sort fa-sm m-2" 
                                        style="cursor: pointer;text-decoration: none"></a>
                                     Submit Time</th>
-                                <th><a onclick="sortTable(5)" class="fas fa-sort fa-sm m-2" 
+                                <th><a onclick="sortTableID(5, 'myTable')" class="fas fa-sort fa-sm m-2" 
                                        style="cursor: pointer;text-decoration: none"></a>
                                     Score</th>
                                 </c:if>
@@ -104,9 +106,7 @@
                                         <fmt:formatNumber value="${duration}" pattern="0"/> min</td>
                                     <td>
                                         <c:set value="${listEX.getStartAt()}" var="start"/>
-                                        <c:if test="${start != null}">
-                                            ${sdf.format(start)}
-                                        </c:if>
+                                        ${sdf.format(start)}
                                     </td>
                                     <td>
                                         <c:set value="${listEX.getEndAt()}" var="end"/>
@@ -439,6 +439,36 @@
                     switching = true;
                 }
             }
+        }
+    }
+
+    var ascending = true;
+
+    function sortTableID(n, tableId) {
+        // Get the table element
+        var table = document.getElementById(tableId);
+        // Get the rows in the table body
+        var rows = table.tBodies[0].rows;
+        // Convert the rows to an array for sorting
+        var rowsArray = Array.from(rows);
+        // Sort the array by the specified column
+        var doubleA;
+        rowsArray.sort(function (a, b) {
+            var doubleA = parseFloat(a.cells[n].textContent) || 0.0;
+            var doubleB = parseFloat(b.cells[n].textContent) || 0.0;
+            // Use a default value for null column values
+            if (isNaN(doubleA))
+                doubleA = 0.0;
+            if (isNaN(doubleB))
+                doubleB = 0.0;
+            var diff = doubleA - doubleB;
+            return ascending ? diff : -diff;
+        });
+        // Toggle the ascending variable for next time
+        ascending = !ascending;
+        // Add the sorted rows back to the table
+        for (var i = 0; i < rowsArray.length; i++) {
+            table.tBodies[0].appendChild(rowsArray[i]);
         }
     }
 

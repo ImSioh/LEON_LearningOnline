@@ -54,13 +54,14 @@
                                 <a onclick="sortTable(0)" class="fas fa-sort fa-sm m-2" 
                                    style="cursor: pointer; text-decoration: none"></a>  
                                 Student</th>
-                            <th class="sticky-col second-col"><a onclick="sortTable(1)" class="fas fa-sort fa-sm m-2" 
-                                                                 style="cursor: pointer; text-decoration: none"></a>
+                            <th class="sticky-col second-col">
+                                <a onclick="sortTableID(1, 'myTable')" class="fas fa-sort fa-sm m-2" 
+                                   style="cursor: pointer; text-decoration: none"></a>
                                 Average</th>
                                 <c:forEach items="${listExercise}" var="listEX" varStatus="i">
                                     <c:if test="${listEX.getCreateTime() != null}">
                                     <th>
-                                        <a onclick="sortTable(${i.count - count + 1})" class="fas fa-sort fa-sm m-2" 
+                                        <a onclick="sortTableID(${i.count - count + 1}, 'myTable')" class="fas fa-sort fa-sm m-2" 
                                            style="cursor: pointer; text-decoration: none"></a>
                                         <c:set value="${listEX.getTitle()}" var="title"/>
                                         <c:if test="${title.length() > 15}">
@@ -190,6 +191,36 @@
                     switching = true;
                 }
             }
+        }
+    }
+
+    var ascending = true;
+
+    function sortTableID(n, tableId) {
+        // Get the table element
+        var table = document.getElementById(tableId);
+        // Get the rows in the table body
+        var rows = table.tBodies[0].rows;
+        // Convert the rows to an array for sorting
+        var rowsArray = Array.from(rows);
+        // Sort the array by the specified column
+        var doubleA;
+        rowsArray.sort(function (a, b) {
+            var doubleA = parseFloat(a.cells[n].textContent) || 0.0;
+            var doubleB = parseFloat(b.cells[n].textContent) || 0.0;
+            // Use a default value for null column values
+            if (isNaN(doubleA))
+                doubleA = 0.0;
+            if (isNaN(doubleB))
+                doubleB = 0.0;
+            var diff = doubleA - doubleB;
+            return ascending ? diff : -diff;
+        });
+        // Toggle the ascending variable for next time
+        ascending = !ascending;
+        // Add the sorted rows back to the table
+        for (var i = 0; i < rowsArray.length; i++) {
+            table.tBodies[0].appendChild(rowsArray[i]);
         }
     }
 
