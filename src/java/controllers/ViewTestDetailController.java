@@ -36,7 +36,7 @@ public class ViewTestDetailController extends HttpServlet {
             String json = gson.toJson(test);
             json = StringEscapeUtils.escapeEcmaScript(json);
             ArrayList<UUID> studentAnswers = new StudentAnswerDAO().getStudentAnswerByQuestionID(UUID.fromString(Testid), UUID.fromString(StudentId));
-            if (new TestDAO().getTestWithAllData(UUID.fromString(Testid)).getResourceId() != null) {
+            if (test.getResourceId() != null) {
                 request.setAttribute("ResourceId", "has-paper");
             } else {
                 request.setAttribute("ResourceId", "");

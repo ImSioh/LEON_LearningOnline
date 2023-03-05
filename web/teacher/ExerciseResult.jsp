@@ -27,23 +27,10 @@
                         aria-controls="pills-home"
                         aria-selected="true"
                         >
-                        All
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button
-                        class="nav-link"
-                        id="pills-profile-tab2"
-                        data-mdb-toggle="pill"
-                        data-mdb-target="#pills-profile2"
-                        type="button"
-                        role="tab"
-                        aria-controls="pills-profile"
-                        aria-selected="false"
-                        >
                         Done
                     </button>
                 </li>
+
                 <li class="nav-item" role="presentation">
                     <button
                         class="nav-link"
@@ -74,99 +61,16 @@
                                         <a onclick="sortTable(0)" class="fas fa-sort fa-sm m-2" style="cursor: pointer; text-decoration: none"></a>   
                                         Name 
                                     </th>
-                                    <th><a onclick="sortTable(1)" class="fas fa-sort fa-sm m-2" style="cursor: pointer;text-decoration: none"></a>Score</th>
-                                    <th><a onclick="onclick = sortTable(2)" style="cursor: pointer;text-decoration: none" class="fas fa-sort fa-sm m-2"></a>Time</th>
+                                    <th><a onclick="sortTableID(1, 'myTable')" class="fas fa-sort fa-sm m-2" style="cursor: pointer;text-decoration: none"></a>Score</th>
+                                    <th><a onclick="sortTableID(2, 'myTable')" style="cursor: pointer;text-decoration: none" class="fas fa-sort fa-sm m-2"></a>Time</th>
                                     <th>Submit Time</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-
-                                <c:forEach items="${listStudent}" var="listS" >
-                                    <tr>                          
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div style="width: 45px; height: 45px; overflow: hidden;" class="rounded-circle" >
-                                                    <div id="profile-img" style="
-                                                         width: 100%;
-                                                         height: 0;
-                                                         padding-bottom: 100%;
-                                                         background-image: url(<c:url value="${listS.getProfilePicture() ==null ? '/assets/img/ava.png' : listS.getProfilePicture()}"/>);
-                                                         background-position: center;
-                                                         background-repeat: no-repeat;
-                                                         background-size: cover;
-                                                         ">;
-                                                    </div>
-                                                </div>
-                                                <div class="ms-3" style="cursor: pointer;">
-                                                    <p class="fw-bold mb-1">${listS.getName()}</p>
-                                                    <p class="text-muted mb-0">${listS.getEmail()}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="fw-normal mb-1">${DoTestDAO.getDoTestById(listS.getAccountId() , testId).getScore()}</p>
-                                        </td>
-                                        <c:set value="${DoTestDAO.getDoTestById(listS.getAccountId() , testId).getStartTime()}" var="start" ></c:set>
-                                        <c:set value="${DoTestDAO.getDoTestById(listS.getAccountId() , testId).getFinishTime()}" var="finish" ></c:set>
-                                        <fmt:formatDate value="${start}" pattern="yyyy-MM-dd HH:mm:ss" var="startDate" />
-                                        <fmt:formatDate value="${finish}" pattern="yyyy-MM-dd HH:mm:ss" var="finishDate" />
-                                        <c:set var="diffInMillis" value="${finish.time - start.time}" />
-                                        <c:if test="${diffInMillis/60000 !=0.0}">
-                                            <td>
-                                                <fmt:formatNumber value="${diffInMillis/60000}" pattern="0.00" />
-                                            </td>
-                                        </c:if> 
-
-                                        <c:if test="${finish!=null}" >
-                                            <td> ${sdf.format(finish)}
-                                            </td>
-                                        </c:if>
-
-
-                                        <td>
-                                            <c:if test="${DoTestDAO.getDoTestById(listS.getAccountId(),testId).getFinishTime()!=null}">
-                                                <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
-                                                    Reset
-                                                </a>
-                                               <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testId}&Sid=${listS.getAccountId()}"/>" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
-                                                        View
-                                                    </a>
-                                            </c:if>                                      
-                                        </td> 
-                                    </tr>
-                                </c:forEach>   
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div
-                    class="tab-pane fade"
-                    id="pills-profile2"
-                    role="tabpanel"
-                    aria-labelledby="pills-profile-tab2"
-                    >
-
-                    <div class="card-body m-3">
-                        <table id="myTable" class="table align-middle mb-0 bg-white" style="padding: -10px;">
-                            <thead class="bg-light">               
-                                <tr>
-                                    <th>
-                                        <a onclick="sortTable(0)" class="fas fa-sort fa-sm m-2" style="cursor: pointer; text-decoration: none"></a>   
-                                        Name 
-                                    </th>
-                                    <th><a onclick="sortTable(1)" class="fas fa-sort fa-sm m-2" style="cursor: pointer;text-decoration: none"></a>Score</th>
-                                    <th><a onclick = sortTable(2)" style="cursor: pointer;text-decoration: none" class="fas fa-sort fa-sm m-2"></a>Time</th>
-                                    <th>Submit Time</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
                                 <c:forEach items="${listStudent}" var="listS" >
                                     <c:if test="${DoTestDAO.getDoTestById(listS.getAccountId(),testId).getFinishTime()!=null}">
+
                                         <tr>                          
                                             <td>
                                                 <div class="d-flex align-items-center">
@@ -204,9 +108,10 @@
 
                                             <c:if test="${finish!=null}" >
                                                 <td> ${sdf.format(finish)}
+                                                </td>
+                                            </c:if>
 
-                                                </c:if>
-                                            </td>
+
                                             <td>
                                                 <c:if test="${DoTestDAO.getDoTestById(listS.getAccountId(),testId).getFinishTime()!=null}">
                                                     <a  style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
@@ -215,7 +120,7 @@
                                                     <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testId}&Sid=${listS.getAccountId()}"/>" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-info text-light">
                                                         View
                                                     </a>
-                                                </c:if>
+                                                </c:if>                                      
                                             </td> 
                                         </tr>
                                     </c:if>
@@ -224,8 +129,9 @@
                             </tbody>
                         </table>
                     </div>
-
                 </div>
+
+
 
                 <div
                     class="tab-pane fade"
@@ -321,7 +227,6 @@
         table = document.getElementById("myTable");
         switching = true;
         dir = "asc";
-
         while (switching) {
             switching = false;
             rows = table.rows;
@@ -376,6 +281,40 @@
             }
         }
     }
+
+
+
+    var ascending = true;
+
+    function sortTableID(n, tableId) {
+        // Get the table element
+        var table = document.getElementById(tableId);
+        // Get the rows in the table body
+        var rows = table.tBodies[0].rows;
+        // Convert the rows to an array for sorting
+        var rowsArray = Array.from(rows);
+        // Sort the array by the specified column
+        var doubleA;
+        rowsArray.sort(function (a, b) {
+            var doubleA = parseFloat(a.cells[n].textContent) || 0.0;
+            var doubleB = parseFloat(b.cells[n].textContent) || 0.0;
+            // Use a default value for null column values
+            if (isNaN(doubleA))
+                doubleA = 0.0;
+            if (isNaN(doubleB))
+                doubleB = 0.0;
+            var diff = doubleA - doubleB;
+            return ascending ? diff : -diff;
+        });
+        // Toggle the ascending variable for next time
+        ascending = !ascending;
+        // Add the sorted rows back to the table
+        for (var i = 0; i < rowsArray.length; i++) {
+            table.tBodies[0].appendChild(rowsArray[i]);
+        }
+    }
+
+
 
 </script>
 
