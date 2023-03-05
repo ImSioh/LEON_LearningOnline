@@ -193,7 +193,19 @@
                     <p class="question-order user-select-none">Question ${listQ.getQuestionOrder()}</p>
                     <div class="question-body">
                         <div class="question-term">
-                            <p class="question-content">${listQ.getContent()}</p>
+                            <p class="question-content">${listQ.getContent()}</p>                 
+                            <c:if test="${!rasterType.contains(listQ.getResource().getMimeType())}">
+                                <div class="document-box">
+                                    <a class="text-decoration-none text-black text-truncate"
+                                       href="<c:url value="${listQ.getResource().getUrl()}"></c:url>" download="">
+                                        <div class="document-item text-truncate d-block">${listQ.getResource().getUrl().substring(listQ.getResource().getUrl().lastIndexOf("/")+1)}</div>
+                                    </a></div>
+                                </c:if> 
+                                <c:if test="${rasterType.contains(listQ.getResource().getMimeType())}">
+                                <div class="img-resource"
+                                     style = "background-image : url('<c:url value="${listQ.getResource().getUrl()}"></c:url>')">
+                                     </div>
+                            </c:if> 
                         </div>
                         <div class="question-answer-list">
 
@@ -206,15 +218,29 @@
                                                                           style="background-color: #FF6666;"
                                                                       </c:if>
                                                                       class="question-answer p-3 pt-4 mt-3">
-                                    
+
                                     <p class="answer-order user-select-none">${Util.numberToLetter(ansD.getAnswerOrder())}</p>
                                     <div class="pb-2 answer-resource">
+                                        <c:if test="${ansD.getResourceId()!=null}">                                                                            
+                                            <c:if test="${!rasterType.contains(ansD.getResource().getMimeType())}">
+                                                <div class="document-box">
+                                                    <a class="text-decoration-none text-black text-truncate"
+                                                       href="<c:url value="${ansD.getResource().getUrl()}"></c:url>" download="">
+                                                        <div class="document-item text-truncate d-block">${ansD.getResource().getUrl().substring(ansD.getResource().getUrl().lastIndexOf("/")+1)}</div>
+                                                    </a></div>
+                                                </c:if> 
+                                                <c:if test="${rasterType.contains(ansD.getResource().getMimeType())}">
+                                                <div class="img-resource"
+                                                     style = "background-image : url('<c:url value="${ansD.getResource().getUrl()}"></c:url>')">
+                                                     </div>
+                                            </c:if> 
+                                        </c:if>
                                     </div>
-                                    <p class="question-content">${ansD.getContent()}</p>
+                                    <p class="question-content">${ansD.getContent()}
 
+                                    </p>
 
                                 </div>  
-
                             </c:forEach>
                         </div>
                     </div>
@@ -222,9 +248,9 @@
             </div>
         </c:forEach>
     </div>
-      
+
 </div>
-          
+
 </div>
 <script src="<c:url value="/assets/js/pdf.min.js"/>"></script>
 <script src="<c:url value="/assets/js/jszip.min.js"/>"></script>
@@ -314,7 +340,7 @@
                     }
                 });
     }
-    
-    
-    
+
+
+
 </script>

@@ -69,6 +69,14 @@ public class Answer {
         this.correct = correct;
     }
 
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+
     @Override
     public String toString() {
         return "Answer(" + String.join(", ", new String[]{
