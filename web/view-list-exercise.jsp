@@ -103,7 +103,7 @@
                                     </td>
                                     <td>
                                         <c:set var="duration" value="${listEX.getDuration()}"/>
-                                        <fmt:formatNumber value="${duration}" pattern="0"/> min</td>
+                                        ${duration} min
                                     <td>
                                         <c:set value="${listEX.getStartAt()}" var="start"/>
                                         ${sdf.format(start)}

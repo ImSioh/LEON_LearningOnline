@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <div class="card-body m-3 wrapper" style="display: flex; width: 95%; height: 65vh;">
+            <div class="card-body m-3 wrapper" style="padding-left: 0; display: flex; width: 95%; height: 65vh;">
                 <table id="myTable" class="table align-middle mb-0 bg-white">
                     <thead class="bg-light">
                         <tr>
@@ -60,7 +60,7 @@
                                 Average</th>
                                 <c:forEach items="${listExercise}" var="listEX" varStatus="i">
                                     <c:if test="${listEX.getCreateTime() != null}">
-                                    <th>
+                                    <th style="padding: 0 25px;">
                                         <a onclick="sortTableID(${i.count - count + 1}, 'myTable')" class="fas fa-sort fa-sm m-2" 
                                            style="cursor: pointer; text-decoration: none"></a>
                                         <c:set value="${listEX.getTitle()}" var="title"/>
@@ -93,34 +93,42 @@
                                             </div>
                                         </div>
                                         <div class="ms-3" style="cursor: pointer;">
-                                            <p class="fw-bold mb-1">${listS.getName()}</p>
+                                            <p class="fw-bold mb-1">
+                                                <c:set value="${listS.getName()}" var="name"/>
+                                                <c:if test="${name.length() > 20}">
+                                                    ${name.substring(0, 20)}...
+                                                </c:if>
+                                                <c:if test="${name.length() <= 20}">
+                                                    ${name}
+                                                </c:if>
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td class="sticky-col second-col" style="text-align: center">
-                                    <c:set var="avg" value="${DoTestDAO.getScoreTest(classid, listS.getAccountId())}"/>
-                                    <c:if test="${avg != null}">
-                                        <fmt:formatNumber value="${avg}" pattern="0.0"/>
-                                    </c:if>
-                                    <c:if test="${avg == null}">
-                                        N/A
-                                    </c:if>
-                                </td>
-                                <c:forEach items="${listExercise}" var="listEX">
-                                    <c:if test="${listEX.getCreateTime() != null}">
-                                        <c:set var="testid" value="${listEX.getTestId()}"/>
-                                        <td style="text-align: center">
-                                            <c:set var="score" value="${DoTestDAO.getDoTestById(listS.getAccountId() , testid).getScore()}"/>
-                                            <c:if test="${score != null}">
-                                                <fmt:formatNumber value="${score}" pattern="0.0"/>
-                                            </c:if>
-                                            <c:if test="${score == null}">
-                                                N/A
-                                            </c:if>
-                                        </td>
-                                    </c:if>
-                                </c:forEach>
-                            </tr>
+                                    </td>
+                                    <td class="sticky-col second-col" style="text-align: center">
+                                        <c:set var="avg" value="${DoTestDAO.getScoreTest(classid, listS.getAccountId())}"/>
+                                        <c:if test="${avg != null}">
+                                            <fmt:formatNumber value="${avg}" pattern="0.0"/>
+                                        </c:if>
+                                        <c:if test="${avg == null}">
+                                            N/A
+                                        </c:if>
+                                    </td>
+                                    <c:forEach items="${listExercise}" var="listEX">
+                                        <c:if test="${listEX.getCreateTime() != null}">
+                                            <c:set var="testid" value="${listEX.getTestId()}"/>
+                                            <td style="text-align: center">
+                                                <c:set var="score" value="${DoTestDAO.getDoTestById(listS.getAccountId() , testid).getScore()}"/>
+                                                <c:if test="${score != null}">
+                                                    <fmt:formatNumber value="${score}" pattern="0.0"/>
+                                                </c:if>
+                                                <c:if test="${score == null}">
+                                                    N/A
+                                                </c:if>
+                                            </td>
+                                        </c:if>
+                                    </c:forEach>
+                                </tr>
                         </c:forEach>
                     </tbody>
                 </table>
@@ -145,13 +153,18 @@
     }
 
     .first-col {
-        min-width: 200px;
+        width: 250px;
+        min-width: 250px;
+        max-width: 250px;
         left: 0px;
         background-color: #f8f9fa !important;
     }
 
     .second-col {
-        left: 200px;
+        /*width: 200px;*/
+        /*min-width: 200px;*/
+        /*max-width: 200px;*/
+        left: 249px;
         background-color: #f8f9fa !important;
     }
 </style>
