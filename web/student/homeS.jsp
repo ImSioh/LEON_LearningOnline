@@ -39,29 +39,29 @@
                                     <c:forEach items="${testDAO.getListTitleTest(co.getClassId())}" var="testD">
                                         <c:if test="${dotestDAO.getDoTest(accL.getAccountId(), testD.getTestId()) == null || dotestDAO.getDoTest(accL.getAccountId(), testD.getTestId()).getFinishTime() == null}">
                                             <c:if test="${testD.getCreateTime() != null}">
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center"> 
-                                                        <div >
-                                                            <a href="<c:url value="/student/class/exercise?code=${co.getCode()}"/>" style="padding-right: 150px; text-decoration: none">
-                                                                <p class="fw-bold mb-1">${testD.getTitle()}</p>
-                                                                <p class="text-muted mb-0">not done</p>
-                                                            </a>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center"> 
+                                                            <div>
+                                                                <a onclick="return startExercise(${duration})" href="<c:url value="/student/class/exercise/do?code=${co.getCode()}&testid=${testD.getTestId()}"/>" style="padding-right: 150px; text-decoration: none">
+                                                                    <p class="fw-bold mb-1">${testD.getTitle()}</p>
+                                                                    <p class="text-muted mb-0">not done</p>
+                                                                </a>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                 <td>
-                                                    <p class="fw-normal mb-1" style="padding-right: 100px" >${accDAO.getAccountById(co.getAccountId()).getName()}</p>
-                                                </td>
-                                                <td>
-                                                    <p class="fw-normal mb-1" style="padding-right: 50px">${co.getName()}</p>
-                                                </td>
-                                                <td>
-                                                    <div  style="padding: 22px 0px">
-                                                        <span class="fw-normal mb-1">${testD.getEndAt()}</span><br>
-                                                    </div>
-                                                </td>  
-                                            </tr>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fw-normal mb-1" style="padding-right: 100px" >${accDAO.getAccountById(co.getAccountId()).getName()}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fw-normal mb-1" style="padding-right: 50px">${co.getName()}</p>
+                                                    </td>
+                                                    <td>
+                                                        <div  style="padding: 22px 0px">
+                                                            <span class="fw-normal mb-1">${testD.getEndAt()}</span><br>
+                                                        </div>
+                                                    </td>  
+                                                </tr>
                                             </c:if>
                                         </c:if>
                                     </c:forEach>
@@ -75,4 +75,16 @@
         </div>
     </div>
 </div>
+<script>
+    function startExercise(duration) {
+        msg = 'The test has a time limit of ' + duration + ' min.\n\
+You must submit your exercise before time runs out..\n\
+Are you sure you want to get started now?'
+        if (confirm(msg)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 <%@include file= "../template/footer.jsp" %>
