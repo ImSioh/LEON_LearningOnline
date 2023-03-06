@@ -24,7 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.text.StringEscapeUtils;
 
-@WebServlet(name = "ViewTestDetailController", urlPatterns = {"/teacher/exercise/view-detail-test", "/student/exercise/view-detail-test"})
+@WebServlet(name = "ViewTestDetailController", urlPatterns = {"/teacher/class/exercise/view-detail-test", "/student/class/exercise/view-detail-test"})
 public class ViewTestDetailController extends HttpServlet {
 
     @Override

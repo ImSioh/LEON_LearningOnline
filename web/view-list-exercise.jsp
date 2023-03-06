@@ -169,7 +169,7 @@
                                             <c:if test="${account.getRole() == 1}">
                                                 <td style="text-align: center">
                                                     <div class="justify-content-center gap-1">
-                                                        <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
+                                                        <a href="<c:url value="/teacher/class/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
                                                            class="btn btn-link btn-sm btn-rounded bg-primary text-light"
                                                            style="text-decoration: none">
                                                             Detail
@@ -202,7 +202,7 @@
                                             <c:if test="${account.getRole() == 1}">
                                                 <td style="text-align: center">
                                                     <div class="justify-content-center gap-1">
-                                                        <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
+                                                        <a href="<c:url value="/teacher/class/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
                                                            class="btn btn-link btn-sm btn-rounded bg-primary text-light"
                                                            style="text-decoration: none">
                                                             Detail
@@ -235,7 +235,7 @@
                                             <c:if test="${account.getRole() == 1}">
                                                 <td style="text-align: center">
                                                     <div class="justify-content-center gap-1">
-                                                        <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
+                                                        <a href="<c:url value="/teacher/class/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
                                                            class="btn btn-link btn-sm btn-rounded bg-primary text-light"
                                                            style="text-decoration: none">
                                                             Detail
@@ -262,7 +262,7 @@
                                                 <td>
                                                     <c:if test="${listEX.isAllowReview()}">
                                                         <div class="justify-content-center">
-                                                            <a href="<c:url value="/student/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>"
+                                                            <a href="<c:url value="/student/class/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>"
                                                                class="btn btn-link btn-sm btn-rounded bg-success text-light"
                                                                style="text-decoration: none">
                                                                 Result
@@ -284,7 +284,7 @@
                                             <c:if test="${now < start}">
                                                 <td style="text-align: center">
                                                     <div class="justify-content-center gap-1">
-                                                        <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
+                                                        <a href="<c:url value="/teacher/class/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
                                                            class="btn btn-link btn-sm btn-rounded bg-primary text-light"
                                                            style="text-decoration: none">
                                                             Detail
@@ -312,7 +312,7 @@
                                                 <c:if test="${elapse <= duration}">
                                                     <td style="text-align: center">
                                                         <div class="justify-content-center gap-1">
-                                                            <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
+                                                            <a href="<c:url value="/teacher/class/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
                                                                class="btn btn-link btn-sm btn-rounded bg-primary text-light"
                                                                style="text-decoration: none">
                                                                 Detail
@@ -325,7 +325,7 @@
                                                 <c:if test="${elapse > duration}">
                                                     <td style="text-align: center">
                                                         <div class="justify-content-center gap-1">
-                                                            <a href="<c:url value="/teacher/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
+                                                            <a href="<c:url value="/teacher/class/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>" 
                                                                class="btn btn-link btn-sm btn-rounded bg-primary text-light"
                                                                style="text-decoration: none">
                                                                 Detail
@@ -377,7 +377,7 @@
                                                         <!--review = true--><!--result-->
                                                         <c:if test="${listEX.isAllowReview()}">
                                                             <div class="justify-content-center">
-                                                                <a href="<c:url value="/student/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>"
+                                                                <a href="<c:url value="/student/class/exercise/view-detail-test?Tid=${testid}&Sid=${account.getAccountId()}"/>"
                                                                    class="btn btn-link btn-sm btn-rounded bg-success text-light"
                                                                    style="text-decoration: none">
                                                                     Result
