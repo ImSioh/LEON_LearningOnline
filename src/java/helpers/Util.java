@@ -8,25 +8,34 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class Util {
 
     public static byte[] UUIDToByteArray(UUID uuid) {
-        if (uuid == null) return null;
+        if (uuid == null) {
+            return null;
+        }
         ByteBuffer byteBuffer = ByteBuffer.wrap(new byte[16]);
         byteBuffer.putLong(uuid.getMostSignificantBits());
         byteBuffer.putLong(uuid.getLeastSignificantBits());
         return byteBuffer.array();
     }
-    
+
     public static UUID ByteArrayToUUID(byte[] bytes) {
-        if (bytes == null) return null;
+        if (bytes == null) {
+            return null;
+        }
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
         long high = byteBuffer.getLong();
         long low = byteBuffer.getLong();
@@ -96,11 +105,31 @@ public class Util {
         });
     }
 
-    private static String bytesToHex(byte[] bytes) {
+    public static String bytesToHex(byte[] bytes) {
         StringBuilder result = new StringBuilder();
         for (byte b : bytes) {
             result.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
         }
         return result.toString();
+    }
+    
+    public static String numberToLetter(int num) {
+    if (num <= 26) {
+        return Character.toString((char) (64 + num));
+    } else {
+        int quotient = (num - 1) / 26;
+        int remainder = (num - 1) % 26 + 1;
+        return numberToLetter(quotient) + numberToLetter(remainder);
+    }
+}
+
+    public static String getBodyString(HttpServletRequest req) throws IOException {
+        ArrayList<String> lines = new ArrayList<>();
+        InputStream inputStream = req.getInputStream();
+        Scanner scanner = new Scanner(inputStream, "UTF-8");
+        while (scanner.hasNextLine()) {
+            lines.add(scanner.nextLine());
+        }
+        return String.join("\n", lines);
     }
 }

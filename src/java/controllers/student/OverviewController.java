@@ -5,7 +5,14 @@
 package controllers.student;
 
 import dao.AccountDAO;
+import dao.ClassObjectDAO;
+import dao.DoTestDAO;
+import dao.EnrollmentDAO;
+import dao.TestDAO;
 import dto.Account;
+import dto.ClassObject;
+import dto.Enrollment;
+import dto.Test;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,6 +20,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,8 +54,22 @@ public class OverviewController extends HttpServlet {
             // take data from database
             AccountDAO accountDAO = new AccountDAO();
             Account accL = accountDAO.getAccountByEmail(email);
+            ArrayList<ClassObject> co = new ArrayList<>();
+            ArrayList<Test> testD = new ArrayList<>();
+            SimpleDateFormat formatterDate = new SimpleDateFormat("dd/MM/yyyy");
+            ArrayList<Enrollment> enrollment = new EnrollmentDAO().getListEnrollmentById(accL.getAccountId());
+            for (Enrollment e : enrollment) {
+                ClassObject clobj = new ClassObjectDAO().getClassById(e.getClassId());
+                co.add(clobj);
+            }
             if (accL.getRole() == 2) {
                 req.setAttribute("accL", accL);
+                req.setAttribute("formatterDate", formatterDate);
+                req.setAttribute("enrollment", enrollment);
+                req.setAttribute("co", co);
+                req.setAttribute("accDAO", new AccountDAO());
+                req.setAttribute("testDAO", new TestDAO());
+                req.setAttribute("dotestDAO", new DoTestDAO());
                 req.setAttribute("hglO", true);
                 req.setAttribute("hglV", false);
                 req.getRequestDispatcher("homeS.jsp").forward(req, resp);

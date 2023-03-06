@@ -1,16 +1,23 @@
 package dto;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Question {
 
     private UUID questionId;
-    private String title;
+    private UUID testId;
+    private UUID resourceId;
+    private int questionOrder;
     private String content;
+    public ArrayList<Answer> answers;
+    public Resource resource;
 
-    public Question(UUID questionId, String title, String content) {
+    public Question(UUID questionId, UUID testId, UUID resourceId, int questionOrder, String content) {
         this.questionId = questionId;
-        this.title = title;
+        this.testId = testId;
+        this.resourceId = resourceId;
+        this.questionOrder = questionOrder;
         this.content = content;
     }
 
@@ -22,12 +29,28 @@ public class Question {
         this.questionId = questionId;
     }
 
-    public String getTitle() {
-        return title;
+    public UUID getTestId() {
+        return testId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTestId(UUID testId) {
+        this.testId = testId;
+    }
+
+    public UUID getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(UUID resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public int getQuestionOrder() {
+        return questionOrder;
+    }
+
+    public void setQuestionOrder(int questionOrder) {
+        this.questionOrder = questionOrder;
     }
 
     public String getContent() {
@@ -38,12 +61,32 @@ public class Question {
         this.content = content;
     }
 
+    public ArrayList<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(ArrayList<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+    
+    
     @Override
     public String toString() {
         return "Question(" + String.join(", ", new String[]{
-            questionId.toString(),
+            String.valueOf(questionId),
+            String.valueOf(testId),
+            String.valueOf(resourceId),
+            String.valueOf(questionOrder),
             content
-        }) + ")";
+        }) + ")\n";
     }
 
     @Override
