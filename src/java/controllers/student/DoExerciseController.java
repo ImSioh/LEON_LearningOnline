@@ -47,12 +47,10 @@ public class DoExerciseController extends HttpServlet {
             json = StringEscapeUtils.escapeEcmaScript(json);
             int status;
             Timestamp now = new Timestamp(System.currentTimeMillis());
-            
-            
-            if (test == null || now.before(test.getStartAt())) {
-                resp.sendRedirect(req.getContextPath() + "/student/class/exercise?code=" + code);
 
-                //check xem den gio hay da qua han lam bai chua
+            //check xem den gio hay da qua han lam bai chua
+            if (test == null || now.before(test.getStartAt()) || (test.getEndAt() != null && now.after(test.getEndAt()))) {
+                resp.sendRedirect(req.getContextPath() + "/student/class/exercise?code=" + code);
             } else {
                 DoTest dotest = new DoTestDAO().getDoTestById(account.getAccountId(), UUID.fromString(testid));
                 if (dotest == null) {
@@ -62,8 +60,7 @@ public class DoExerciseController extends HttpServlet {
                 // xem dã hoàn thành bài tap chua
                 if (dotest.getFinishTime() != null) {
                     //neu lam roi
-                    //dung lam phan nay
-                    resp.sendRedirect(req.getContextPath() + "");
+                    resp.sendRedirect(req.getContextPath() + "/student/exercise/view-detail-test?Tid=" + testid + "&Sid=" + account.getAccountId());
                 } else {
                     //neu chua nop
                     Timestamp endTime;
@@ -102,12 +99,14 @@ public class DoExerciseController extends HttpServlet {
             Account account = (Account) req.getAttribute("account");
             String testid = req.getParameter("testid");
             Timestamp now = new Timestamp(System.currentTimeMillis());
+
             String json = getBodyString(req);
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(UUID.class, new UUIDDeserializer())
                     .create();
             Type listType = new TypeToken<ArrayList<StudentAnswer>>() {
             }.getType();
+
             ArrayList<StudentAnswer> listStudentAnswer = gson.fromJson(json, listType);
 
             DoTest dotest = new DoTestDAO().getDoTestById(account.getAccountId(), UUID.fromString(testid));
@@ -118,6 +117,10 @@ public class DoExerciseController extends HttpServlet {
             double totalQuestion = new QuestionDAO().getQuestionByTestID(UUID.fromString(testid)).size();
             double wrongAnswer = listWrongQuestion.size();
             double score = (totalQuestion - wrongAnswer) / totalQuestion * 10;
+
+            System.out.println("total question: " + totalQuestion);
+            System.out.println("wrong answer: " + wrongAnswer);
+            System.out.println("score: " + score);
 
             dotest.setFinishTime(now);
             dotest.setScore(Math.round(score * 100.0) / 100.0);
