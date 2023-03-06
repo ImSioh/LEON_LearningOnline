@@ -61,7 +61,6 @@ public class StatisticRankController extends HttpServlet {
             request.getRequestDispatcher("/rank.jsp").forward(request, response);
         } catch (Exception e) {
         }
-
     }
 
     @Override
