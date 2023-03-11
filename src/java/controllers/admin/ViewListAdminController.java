@@ -28,7 +28,7 @@ public class ViewListAdminController extends HttpServlet {
             String keyword;
             String criteriaSort = null;
             boolean orderBy;
-            int[] elementOption = {3, 5, 7, 10};
+            int[] elementOption = {5, 10, 15};
 
             //get param
             //element
@@ -184,7 +184,7 @@ public class ViewListAdminController extends HttpServlet {
             String keyword;
             String criteriaSort = null;
             boolean orderBy;
-            int[] elementOption = {3, 5, 7, 10};
+            int[] elementOption = {5, 10, 15};
 
             //get param
             //element

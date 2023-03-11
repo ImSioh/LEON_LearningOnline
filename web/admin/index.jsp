@@ -7,7 +7,7 @@
     <%--<c:redirect url="/error"/>--%>
 </c:if>
 
-<div id="content">
+<div id="content" style="margin: 3% 5%">
     <h1>Feedbacks Management</h1>
     <!-- <img src="assets/img/welcome_admin.jpg" alt="Welcome to Admin Homepage" width="100%" height="100%" style="margin: 0;"/> -->
 
@@ -53,7 +53,7 @@
                    style="margin: 5px 5px; width: 5%; height: 5%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
 
-        <div class="table">
+        <div class="table" style="overflow: scroll; overflow-x: hidden; height: 350px;">
             <table class="table table-light table-hover">
                 <thead>
                     <tr>
@@ -116,9 +116,10 @@
         </div>
         <c:set value="${feedbacks}" var="fb"/>
         <c:if test="${fb.size()==0}">
-            <p style="text-align: center; font-size: 30px; color: red">
-                Not results found</p>
-            </c:if>
+            <p style="text-align: center">
+                <img src="../admin/assets/img/not-found.jpg" alt="Not result found!" style="width: 50%; text-align: center"/>
+            </p>
+        </c:if>
 
         <c:url value="admin/feedback-list" var="baseUrl"/>
         <c:import url="/template/pagination-bar.jsp">

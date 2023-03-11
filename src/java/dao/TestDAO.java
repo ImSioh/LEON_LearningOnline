@@ -74,9 +74,9 @@ public class TestDAO extends AbstractDAO<Test> {
         return selectMany(query, Util.UUIDToByteArray(classid));
     }
 
-    public Test getTestByTestID(UUID id) throws Exception {
+    public Test getTestByTestID(UUID testid) throws Exception {
         String query = "select * from test where test_id = ?";
-        return selectOne(query, Util.UUIDToByteArray(id));
+        return selectOne(query, Util.UUIDToByteArray(testid));
     }
 
     public Test getTestWithAllData(UUID testid) throws Exception {
