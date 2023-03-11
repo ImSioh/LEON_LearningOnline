@@ -28,7 +28,7 @@
                         <a href="<c:url value="/teacher/class/export?code=${code}"/>"
                            class="btn btn-primary text-light" style="width: max-content">
                             <i class="fa-solid fa-download"></i>
-                            Export Score
+                            Download Transcript
                         </a>
                     </c:if>
                 </div>
@@ -89,7 +89,7 @@
                                                  background-position: center;
                                                  background-repeat: no-repeat;
                                                  background-size: cover;
-                                                 ">;
+                                                 ">
                                             </div>
                                         </div>
                                         <div class="ms-3" style="cursor: pointer;">
@@ -164,7 +164,7 @@
         /*width: 200px;*/
         /*min-width: 200px;*/
         /*max-width: 200px;*/
-        left: 249px;
+        left: 250px;
         background-color: #f8f9fa !important;
     }
 </style>

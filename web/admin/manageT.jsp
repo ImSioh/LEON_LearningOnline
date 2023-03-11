@@ -7,7 +7,7 @@
     <%--<c:redirect url="/admin/teacher-account-list"/>--%>
 </c:if>
 
-<div id="content">
+<div id="content" style="margin: 3% 5%">
     <h1>Teachers Management</h1>
 
     <!--Search-->
@@ -54,7 +54,7 @@
                    style="margin: 5px 5px; width: 5%; height: 5%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
         </span>
 
-        <div class="table">
+        <div class="table" style="overflow: scroll; overflow-x: hidden; height: 350px;">
             <table class="table table-light table-hover">
                 <thead>
                     <tr>

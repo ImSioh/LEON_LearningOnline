@@ -496,7 +496,7 @@
 
     function startExercise(duration) {
         msg = 'The test has a time limit of ' + duration + ' min.\n\
-You must submit your exercise before time runs out..\n\
+You must submit your exercise before time runs out.\n\
 Are you sure you want to get started now?'
         if (confirm(msg)) {
             return true;

@@ -1,7 +1,6 @@
 package controllers.teacher;
 
 import dao.TestDAO;
-import dto.Account;
 import dto.Test;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -14,29 +13,36 @@ import java.util.UUID;
 @WebServlet(name = "DeleteExerciseController", urlPatterns = {"/teacher/class/exercise/delete"})
 public class DeleteExerciseController extends HttpServlet {
 
+    //connect db
     TestDAO TD = new TestDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            Account account = (Account) request.getAttribute("account");
+            //get param
             String classCode = request.getParameter("code");
             String testid = request.getParameter("testid");
+            
+            //convert param
             UUID tid = UUID.fromString(testid);
+            
+            //get test
             Test test = TD.getTestByTestID(tid);
+            //delete test by setting create time of test = null
+            //check if create time is not null, then display test
+            //set by java
             test.setCreateTime(null);
 
+            //set by mysql
             int check = 0;
             check = TD.editTest(test);
 
-            response.sendRedirect(request.getContextPath() + "/teacher/class/exercise?code=" + classCode);
+            //check status of edit test
+            if (check == 1) {
+                response.sendRedirect(request.getContextPath() + "/teacher/class/exercise?code=" + classCode);
+            }
         } catch (Exception e) {
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
     }
 }
