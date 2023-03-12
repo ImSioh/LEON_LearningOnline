@@ -7,6 +7,21 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class CommentDAO extends AbstractDAO<Comment> {
+    
+    public Comment getComment(UUID commentId) throws Exception {
+        String query = "SELECT * FROM comment c WHERE c.comment_id = ?";
+        return selectOne(query, Util.UUIDToByteArray(commentId));
+    }
+    
+    public int deleteComment(UUID commentId) throws Exception {
+        String query = "DELETE FROM comment WHERE comment_id = ?";
+        return update(query, Util.UUIDToByteArray(commentId));
+    }
+    
+    public int deleteCommentsInPost(UUID postId) throws Exception {
+        String query = "DELETE FROM comment WHERE post_id = ?";
+        return update(query, Util.UUIDToByteArray(postId));
+    }
 
     public int countCommentInPost(UUID postId) throws Exception {
         String query = "SELECT COUNT(c.comment_id) FROM comment c WHERE c.post_id = ?";
