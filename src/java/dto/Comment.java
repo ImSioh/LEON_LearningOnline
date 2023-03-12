@@ -8,6 +8,7 @@ public class Comment {
 
     @Expose
     private UUID commentId;
+    @Expose
     private UUID accountId;
     @Expose
     private UUID postId;
