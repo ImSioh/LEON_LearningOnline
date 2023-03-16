@@ -23,7 +23,7 @@
 
             <div style="display: flex; margin-top: 30px; margin-bottom: 0px;">
                 <!--EXPORT-->
-                <div style="margin-left: 20px;">
+                <div style="margin-left: 10px;">
                     <c:if test="${account.getRole() == 1}">
                         <a href="<c:url value="/teacher/class/export?code=${code}"/>"
                            class="btn btn-primary text-light" style="width: max-content">
@@ -33,7 +33,7 @@
                     </c:if>
                 </div>
                 <!--SEARCH--> 
-                <div style="display: flex; position: relative; right: 20px; left: 50%;">
+                <div style="display: flex; position: relative; right: 20px; left: 45%;">
                     <div class="form-outline col-md-10"  style="width: 200px;">
                         <input type="hidden" name="code" value="${code}">
                         <input type="text" class="form-control" id="myInput" name="search" value="${search}"
