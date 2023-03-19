@@ -79,4 +79,14 @@ public class DoTestDAO extends AbstractDAO<DoTest> {
                 + "AND dt.account_id = ?";
         return selectMany(query, Util.UUIDToByteArray(accId), Util.UUIDToByteArray(testId));
     }
+
+    public ArrayList<DoTest> getListDoTestDone(String classcode , UUID accId) throws Exception {
+        String query = "SELECT * FROM do_test dt, class c , account a , enrollment e WHERE\n"
+                + "dt.account_id = a.account_id AND a.account_id = e.account_id AND\n"
+                + "e.class_id = c.class_id and c.code = ? AND a.account_id = ?";
+        return selectMany(query,classcode , Util.UUIDToByteArray(accId));
+    }
+    
+   
+
 }

@@ -63,7 +63,7 @@
                                 <c:if test="${account.getRole() ==1}"> <td>
                                         <span class="">${listS.getPhoneNumber()}</span>
                                     </td></c:if>
-                                <c:if test="${account.getRole() ==1}">  <td>10/12</td></c:if>
+                                <c:if test="${account.getRole() ==1}">  <td>${DoTestDAO.getListDoTestDone(param.code , listS.getAccountId()).size()} / ${countOfEx}</td></c:if>
                                 <c:if test="${account.getRole() ==1}"> <td>
                                         <a onclick="return confirm('Do you want to remove this student?')" eq true ? href="<c:url value="/teacher/class/remove-student?code=${param.code}&accountId=${listS.getAccountId()}" />" : href="" style="text-decoration: none" type="button" class="btn btn-link btn-sm btn-rounded bg-danger text-light">
                                             Remove
