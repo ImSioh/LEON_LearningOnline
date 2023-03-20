@@ -1,7 +1,6 @@
 package dao;
 
 import dto.ClassObject;
-import dto.Enrollment;
 import helpers.Util;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -23,7 +22,8 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
         String query = "SELECT c.* FROM class c \n"
                 + " JOIN enrollment e ON c.class_id = e.class_id\n"
                 + "  JOIN account a ON e.account_id = a.account_id\n"
-                + "AND a.account_id = ? AND e.accepted = true;";
+                + "AND a.account_id = ? AND e.accepted = true\n"
+                + "WHERE c.hidden = FALSE";
         return selectMany(query , Util.UUIDToByteArray(id));
     }
     
@@ -39,7 +39,8 @@ public class ClassObjectDAO extends AbstractDAO<ClassObject> {
         String query = "SELECT c.* FROM class c \n"
                 + "JOIN enrollment e ON c.class_id = e.class_id\n"
                 + "JOIN account a ON e.account_id = a.account_id\n"
-                + "AND a.account_id = ? AND c.enroll_approve = true AND e.accepted = false;";
+                + "AND a.account_id = ? AND c.enroll_approve = true AND e.accepted = false\n"
+                + "WHERE c.hidden = FALSE";
         return selectMany(query , Util.UUIDToByteArray(id));
     }
 

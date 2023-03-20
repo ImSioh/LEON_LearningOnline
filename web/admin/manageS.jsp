@@ -30,6 +30,7 @@
                 <option value="name" ${criteria eq "name"?"selected":""}>Name</option>
                 <option value="email" ${criteria eq "email"?"selected":""}>Email</option>
                 <option value="create_time" ${criteria eq "create_time"?"selected":""}>Create Time</option>
+                <option value="locked" ${criteria eq "locked"?"selected":""}>Locked</option>
             </select>
 
             <select name="orderBy" class="form-select" style="width: 70%;">
