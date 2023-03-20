@@ -7,55 +7,64 @@
     <%--<c:redirect url="/admin/student-account-list"/>--%>
 </c:if>
 
-<div id="content" style="margin: 3% 5%">
+<div id="content" style="margin: 2% 5%">
     <h1>Students Management</h1>
 
-    <!--Search-->
-    <form action="" method="post" style="">
-        <span class="button-action" style="display: flex;">
-            <select name="search" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
+    <form action="" method="post">
+        <!--Search-->
+        <span class="d-flex" style="gap: 10px; margin-left: 60%;">
+            <select name="search" class="form-select" style="width: 35%;">
                 <option value="name" ${search eq "name"?"selected":""}>Name</option>
                 <option value="email" ${search eq "email"?"selected":""}>Email</option>
                 <option value="address" ${search eq "address"?"selected":""}>Address</option>
                 <option value="phoneNumber" ${search eq "phoneNumber"?"selected":""}>Phone Number</option>
             </select>
 
-            <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Search something..." style="width: 45%; height: 10%; margin: 0"> 
-            <input type="submit" value="SEARCH" id="search" class="btn-info" 
-                   style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
+            <input type="text" value="${keyword}" name="keyword" id="" class="form-control" placeholder="Search something..." style="width: 70%;"> 
+            <input type="submit" value="SEARCH" id="search" class="btn btn-info" style="width: 80px;">
         </span>
 
         <!--Sort-->
-        <span class="button-action" style="display: flex; margin-top: 10px;">
-            <select name="criteria" class="form-select" style="width: 18%; height: 10%; margin: 0 10px 0 55%; text-align: center">
+        <span class="d-flex" style="gap: 10px; margin-left: 60%; margin-top: 10px;">
+            <select name="criteria" class="form-select" style="width: 35%;">
                 <option value="name" ${criteria eq "name"?"selected":""}>Name</option>
                 <option value="email" ${criteria eq "email"?"selected":""}>Email</option>
                 <option value="create_time" ${criteria eq "create_time"?"selected":""}>Create Time</option>
                 <option value="locked" ${criteria eq "locked"?"selected":""}>Locked</option>
             </select>
-            <select name="orderBy" class="form-select" style="width: 35%; height: 10%; padding: 6px 12px; text-align: center">
+
+            <select name="orderBy" class="form-select" style="width: 70%;">
                 <option value="true" ${orderBy?"selected":""}>Ascending</option>
                 <option value="false" ${orderBy?"":"selected"}>Descending</option>
             </select>
-            <input type="submit" value="SORT" id="sort" class="btn-info" 
-                   style="margin: 5px 0 5px 10px; width: 10%; height: 15%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
+            <input type="submit" value="SORT" id="sort" class="btn btn-info" style="width: 100px;">
         </span>
 
-        <!--Show items-->
-        <span class="button-action" style="display: flex; margin-top: 0;">
-            Show 
-            <select name="element" style="width: 5%; height: 5%; margin: 5px; text-align: center;
-                    border: 3px solid #e3f2fd; border-radius: 0.25em;">
-                <c:forEach items="${elementOption}" var="eO">
-                    <option value="${eO}" ${element eq eO ?"selected":""}>${eO}</option>
-                </c:forEach>
-            </select>
-            entries
-            <input type="submit" value="SHOW" id="show" class="btn-info" 
-                   style="margin: 5px 5px; width: 5%; height: 5%; border-radius: 0.25em!important; border: 1px solid #e3f2fd !important;">
-        </span>
+        <div style="display: flex; margin-top: 20px;">
+            <!--Show items-->
+            <span class="d-flex" style="gap: 10px">
+                Show 
+                <select class="form-select" name="element" style="width: fit-content;">
+                    <c:forEach items="${elementOption}" var="eO">
+                        <option value="${eO}" ${element eq eO ?"selected":""}>${eO}</option>
+                    </c:forEach>
+                </select>
+                entries
+                <button type="submit" value="SHOW" id="show" class="btn btn-info">Show</button>
+            </span>  
 
-        <div class="table" style="overflow: scroll; overflow-x: hidden; height: 350px;">
+            <!--Export to excel-->
+<!--            <span style="margin-left: 70%;">
+                <a href="#"
+                   class="btn btn-primary text-light" style="width: max-content">
+                    <i class="fa-solid fa-download"></i>
+                    Download List
+                </a>
+            </span>-->
+        </div>
+
+        <!--Table-->
+        <div class="table" style="overflow: scroll; overflow-x: hidden; height: 350px; margin-top: 16px">
             <table class="table table-light table-hover">
                 <thead>
                     <tr>
