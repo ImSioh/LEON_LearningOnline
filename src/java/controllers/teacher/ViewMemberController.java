@@ -2,6 +2,8 @@ package controllers.teacher;
 
 import dao.AccountDAO;
 import dao.ClassObjectDAO;
+import dao.DoTestDAO;
+import dao.TestDAO;
 import dto.Account;
 import dto.ClassObject;
 import java.io.IOException;
@@ -30,11 +32,14 @@ public class ViewMemberController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() );
                 return;
             }
+            int countOfEx = new TestDAO().getListTitle(classObject.getClassId()).size();
             listStudent = new AccountDAO().getListAllStudentByClassCode(classCode, "1");
             listRequest = new AccountDAO().getListAllStudentByClassCode(classCode, "0");
             request.setAttribute("listStudent", listStudent);
             request.setAttribute("listRequest", listRequest);
             request.setAttribute("classObject", classObject);
+            request.setAttribute("countOfEx", countOfEx);
+            request.setAttribute("DoTestDAO", new DoTestDAO());
 
             if (account.getRole() == 1) {
                 request.setAttribute("teacher", account);

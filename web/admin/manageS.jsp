@@ -54,13 +54,13 @@
             </span>  
 
             <!--Export to excel-->
-<!--            <span style="margin-left: 70%;">
+            <span style="margin-left: 70%;">
                 <a href="#"
                    class="btn btn-primary text-light" style="width: max-content">
                     <i class="fa-solid fa-download"></i>
                     Download List
                 </a>
-            </span>-->
+            </span>
         </div>
 
         <!--Table-->
