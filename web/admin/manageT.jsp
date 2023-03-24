@@ -7,7 +7,7 @@
     <%--<c:redirect url="/admin/teacher-account-list"/>--%>
 </c:if>
 
-<div id="content" style="margin: 2% 5%">
+<div id="content" style="margin: 1% 5%">
     <h1>Teachers Management</h1>
 
     <form action="" method="post">
@@ -30,7 +30,7 @@
                 <option value="name" ${criteria eq "name"?"selected":""}>Name</option>
                 <option value="email" ${criteria eq "email"?"selected":""}>Email</option>
                 <option value="create_time" ${criteria eq "create_time"?"selected":""}>Create Time</option>
-                <option value="locked" ${criteria eq "locked"?"selected":""}>Locked</option>
+                <!--<option value="locked" ${criteria eq "locked"?"selected":""}>Locked</option>-->
             </select>
 
             <select name="orderBy" class="form-select" style="width: 70%;">
@@ -40,7 +40,15 @@
             <input type="submit" value="SORT" id="sort" class="btn btn-info" style="width: 100px;">
         </span>
 
-        <div style="display: flex; margin-top: 20px;">
+        <!--Filter lock-->
+        <span class="d-flex" style="gap: 10px; margin-left: 72%; margin-top: 12px;">
+            <p>Status of account: </p>
+            <input type="radio" name="filter" class="form-check-input" value="true" ${filter == true?"checked":""}> Lock
+            <input type="radio" name="filter" class="form-check-input" value="false" ${filter == false?"checked":""}> Unlock
+            <input type="submit" value="Filter" class="btn btn-info" style="width: 78.5px;">
+        </span>
+
+        <div style="display: flex; margin-top: 10px;">
             <!--Show items-->
             <span class="d-flex" style="gap: 10px">
                 Show 
@@ -54,17 +62,17 @@
             </span>  
 
             <!--Export to excel-->
-            <span style="margin-left: 70%;">
-                <a href="#"
-                   class="btn btn-primary text-light" style="width: max-content">
-                    <i class="fa-solid fa-download"></i>
-                    Download List
-                </a>
-            </span>
+            <!--            <span style="margin-left: 70%;">
+                            <a href="#"
+                               class="btn btn-primary text-light" style="width: max-content">
+                                <i class="fa-solid fa-download"></i>
+                                Download List
+                            </a>
+                        </span>-->
         </div>
 
         <!--Table-->
-        <div class="table" style="overflow: scroll; overflow-x: hidden; height: 350px; margin-top: 16px">
+        <div class="table" style="overflow: scroll; overflow-x: hidden; height: 345px; margin-top: 10px">
             <table class="table table-light table-hover">
                 <thead>
                     <tr>
@@ -106,12 +114,12 @@
                             <td>${account.getCreateTime()}</td>
                             <td>
                                 <c:if test="${account.isLocked()}">
-                                    <a href="<c:url value="/admin/lock?id=${account.getAccountId()}"/>" 
+                                    <a href="<c:url value="/admin/lock?email=${account.getEmail()}"/>" 
                                        onclick="return lockAcc('Do you want to unlock this account?')">
                                         <i class="fa-solid fa-lock"></i></a>
                                     </c:if>
                                     <c:if test="${account.isLocked()!=true}">
-                                    <a href="<c:url value="/admin/lock?id=${account.getAccountId()}"/>" 
+                                    <a href="<c:url value="/admin/lock?email=${account.getEmail()}"/>" 
                                        onclick="return lockAcc('Do you want to lock this account?')">
                                         <i class="fa-solid fa-lock-open"></i></a>
                                     </c:if>

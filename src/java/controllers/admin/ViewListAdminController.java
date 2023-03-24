@@ -28,6 +28,7 @@ public class ViewListAdminController extends HttpServlet {
             String keyword;
             String criteriaSort = null;
             boolean orderBy;
+            boolean filter;
             int[] elementOption = {5, 10, 15};
 
             //get param
@@ -64,11 +65,19 @@ public class ViewListAdminController extends HttpServlet {
             }
             String sort = orderBy ? "" : "desc";
 
+            //filter
+            try {
+                filter = Boolean.valueOf(request.getParameter("filter"));
+            } catch (Exception e) {
+                filter = true;
+            }
+
             //set attribute
             request.setAttribute("elementOption", elementOption);
             request.setAttribute("search", criteriaSearch);
             request.setAttribute("criteria", criteriaSort);
             request.setAttribute("orderBy", orderBy);
+            request.setAttribute("filter", filter);
 
             //connect db
             AccountDAO accountDAO = new AccountDAO();
@@ -91,7 +100,8 @@ public class ViewListAdminController extends HttpServlet {
                         numberOfPage = (int) Math.ceil(feedbackDAO.getAllFeedbacks().size() / (float) element);
                     } else {
                         keyword = keyword.trim();
-                        feedbacks = feedbackDAO.getAllFeedbacksSearchAndPaging(criteriaSearch, keyword, element, page);
+                        feedbacks = feedbackDAO.getAllFeedbacksSearchAndPaging(criteriaSearch, keyword,
+                                element, page);
                         numberOfPage = (int) Math.ceil(feedbackDAO.getAllFeedbacksSearch(criteriaSearch, keyword).size() / (float) element);
                     }
 
@@ -111,19 +121,21 @@ public class ViewListAdminController extends HttpServlet {
                     role = 2;
                     ArrayList<Account> accounts = new ArrayList<>();
 
-                    int size = accountDAO.getListAllAccounts().size();
+                    int size = accountDAO.getListAccountByRole(role, filter).size();
                     if (size < element) {
                         element = size;
                         page = 0;
                     }
 
                     if (keyword == null) {
-                        accounts = accountDAO.getListAccountByRoleAndPaging(role, element, page);
-                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRole(role).size() / (float) element);
+                        accounts = accountDAO.getListAccountByRoleAndPaging(role,
+                                element, page, filter);
+                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRole(role, filter).size() / (float) element);
                     } else {
                         keyword = keyword.trim();
-                        accounts = accountDAO.getListAccountByRoleSearchAndPaging(role, criteriaSearch, keyword, element, page);
-                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRoleSearch(role, criteriaSearch, keyword).size() / (float) element);
+                        accounts = accountDAO.getListAccountByRoleSearchAndPaging(role, criteriaSearch, keyword,
+                                element, page, filter);
+                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRoleSearch(role, criteriaSearch, keyword, filter).size() / (float) element);
                     }
 
                     request.setAttribute("element", element);
@@ -141,19 +153,21 @@ public class ViewListAdminController extends HttpServlet {
                     role = 1;
                     ArrayList<Account> accounts = new ArrayList<>();
 
-                    int size = accountDAO.getListAllAccounts().size();
+                    int size = accountDAO.getListAccountByRole(role, filter).size();
                     if (size < element) {
                         element = size;
                         page = 0;
                     }
 
                     if (keyword == null) {
-                        accounts = accountDAO.getListAccountByRoleAndPaging(role, element, page);
-                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRole(role).size() / (float) element);
+                        accounts = accountDAO.getListAccountByRoleAndPaging(role,
+                                element, page, filter);
+                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRole(role, filter).size() / (float) element);
                     } else {
                         keyword = keyword.trim();
-                        accounts = accountDAO.getListAccountByRoleSearchAndPaging(role, criteriaSearch, keyword, element, page);
-                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRoleSearch(role, criteriaSearch, keyword).size() / (float) element);
+                        accounts = accountDAO.getListAccountByRoleSearchAndPaging(role, criteriaSearch, keyword,
+                                element, page, filter);
+                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRoleSearch(role, criteriaSearch, keyword, filter).size() / (float) element);
                     }
 
                     request.setAttribute("element", element);
@@ -184,6 +198,7 @@ public class ViewListAdminController extends HttpServlet {
             String keyword;
             String criteriaSort = null;
             boolean orderBy;
+            boolean filter;
             int[] elementOption = {5, 10, 15};
 
             //get param
@@ -220,11 +235,19 @@ public class ViewListAdminController extends HttpServlet {
             }
             String sort = orderBy ? "" : "desc";
 
+            //filter
+            try {
+                filter = Boolean.valueOf(request.getParameter("filter"));
+            } catch (Exception e) {
+                filter = true;
+            }
+
             //set attribute
             request.setAttribute("elementOption", elementOption);
             request.setAttribute("search", criteriaSearch);
             request.setAttribute("criteria", criteriaSort);
             request.setAttribute("orderBy", orderBy);
+            request.setAttribute("filter", filter);
 
             //connect db
             AccountDAO accountDAO = new AccountDAO();
@@ -243,11 +266,13 @@ public class ViewListAdminController extends HttpServlet {
                     }
 
                     if (keyword == null) {
-                        feedbacks = feedbackDAO.getAllFeedbacksSortAndPaging(criteriaSort, sort, element, page);
+                        feedbacks = feedbackDAO.getAllFeedbacksSortAndPaging(criteriaSort, sort,
+                                element, page);
                         numberOfPage = (int) Math.ceil(feedbackDAO.getAllFeedbacks().size() / (float) element);
                     } else {
                         keyword = keyword.trim();
-                        feedbacks = feedbackDAO.getAllFeedbacksSearchSortAndPaging(criteriaSearch, keyword, criteriaSort, sort, element, page);
+                        feedbacks = feedbackDAO.getAllFeedbacksSearchSortAndPaging(criteriaSearch, keyword,
+                                criteriaSort, sort, element, page);
                         numberOfPage = (int) Math.ceil(feedbackDAO.getAllFeedbacksSearch(criteriaSearch, keyword).size() / (float) element);
                     }
 
@@ -267,19 +292,21 @@ public class ViewListAdminController extends HttpServlet {
                     role = 2;
                     ArrayList<Account> accounts = new ArrayList<>();
 
-                    int size = accountDAO.getListAllAccounts().size();
+                    int size = accountDAO.getListAccountByRole(role, filter).size();
                     if (size < element) {
                         element = size;
                         page = 0;
                     }
 
                     if (keyword == null) {
-                        accounts = accountDAO.getListAccountByRoleSortAndPaging(role, criteriaSort, sort, element, page);
-                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRole(role).size() / (float) element);
+                        accounts = accountDAO.getListAccountByRoleSortAndPaging(role, criteriaSort, sort,
+                                element, page, filter);
+                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRole(role, filter).size() / (float) element);
                     } else {
                         keyword = keyword.trim();
-                        accounts = accountDAO.getListAccountByRoleSearchSortAndPaging(role, criteriaSearch, keyword, criteriaSort, sort, element, page);
-                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRoleSearch(role, criteriaSearch, keyword).size() / (float) element);
+                        accounts = accountDAO.getListAccountByRoleSearchSortAndPaging(role, criteriaSearch, keyword,
+                                criteriaSort, sort, element, page, filter);
+                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRoleSearch(role, criteriaSearch, keyword, filter).size() / (float) element);
                     }
 
                     request.setAttribute("element", element);
@@ -297,19 +324,21 @@ public class ViewListAdminController extends HttpServlet {
                     role = 1;
                     ArrayList<Account> accounts = new ArrayList<>();
 
-                    int size = accountDAO.getListAllAccounts().size();
+                    int size = accountDAO.getListAccountByRole(role, filter).size();
                     if (size < element) {
                         element = size;
                         page = 0;
                     }
 
                     if (keyword == null) {
-                        accounts = accountDAO.getListAccountByRoleSortAndPaging(role, criteriaSort, sort, element, page);
-                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRole(role).size() / (float) element);
+                        accounts = accountDAO.getListAccountByRoleSortAndPaging(role, criteriaSort, sort,
+                                element, page, filter);
+                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRole(role, filter).size() / (float) element);
                     } else {
                         keyword = keyword.trim();
-                        accounts = accountDAO.getListAccountByRoleSearchSortAndPaging(role, criteriaSearch, keyword, criteriaSort, sort, element, page);
-                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRoleSearch(role, criteriaSearch, keyword).size() / (float) element);
+                        accounts = accountDAO.getListAccountByRoleSearchSortAndPaging(role, criteriaSearch, keyword,
+                                criteriaSort, sort, element, page, filter);
+                        numberOfPage = (int) Math.ceil(accountDAO.getListAccountByRoleSearch(role, criteriaSearch, keyword, filter).size() / (float) element);
                     }
 
                     request.setAttribute("element", element);
