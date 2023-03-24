@@ -11,6 +11,7 @@ import dao.PostResourceDAO;
 import dao.ResourceDAO;
 import dto.Account;
 import dto.ClassObject;
+import dto.Comment;
 import dto.Notification;
 import dto.Post;
 import dto.PostResource;
@@ -25,7 +26,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -103,6 +103,59 @@ public class PostController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServletException(e);
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String type = req.getParameter("type");
+            UUID objectId = UUID.fromString(req.getParameter("objectId"));
+            String classIdRaw = req.getParameter("classId");
+            UUID classId = classIdRaw == null ? null : UUID.fromString(classIdRaw);
+            Account account = (Account) req.getAttribute("account");
+            System.out.println(type);
+            System.out.println(objectId);
+            System.out.println(classId);
+            switch (type) {
+                case "post":
+                    deletePost(objectId, account);
+                    break;
+                case "comment":
+                    deleteComment(objectId, account, classId);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException(e);
+        }
+    }
+    
+    private void deleteComment(UUID commentId, Account account, UUID classId) throws Exception {
+        CommentDAO commentDAO = new CommentDAO();
+        Comment comment = commentDAO.getComment(commentId);
+        if (comment != null && account.getAccountId().equals(comment.getAccountId())) {
+            int result = commentDAO.deleteComment(commentId);
+            if (result > 0) {
+                JsonWrapper<Comment> jsonWrapper = new JsonWrapper<>("deleteComment", comment);
+                Gson gson = new Gson();
+                WebSocketController.sendToClass(classId, gson.toJson(jsonWrapper));
+            }
+        }
+    }
+    
+    private void deletePost(UUID postId, Account account) throws Exception {
+        PostDAO postDAO = new PostDAO();
+        Post post = postDAO.getPost(postId);
+        if (post != null && account.getAccountId().equals(post.getAccountId())) {
+            new CommentDAO().deleteCommentsInPost(postId);
+            new PostResourceDAO().deletePostResourceByPost(postId);
+            int result = postDAO.deletePost(postId);
+            if (result > 0) {
+                JsonWrapper<Post> jsonWrapper = new JsonWrapper<>("deletePost", post);
+                Gson gson = new Gson();
+                WebSocketController.sendToClass(post.getClassId(), gson.toJson(jsonWrapper));
+            }
         }
     }
 

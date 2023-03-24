@@ -41,7 +41,7 @@
         margin-left: auto;
     }
 
-    .post-header .open-menu {
+    .open-menu {
         font-size: 1.5rem;
         width: 36px;
         height: 36px;
@@ -52,7 +52,7 @@
         cursor: pointer;
     }
 
-    .post-header .open-menu:hover {
+    .open-menu:hover {
         background-color: rgba(0, 0, 0, 0.1);
     }
 
@@ -116,6 +116,11 @@
     }
 
     .post-footer button  {
+        font-weight: 500;
+        text-transform: capitalize;
+    }
+
+    .modal button  {
         font-weight: 500;
         text-transform: capitalize;
     }
@@ -226,13 +231,14 @@
     }
 
     #create-post .document-item {
-        display: flex;
-        justify-content: space-between;
+        padding-right: 2.5rem;
     }
 
     .document-item > i {
         font-size: 1.5rem;
         padding: 0 0.3rem;
+        position: absolute;
+        right: 0.5rem;
     }
 
     .document-item:hover {
@@ -439,6 +445,18 @@
         position: relative;
     }
 
+    .resource-item .resource-item-message {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 0.8rem;
+        color: red;
+        transform: translateY(-50%);
+        font-weight: 500;
+    }
+
     .resource-item > div > .loading-icon {
         position: absolute;
         width: 80%;
@@ -592,7 +610,7 @@
         font-weight: 500;
     }
 
-    .comment-owner > span {
+    .comment-owner > .comment-time {
         user-select: none;
         font-size: 0.85rem;
         opacity: 0.5;
@@ -600,7 +618,7 @@
     }
 
     .comment-content {
-        margin-top: 0.5rem;
+        margin-top: 1rem;
         padding: 0.5rem 1rem;
         background-color: #eeeeee;
         border-radius: 20px;
@@ -635,6 +653,23 @@
     </div>
     <%@include file="/template/sidebar.jsp" %>
     <div class="content-main align-content-start d-flex justify-content-center container position-relative">
+        <div class="modal" id="confirm-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirmation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="confirm-content">Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="confirm-ok" class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="choose-resource-modal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-content">
                 <div class="resource-list-wrapper">
@@ -687,17 +722,38 @@
             } else {
                 createPostInput.style.height = initHeight + 'px'
             }
+            postBtn.disabled = !(createPostInput.value.trim() || selectedResources.length !== 0)
         })
     }
 
     const addResourceBtn = document.getElementById('add-resource')
     const postBtn = document.getElementById('post-btn')
+    postBtn.disabled = true
     const postImageSlot = document.getElementById('post-image-slot')
     const createPostBody = document.querySelector("#create-post > div.post-body")
     const resourceModal = document.querySelector('#choose-resource-modal')
+    const confirmModal = document.querySelector('#confirm-modal')
+    const confirmContent = document.querySelector('#confirm-content')
+    const confirmOK = document.querySelector('#confirm-ok')
     const resourceModalBootstrap = new bootstrap.Modal(resourceModal, {
         keyboard: false
     })
+    const confirmModalBootstrap = new bootstrap.Modal(confirmModal)
+    confirmModalBootstrap.open = (() => {
+        cbList = []
+        confirmModal.addEventListener('hidden.bs.modal', () => {
+            cbList.forEach(cb => confirmOK.removeEventListener('click', cb))
+            cbList.length = 0
+        })
+        return (msg, cb) => {
+            confirmContent.textContent = msg
+            if (cb) {
+                cbList.push(cb)
+                confirmOK.addEventListener('click', cb)
+            }
+            confirmModalBootstrap.show()
+        }
+    })()
 
     function createElement(element) {
         const parent = document.createElement(element.tagName)
@@ -785,19 +841,22 @@
                         {
                             tagName: 'div',
                             className: 'dropdown',
+                            bind: [bindList, 'optionZone'],
                             children: [
                                 {
                                     tagName: 'button',
-                                    className: 'open-menu',
+                                    className: 'open-menu dropdown-toggle hidden-arrow',
                                     children: [{
                                             tagName: 'i',
                                             className: 'fa-solid fa-ellipsis'
-                                        }]
+                                        }],
+                                    bind: [bindList, 'optionToggle']
                                 },
                                 {
                                     tagName: 'ul',
-                                    classname: 'dropdown-menu dropdown-menu-end',
-                                    style: 'position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 38px);'
+                                    className: 'dropdown-menu dropdown-menu-end',
+                                    style: 'position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 38px);',
+                                    bind: [bindList, 'optionList']
                                 }
                             ]
                         }
@@ -912,6 +971,27 @@
                 }
             ]
         });
+        if (post.accountId === '${account.accountId}') {
+            bindList.optionList.append(createElement({
+                tagName: 'li',
+                className: 'dropdown-item user-select-none',
+                textContent: 'Delete post',
+                bind: [bindList, 'deleteBtn']
+            }))
+            const optionBox = new bootstrap.Dropdown(bindList.optionToggle)
+            bindList.deleteBtn.addEventListener('click', () => {
+                optionBox.hide()
+                confirmModalBootstrap.open('Confirm delete post', async () => {
+                    console.log(post.postId)
+                    confirmModalBootstrap.hide()
+                    const response = await fetch('<c:url value="/${account.role == 1 ? 'teacher' : 'student'}/class/post?type=post&classId=${classObject.classId}&objectId="/>' + post.postId, {
+                        method: 'DELETE'
+                    })
+                })
+            })
+        } else {
+            bindList.optionZone.remove()
+        }
 
         const imageL = []
         const otherL = []
@@ -1073,9 +1153,10 @@
         })
         post.addComment = comment => {
             const commentBind = {}
-            bindList.commentList.insertBefore(createElement({
+            const commentElement = createElement({
                 tagName: 'div',
                 className: 'comment-item',
+                id: comment.commentId,
                 children: [
                     {
                         tagName: 'div',
@@ -1088,18 +1169,65 @@
                         bind: [commentBind, 'commentWrapper'],
                         children: [
                             {
-                                tagName: 'p',
-                                className: 'comment-owner',
-                                textContent: comment.account.name,
-                                children: [{
+                                tagName: 'div',
+                                className: 'comment-owner d-flex align-items-baseline position-relative',
+                                children: [
+                                    {
                                         tagName: 'span',
+                                        textContent: comment.account.name
+                                    },
+                                    {
+                                        tagName: 'span',
+                                        className: 'comment-time',
                                         textContent: comment.createTime
-                                    }]
+                                    },
+                                    {
+                                        tagName: 'div',
+                                        className: 'dropdown position-absolute end-0 top-0',
+                                        bind: [commentBind, 'optionZone'],
+                                        children: [
+                                            {
+                                                tagName: 'button',
+                                                className: 'open-menu dropdown-toggle hidden-arrow',
+                                                innerHTML: '<i class="fa-solid fa-ellipsis"></i>',
+                                                bind: [commentBind, 'optionToggle']
+                                            },
+                                            {
+                                                tagName: 'ul',
+                                                className: 'dropdown-menu dropdown-menu-end',
+                                                bind: [commentBind, 'optionList']
+                                            }
+                                        ]
+                                    }
+                                ]
                             },
                         ]
                     }
                 ]
-            }), bindList.commentList.children[0])
+            })
+            bindList.commentList.insertBefore(commentElement, bindList.commentList.children[0])
+            if (comment.accountId === '${account.accountId}') {
+                commentBind.optionList.append(createElement({
+                    tagName: 'li',
+                    className: 'dropdown-item user-select-none',
+                    textContent: 'Delete comment',
+                    bind: [commentBind, 'deleteBtn']
+                }))
+                const optionBox = new bootstrap.Dropdown(commentBind.optionToggle)
+                commentBind.deleteBtn.addEventListener('click', () => {
+                    optionBox.hide()
+                    confirmModalBootstrap.open('Confirm delete comment', async () => {
+                        console.log(comment.commentId)
+                        confirmModalBootstrap.hide()
+                        const response = await fetch('<c:url value="/${account.role == 1 ? 'teacher' : 'student'}/class/post?type=comment&classId=${classObject.classId}&objectId="/>' + comment.commentId, {
+                            method: 'DELETE'
+                        })
+                    })
+                })
+            } else {
+                commentBind.optionZone.remove()
+            }
+
             if (comment.content.trim()) {
                 commentBind.commentWrapper.append(createElement({
                     tagName: 'p',
@@ -1167,8 +1295,42 @@
         })
         postList.insertBefore(postElement, postList.children[0])
         initHeight = bindList.commentInput.scrollHeight + 2
+        post.deleteComment = comment => {
+            const cmt = document.getElementById(comment.commentId)
+            if (cmt) {
+                cmt.remove()
+            }
+            post.commentCount--
+            bindList.commentNumber.textContent = post.commentCount + (post.commentCount > 1 ? ' comments' : ' comment')
+        }
+        post.deletePost = () => {
+            console.log(postElement, post)
+            const index = newfeedPosts.indexOf(post)
+            newfeedPosts.splice(index, 1)
+            if (post.accountId === '${account.accountId}') {
+                postElement.remove()
+            } else {
+                postElement.innerHTML = null
+                postElement.textContent = 'This post has been deleted by ' + post.account.name
+                postElement.style = 'color: crimson;font-weight: 500;text-align: center;'
+            }
+        }
         return postElement
     }
+
+    generalWS.on('deleteComment', data => {
+        const post = newfeedPosts.find(p => p.postId === data.postId)
+        if (post) {
+            post.deleteComment(data)
+        }
+    })
+
+    generalWS.on('deletePost', data => {
+        const post = newfeedPosts.find(p => p.postId === data.postId)
+        if (post) {
+            post.deletePost()
+        }
+    })
 
     async function sendComment(post, input, resource) {
         if (!input.value.trim() && !resource)
@@ -1417,6 +1579,7 @@
                     documentBox.remove()
                 }
             }
+            postBtn.disabled = !(createPostInput.value.trim() || selectedResources.length !== 0)
         }
         resourceModalBootstrap.show()
     })
@@ -1497,6 +1660,7 @@
         inputElement.multiple = true
         inputElement.addEventListener('change', () => {
             [...inputElement.files].forEach(async file => {
+                const bindList = {}
                 const formData = new FormData();
                 formData.append('file', file)
 
@@ -1532,6 +1696,11 @@
                                                 }]
                                         }
                                     ]
+                                },
+                                {
+                                    tagName: 'p',
+                                    className: 'resource-item-message',
+                                    bind: [bindList, 'message']
                                 }
                             ]
                         },
@@ -1589,6 +1758,11 @@
                     else
                         imgElement.src = '<c:url value="/assets/img/default-thumb.png"/>'
                     setSelectable(rs)
+                })
+
+                xhr.addEventListener('error', e => {
+                    console.log(e)
+                    bindList.message.textContent = 'Error occur while uploading file'
                 })
 
                 xhr.start = () => {

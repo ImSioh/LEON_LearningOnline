@@ -9,7 +9,9 @@ public class Post {
 
     @Expose
     private UUID postId;
+    @Expose
     private UUID accountId;
+    @Expose
     private UUID classId;
     @Expose
     private boolean pin;
