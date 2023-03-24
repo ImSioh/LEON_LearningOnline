@@ -76,14 +76,14 @@
                                     <div class="d-flex justify-content-center mb-2">
                                         <c:if test="${account.isLocked()}">
                                             <a type="button" class="btn btn-primary" 
-                                               href="<c:url value="/admin/lock?id=${account.getAccountId()}"/>"
+                                               href="<c:url value="/admin/lock?email=${account.getEmail()}"/>"
                                                onclick="return lockAcc('Do you want to unlock this account?')">
                                                 Unlock Account
                                             </a>
                                         </c:if>
                                         <c:if test="${account.isLocked()!=true}">
                                             <a type="button" class="btn btn-primary" 
-                                               href="<c:url value="/admin/lock?id=${account.getAccountId()}"/>"
+                                               href="<c:url value="/admin/lock?email=${account.getEmail()}"/>"
                                                onclick="return lockAcc('Do you want to lock this account?')">
                                                 Lock Account
                                             </a>

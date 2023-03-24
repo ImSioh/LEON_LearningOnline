@@ -7,7 +7,7 @@
     <%--<c:redirect url="/error"/>--%>
 </c:if>
 
-<div id="content" style="margin: 2% 5%">
+<div id="content" style="margin: 1% 5%">
     <h1>Feedbacks Management</h1>
     <!-- <img src="assets/img/welcome_admin.jpg" alt="Welcome to Admin Homepage" width="100%" height="100%" style="margin: 0;"/> -->
 
@@ -39,7 +39,7 @@
             <input type="submit" value="SORT" id="sort" class="btn btn-info" style="width: 100px;">
         </span>
 
-        <div style="display: flex; margin-top: 20px;">
+        <div style="display: flex; margin-top: 10px;">
             <!--Show items-->
             <span class="d-flex" style="gap: 10px">
                 Show 
@@ -53,17 +53,17 @@
             </span>  
 
             <!--Export to excel-->
-            <span style="margin-left: 70%;">
+<!--            <span style="margin-left: 70%;">
                 <a href="#"
                    class="btn btn-primary text-light" style="width: max-content">
                     <i class="fa-solid fa-download"></i>
                     Download List
                 </a>
-            </span>
+            </span>-->
         </div>
 
         <!--Table-->
-        <div class="table" style="overflow: scroll; overflow-x: hidden; height: 350px; margin-top: 16px">
+        <div class="table" style="overflow: scroll; overflow-x: hidden; height: 345px; margin-top: 10px">
             <table class="table table-light table-hover">
                 <thead>
                     <tr>

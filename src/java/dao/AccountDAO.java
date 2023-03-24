@@ -14,6 +14,7 @@ public class AccountDAO extends AbstractDAO<Account> {
                 + "and c.code = ?";
         return selectMany(query, classCode);
     }
+
     public ArrayList<Account> getAccountsInClass(UUID classId) throws Exception {
         String query = "SELECT a.* FROM account a LEFT JOIN enrollment e ON a.account_id = e.account_id WHERE (e.class_id = ? AND e.accepted = TRUE) OR a.account_id = (SELECT c.account_id FROM class c WHERE c.class_id = ?)";
         return selectMany(query, Util.UUIDToByteArray(classId), Util.UUIDToByteArray(classId));
@@ -44,6 +45,12 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query);
     }
 
+    public ArrayList<Account> getListAllAccounts(boolean filter) throws Exception {
+        String query = "SELECT * FROM account\n"
+                + "AND locked IS " + filter;
+        return selectMany(query);
+    }
+
     public ArrayList<Account> getListAccountById(UUID id) throws Exception {
         String query = "SELECT * FROM account a where a.account_id = ?";
         return selectMany(query, Util.UUIDToByteArray(id));
@@ -56,6 +63,12 @@ public class AccountDAO extends AbstractDAO<Account> {
 
     public ArrayList<Account> getListAccountByRole(int role) throws Exception {
         String query = "SELECT * FROM account WHERE role = ?;";
+        return selectMany(query, role);
+    }
+
+    public ArrayList<Account> getListAccountByRole(int role, boolean filter) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "AND locked IS " + filter;
         return selectMany(query, role);
     }
 
@@ -98,8 +111,22 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, role);
     }
 
+    public ArrayList<Account> getListAccountByRoleSearch(int role, String criteria, String keyword, boolean filter) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "AND locked IS " + filter + "\n"
+                + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\';";
+        return selectMany(query, role);
+    }
+
     public ArrayList<Account> getListAccountByRoleAndPaging(int role, int elements, int page) throws Exception {
         String query = "SELECT * FROM account WHERE role = ?\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, role, elements, page);
+    }
+
+    public ArrayList<Account> getListAccountByRoleAndPaging(int role, int elements, int page, boolean filter) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "AND locked IS " + filter + "\n"
                 + "LIMIT ? OFFSET ?;";
         return selectMany(query, role, elements, page);
     }
@@ -111,6 +138,14 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, role, elements, page);
     }
 
+    public ArrayList<Account> getListAccountByRoleSortAndPaging(int role, String criteria, String sort, int elements, int page, boolean filter) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "ORDER BY " + criteria + " " + sort + "\n"
+                + "AND locked IS " + filter + "\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, role, elements, page);
+    }
+
     public ArrayList<Account> getListAccountByRoleSearchAndPaging(int role, String criteria, String keyword, int elements, int page) throws Exception {
         String query = "SELECT * FROM account WHERE role = ?\n"
                 + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\'\n"
@@ -118,9 +153,26 @@ public class AccountDAO extends AbstractDAO<Account> {
         return selectMany(query, role, elements, page);
     }
 
+    public ArrayList<Account> getListAccountByRoleSearchAndPaging(int role, String criteria, String keyword, int elements, int page, boolean filter) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "AND locked IS " + filter + "\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, role, elements, page);
+    }
+
     public ArrayList<Account> getListAccountByRoleSearchSortAndPaging(int role, String criteriaSearch, String keyword, String criteriaSort, String sort, int elements, int page) throws Exception {
         String query = "SELECT * FROM account WHERE role = ?\n"
                 + "AND " + criteriaSearch + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "ORDER BY " + criteriaSort + " " + sort + "\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, role, elements, page);
+    }
+
+    public ArrayList<Account> getListAccountByRoleSearchSortAndPaging(int role, String criteriaSearch, String keyword, String criteriaSort, String sort, int elements, int page, boolean filter) throws Exception {
+        String query = "SELECT * FROM account WHERE role = ?\n"
+                + "AND " + criteriaSearch + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "AND locked IS " + filter + "\n"
                 + "ORDER BY " + criteriaSort + " " + sort + "\n"
                 + "LIMIT ? OFFSET ?;";
         return selectMany(query, role, elements, page);
@@ -186,6 +238,8 @@ public class AccountDAO extends AbstractDAO<Account> {
     }
 
     public static void main(String[] args) throws Exception {
+        int size = new AccountDAO().getListAccountByRole(1, true).size();
+        System.out.println("size = " + size);
         System.out.println(new AccountDAO().getStudentsRequestByClassCodeAndStudentName("BIYLQ", "Lê"));
     }
 

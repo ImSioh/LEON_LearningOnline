@@ -22,14 +22,36 @@ public class LockAccountController extends HttpServlet {
             throws ServletException, IOException {
         try {
             //get param
-            String id = request.getParameter("id");
+            String email = request.getParameter("email");
+
+            //connect db
+            AccountDAO accountDAO = new AccountDAO();
+            Account account = accountDAO.getAccountByEmail(email);
+
+            boolean lock = account.isLocked();
+            String msgLock = lock ? "Unlock account" : "Lock account";
+
+            request.setAttribute("headerLock", msgLock);
+            request.setAttribute("email", email);
+
+            request.getRequestDispatcher("lock.jsp").forward(request, response);
+        } catch (Exception e) {
+        }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            //get param
+            String email = request.getParameter("email");
+            String reason = request.getParameter("reason");
 
             //connect db
             AccountDAO accountDAO = new AccountDAO();
             ClassObjectDAO coDAO = new ClassObjectDAO();
-            UUID uuid = UUID.fromString(id);
 
-            Account account = accountDAO.getAccountById(uuid);
+            Account account = accountDAO.getAccountByEmail(email);
+            UUID uuid = account.getAccountId();
 
             //set acc user
             boolean lock = account.isLocked();
@@ -41,26 +63,47 @@ public class LockAccountController extends HttpServlet {
             //send mail
             String to = account.getEmail();
             String title = "LE.ON " + (lock ? "Lock account!" : "Unlock account!");
-            String content = "Your account at \"LE.ON - Learning Online\" has been " + (lock ? "locked!" : "unlocked!");
-            Util.sendEmail(to, title, content);
+            String content = "Your account at \"LE.ON - Learning Online\" has been "
+                    + (lock ? "locked!" : "unlocked!") + "\n"
+                    + "\nReason: " + reason;
+            Util.sendEmail(email, title, content);
 
             //lock acc user
             int checkLock = 0;
             checkLock = accountDAO.editAccount(account);
 
-            int checkHidden = 0;
+            //set message
+            String msgLock = lock ? "Unlock account" : "Lock account";
 
-            if (role == 1) {
-                ArrayList<ClassObject> clazz = new ArrayList<>();
-                clazz = coDAO.getClassByAccId(uuid);
-                for (ClassObject classObject : clazz) {
-                    classObject.setHidden(!lock);
-                    checkHidden = coDAO.updateClass(classObject);
+            request.setAttribute("headerLock", msgLock);
+
+            int checkHidden = 0;
+            if (checkLock != 0) {
+                if (role == 1) {
+                    ArrayList<ClassObject> clazz = new ArrayList<>();
+                    clazz = coDAO.getClassByAccId(uuid);
+                    for (ClassObject classObject : clazz) {
+                        classObject.setHidden(!lock);
+                        checkHidden = coDAO.updateClass(classObject);
+                    }
+//                response.sendRedirect(request.getContextPath() + "/admin/teacher-account-list");
+                } else if (role == 2) {
+//                response.sendRedirect(request.getContextPath() + "/admin/student-account-list");
                 }
-                response.sendRedirect(request.getContextPath() + "/admin/teacher-account-list");
-            } else if (role == 2) {
-                response.sendRedirect(request.getContextPath() + "/admin/student-account-list");
+
+                //set attribute status & msg
+                request.setAttribute("status", true);
+                request.setAttribute("msg", msgLock + " successfully!");
+            } else if (checkLock == 0) {
+                //set status & msg
+                request.setAttribute("status", false);
+                request.setAttribute("msg", msgLock + " fail!");
             }
+
+            //set attribute email & reason
+            request.setAttribute("email", email);
+            request.setAttribute("reason", reason);
+            request.getRequestDispatcher("lock.jsp").forward(request, response);
         } catch (Exception e) {
         }
     }

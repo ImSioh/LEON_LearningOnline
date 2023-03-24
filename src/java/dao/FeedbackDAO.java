@@ -31,6 +31,14 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
         return selectMany(query);
     }
 
+    public ArrayList<Feedback> getAllFeedbacks(boolean filter) throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "AND acc.locked IS " + filter + "\n";
+        return selectMany(query);
+    }
+
     public Feedback getFeedbackByFeedbackId(UUID feedbackId) throws Exception {
         String query = "SELECT * FROM feedback f WHERE f.feedback_id = ?";
         return selectOne(query, Util.UUIDToByteArray(feedbackId));
@@ -57,12 +65,30 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
         return selectMany(query);
     }
 
+    public ArrayList<Feedback> getAllFeedbacksSearch(String criteria, String keyword, boolean filter) throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "AND acc.locked IS " + filter + "\n"
+                + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\';";
+        return selectMany(query);
+    }
+
     public ArrayList<Feedback> getAllFeedbacksAndPaging(int elements, int page) throws Exception {
         String query = "SELECT fb.*, acc.role\n"
                 + "FROM feedback as fb, account as acc\n"
                 + "WHERE fb.account_id = acc.account_id\n"
                 + "LIMIT ? OFFSET ?;";
         return selectMany(query, elements, page);
+    }
+
+    public ArrayList<Feedback> getAllFeedbacksAndPaging(int elements, int page, boolean filter) throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "AND acc.locked IS ?\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, filter, elements, page);
     }
 
     public ArrayList<Feedback> getAllFeedbacksSortAndPaging(String criteria, String sort, int elements, int page) throws Exception {
@@ -74,13 +100,33 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
         return selectMany(query, elements, page);
     }
 
+    public ArrayList<Feedback> getAllFeedbacksSortAndPaging(String criteria, String sort, int elements, int page, boolean filter) throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "AND acc.locked IS ?\n"
+                + "ORDER BY " + criteria + " " + sort + "\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, filter, elements, page);
+    }
+
     public ArrayList<Feedback> getAllFeedbacksSearchAndPaging(String criteria, String keyword, int elements, int page) throws Exception {
         String query = "SELECT fb.*, acc.role\n"
                 + "FROM feedback as fb, account as acc\n"
                 + "WHERE fb.account_id = acc.account_id\n"
                 + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\'\n"
                 + "LIMIT ? OFFSET ?;";
-        return selectMany(query);
+        return selectMany(query, elements, page);
+    }
+
+    public ArrayList<Feedback> getAllFeedbacksSearchAndPaging(String criteria, String keyword, int elements, int page, boolean filter) throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "AND " + criteria + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "AND acc.locked IS ?\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, filter, elements, page);
     }
 
     public ArrayList<Feedback> getAllFeedbacksSearchSortAndPaging(String criteriaSearch, String keyword,
@@ -92,6 +138,18 @@ public class FeedbackDAO extends AbstractDAO<Feedback> {
                 + "ORDER BY " + criteriaSort + " " + sort + "\n"
                 + "LIMIT ? OFFSET ?;";
         return selectMany(query, elements, page);
+    }
+
+    public ArrayList<Feedback> getAllFeedbacksSearchSortAndPaging(String criteriaSearch, String keyword,
+            String criteriaSort, String sort, int elements, int page, boolean filter) throws Exception {
+        String query = "SELECT fb.*, acc.role\n"
+                + "FROM feedback as fb, account as acc\n"
+                + "WHERE fb.account_id = acc.account_id\n"
+                + "AND " + criteriaSearch + " LIKE " + "\'%" + keyword + "%\'\n"
+                + "AND acc.locked IS ?\n"
+                + "ORDER BY " + criteriaSort + " " + sort + "\n"
+                + "LIMIT ? OFFSET ?;";
+        return selectMany(query, filter, elements, page);
     }
 
     public static void main(String[] args) throws Exception {
