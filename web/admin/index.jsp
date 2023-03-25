@@ -8,12 +8,21 @@
 </c:if>
 
 <div id="content" style="margin: 1% 5%">
-    <h1>Feedbacks Management</h1>
+    <h1>Feedbacks Management, result = ${result}</h1>
     <!-- <img src="assets/img/welcome_admin.jpg" alt="Welcome to Admin Homepage" width="100%" height="100%" style="margin: 0;"/> -->
 
+    <!--Send notification-->
+    <span style="margin-left: 85%;">
+        <a href="<c:url value="/admin/send-notification"/>"
+           class="btn btn-primary text-light" style="width: max-content">
+            Send Notification
+            <i class="fa-solid fa-paper-plane"></i>
+        </a>
+    </span>
+           
     <form action="" method="post">
         <!--Search-->
-        <span class="d-flex" style="gap: 10px; margin-left: 60%;">
+        <span class="d-flex" style="gap: 10px; margin-left: 60%; margin-top: 10px;">
             <select name="search" class="form-select" style="width: 35%;">
                 <option value="name" ${search eq "name"?"selected":""}>Name</option>
                 <option value="email" ${search eq "email"?"selected":""}>Email</option>
@@ -51,15 +60,6 @@
                 entries
                 <button type="submit" value="SHOW" id="show" class="btn btn-info">Show</button>
             </span>  
-
-            <!--Export to excel-->
-<!--            <span style="margin-left: 70%;">
-                <a href="#"
-                   class="btn btn-primary text-light" style="width: max-content">
-                    <i class="fa-solid fa-download"></i>
-                    Download List
-                </a>
-            </span>-->
         </div>
 
         <!--Table-->
