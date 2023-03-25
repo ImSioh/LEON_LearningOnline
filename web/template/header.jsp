@@ -63,6 +63,12 @@
                 overflow-y: scroll;
                 padding: 0.25rem;
             }
+            
+            #header-notification.show {
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+            }
 
             #header-notification * {
                 margin: 0;
@@ -237,7 +243,7 @@
                                         </li>
                                         <li class="nav-item navbariteam">
                                             <c:if test="${hglV}">
-                                                
+
                                                 <a class="nav-link" href="<%=path%>/student/class" style="color:#1e88e5 !important; font-size: 15px; font-weight: 600;">Class</a>
                                             </c:if>
                                             <c:if test="${!hglV}">
@@ -309,10 +315,14 @@
             </div>
             <script>
                 function insertNotificationHeader(n) {
-                    if (n.accountId === '${account.accountId}') return
+                    if (n.accountId === '${account.accountId}')
+                        return
                     const nList = document.getElementById('header-notification')
                     const divWrap = document.createElement('div')
                     divWrap.classList.add('d-flex', 'dropdown-item')
+                    if (n.type === 2) {
+                        divWrap.style = 'background: lightgray;';
+                    }
 
                     const divInfo = document.createElement('div')
                     divInfo.classList.add('header-noti-info')

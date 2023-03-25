@@ -9,12 +9,12 @@ import java.util.UUID;
 public class NotificationDAO extends AbstractDAO<Notification> {
     
     public ArrayList<Notification> getTeacherNotifications(UUID accountId) throws Exception {
-        String query = "SELECT n.* FROM notification n LEFT JOIN class c ON n.class_id = c.class_id WHERE c.account_id = ? OR n.target = ? ORDER BY n.create_time";
+        String query = "SELECT n.* FROM notification n LEFT JOIN class c ON n.class_id = c.class_id WHERE c.account_id = ? OR n.target = ? OR n.type = 2 ORDER BY n.create_time";
         return selectMany(query, Util.UUIDToByteArray(accountId), Util.UUIDToByteArray(accountId));
     }
     
     public ArrayList<Notification> getStudentNotifications(UUID accountId) throws Exception {
-        String query = "SELECT n.* FROM notification n WHERE n.target = ? OR n.class_id IN (SELECT c.class_id FROM enrollment e LEFT JOIN class c ON e.class_id = c.class_id WHERE e.account_id = ? AND e.accepted = TRUE) ORDER BY n.create_time";
+        String query = "SELECT n.* FROM notification n WHERE n.target = ? OR n.type = 2 OR n.class_id IN (SELECT c.class_id FROM enrollment e LEFT JOIN class c ON e.class_id = c.class_id WHERE e.account_id = ? AND e.accepted = TRUE) ORDER BY n.create_time";
         return selectMany(query, Util.UUIDToByteArray(accountId), Util.UUIDToByteArray(accountId));
     }
     
